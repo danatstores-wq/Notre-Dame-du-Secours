@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>كنيسة سيدة المعونات | Église Notre-Dame du Secours</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold-light: #fff0b3;
+      --gold: #e5b657;
+      --gold-dark: #a87424;
+      --navy-card: rgba(11, 29, 58, 0.86);
+      --navy-nav: #07152c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #050e1d;
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    html[lang="fr"] body {
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .app-shell {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background-color: #081833;
+      background-image: linear-gradient(to bottom, rgba(8,24,51,0.15) 0%, rgba(8,24,51,0.65) 48%, #081833 62%), url('assets/backgrounds/bg.jpg');
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      background-position: top center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 18px 16px 0;
+    }
+    .emblem { width: 58px; height: 58px; }
+    .header-title {
+      text-align: center;
+      flex: 1;
+      padding: 0 6px;
+    }
+    .header-title h1 {
+      font-family: 'Amiri', 'Playfair Display', serif;
+      font-size: 1.65rem;
+      line-height: 1.2;
+      color: var(--gold-light);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.85);
+    }
+    .header-title p {
+      font-size: 0.78rem;
+      color: #f3e5c0;
+      margin-top: 4px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+    }
+    .top-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .lang-btn {
+      background: rgba(11, 29, 58, 0.8);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .hero-spacer { height: 210px; }
+    .welcome-banner {
+      text-align: center;
+      padding: 0 16px 12px;
+    }
+    .welcome-banner h2 {
+      font-family: 'Amiri', 'Playfair Display', serif;
+      font-size: 1.55rem;
+      color: var(--gold-light);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.95);
+    }
+    .welcome-banner p {
+      font-size: 0.9rem;
+      color: #f5e6c4;
+      margin-top: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.95);
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 6px 24px 12px;
+    }
+    .divider span {
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .divider img { width: 20px; height: 20px; }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 14px 18px;
+    }
+    .card {
+      background: linear-gradient(145deg, rgba(16, 42, 82, 0.92), rgba(7, 20, 43, 0.95));
+      border: 1.5px solid var(--gold);
+      border-radius: 18px;
+      padding: 12px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,240,179,0.25);
+      transition: transform 0.15s ease;
+    }
+    .card:active { transform: scale(0.98); }
+    .card img { width: 40px; height: 40px; flex-shrink: 0; }
+    .card-text { flex: 1; }
+    .card-text h3 { font-size: 0.85rem; color: #fff; line-height: 1.25; }
+    .card-text p { font-size: 0.72rem; color: #d8c396; margin-top: 2px; }
+    .bottom-nav {
+      background: var(--navy-nav);
+      border-top: 1.5px solid var(--gold);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 4px 12px;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #d8c396;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+    .nav-item.active { color: var(--gold-light); font-weight: 700; }
+    .nav-item img { width: 24px; height: 24px; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div>
+      <header class="top-bar">
+        <img src="assets/icons/logo-marian-emblem.png" alt="Emblem" class="emblem" />
+        <div class="header-title">
+          <h1 id="app-title">كنيسة سيدة المعونات</h1>
+          <p id="app-subtitle">- رعيتنا بيت الصلاة والإيمان -</p>
+        </div>
+        <div class="top-actions">
+          <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">Français</button>
+          <img src="assets/icons/icon-settings.png" alt="Settings" style="width:26px;height:26px;" />
+        </div>
+      </header>
+
+      <div class="hero-spacer"></div>
+
+      <section class="welcome-banner">
+        <h2 id="welcome-text">أهلاً بكم في رعيتنا</h2>
+        <p id="motto-text">«سيدة المعونات .. تشفع فينا»</p>
+      </section>
+
+      <div class="divider">
+        <span></span>
+        <img src="assets/icons/icon-cross-divider.png" alt="Cross" />
+        <span></span>
+      </div>
+
+      <main class="cards-grid" id="cards-container"></main>
+    </div>
+
+    <nav class="bottom-nav" id="bottom-nav"></nav>
+  </div>
+
+  <script>
+    const translations = {
+      ar: {
+        dir: 'rtl',
+        title: 'كنيسة سيدة المعونات',
+        subtitle: '- رعيتنا بيت الصلاة والإيمان -',
+        welcome: 'أهلاً بكم في رعيتنا',
+        motto: '«سيدة المعونات .. تشفع فينا»',
+        toggle: 'Français',
+        cards: [
+          { title: 'مواعيد القداديس', sub: 'والنشاطات', icon: 'assets/icons/icon-calendar.png' },
+          { title: 'المسبحة الوردية', sub: 'ابدأ الصلاة', icon: 'assets/icons/icon-rosary.png' },
+          { title: 'مكتبة الصلوات', sub: 'مع الصوت والنص', icon: 'assets/icons/icon-bible.png' },
+          { title: 'رسائل الكاهن', sub: 'وأخبار الرعية', icon: 'assets/icons/icon-megaphone.png' },
+          { title: 'حياة الرعية', sub: 'ونشاطاتنا', icon: 'assets/icons/icon-church.png' },
+          { title: 'طلبات الصلاة', sub: 'لنصلِّ معاً', icon: 'assets/icons/icon-praying-hands.png' }
+        ],
+        nav: [
+          { label: 'الرئيسية', icon: 'assets/icons/nav-home.png', active: true },
+          { label: 'الإشعارات', icon: 'assets/icons/nav-bell.png' },
+          { label: 'المفضلة', icon: 'assets/icons/nav-star.png' },
+          { label: 'حول التطبيق', icon: 'assets/icons/nav-info.png' }
+        ]
+      },
+      fr: {
+        dir: 'ltr',
+        title: 'Église Notre-Dame du Secours',
+        subtitle: '- Notre paroisse, maison de prière et de foi -',
+        welcome: 'Bienvenue dans notre paroisse',
+        motto: '« Notre-Dame du Secours .. priez pour nous »',
+        toggle: 'العربية',
+        cards: [
+          { title: 'Horaires des Messes', sub: 'et Activités', icon: 'assets/icons/icon-calendar.png' },
+          { title: 'Le Saint Rosaire', sub: 'Commencer la prière', icon: 'assets/icons/icon-rosary.png' },
+          { title: 'Bibliothèque de Prières', sub: 'Audio et Texte', icon: 'assets/icons/icon-bible.png' },
+          { title: 'Messages du Curé', sub: 'et Actualités', icon: 'assets/icons/icon-megaphone.png' },
+          { title: 'Vie Paroissiale', sub: 'et Nos Activités', icon: 'assets/icons/icon-church.png' },
+          { title: 'Intentions de Prière', sub: 'Prions ensemble', icon: 'assets/icons/icon-praying-hands.png' }
+        ],
+        nav: [
+          { label: 'Accueil', icon: 'assets/icons/nav-home.png', active: true },
+          { label: 'Notifications', icon: 'assets/icons/nav-bell.png' },
+          { label: 'Favoris', icon: 'assets/icons/nav-star.png' },
+          { label: 'À propos', icon: 'assets/icons/nav-info.png' }
+        ]
+      }
+    };
+
+    let currentLang = 'ar';
+
+    function render() {
+      const t = translations[currentLang];
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = t.dir;
+      document.getElementById('app-title').textContent = t.title;
+      document.getElementById('app-subtitle').textContent = t.subtitle;
+      document.getElementById('welcome-text').textContent = t.welcome;
+      document.getElementById('motto-text').textContent = t.motto;
+      document.getElementById('lang-toggle').textContent = t.toggle;
+
+      document.getElementById('cards-container').innerHTML = t.cards.map(c => `
+        <div class="card">
+          <img src="${c.icon}" alt="${c.title}" />
+          <div class="card-text">
+            <h3>${c.title}</h3>
+            <p>${c.sub}</p>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('bottom-nav').innerHTML = t.nav.map(n => `
+        <div class="nav-item ${n.active ? 'active' : ''}">
+          <img src="${n.icon}" alt="${n.label}" />
+          <span>${n.label}</span>
+        </div>
+      `).join('');
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'ar' ? 'fr' : 'ar';
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>
