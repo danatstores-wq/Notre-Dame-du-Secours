@@ -184,6 +184,8 @@
     .mass-calendar-empty{aspect-ratio:1}
     .mass-calendar-today{margin-top:12px;width:100%}
     .mass-selected-title{font-size:1rem;color:var(--gold-light);margin:14px 0 10px}
+      html[data-text-size="small"] .feature-content{font-size:.9rem}
+    html[data-text-size="large"] .feature-content{font-size:1.15rem}
   </style>
 </head>
 <body>
@@ -197,7 +199,7 @@
         </div>
         <div class="top-actions">
           <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">Français</button>
-          <img src="assets/icons/icon-settings.png" alt="Settings" style="width:26px;height:26px;" />
+          <button class="lang-btn" onclick="openSettings()" aria-label="Settings"><img src="assets/icons/icon-settings.png" alt="" style="width:22px;height:22px;vertical-align:middle" /></button>
         </div>
       </header>
 
@@ -220,7 +222,7 @@
       <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
       <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
     </section>
-    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><section class="feature-screen" id="parish-life-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeParishLife()" id="parish-life-back">←</button><h2 id="parish-life-title"></h2></div><div class="feature-tabs" id="parish-life-tabs"></div><div class="feature-content" id="parish-life-content"></div></section><section class="feature-screen" id="prayer-requests-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerRequests()" id="prayer-requests-back">←</button><h2 id="prayer-requests-title"></h2></div><div class="feature-content" id="prayer-requests-content"></div></section><section class="feature-screen" id="favorites-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeFavorites()" id="favorites-back">←</button><h2 id="favorites-title"></h2></div><div class="feature-content" id="favorites-content"></div></section><section class="feature-screen" id="notifications-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('notifications-screen')" id="notifications-back">←</button><h2 id="notifications-title"></h2></div><div class="feature-content" id="notifications-content"></div></section><section class="feature-screen" id="about-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('about-screen')" id="about-back">←</button><h2 id="about-title"></h2></div><div class="feature-content" id="about-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
+    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><section class="feature-screen" id="parish-life-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeParishLife()" id="parish-life-back">←</button><h2 id="parish-life-title"></h2></div><div class="feature-tabs" id="parish-life-tabs"></div><div class="feature-content" id="parish-life-content"></div></section><section class="feature-screen" id="prayer-requests-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerRequests()" id="prayer-requests-back">←</button><h2 id="prayer-requests-title"></h2></div><div class="feature-content" id="prayer-requests-content"></div></section><section class="feature-screen" id="favorites-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeFavorites()" id="favorites-back">←</button><h2 id="favorites-title"></h2></div><div class="feature-content" id="favorites-content"></div></section><section class="feature-screen" id="notifications-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('notifications-screen')" id="notifications-back">←</button><h2 id="notifications-title"></h2></div><div class="feature-content" id="notifications-content"></div></section><section class="feature-screen" id="about-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('about-screen')" id="about-back">←</button><h2 id="about-title"></h2></div><div class="feature-content" id="about-content"></div></section><section class="feature-screen" id="settings-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('settings-screen')" id="settings-back">←</button><h2 id="settings-title"></h2></div><div class="feature-content" id="settings-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
   </div>
 
   <script>
@@ -413,6 +415,7 @@
       if (document.getElementById('favorites-screen').classList.contains('visible')) renderFavorites();
       if (document.getElementById('notifications-screen').classList.contains('visible')) renderNotifications();
       if (document.getElementById('about-screen').classList.contains('visible')) openAbout();
+      if (document.getElementById('settings-screen').classList.contains('visible')) renderSettings();
     }
 
     render();
@@ -631,6 +634,21 @@
       const l=simplePageLabels[currentLang];document.getElementById('about-title').textContent=l.about;document.getElementById('about-back').textContent=l.back;document.getElementById('about-content').innerHTML='<article class="schedule-entry"><h3 style="color:var(--gold-light)">'+l.parish+'</h3><p style="line-height:1.9;margin-top:10px">'+l.pending+'</p></article>';
     }
     function closeSimpleScreen(id){document.getElementById(id).classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+
+
+    const settingsLabels={
+      ar:{title:'الإعدادات',back:'رجوع',language:'لغة التطبيق',size:'حجم النص',small:'صغير',normal:'عادي',large:'كبير',privacy:'إشعار الخصوصية',privacyPending:'سيتم نشر إشعار الخصوصية بعد اعتماده من الرعية. التسجيل مطلوب فقط لإرسال طلب صلاة.'},
+      fr:{title:'Paramètres',back:'Retour',language:'Langue de l’application',size:'Taille du texte',small:'Petit',normal:'Normal',large:'Grand',privacy:'Avis de confidentialité',privacyPending:'La notice de confidentialité sera publiée après approbation de la paroisse. Un compte est requis uniquement pour envoyer une intention de prière.'},
+      it:{title:'Impostazioni',back:'Indietro',language:'Lingua dell’app',size:'Dimensione del testo',small:'Piccolo',normal:'Normale',large:'Grande',privacy:'Informativa sulla privacy',privacyPending:'L’informativa sarà pubblicata dopo l’approvazione della parrocchia. L’account è richiesto soltanto per inviare un’intenzione di preghiera.'}
+    };
+    function openSettings(){
+      document.getElementById('home-view').classList.add('hidden');document.getElementById('settings-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderSettings();
+    }
+    function renderSettings(){
+      const l=settingsLabels[currentLang],size=localStorage.getItem('parish-text-size')||'normal';document.getElementById('settings-title').textContent=l.title;document.getElementById('settings-back').textContent=l.back;
+      document.getElementById('settings-content').innerHTML='<article class="schedule-entry"><strong>'+l.language+'</strong><p style="margin-top:8px">'+({ar:'العربية',fr:'Français',it:'Italiano'}[currentLang])+'</p><button class="feature-tab" onclick="toggleLang()">'+translations[currentLang].toggle+'</button></article><article class="schedule-entry"><strong>'+l.size+'</strong><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">'+[['small',l.small],['normal',l.normal],['large',l.large]].map(([v,t])=>'<button class="feature-tab '+(size===v?'active':'')+'" onclick="setTextSize(\''+v+'\')">'+t+'</button>').join('')+'</div></article><article class="schedule-entry"><strong>'+l.privacy+'</strong><p style="line-height:1.8;margin-top:8px">'+l.privacyPending+'</p></article>';
+    }
+    function setTextSize(size){localStorage.setItem('parish-text-size',size);document.documentElement.dataset.textSize=size;renderSettings();}
 
     const prayerRequestLabels={
       ar:{title:'طلبات الصلاة',back:'رجوع',intro:'يمكنك إرسال نيتك للصلاة بسرية واحترام، لتصل إلى كاهن الرعية فقط.',privacy:'طلبات الصلاة خاصة، ولا يطّلع عليها إلا كاهن الرعية المخوّل.',account:'لإرسال طلب صلاة، يجب إنشاء حساب باستخدام البريد الإلكتروني وكلمة المرور، ثم تأكيد عنوان البريد الإلكتروني.',phone:'لا حاجة إلى رقم هاتف أو رسالة SMS.',pending:'بعد الإرسال، يُضاف الطلب إلى قائمة خاصة لمراجعة الكاهن.',setupTitle:'التسجيل الآمن غير مفعّل بعد',setup:'سيُتاح إنشاء الحساب وتسجيل الدخول وإرسال الطلبات بعد ربط المشروع بمصادقة Firebase وقواعد الحماية على الخادم. لم يتم تفعيل إرسال الطلبات بعد حفاظاً على الخصوصية.'},
