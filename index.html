@@ -145,6 +145,9 @@
     .card-text h3 { font-size: 0.85rem; color: #fff; line-height: 1.25; }
     .card-text p { font-size: 0.72rem; color: #d8c396; margin-top: 2px; }
     .feature-screen{display:none;padding:18px 16px 24px;min-height:55vh}
+    .bible-link{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0;padding:16px;border:1px solid var(--gold);border-radius:14px;background:linear-gradient(145deg,rgba(16,42,82,.94),rgba(7,20,43,.96));color:var(--gold-light);text-decoration:none;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+    .bible-link small{display:block;margin-top:4px;color:#e5d8bd;font-weight:400}
+    .bible-note{line-height:1.7;color:#e5d8bd;margin:10px 2px 16px;font-size:.9rem}
     .feature-screen.visible{display:block}.home-view.hidden{display:none}
     .screen-heading{display:flex;align-items:center;gap:12px;margin-bottom:18px}
     .screen-heading h2{color:var(--gold-light);font-size:1.15rem}
@@ -300,6 +303,7 @@
 
       <main class="cards-grid" id="cards-container"></main>
     </div>
+    <section class="feature-screen" id="bible-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeBible()" id="bible-back">←</button><h2 id="bible-title"></h2></div><div class="feature-content" id="bible-content"></div></section>
     <section class="feature-screen" id="mass-screen" aria-live="polite">
       <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
       <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
@@ -347,6 +351,11 @@
             "لنصلِّ معاً",
             "assets/icons/icon-praying-hands.png"
           ],
+          [
+            "الكتاب المقدّس",
+            "العهد القديم والجديد",
+            "📖"
+          ],
         ],
         "nav": [
           "الرئيسية",
@@ -393,6 +402,11 @@
             "Prions ensemble",
             "assets/icons/icon-praying-hands.png"
           ],
+          [
+            "La Sainte Bible",
+            "Ancien et Nouveau Testament",
+            "📖"
+          ],
         ],
         "nav": [
           "Accueil",
@@ -438,6 +452,11 @@
             "Intenzioni di Preghiera",
             "Preghiamo insieme",
             "assets/icons/icon-praying-hands.png"
+          ],
+          [
+            "La Sacra Bibbia",
+            "Antico e Nuovo Testamento",
+            "📖"
           ],
         ],
         "nav": [
@@ -494,6 +513,7 @@
     function selectLanguage(language){
       if(!supportedLanguages.includes(language))return;
       stopCurrentPrayer();currentLang=language;localStorage.setItem('parish-language',currentLang);closeLanguageMenu();render();
+      if(document.getElementById('bible-screen').classList.contains('visible'))renderBibleScreen();
       if(document.getElementById('mass-screen').classList.contains('visible'))renderMassScreen();
       if(document.getElementById('rosary-screen').classList.contains('visible'))renderRosary();
       if(document.getElementById('prayer-library-screen').classList.contains('visible'))renderPrayerLibrary();
@@ -581,6 +601,25 @@
     function selectMassTab(index){massTab=index;renderMassScreen();}
     function renderMassContent(){const labels=massLabels[currentLang];if(!massData){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';return;}renderMassCalendar();}
     function escapeHtml(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+    const bibleLabels={
+      ar:{title:'الكتاب المقدّس',back:'رجوع',intro:'اختر لغة الكتاب المقدّس. ستُفتح صفحة القراءة الكاملة في موقع المصدر.',arabic:'الكتاب المقدّس — الترجمة الكاثوليكية اليسوعية',french:'الكتاب المقدّس — الفرنسية (كرامبون 1923)',italian:'الكتاب المقدّس — الإيطالية (مارتيني)',arabicNote:'قارئ خارجي يذكر أنه يضم الأسفار الكاثوليكية الـ73.',frenchNote:'ترجمة كاثوليكية كاملة من 73 سفراً، نصّها من الملكية العامة.',italianNote:'ترجمة مارتيني الكاثوليكية الكاملة من 73 سفراً.'},
+      fr:{title:'La Sainte Bible',back:'Retour',intro:'Choisissez la langue de la Bible. La lecture complète s’ouvrira sur le site de la source.',arabic:'Bible catholique en arabe — édition jésuite',french:'Bible Crampon 1923 — français',italian:'Bibbia Martini — italiano',arabicNote:'Lecteur externe qui annonce les 73 livres du canon catholique.',frenchNote:'Traduction catholique complète en 73 livres, texte du domaine public.',italianNote:'Traduction catholique Martini complète en 73 livres.'},
+      it:{title:'La Sacra Bibbia',back:'Indietro',intro:'Scegli la lingua della Bibbia. La lettura completa si aprirà sul sito della fonte.',arabic:'Bibbia cattolica in arabo — edizione gesuita',french:'Bibbia Crampon 1923 — francese',italian:'Bibbia Martini — italiano',arabicNote:'Lettore esterno che dichiara i 73 libri del canone cattolico.',frenchNote:'Traduzione cattolica completa in 73 libri, testo di pubblico dominio.',italianNote:'Traduzione cattolica Martini completa in 73 libri.'}
+    };
+    function openBible(){document.getElementById('home-view').classList.add('hidden');document.getElementById('bible-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderBibleScreen();}
+    function closeBible(){document.getElementById('bible-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+    function renderBibleScreen(){
+      const l=bibleLabels[currentLang];
+      document.getElementById('bible-title').textContent=l.title;
+      document.getElementById('bible-back').textContent=l.back;
+      document.getElementById('bible-content').innerHTML=
+        '<p class="bible-note">'+l.intro+'</p>'+
+        '<a class="bible-link" href="https://churches-lb.com/bible/ar/catalogue/" target="_blank" rel="noopener"><span>'+l.arabic+'<small>'+l.arabicNote+'</small></span><span>↗</span></a>'+
+        '<a class="bible-link" href="https://languages.catholicshare.com/fr/bible/" target="_blank" rel="noopener"><span>'+l.french+'<small>'+l.frenchNote+'</small></span><span>↗</span></a>'+
+        '<a class="bible-link" href="https://languages.catholicshare.com/it/bible/" target="_blank" rel="noopener"><span>'+l.italian+'<small>'+l.italianNote+'</small></span><span>↗</span></a>';
+    }
+
     const rosaryLabels={
       ar:{title:'المسبحة الوردية',back:'رجوع',choose:'اختر أسرار المسبحة',days:'الأيام',start:'ابدأ الصلاة الموجّهة',step:'الخطوة',of:'من',previous:'السابق',next:'التالي',again:'العودة إلى الأسرار',unavailable:'النص الكامل للصلاة والتسجيلات الصوتية سيضافان بعد مراجعتهما واعتمادهما من الرعية.',noAudio:'لا توجد تسجيلات صوتية معتمدة بعد. يمكنك المتابعة يدوياً.',dayNames:['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],today:'أسرار اليوم المقترحة',guideIntro:'اتبع خطوات المسبحة بالترتيب. تظهر أسماء الصلوات والتأملات، أما النصوص الكاملة فتضاف بعد اعتمادها من الرعية.',mystery:'التأمل',decade:'العقد',optional:'صلاة اختيارية',skip:'تخطّي',finish:'أحسنت! أكملت خطوات المسبحة.',restart:'ابدأ من جديد',backMysteries:'اختيار أسرار أخرى',opening:'الصلوات الافتتاحية',closing:'الصلاة الختامية',beads:'تقدّم العقد',beadNumber:'الخرزة',outOf:'من 10',decadeNumber:'العقد',decadeOutOf:'من 5',diagram:'رسم توضيحي للمسبحة: الصليب، خرزة أبانا، ثلاث خرزات السلام، خرزة المجد، ثم خمسة عقود' ,ourFatherLabel:'أبانا',gloryBeLabel:'المجد للآب',hailMaryLabel:'السلام عليك يا مريم'},
       fr:{title:'Le Saint Rosaire',back:'Retour',choose:'Choisissez les mystères du Rosaire',days:'Jours',start:'Commencer la prière guidée',step:'Étape',of:'sur',previous:'Précédent',next:'Suivant',again:'Retour aux mystères',unavailable:'Le texte intégral des prières et les enregistrements seront ajoutés après vérification et approbation de la paroisse.',noAudio:'Aucun enregistrement approuvé pour le moment. Vous pouvez continuer en mode manuel.',dayNames:['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],today:'Mystères proposés aujourd’hui',guideIntro:'Suivez les étapes du Rosaire dans l’ordre. Les noms des prières et méditations sont affichés ; les textes complets seront ajoutés après approbation de la paroisse.',mystery:'Méditation',decade:'Dizaine',optional:'Prière facultative',skip:'Passer',finish:'Bravo ! Vous avez terminé les étapes du Rosaire.',restart:'Recommencer',backMysteries:'Choisir d’autres mystères',opening:'Prières d’ouverture',closing:'Prière finale',beads:'Progression de la dizaine',beadNumber:'Grain',outOf:'sur 10',decadeNumber:'Dizaine',decadeOutOf:'sur 5',diagram:'Schéma du chapelet : croix, grain du Notre Père, trois grains de Je vous salue Marie, grain du Gloire au Père, puis cinq dizaines',ourFatherLabel:'Notre Père',gloryBeLabel:'Gloire au Père',hailMaryLabel:'Je vous salue Marie'},
@@ -595,7 +634,7 @@
       if(index===3){document.getElementById('home-view').classList.add('hidden');document.getElementById('announcements-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadAnnouncements();return;}
       if(index===4){document.getElementById('home-view').classList.add('hidden');document.getElementById('parish-life-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadParishLife();return;}
       if(index===5){document.getElementById('home-view').classList.add('hidden');document.getElementById('prayer-requests-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderPrayerRequests();return;}
-      if(index===6){openAbout();return;}if(index===7){openContact();return;}if(index===8){openChurchMap();return;}
+      if(index===6){openBible();return;}if(index===7){openAbout();return;}if(index===8){openContact();return;}if(index===9){openChurchMap();return;}
     }
     function closeRosary(){document.getElementById('rosary-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     async function loadRosary(){const box=document.getElementById('rosary-content');box.textContent=rosaryLabels[currentLang].noAudio;try{const response=await fetch('src/data/rosary.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');rosaryData=await response.json();renderRosary();}catch(e){box.textContent=rosaryLabels[currentLang].unavailable;}}
