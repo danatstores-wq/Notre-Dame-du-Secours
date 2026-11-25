@@ -241,7 +241,27 @@
     .language-dropdown[hidden]{display:none}
     .language-dropdown button{display:block;width:100%;padding:11px 13px;border:0;border-radius:8px;background:transparent;color:#fff;text-align:start;font:inherit;cursor:pointer}
     .language-dropdown button:hover,.language-dropdown button:focus{background:rgba(229,182,87,.18);outline:none}
-  </style>
+  
+    /* iPhone-only full-viewport correction: leave Android layout untouched */
+    @supports (-webkit-touch-callout: none) {
+      html, body { width: 100%; height: 100%; min-height: 0; margin: 0; overflow: hidden; }
+      body { display: block; }
+      .app-shell {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        max-width: none;
+        height: 100vh;
+        height: 100dvh;
+        min-height: 0;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+      }
+      .top-bar { padding-top: calc(18px + env(safe-area-inset-top, 0px)); }
+      .bottom-nav { padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+    }
+</style>
 </head>
 <body>
   <div class="app-shell">
