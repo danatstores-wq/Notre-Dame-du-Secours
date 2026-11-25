@@ -60,14 +60,16 @@ This document tracks the planned features for the trilingual Arabic (RTL), Frenc
 - Device-local storage by default; no account required.
 - Favorites do not alter shared parish content.
 
-## 9. About
-- Parish name and history, approved priest details, address, map/directions, contact details and church photos.
+## 9. About the Parish
+- Parish-approved name, history, photos, public address, contact details, map/directions and office information.
+- Do not invent any parish facts or contact details; populate only after confirmation and priest approval.
+- Only the priest's specifically authorized administrator account may edit shared About content.
 
-## 10. Settings
-- Arabic/French/Italian language choice.
+## 10. Settings & Accessibility
+- Arabic/French/Italian language choice, saved locally.
 - Notification preferences and reminder settings.
-- Text size and accessibility preferences.
-- Privacy information and app version.
+- Text size, accessibility preferences, privacy notice and app version.
+- No account required; personal settings must not modify shared parish content.
 
 ## General requirements
 - Arabic RTL, French LTR, and Italian LTR throughout.
