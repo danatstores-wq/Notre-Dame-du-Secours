@@ -7,11 +7,12 @@ The Prayer Library supports Arabic (RTL), French (LTR), and Italian (LTR). Curre
 - Browse prayers by category.
 - Search prayer titles and text in the available languages.
 - Open a prayer in a focused reading view.
+- Read approved prayer text aloud with the device’s built-in speech synthesis, including play, pause, resume, and stop controls. The app prefers Lebanese Arabic (`ar-LB`) when the device offers it, then falls back to another Arabic voice; French and Italian use their corresponding language voices. Available voices depend on the device and browser, and are not parish-recorded audio.
 - Increase or decrease the prayer text size while reading.
 - Copy a prayer or use the device's native share sheet when supported.
 - Save and remove prayers from personal favorites (stored locally on the device).
 
-Audio recordings are not yet available. They will be added only after suitable language/accent voices are verified and the final wording is reviewed and approved by parish clergy.
+The Prayer Library now includes device-based spoken playback. This is speech synthesis, not a pre-recorded parish voice. The app cannot guarantee that a Lebanese Arabic voice is installed on every device. Professionally recorded parish audio remains future work and should be added only after the final wording is reviewed and approved by parish clergy.
 
 ## Content and permissions
 
