@@ -1,6 +1,6 @@
 # Notre-Dame-du-Secours App — Feature Plan
 
-This document tracks the planned features for the bilingual Arabic (RTL) and French (LTR) parish app. The main dashboard cards should become working navigation entries.
+This document tracks the planned features for the trilingual Arabic (RTL), French (LTR), and Italian (LTR) parish app. The main dashboard cards should become working navigation entries.
 
 ## 1. Mass Schedule & Activities
 - Weekly and daily Mass schedule, with weekday and Sunday times.
@@ -24,7 +24,7 @@ This document tracks the planned features for the bilingual Arabic (RTL) and Fre
 
 ## 3. Prayer Library
 - Categories: common prayers, morning/evening, prayers to Jesus and Mary, sick, peace, thanksgiving, Communion and special occasions.
-- Arabic and French prayer text, search, favorites, share/copy, adjustable text size.
+- Arabic, French, and Italian prayer text, search, favorites, share/copy, adjustable text size.
 - Audio only where genuine recordings are available.
 - Offline access to prayer texts.
 
@@ -57,13 +57,13 @@ This document tracks the planned features for the bilingual Arabic (RTL) and Fre
 - Parish name and history, approved priest details, address, map/directions, contact details and church photos.
 
 ## 10. Settings
-- Arabic/French language choice.
+- Arabic/French/Italian language choice.
 - Notification preferences and reminder settings.
 - Text size and accessibility preferences.
 - Privacy information and app version.
 
 ## General requirements
-- Arabic RTL and French LTR throughout.
+- Arabic RTL, French LTR, and Italian LTR throughout.
 - Mobile-first Android and iOS layouts.
 - Offline availability for prayer text and core Rosary guide.
 - Secure admin access for parish-managed content.
