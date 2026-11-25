@@ -172,6 +172,18 @@
     }
     .nav-item.active { color: var(--gold-light); font-weight: 700; }
     .nav-item img { width: 24px; height: 24px; }
+      .mass-calendar{border:1px solid rgba(229,182,87,.55);border-radius:16px;padding:12px;background:rgba(8,22,45,.82);margin-bottom:18px}
+    .mass-calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;color:var(--gold-light)}
+    .mass-calendar-head button,.mass-calendar-today{border:1px solid rgba(229,182,87,.55);background:rgba(229,182,87,.12);color:#fff;border-radius:9px;padding:8px 13px;font:inherit;cursor:pointer}
+    .mass-calendar-week,.mass-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center}
+    .mass-calendar-week{font-size:.75rem;color:#e8d5a9;margin-bottom:7px}
+    .mass-calendar-day{min-width:0;aspect-ratio:1;border:1px solid rgba(229,182,87,.18);border-radius:9px;background:rgba(255,255,255,.04);color:#fff;font:inherit;cursor:pointer;position:relative}
+    .mass-calendar-day.selected{background:var(--gold);color:#17233a;font-weight:800}
+    .mass-calendar-day.has-entry:after{content:'';position:absolute;width:5px;height:5px;border-radius:50%;background:var(--gold-light);bottom:4px;left:calc(50% - 2px)}
+    .mass-calendar-day.selected.has-entry:after{background:#17233a}
+    .mass-calendar-empty{aspect-ratio:1}
+    .mass-calendar-today{margin-top:12px;width:100%}
+    .mass-selected-title{font-size:1rem;color:var(--gold-light);margin:14px 0 10px}
   </style>
 </head>
 <body>
@@ -407,12 +419,68 @@
       it:{title:'Orari delle Messe e Attività',back:'Indietro',tabs:['Messe','Messe speciali','Attività'],empty:'La parrocchia non ha ancora pubblicato gli orari. Torna più tardi per consultare le informazioni confermate.',loading:'Caricamento degli orari…',error:'Impossibile caricare gli orari al momento.'}
     };
     let massTab=0,massData=null;
+    let massCalendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+    let selectedMassDate=new Date().toISOString().slice(0,10);
+    const massCalendarLabels={
+      ar:{today:'اليوم',prev:'الشهر السابق',next:'الشهر التالي',selected:'المواعيد في هذا اليوم',week:['اثن','ثل','أرب','خمي','جمع','سبت','أحد'],noDay:'لا توجد مواعيد مؤكدة لهذا اليوم.',months:['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول']},
+      fr:{today:"Aujourd’hui",prev:'Mois précédent',next:'Mois suivant',selected:'Horaires de cette journée',week:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],noDay:'Aucun horaire confirmé pour cette journée.',months:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']},
+      it:{today:'Oggi',prev:'Mese precedente',next:'Mese successivo',selected:'Orari di questo giorno',week:['Lun','Mar','Mer','Gio','Ven','Sab','Dom'],noDay:'Nessun orario confermato per questo giorno.',months:['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre']}
+    };
+    function dateKey(date){return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');}
+    function itemDate(item){return item.date||item.startDate||item.datetime||'';}
+    function itemWeekdayMatches(item,date){
+      if(item.dayOfWeek===undefined||item.dayOfWeek===null)return false;
+      const value=item.dayOfWeek, day=date.getDay(), mondayIndex=(day+6)%7;
+      if(Array.isArray(value))return value.some(v=>weekdayValue(v)===day||weekdayValue(v)===mondayIndex);
+      const n=weekdayValue(value);return n===day||n===mondayIndex;
+    }
+    function weekdayValue(value){
+      if(typeof value==='number')return value;
+      const s=String(value).toLowerCase().trim();
+      const map={'sunday':0,'sun':0,'الأحد':0,'dimanche':0,'dim':0,'domenica':0,'monday':1,'mon':1,'الاثنين':1,'lundi':1,'lun':1,'lunedì':1,'tuesday':2,'tue':2,'الثلاثاء':2,'mardi':2,'mar':2,'martedì':2,'wednesday':3,'wed':3,'الأربعاء':3,'mercredi':3,'mer':3,'mercoledì':3,'thursday':4,'thu':4,'الخميس':4,'jeudi':4,'jeu':4,'giovedì':4,'friday':5,'fri':5,'الجمعة':5,'vendredi':5,'ven':5,'venerdì':5,'saturday':6,'sat':6,'السبت':6,'samedi':6,'sam':6,'sabato':6,'sab':6};
+      return Object.prototype.hasOwnProperty.call(map,s)?map[s]:Number.isInteger(Number(s))?Number(s):-1;
+    }
+    function entriesForDate(date){
+      const key=dateKey(date),sets=massData||{},all=[];
+      if(massTab===0){
+        (sets.massSchedule||[]).filter(x=>itemWeekdayMatches(x,date)).forEach(x=>all.push(x));
+        (sets.specialMasses||[]).filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
+      }else{
+        const source=massTab===1?(sets.specialMasses||[]):(sets.activities||[]);
+        source.filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
+      }
+      return all;
+    }
+    function renderMassCalendar(){
+      const l=massCalendarLabels[currentLang],month=massCalendarMonth,year=month.getFullYear(),m=month.getMonth();
+      const firstOffset=(new Date(year,m,1).getDay()+6)%7,days=new Date(year,m+1,0).getDate();
+      let cells='';
+      for(let i=0;i<firstOffset;i++)cells+='<span class="mass-calendar-empty"></span>';
+      for(let day=1;day<=days;day++){
+        const date=new Date(year,m,day),key=dateKey(date),has=massTab===0?entriesForDate(date).length>0:entriesForDate(date).length>0;
+        cells+='<button class="mass-calendar-day '+(key===selectedMassDate?'selected ':'')+(has?'has-entry':'')+'" onclick="chooseMassDate(\''+key+'\')" aria-label="'+key+'">'+day+'</button>';
+      }
+      const selected=new Date(selectedMassDate+'T12:00:00'),dayEntries=entriesForDate(selected);
+      const locale=currentLang==='ar'?'ar':currentLang==='fr'?'fr-FR':'it-IT';
+      const dateTitle=selected.toLocaleDateString(locale,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+      const list=dayEntries.length?dayEntries.map(item=>{
+        const title=item['title'+currentLang.toUpperCase()]||item.title||item.label||item.name||'';
+        const description=item['description'+currentLang.toUpperCase()]||item.description||'';
+        const time=item.time||item.startTime||'';
+        return '<article class="schedule-entry"><strong>'+escapeHtml(title)+'</strong>'+(time?'<p>'+escapeHtml(time)+'</p>':'')+(description?'<p>'+escapeHtml(description)+'</p>':'')+'</article>';
+      }).join(''):'<p class="empty-state">'+l.noDay+'</p>';
+      const todayKey=dateKey(new Date());
+      document.getElementById('mass-content').innerHTML='<div class="mass-calendar"><div class="mass-calendar-head"><button onclick="changeMassMonth(-1)" aria-label="'+l.prev+'">‹</button><strong>'+l.months[m]+' '+year+'</strong><button onclick="changeMassMonth(1)" aria-label="'+l.next+'">›</button></div><div class="mass-calendar-week">'+l.week.map(x=>'<span>'+x+'</span>').join('')+'</div><div class="mass-calendar-grid">'+cells+'</div><button class="mass-calendar-today" onclick="goMassToday()">'+l.today+'</button></div><h3 class="mass-selected-title">'+l.selected+' — '+escapeHtml(dateTitle)+'</h3>'+list;
+    }
+    function chooseMassDate(key){selectedMassDate=key;const d=new Date(key+'T12:00:00');massCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassContent();}
+    function changeMassMonth(delta){massCalendarMonth=new Date(massCalendarMonth.getFullYear(),massCalendarMonth.getMonth()+delta,1);renderMassContent();}
+    function goMassToday(){const d=new Date();selectedMassDate=dateKey(d);massCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassContent();}
     function openFeature(index){if(index!==0)return;document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();}
     function closeFeature(){document.getElementById('mass-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     async function loadMassData(){const labels=massLabels[currentLang];document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';try{const response=await fetch('src/data/mass-schedule.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');massData=await response.json();renderMassContent();}catch(e){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.error+'</p>';}}
     function renderMassScreen(){const labels=massLabels[currentLang];document.getElementById('mass-title').textContent=labels.title;document.getElementById('mass-back').textContent=labels.back;document.getElementById('mass-tabs').innerHTML=labels.tabs.map((label,index)=>'<button class="feature-tab '+(index===massTab?'active':'')+'" onclick="selectMassTab('+index+')">'+label+'</button>').join('');renderMassContent();}
     function selectMassTab(index){massTab=index;renderMassScreen();}
-    function renderMassContent(){const labels=massLabels[currentLang];if(!massData){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';return;}const entries=massData[['massSchedule','specialMasses','activities'][massTab]]||[];if(!entries.length){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.empty+'</p>';return;}document.getElementById('mass-content').innerHTML=entries.map(item=>'<article class="schedule-entry"><strong>'+escapeHtml(item['title'+currentLang.toUpperCase()]||item.title||item.label||'')+'</strong><p>'+escapeHtml(item['description'+currentLang.toUpperCase()]||item.description||'')+'</p></article>').join('');}
+    function renderMassContent(){const labels=massLabels[currentLang];if(!massData){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';return;}renderMassCalendar();}
     function escapeHtml(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
     const rosaryLabels={
       ar:{title:'المسبحة الوردية',back:'رجوع',choose:'اختر أسرار المسبحة',days:'الأيام',start:'ابدأ هذا السر',step:'السر',of:'من',previous:'السابق',next:'التالي',again:'العودة إلى الأسرار',unavailable:'النص الكامل للصلاة والتسجيلات الصوتية سيضافان بعد مراجعتهما واعتمادهما من الرعية.',noAudio:'لا توجد تسجيلات صوتية معتمدة بعد. يمكنك المتابعة يدوياً.',dayNames:['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']},
