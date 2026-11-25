@@ -5,7 +5,7 @@
     "fr",
     "it"
   ],
-  "reviewNote": "Starter content for clergy review before app release. No audio recordings included.",
+  "reviewNote": "Arabic prayer wording supplied in this conversation has been inserted verbatim. Other Arabic prayer texts are marked as awaiting approved wording. French and Italian content has been preserved. Clergy review is still required before publication or audio recording.",
   "categories": [
     {
       "id": "common",
@@ -23,7 +23,7 @@
             "it": "Padre nostro"
           },
           "text": {
-            "ar": "أبانا الذي في السماوات، ليتقدّس اسمك، ليأتِ ملكوتك، لتكن مشيئتك كما في السماء كذلك على الأرض. أعطنا خبزنا كفاف يومنا، واغفر لنا خطايانا كما نحن نغفر لمن أخطأ إلينا، ولا تدخلنا في التجربة، لكن نجّنا من الشرير. آمين.",
+            "ar": "أبانا الّذي في السّماوات\nليتقدّس إسمكَ؛ ليأتِ ملكوتُكَ؛\nلتكنْ مشيئتُكَ كما في السّماءِ كذلكَ على الأرض.\nأعطِنا خبزَنا كفافَ يومِنا.\nواغفرْ لنا ذنوبَنا وخطايانا، كما نحنُ نغفرُ لمن خطئَ إلينا.\nولا تُدخِلنا في التّجارب، لكن نجّنا منَ الشرّير.\nلأنّ لكَ المُلكَ والقوّةَ والمجدَ، إلى أبدِ الآبدين.\nآمين.",
             "fr": "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite sur la terre comme au ciel. Donne-nous aujourd’hui notre pain de ce jour. Pardonne-nous nos offenses, comme nous pardonnons aussi à ceux qui nous ont offensés. Et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen.",
             "it": "Padre nostro che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori. E non abbandonarci alla tentazione, ma liberaci dal male. Amen."
           },
@@ -41,7 +41,7 @@
             "it": "Ave Maria"
           },
           "text": {
-            "ar": "السلام عليكِ يا مريم، يا ممتلئة نعمة، الرب معكِ. مباركة أنتِ في النساء، ومباركة ثمرة بطنكِ يسوع. يا مريم القديسة، يا والدة الله، صلّي لأجلنا نحن الخطأة، الآن وفي ساعة موتنا. آمين.",
+            "ar": "السلام عليك يا مريم، يا ممتلئة نعمة، الرب معك،\n\nمباركة أنت في النساء ومباركة ثمرة بطنك سيّدنا يسوع المسيح،\n\nيا قديسة مريم، يا والدة الله، صلي لأجلنا نحن الخطأة، الآن وفي ساعة موتنا، آمين.",
             "fr": "Je vous salue, Marie, pleine de grâce ; le Seigneur est avec vous. Vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant et à l’heure de notre mort. Amen.",
             "it": "Ave Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù. Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell’ora della nostra morte. Amen."
           },
@@ -59,9 +59,45 @@
             "it": "Gloria al Padre"
           },
           "text": {
-            "ar": "المجد للآب والابن والروح القدس، كما كان في البدء والآن وكل أوان وإلى دهر الدهور. آمين.",
+            "ar": "النص العربي بانتظار النص المعتمد.",
             "fr": "Gloire au Père, au Fils et au Saint-Esprit, comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
             "it": "Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, ora e sempre, nei secoli dei secoli. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null
+          }
+        },
+        {
+          "id": "nicene-creed",
+          "title": {
+            "ar": "قانون الإيمان",
+            "fr": "Symbole de Nicée",
+            "it": "Credo niceno"
+          },
+          "text": {
+            "ar": "نؤمِن بإلهٍ واحِد، آب ضابط الكل، خالق السماء والأرض، كل ما يُرى وما لا يُرى، وبربّ واحد يسوع المسيح، إبن الله الوحيد، المولود من الآب قبل كل الدهور، إله من إله، نور من نور، إله حق من إله حق، مولود غير مخلوق، مساوٍ للآب في الجوهر، الذي به كان كل شيء، الذي من أجلنا نحن البشر، ومن أجل خلاصنا، نزل من السماء، وتجسد من الروح القدس ومن مريم العذراء، وصار إنسانًا، وصُلب عنّا على عهد بلاطس البنطي. تألم ومات وقُبر وقام في اليوم الثالث كما جاء في الكتب. وصعد إلى السماء، وجلس عن يمين الله الآب. وأيضًا يأتي بمجدٍ عظيم، ليَدين الأحياء والأموات. الذي لا فناء لملكه. ونؤمن بالروح القدس، الرب المحيي، المنبثق من الآب والإبن، الذي هو مع الآب والإبن، يُسجد له ويُمجد، الناطق بالأنبياء والرسل، وبكنيسة واحدة، جامعة، مقدسة، رسولية. ونعترف بمعمودية واحدة لمغفرة الخطايا، ونترجّى قيامة الموتى والحياة في الدهر الآتي، آمين.",
+            "fr": "Traduction à venir.",
+            "it": "Traduzione in arrivo."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null
+          }
+        },
+        {
+          "id": "salve-regina",
+          "title": {
+            "ar": "السلام عليكِ يا سلطانة",
+            "fr": "Salut, ô Reine",
+            "it": "Salve Regina"
+          },
+          "text": {
+            "ar": "السلام عليكِ يا سلطانة، يا أمّ الرحمة.\nالسلام عليكِ يا حياتنا وحلاوتنا ورجاءنا.\nنصرخ إليكِ نحن المنفيّين أولاد حوّاء.\nنتنهّد إليكِ نائحين وباكين، في هذا الوادي، وادي الدموع.\nفلذلك يا شفيعتنا، ميلي إلينا بنظركِ الحنون.\nوأرينا بعد هذا المنفى يسوع ثمرة بطنكِ المباركة.\nيا حنونة، يا رؤوفة، يا حلوة مريم البتول.",
+            "fr": "Traduction à venir.",
+            "it": "Traduzione in arrivo."
           },
           "audio": {
             "ar": null,
@@ -87,7 +123,7 @@
             "it": "Preghiera di ringraziamento"
           },
           "text": {
-            "ar": "يا رب، أشكرك على نعمتك ومحبتك، وعلى كل عطية تمنحني إياها. ساعدني أن أعيش بقلب ممتن، وأن أشارك خيرك مع الآخرين. آمين.",
+            "ar": "النص العربي بانتظار النص المعتمد.",
             "fr": "Seigneur, je te remercie pour ta grâce, ton amour et tous les dons que tu m’accordes. Aide-moi à vivre avec un cœur reconnaissant et à partager tes bienfaits avec les autres. Amen.",
             "it": "Signore, ti ringrazio per la tua grazia, il tuo amore e ogni dono che mi concedi. Aiutami a vivere con un cuore riconoscente e a condividere il tuo bene con gli altri. Amen."
           },
@@ -115,7 +151,7 @@
             "it": "Preghiera per la pace"
           },
           "text": {
-            "ar": "يا رب السلام، ازرع سلامك في قلوبنا وفي عائلاتنا والعالم. علّمنا أن نكون أدوات للمصالحة والمحبة، وأن نرفض العنف ونختار الرحمة. آمين.",
+            "ar": "النص العربي بانتظار النص المعتمد.",
             "fr": "Seigneur de la paix, fais grandir ta paix dans nos cœurs, nos familles et dans le monde. Apprends-nous à être des artisans de réconciliation et d’amour, à rejeter la violence et à choisir la miséricorde. Amen.",
             "it": "Signore della pace, dona la tua pace ai nostri cuori, alle nostre famiglie e al mondo. Insegnaci a essere strumenti di riconciliazione e di amore, a rifiutare la violenza e a scegliere la misericordia. Amen."
           },
