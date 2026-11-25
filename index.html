@@ -383,13 +383,14 @@
       currentLang = supportedLanguages[(currentIndex + 1) % supportedLanguages.length];
       localStorage.setItem('parish-language', currentLang);
       render();
+      if (document.getElementById('mass-screen').classList.contains('visible')) renderMassScreen();
     }
 
     render();
     const massLabels={
       ar:{title:'مواعيد القداديس والنشاطات',back:'رجوع',tabs:['القداديس','القداديس الخاصة','النشاطات'],empty:'لم تُضف الرعية المواعيد بعد. يرجى العودة لاحقاً للاطلاع على المعلومات المؤكدة.',loading:'جارٍ تحميل المواعيد…',error:'تعذّر تحميل المواعيد حالياً. يرجى المحاولة لاحقاً.'},
       fr:{title:'Horaires des Messes et Activités',back:'Retour',tabs:['Messes','Messes spéciales','Activités'],empty:'La paroisse n’a pas encore publié les horaires. Revenez plus tard pour consulter les informations confirmées.',loading:'Chargement des horaires…',error:'Impossible de charger les horaires pour le moment.'},
-      it:{title:'Orari delle Messe e Attività',back:'Indietro',tabs:['Messe','Messe speciali','Attività'],empty:'La parrocchia n’a pas ancora pubblicato gli orari. Torna più tardi per consultare le informazioni confermate.',loading:'Caricamento degli orari…',error:'Impossibile caricare gli orari al momento.'}
+      it:{title:'Orari delle Messe e Attività',back:'Indietro',tabs:['Messe','Messe speciali','Attività'],empty:'La parrocchia non ha ancora pubblicato gli orari. Torna più tardi per consultare le informazioni confermate.',loading:'Caricamento degli orari…',error:'Impossibile caricare gli orari al momento.'}
     };
     let massTab=0,massData=null;
     function openFeature(index){if(index!==0)return;document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();}
