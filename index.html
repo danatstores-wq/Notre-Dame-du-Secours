@@ -622,22 +622,22 @@
           const completed=activeDecade>decade||(activeDecade===decade&&activeBead>=0);
           const current=activeDecade===decade&&activeBead<0;
           const cls='separator-bead'+(completed?' done':'')+(current?' current':'');
-          beads+=bead(cls,x,y,8.1,l.decadeNumber+' '+decade+' — '+l.ourFatherLabel);
+          beads+=bead(cls,x,y,9.0,l.decadeNumber+' '+decade+' — '+l.ourFatherLabel);
         }else{
           const decade=Math.floor(i/11)+1,beadNo=(i%11)-1;
           const completed=activeDecade>decade||(activeDecade===decade&&activeBead>beadNo);
           const current=activeDecade===decade&&activeBead===beadNo;
           const cls='decade-bead'+(completed?' done':'')+(current?' current':'');
-          beads+=bead(cls,x,y,6.0,l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(beadNo+1));
+          beads+=bead(cls,x,y,6.6,l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(beadNo+1));
         }
       }
       // Follow the strand upward from the crucifix: opening Hail Mary 1 is the lowest bead.
-      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,301-i*13,6.2,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
+      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,301-i*13,6.6,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
       const ourFatherClass='opening-large-bead'+(openingStep>2?' done':'')+(openingStep===2?' current':'');
       const gloryClass='opening-large-bead'+(openingStep>6?' done':'')+(openingStep===6?' current':'');
       const openingLarge=bead(gloryClass,190,258,8.4,l.gloryBeLabel)+bead(ourFatherClass,190,319,8.4,l.ourFatherLabel);
       return '<div class="rosary-diagram"><svg viewBox="0 0 380 390" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><defs>'+
-        '<radialGradient id="pearlBead" cx="28%" cy="22%" r="82%"><stop offset="0" stop-color="#fff"/><stop offset=".2" stop-color="#fff9e9"/><stop offset=".52" stop-color="#ead9bd"/><stop offset=".82" stop-color="#b99566"/><stop offset="1" stop-color="#654526"/></radialGradient>'+
+        '<radialGradient id="pearlBead" cx="27%" cy="20%" r="86%"><stop offset="0" stop-color="#f5fbff"/><stop offset=".12" stop-color="#a9c8e8"/><stop offset=".32" stop-color="#426b9b"/><stop offset=".68" stop-color="#17365f"/><stop offset=".9" stop-color="#091a35"/><stop offset="1" stop-color="#030b19"/></radialGradient>'+
         '<radialGradient id="goldBead" cx="28%" cy="20%" r="82%"><stop offset="0" stop-color="#fffdf0"/><stop offset=".25" stop-color="#f8e6ae"/><stop offset=".7" stop-color="#c99b4c"/><stop offset="1" stop-color="#76501f"/></radialGradient>'+
         '<radialGradient id="doneBead" cx="28%" cy="20%" r="82%"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ffe9ad"/><stop offset=".75" stop-color="#d9a84f"/><stop offset="1" stop-color="#80551e"/></radialGradient>'+
         '<linearGradient id="cordGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d99c"/><stop offset=".45" stop-color="#89612e"/><stop offset="1" stop-color="#e3bd75"/></linearGradient>'+
