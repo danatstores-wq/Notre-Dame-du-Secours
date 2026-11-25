@@ -613,9 +613,12 @@
       const detail=step.detail?'<p>'+escapeHtml(step.detail)+'</p>':'';
       const optional=step.kind==='optional'?'<p class="rosary-guide-meta">'+l.optional+'</p>':'';
       const decade=step.decade?' · '+l.decadeNumber+' '+step.decade+' '+l.decadeOutOf:'';
+      const completedHail=step.decade?rosaryGuideSteps.slice(0,rosaryGuideIndex).filter(s=>s.kind==='hail'&&s.decade===step.decade).length:0;
+      const diagramBead=step.decade?(step.kind==='hail'?step.hailIndex:completedHail-1):-1;
+      const openingBead=step.kind==='hail'&&!step.decade?step.hailIndex:-1;
       const previous=rosaryGuideIndex===0?'disabled':'';
       const action=step.kind==='optional'?l.skip:l.next;
-      box.innerHTML=renderRosaryDiagram(step.decade||0,step.kind==='hail'&&step.decade?step.hailIndex:-1,step.kind==='hail'&&!step.decade?step.hailIndex:-1)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
+      box.innerHTML=renderRosaryDiagram(step.decade||0,diagramBead,openingBead)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
     }
     function selectRosaryMystery(index){selectedMystery=index;window.rosaryUserSelected=true;renderRosary();}
     function buildRosaryGuide(){
