@@ -44,5 +44,19 @@
     "notifications": "Notifiche",
     "favorites": "Preferiti",
     "about": "Informazioni"
+  },
+  "common": {
+    "notifications": "Notifiche",
+    "favorites": "Preferiti",
+    "notificationSettings": "Impostazioni delle notifiche",
+    "importantAnnouncements": "Avvisi importanti",
+    "massUpdates": "Aggiornamenti degli orari delle Messe",
+    "parishActivities": "Attività parrocchiali",
+    "personalReminders": "Promemoria personali",
+    "reminderTime": "Orario del promemoria",
+    "quietHours": "Ore di silenzio",
+    "noFavorites": "Non hai ancora aggiunto preferiti",
+    "addFavorite": "Aggiungi ai preferiti",
+    "removeFavorite": "Rimuovi dai preferiti"
   }
 }
