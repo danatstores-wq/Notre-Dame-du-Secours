@@ -20,7 +20,8 @@
 
 ## Future improvements
 - Add parish-approved full prayer texts for every language.
-- Add a visual rosary diagram with the cross, opening beads, and five decades.
+- Display a responsive schematic Rosary diagram with the cross, opening beads, central medal, and five decades (50 small beads plus decade separators).
+- Highlight the active bead and completed/current decades during guided progression; provide a localized accessible SVG title and description in Arabic, French, and Italian.
 - Add play/pause/seek and synchronized audio timing markers once approved recordings exist.
 - Add offline prayer text and optional downloaded audio.
 - Add accessible controls and reduced-motion support.
