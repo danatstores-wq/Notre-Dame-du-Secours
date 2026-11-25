@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "languages": ["ar", "fr", "it"],
+  "categories": [
+    "importantAnnouncements",
+    "massUpdates",
+    "parishActivities",
+    "personalReminders"
+  ],
+  "defaultPreferences": {
+    "enabled": false,
+    "importantAnnouncements": true,
+    "massUpdates": true,
+    "parishActivities": false,
+    "personalReminders": true,
+    "reminderLeadTime": "1-hour",
+    "quietHoursEnabled": false,
+    "quietHoursStart": null,
+    "quietHoursEnd": null
+  },
+  "note": "Preference schema only. OS permission and actual push delivery must be implemented and tested on Android and iOS."
+}
