@@ -33,4 +33,8 @@ The following official Catholic sources were used for the standard prayers:
 - French Bishops’ Conference liturgy resource explaining the currently approved French wording of the Our Father, including “Et ne nous laisse pas entrer en tentation”: https://liturgie.catholique.fr/la-messe/la-liturgie-eucharistique/309766-ne-nous-laisse-pas-entrer-en-tentation-note-exegetique/
 - Italian Bishops’ Conference (CEI), official liturgical resource showing the current wording “non abbandonarci alla tentazione”: https://liturgico.chiesacattolica.it/wp-content/uploads/sites/8/2025/12/03/vespri-17-23dicembre-def-2.pdf
 
-The French and Italian standard texts now covered by these sources are the Our Father, Hail Mary, Glory Be, Nicene-Constantinopolitan Creed, and Salve Regina. The French and Italian thanksgiving and peace texts are parish-composed draft prayers; they are explicitly titled as parish prayers and are not represented as universal official prayers. They still require clergy review.
+The French and Italian standard texts now covered by these sources are the Our Father, Hail Mary, Glory Be, Nicene-Constantinopolitan Creed, Salve Regina, and the optional Fatima decade prayer. The Fatima prayer wording is sourced from the Shrine of Fátima: 
+- Shrine of Fátima, official French prayers and account of the prayer taught by Our Lady: https://www.fatima.pt/fr/pages/prieres-de-fatima and https://www.fatima.pt/fr/pages/le-recit-des-apparitions-de-fatima
+- Shrine of Fátima, official Italian prayers and account of the prayer taught by Our Lady: https://www.fatima.pt/it/pages/preghiere-di-fatima and https://www.fatima.pt/it/pages/narrativa-delle-apparizioni-
+
+The French and Italian thanksgiving and peace texts are parish-composed draft prayers; they are explicitly titled as parish prayers and are not represented as universal official prayers. They still require clergy review.
