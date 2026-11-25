@@ -166,10 +166,13 @@
 
     .rosary-diagram{margin:14px auto 18px;max-width:390px;padding:10px 8px;border:1px solid rgba(229,182,87,.35);border-radius:16px;background:rgba(7,20,43,.38)}
     .rosary-diagram svg{display:block;width:100%;height:auto;max-height:285px}
-    .rosary-diagram .decade-bead{fill:rgba(229,182,87,.22);stroke:var(--gold);stroke-width:1.5}
-    .rosary-diagram .decade-bead.done{fill:var(--gold)}
-    .rosary-diagram .decade-bead.current{fill:#fff1c7;stroke:#fff;stroke-width:2.5}
-    .rosary-diagram .separator-bead{fill:var(--gold);stroke:#fff0c5;stroke-width:1.5}
+    .rosary-diagram .decade-bead{fill:rgba(229,182,87,.18);stroke:var(--gold);stroke-width:1.5;transition:fill .25s,filter .25s}
+    .rosary-diagram .decade-bead.done{fill:#f3c86f;filter:url(#rosaryGlowSoft)}
+    .rosary-diagram .decade-bead.current{fill:#fff4c8;stroke:#fff;stroke-width:2.5;filter:url(#rosaryGlow)}
+    .rosary-diagram .opening-bead{fill:rgba(229,182,87,.18);stroke:var(--gold);stroke-width:1.5}
+    .rosary-diagram .opening-bead.done{fill:#f3c86f;filter:url(#rosaryGlowSoft)}
+    .rosary-diagram .opening-bead.current{fill:#fff4c8;stroke:#fff;stroke-width:2.5;filter:url(#rosaryGlow)}
+    .rosary-diagram .separator-bead{fill:var(--gold);stroke:#fff0c5;stroke-width:1.5;filter:url(#rosaryGlowSoft)}
     .rosary-diagram .rosary-cord{fill:none;stroke:#c99a4a;stroke-width:2.2;opacity:.9}
     .rosary-diagram .rosary-cross{fill:none;stroke:var(--gold-light);stroke-width:5;stroke-linecap:round}
     .rosary-diagram .rosary-medal{fill:#263b5b;stroke:var(--gold);stroke-width:2}
@@ -556,15 +559,17 @@
       const idx=rosaryData.mysteries.findIndex(m=>Array.isArray(m.days)&&m.days.includes(day));
       return idx>=0?idx:0;
     }
-    function renderRosaryDiagram(activeDecade=0,activeBead=-1){
+    function renderRosaryDiagram(activeDecade=0,activeBead=-1,openingBead=-1){
       const l=rosaryLabels[currentLang],cx=190,cy=118,rx=116,ry=78;
       let beads='';
       for(let i=0;i<50;i++){
         const angle=(-90+i*360/50)*Math.PI/180;
         const x=cx+rx*Math.cos(angle),y=cy+ry*Math.sin(angle);
         const decade=Math.floor(i/10)+1,bead=i%10;
-        const cls='decade-bead'+(activeDecade>decade?' done':'')+(activeDecade===decade&&activeBead===bead?' current':'');
-        beads+='<circle class="'+cls+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.7"><title>'+l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(bead+1)+'</title></circle>';
+        const completed=activeDecade>decade||(activeDecade===decade&&activeBead>bead);
+        const current=activeDecade===decade&&activeBead===bead;
+        const cls='decade-bead'+(completed?' done':'')+(current?' current':'');
+        beads+='<circle class="'+cls+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4.2"><title>'+l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(bead+1)+'</title></circle>';
       }
       let separators='';
       for(let i=0;i<5;i++){
@@ -572,7 +577,8 @@
         const x=cx+rx*Math.cos(angle),y=cy+ry*Math.sin(angle);
         separators+='<circle class="separator-bead" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="6"/>';
       }
-      return '<div class="rosary-diagram"><svg viewBox="0 0 380 290" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><ellipse class="rosary-cord" cx="190" cy="118" rx="116" ry="78"/>'+beads+separators+'<path class="rosary-cord" d="M190 196 L190 222 L190 244"/><circle class="rosary-medal" cx="190" cy="210" r="11"/><circle class="separator-bead" cx="190" cy="230" r="5"/><circle class="separator-bead" cx="190" cy="242" r="5"/><circle class="separator-bead" cx="190" cy="254" r="5"/><path class="rosary-cross" d="M190 266 V284 M180 273 H200"/><text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
+      const opening=[0,1,2].map(i=>'<circle class="opening-bead'+(openingBead>i?' done':'')+(openingBead===i?' current':'')+'" cx="190" cy="'+(230+i*12)+'" r="5"><title>'+l.beadNumber+' '+(i+1)+'</title></circle>').join('');
+      return '<div class="rosary-diagram"><svg viewBox="0 0 380 290" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><defs><filter id="rosaryGlow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="3.2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="rosaryGlowSoft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="1.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><ellipse class="rosary-cord" cx="190" cy="118" rx="116" ry="78"/>'+beads+separators+'<path class="rosary-cord" d="M190 196 L190 222 L190 244"/><circle class="rosary-medal" cx="190" cy="210" r="11"/>'+opening+'<path class="rosary-cross" d="M190 266 V284 M180 273 H200"/><text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
     }
     function renderRosary(){
       const l=rosaryLabels[currentLang];
@@ -601,19 +607,15 @@
       const step=rosaryGuideSteps[rosaryGuideIndex];
       const progress=(rosaryGuideIndex+1)/rosaryGuideSteps.length*100;
       let beadMarkup='';
-      if(step.kind==='hail'){
-        const dots=Array.from({length:10},(_,i)=>{
-          const state=(i<step.hailIndex?'done ':'')+(i===step.hailIndex?'current':'');
-          return '<span class="'+state+'"></span>';
-        }).join('');
-        beadMarkup='<p class="rosary-guide-meta">'+l.beads+' — '+l.beadNumber+' '+(step.hailIndex+1)+' '+l.outOf+'</p><div class="rosary-decade-dots" role="img" aria-label="'+l.beadNumber+' '+(step.hailIndex+1)+' '+l.outOf+'">'+dots+'</div>';
+      if(step.kind==='hail'&&step.decade){
+        beadMarkup='<p class="rosary-guide-meta">'+l.beads+' — '+l.beadNumber+' '+(step.hailIndex+1)+' '+l.outOf+'</p>';
       }
       const detail=step.detail?'<p>'+escapeHtml(step.detail)+'</p>':'';
       const optional=step.kind==='optional'?'<p class="rosary-guide-meta">'+l.optional+'</p>':'';
       const decade=step.decade?' · '+l.decadeNumber+' '+step.decade+' '+l.decadeOutOf:'';
       const previous=rosaryGuideIndex===0?'disabled':'';
       const action=step.kind==='optional'?l.skip:l.next;
-      box.innerHTML=renderRosaryDiagram(step.decade||0,step.kind==='hail'?step.hailIndex:-1)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
+      box.innerHTML=renderRosaryDiagram(step.decade||0,step.kind==='hail'&&step.decade?step.hailIndex:-1,step.kind==='hail'&&!step.decade?step.hailIndex:-1)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
     }
     function selectRosaryMystery(index){selectedMystery=index;window.rosaryUserSelected=true;renderRosary();}
     function buildRosaryGuide(){
