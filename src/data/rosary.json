@@ -190,7 +190,7 @@
       "type": "prayer",
       "bead": "single",
       "label": {
-        "ar": "أبانا",
+        "ar": "أبانا الّذي في السّماوات",
         "fr": "Notre Père",
         "it": "Padre Nostro"
       }
@@ -249,7 +249,7 @@
           "type": "prayer",
           "bead": "single",
           "label": {
-            "ar": "أبانا",
+            "ar": "أبانا الّذي في السّماوات",
             "fr": "Notre Père",
             "it": "Padre Nostro"
           }
@@ -279,7 +279,7 @@
           "id": "fatima-prayer",
           "type": "optional-prayer",
           "label": {
-            "ar": "يا يسوع، اغفر لنا خطايانا...",
+            "ar": "صلاة فاطيما (النص العربي بانتظار الاعتماد)",
             "fr": "Ô mon Jésus, pardonnez-nous nos péchés...",
             "it": "Preghiera"
           }
@@ -290,7 +290,7 @@
       "id": "closing",
       "type": "prayer",
       "label": {
-        "ar": "صلاة ختامية",
+        "ar": "السلام عليكِ يا سلطانة",
         "fr": "Prière finale",
         "it": "Preghiera finale"
       }
