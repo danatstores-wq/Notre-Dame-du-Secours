@@ -13,8 +13,8 @@ This document tracks the planned features for the trilingual Arabic (RTL), Frenc
 
 ## 2. Holy Rosary — Guided and Audio
 - Four mysteries: Joyful, Luminous, Sorrowful, Glorious.
-- Guided prayer order with Arabic and French text.
-- Audio playback in both languages when recordings become available.
+- Guided prayer order and localized prayer text in Arabic, French, and Italian.
+- Audio playback only when genuine recordings become available in the relevant language.
 - Playback controls: Play, Pause, Resume, Stop, restart, and optional seek.
 - A visual Rosary with beads that glow/highlight in order as the prayer progresses.
 - Audio progress and current prayer/decade displayed together.
@@ -43,18 +43,22 @@ This document tracks the planned features for the trilingual Arabic (RTL), Frenc
 - Only the priest's specifically authorized administrator account may create, edit, publish, archive, or remove shared group/activity content; ordinary users are read-only.
 
 ## 6. Prayer Requests
-- Submit in Arabic or French.
-- Anonymous submission option.
-- Optional category (health, family, thanksgiving, peace, etc.).
-- Requests private by default; only share publicly with explicit consent.
-- Secure review workflow for authorized parish staff.
+- The app remains usable without registration for all public features.
+- Only people who open Prayer Requests need to register with email and password.
+- Require verified email before submitting; phone/SMS verification is not required.
+- Requests are private and enter a pending review queue accessible only to the priest.
+- No anonymous submission or public sharing in the initial release.
+- Email verification delivery configuration and Yahoo deliverability are deferred until the remaining features are completed.
 
 ## 7. Notifications
-- Mass/event reminders, parish news and priest messages.
-- User controls for categories and reminder timing.
+- Optional, opt-in notifications for important parish announcements, Mass updates, and activities.
+- User controls for categories, reminder timing, and quiet hours.
+- No account required for notification preferences; never include private prayer requests in notifications.
 
 ## 8. Favorites
-- Save prayers, messages and other supported content for quick access.
+- Save prayers, Rosary guides, announcements, Masses, and activities.
+- Device-local storage by default; no account required.
+- Favorites do not alter shared parish content.
 
 ## 9. About
 - Parish name and history, approved priest details, address, map/directions, contact details and church photos.
