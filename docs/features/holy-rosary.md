@@ -5,7 +5,7 @@
 - Show traditional weekday associations and five mystery meditations for each set.
 - Suggest the mystery group associated with the visitor's local weekday, while allowing manual selection.
 - Guided sequence includes the opening prayers, three opening Hail Marys, five decades, ten Hail Mary steps per decade, Glory Be, an optional Fatima prayer step, and the closing prayer.
-- Show overall step progress and ten bead markers during each Hail Mary sequence.
+- Show overall step progress, a labeled bead counter (1–10), and ten visual bead markers during each Hail Mary sequence. The current decade is identified in the guide.
 - Previous/next navigation is available; the optional Fatima prayer can be skipped.
 - Arabic, French, and Italian are supported, including RTL for Arabic and LTR for French/Italian.
 - Changing language while the guide is open refreshes the displayed prayer labels.
