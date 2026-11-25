@@ -437,9 +437,9 @@
     function itemDate(item){return item.date||item.startDate||item.datetime||'';}
     function itemWeekdayMatches(item,date){
       if(item.dayOfWeek===undefined||item.dayOfWeek===null)return false;
-      const value=item.dayOfWeek, day=date.getDay(), mondayIndex=(day+6)%7;
-      if(Array.isArray(value))return value.some(v=>weekdayValue(v)===day||weekdayValue(v)===mondayIndex);
-      const n=weekdayValue(value);return n===day||n===mondayIndex;
+      const value=item.dayOfWeek, day=date.getDay();
+      if(Array.isArray(value))return value.some(v=>weekdayValue(v)===day);
+      const n=weekdayValue(value);return n===day;
     }
     function weekdayValue(value){
       if(typeof value==='number')return value;
