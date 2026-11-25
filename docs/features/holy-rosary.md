@@ -1,25 +1,22 @@
 # Feature 2 — Holy Rosary
 
-## Guided prayer
-- Offer Joyful, Luminous, Sorrowful, and Glorious Mysteries.
-- Display the prayer sequence in Arabic and French.
-- Provide guided manual mode that advances through prayers and beads even before audio recordings exist.
-- Show the current mystery, prayer name, and progress.
+## Visitor experience
+- Four sets of mysteries: Joyful, Luminous, Sorrowful, and Glorious.
+- Show the traditional weekday associations and five mystery meditations for each set.
+- Visitors can select a mystery set and manually advance through its five meditations, with progress and previous/next controls.
+- Arabic, French, and Italian are supported, including RTL for Arabic and LTR for French/Italian.
+- The dashboard card opens the Rosary screen; back returns to the dashboard.
 
-## Audio player (recordings to be supplied later)
-- Audio source slots for Arabic and French, initially empty.
-- Play, pause, resume, stop, restart, and optional seek.
-- Do not use fabricated audio or synthesized speech as a replacement for parish recordings.
-- Audio availability is clearly indicated; guided text mode remains available.
+## Prayer text and audio
+- The current screen is a guided mystery/meditation selector, not yet a complete prayer-text reader.
+- Full prayer texts must be reviewed and approved by the parish before being displayed.
+- Audio source slots for Arabic, French, and Italian remain empty until genuine parish-approved recordings are supplied.
+- Do not fabricate audio or use synthesized speech as a replacement for parish recordings.
+- The screen clearly indicates that audio is not yet available.
 
-## Rosary bead visual
-- Display a Rosary bead diagram/illustration with an active bead glow.
-- Advance highlighted beads in prayer order.
-- Audio recordings must have timing markers for prayer/decade segments (or a mapping of audio time to prayer steps).
-- When audio is not available, use manual Next/Previous controls to advance the bead.
-- Ensure progress can be paused and resumed and reset intentionally.
-
-## Languages and accessibility
-- Arabic RTL and French LTR.
-- Readable prayer text, accessible control labels, reduced-motion support.
-- Offline prayer text; audio offline only if recordings are later downloaded and supported.
+## Future improvements
+- Full guided prayer sequence, including opening prayers and each decade's Our Father, ten Hail Marys, Glory Be, and optional Fatima prayer.
+- Bead diagram with active-bead progress.
+- Play/pause/seek and synchronized audio timing markers once approved recordings exist.
+- Offline prayer text and optional downloaded audio.
+- Accessible controls and reduced-motion support.
