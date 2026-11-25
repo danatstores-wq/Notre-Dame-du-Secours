@@ -634,7 +634,7 @@
       if(index===3){document.getElementById('home-view').classList.add('hidden');document.getElementById('announcements-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadAnnouncements();return;}
       if(index===4){document.getElementById('home-view').classList.add('hidden');document.getElementById('parish-life-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadParishLife();return;}
       if(index===5){document.getElementById('home-view').classList.add('hidden');document.getElementById('prayer-requests-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderPrayerRequests();return;}
-      if(index===6){openBible();return;}if(index===7){openAbout();return;}if(index===8){openContact();return;}if(index===9){openChurchMap();return;}
+      if(index===6){openBible();return;}if(index===7){openContact();return;}if(index===8){openChurchMap();return;}
     }
     function closeRosary(){document.getElementById('rosary-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     async function loadRosary(){const box=document.getElementById('rosary-content');box.textContent=rosaryLabels[currentLang].noAudio;try{const response=await fetch('src/data/rosary.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');rosaryData=await response.json();renderRosary();}catch(e){box.textContent=rosaryLabels[currentLang].unavailable;}}
