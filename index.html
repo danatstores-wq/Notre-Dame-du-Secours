@@ -599,7 +599,8 @@
           beads+=bead(cls,x,y,6.0,l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(beadNo+1));
         }
       }
-      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,275+i*13,6.2,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
+      // Follow the strand upward from the crucifix: opening Hail Mary 1 is the lowest bead.
+      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,301-i*13,6.2,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
       const ourFatherClass='opening-large-bead'+(openingStep>2?' done':'')+(openingStep===2?' current':'');
       const gloryClass='opening-large-bead'+(openingStep>6?' done':'')+(openingStep===6?' current':'');
       const openingLarge=bead(gloryClass,190,258,8.4,l.gloryBeLabel)+bead(ourFatherClass,190,319,8.4,l.ourFatherLabel);
@@ -615,10 +616,12 @@
         '<path class="rosary-cord" d="M190 212 C120 211 62 172 62 126 C62 78 119 40 190 40 C261 40 318 78 318 126 C318 174 260 211 190 212"/>'+
         beads+
         '<path class="rosary-cord" d="M190 213 C190 220 190 224 190 228 M190 247 L190 250 M190 330 L190 338"/>'+
-        '<path class="medal-rim" d="M190 216 C179 216 174 224 176 233 C178 242 184 246 190 249 C196 246 202 242 204 233 C206 224 201 216 190 216Z"/>'+
-        '<circle class="medal-center" cx="190" cy="232" r="8"/><path class="medal-mark" d="M190 225 V239 M185 230 H195"/>'+
+        '<path class="medal-rim" d="M190 215 C179 215 173 223 175 233 C177 243 184 249 190 252 C196 249 203 243 205 233 C207 223 201 215 190 215Z"/>'+
+        '<path d="M190 219 C181 219 177 226 179 234 C181 242 186 246 190 249 C194 246 199 242 201 234 C203 226 199 219 190 219Z" fill="url(#goldBead)" stroke="#fff0bd" stroke-width=".8"/>'+
+        '<path d="M190 221 L192 226 L197 224 L194 230 L199 233 L193 234 L190 241 L187 234 L181 233 L186 230 L183 224 L188 226Z" fill="none" stroke="#fff0bd" stroke-width=".8" opacity=".9"/>'+
+        '<path class="medal-mark" d="M184 235 Q190 228 196 235 M186 236 V241 M194 236 V241 M190 227 V242"/>'+
         openingLarge+openingHail+
-        '<g class="rosary-crucifix"><path d="M190 338 V378 M176 350 H204"/><path d="M190 338 V378 M176 350 H204" class="cross-highlight"/><circle cx="190" cy="338" r="3.2"/></g>'+
+        '<g class="rosary-crucifix"><path d="M190 337 V378 M175 350 H205" stroke-width="9"/><path d="M190 337 V378 M175 350 H205" class="cross-highlight"/><path d="M190 342 C187 347 186 352 190 357 C194 352 193 347 190 342Z" fill="#fff0bd" stroke="#8e672f" stroke-width=".8"/><path d="M190 350 V369 M184 354 L196 354 M186 361 L194 361 M187 369 L193 369" stroke="#8e672f" stroke-width="1.2" stroke-linecap="round"/><path d="M190 337 L186 342 M190 337 L194 342 M175 350 L180 346 M175 350 L180 354 M205 350 L200 346 M205 350 L200 354" stroke="#fff0bd" stroke-width="1.2" stroke-linecap="round"/><circle cx="190" cy="338" r="3.4" fill="url(#goldBead)" stroke="#fff0bd" stroke-width="1"/></g>'+
         '<text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
     }
     function renderRosary(){
