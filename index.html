@@ -181,7 +181,7 @@
 
     .rosary-recommendation{border:1px solid rgba(229,182,87,.55);border-radius:12px;padding:11px;margin:10px 0;color:#f3e5c0;background:rgba(229,182,87,.08);line-height:1.7}
 
-    .prayer-search{display:block;width:100%;margin:0 0 16px;padding:12px 14px;border:1px solid rgba(229,182,87,.7);border-radius:12px;background:rgba(7,20,43,.85);color:#fff;font:inherit;direction:inherit}.prayer-reader-tools{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.prayer-reader-tools .feature-tab{flex:1;min-width:64px}\n    .prayer-category{margin-bottom:14px}.prayer-category h3{color:var(--gold-light);margin-bottom:9px}.prayer-choice{display:block;width:100%;text-align:start;background:rgba(11,29,58,.9);border:1px solid rgba(229,182,87,.55);border-radius:12px;color:#fff;padding:12px;margin:7px 0;font:inherit;cursor:pointer}.prayer-text{white-space:pre-wrap;line-height:2;text-align:start;padding:14px 4px;color:#fff}.prayer-audio-note{color:#e8d5a9;font-size:.82rem;margin-top:12px}
+    .prayer-search{display:block;width:100%;margin:0 0 16px;padding:12px 14px;border:1px solid rgba(229,182,87,.7);border-radius:12px;background:rgba(7,20,43,.85);color:#fff;font:inherit;direction:inherit}.prayer-reader-tools{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.prayer-reader-tools .feature-tab{flex:1;min-width:64px}\n    .prayer-audio-controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.prayer-audio-controls .feature-tab{flex:1;min-width:88px}.prayer-audio-status{min-height:1.5em;color:#f3e5c0;font-size:.82rem;margin:6px 2px 12px}\n    .prayer-category{margin-bottom:14px}.prayer-category h3{color:var(--gold-light);margin-bottom:9px}.prayer-choice{display:block;width:100%;text-align:start;background:rgba(11,29,58,.9);border:1px solid rgba(229,182,87,.55);border-radius:12px;color:#fff;padding:12px;margin:7px 0;font:inherit;cursor:pointer}.prayer-text{white-space:pre-wrap;line-height:2;text-align:start;padding:14px 4px;color:#fff}.prayer-audio-note{color:#e8d5a9;font-size:.82rem;margin-top:12px}
     .bottom-nav {
       background: var(--navy-nav);
       border-top: 1.5px solid var(--gold);
@@ -449,7 +449,7 @@
     }
     function selectLanguage(language){
       if(!supportedLanguages.includes(language))return;
-      currentLang=language;localStorage.setItem('parish-language',currentLang);closeLanguageMenu();render();
+      stopCurrentPrayer();currentLang=language;localStorage.setItem('parish-language',currentLang);closeLanguageMenu();render();
       if(document.getElementById('mass-screen').classList.contains('visible'))renderMassScreen();
       if(document.getElementById('rosary-screen').classList.contains('visible'))renderRosary();
       if(document.getElementById('prayer-library-screen').classList.contains('visible'))renderPrayerLibrary();
@@ -652,11 +652,11 @@
     function restartRosary(){rosaryGuideSteps=buildRosaryGuide();rosaryGuideIndex=0;renderRosary();}
     function returnToRosaryMysteries(){rosaryStarted=false;rosaryGuideSteps=[];rosaryGuideIndex=0;renderRosary();}
     const prayerLibraryLabels={
-      ar:{title:'مكتبة الصلوات',back:'رجوع',audio:'لا يوجد تسجيل صوتي معتمد لهذه الصلاة حالياً.',empty:'لا توجد صلوات في هذا القسم بعد.',return:'العودة إلى الأقسام',search:'ابحث عن صلاة…',copy:'نسخ الصلاة',share:'مشاركة',copied:'تم نسخ الصلاة.',copyError:'تعذّر نسخ الصلاة على هذا الجهاز.',noResults:'لا توجد صلوات تطابق البحث.',smaller:'تصغير النص',larger:'تكبير النص'},
-      fr:{title:'Bibliothèque de prières',back:'Retour',audio:'Aucun enregistrement audio approuvé pour cette prière pour le moment.',empty:'Aucune prière dans cette catégorie pour le moment.',return:'Retour aux catégories',search:'Rechercher une prière…',copy:'Copier la prière',share:'Partager',copied:'Prière copiée.',copyError:'Impossible de copier la prière sur cet appareil.',noResults:'Aucune prière ne correspond à votre recherche.',smaller:'Réduire le texte',larger:'Agrandir le texte'},
-      it:{title:'Biblioteca delle preghiere',back:'Indietro',audio:'Al momento non è disponibile una registrazione audio approvata per questa preghiera.',empty:'Nessuna preghiera in questa categoria per ora.',return:'Torna alle categorie',search:'Cerca una preghiera…',copy:'Copia preghiera',share:'Condividi',copied:'Preghiera copiata.',copyError:'Impossibile copiare la preghiera su questo dispositivo.',noResults:'Nessuna preghiera corrisponde alla ricerca.',smaller:'Riduci il testo',larger:'Ingrandisci il testo'}
+      ar:{title:'مكتبة الصلوات',back:'رجوع',audio:'يمكنك الاستماع إلى الصلاة بصوت الجهاز.',empty:'لا توجد صلوات في هذا القسم بعد.',return:'العودة إلى الأقسام',search:'ابحث عن صلاة…',copy:'نسخ الصلاة',share:'مشاركة',copied:'تم نسخ الصلاة.',copyError:'تعذّر نسخ الصلاة على هذا الجهاز.',noResults:'لا توجد صلوات تطابق البحث.',smaller:'تصغير النص',larger:'تكبير النص',play:'▶ تشغيل',pause:'إيقاف مؤقت',resume:'متابعة',stop:'إيقاف',speaking:'جارٍ قراءة الصلاة…',paused:'الصلاة متوقفة مؤقتاً.',finished:'انتهت قراءة الصلاة.',unsupported:'ميزة القراءة الصوتية غير مدعومة في هذا المتصفح.',voiceMissing:'لا يتوفر صوت مناسب لهذه اللغة على الجهاز.'},
+      fr:{title:'Bibliothèque de prières',back:'Retour',audio:'Écoutez cette prière avec la voix disponible sur votre appareil.',empty:'Aucune prière dans cette catégorie pour le moment.',return:'Retour aux catégories',search:'Rechercher une prière…',copy:'Copier la prière',share:'Partager',copied:'Prière copiée.',copyError:'Impossible de copier la prière sur cet appareil.',noResults:'Aucune prière ne correspond à votre recherche.',smaller:'Réduire le texte',larger:'Agrandir le texte',play:'▶ Écouter',pause:'Pause',resume:'Reprendre',stop:'Arrêter',speaking:'Lecture de la prière…',paused:'Lecture en pause.',finished:'Lecture terminée.',unsupported:'La lecture vocale n’est pas prise en charge par ce navigateur.',voiceMissing:'Aucune voix adaptée à cette langue n’est disponible sur cet appareil.'},
+      it:{title:'Biblioteca delle preghiere',back:'Indietro',audio:'Ascolta questa preghiera con la voce disponibile sul tuo dispositivo.',empty:'Nessuna preghiera in questa categoria per ora.',return:'Torna alle categorie',search:'Cerca una preghiera…',copy:'Copia preghiera',share:'Condividi',copied:'Preghiera copiata.',copyError:'Impossibile copiare la preghiera su questo dispositivo.',noResults:'Nessuna preghiera corrisponde alla ricerca.',smaller:'Riduci il testo',larger:'Ingrandisci il testo',play:'▶ Ascolta',pause:'Pausa',resume:'Riprendi',stop:'Ferma',speaking:'Lettura della preghiera…',paused:'Lettura in pausa.',finished:'Lettura terminata.',unsupported:'La lettura vocale non è supportata da questo browser.',voiceMissing:'Nessuna voce adatta a questa lingua è disponibile sul dispositivo.'}
     };
-    let prayerLibraryData=null,selectedPrayerCategory=null,selectedPrayer=null,prayerSearchQuery='',prayerReaderScale=1;
+    let prayerLibraryData=null,selectedPrayerCategory=null,selectedPrayer=null,prayerSearchQuery='',prayerReaderScale=1,prayerSpeechUtterance=null,prayerSpeechStatus='';
     async function loadPrayerLibrary(){
       const box=document.getElementById('prayer-library-content');box.innerHTML='<p class="empty-state">…</p>';
       try{const response=await fetch('src/data/prayers.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');prayerLibraryData=await response.json();selectedPrayerCategory=null;selectedPrayer=null;prayerSearchQuery='';renderPrayerLibrary();}
@@ -668,7 +668,7 @@
       if(selectedPrayer){
         const category=prayerLibraryData.categories.find(c=>c.id===selectedPrayerCategory),prayer=category?.prayers.find(p=>p.id===selectedPrayer);if(!prayer){selectedPrayer=null;renderPrayerLibrary();return;}
         const fav=isFavorite('prayer',prayer.id),title=prayer.title[currentLang]||prayer.title.ar,text=prayer.text[currentLang]||prayer.text.ar||'';
-        box.innerHTML='<button class="feature-tab" onclick="backToPrayerCategories()">'+l.return+'</button><h3 style="color:var(--gold-light);margin-top:16px">'+escapeHtml(title)+'</h3><div class="prayer-reader-tools"><button class="feature-tab" onclick="changePrayerTextSize(-0.1)" aria-label="'+l.smaller+'">A−</button><button class="feature-tab" onclick="changePrayerTextSize(0.1)" aria-label="'+l.larger+'">A+</button><button class="feature-tab" onclick="copyCurrentPrayer()">'+l.copy+'</button><button class="feature-tab" onclick="shareCurrentPrayer()">'+l.share+'</button></div><button class="feature-tab" style="margin-top:10px" onclick="togglePrayerFavorite(\''+escapeHtml(category.id)+'\',\''+escapeHtml(prayer.id)+'\')">'+(fav?favoriteLabels[currentLang].remove:favoriteLabels[currentLang].add)+'</button><p id="prayer-reader-text" class="prayer-text" style="font-size:'+prayerReaderScale+'em">'+escapeHtml(text)+'</p><p id="prayer-copy-status" class="prayer-audio-note" aria-live="polite"></p><p class="prayer-audio-note">'+l.audio+'</p>';return;
+        box.innerHTML='<button class="feature-tab" onclick="backToPrayerCategories()">'+l.return+'</button><h3 style="color:var(--gold-light);margin-top:16px">'+escapeHtml(title)+'</h3><div class="prayer-audio-controls"><button class="feature-tab" id="prayer-play-btn" onclick="playCurrentPrayer()">'+l.play+'</button><button class="feature-tab" onclick="pauseCurrentPrayer()">'+l.pause+'</button><button class="feature-tab" onclick="resumeCurrentPrayer()">'+l.resume+'</button><button class="feature-tab" onclick="stopCurrentPrayer()">'+l.stop+'</button></div><p id="prayer-speech-status" class="prayer-audio-status" aria-live="polite">'+escapeHtml(prayerSpeechStatus||l.audio)+'</p><div class="prayer-reader-tools"><button class="feature-tab" onclick="changePrayerTextSize(-0.1)" aria-label="'+l.smaller+'">A−</button><button class="feature-tab" onclick="changePrayerTextSize(0.1)" aria-label="'+l.larger+'">A+</button><button class="feature-tab" onclick="copyCurrentPrayer()">'+l.copy+'</button><button class="feature-tab" onclick="shareCurrentPrayer()">'+l.share+'</button></div><button class="feature-tab" style="margin-top:10px" onclick="togglePrayerFavorite(\''+escapeHtml(category.id)+'\',\''+escapeHtml(prayer.id)+'\')">'+(fav?favoriteLabels[currentLang].remove:favoriteLabels[currentLang].add)+'</button><p id="prayer-reader-text" class="prayer-text" style="font-size:'+prayerReaderScale+'em">'+escapeHtml(text)+'</p><p id="prayer-copy-status" class="prayer-audio-note" aria-live="polite"></p>';return;
       }
       const q=prayerSearchQuery.trim().toLocaleLowerCase();
       const filtered=(prayerLibraryData.categories||[]).map(category=>({...category,prayers:(category.prayers||[]).filter(prayer=>!q||[prayer.title?.[currentLang],prayer.title?.ar,prayer.title?.fr,prayer.title?.it,prayer.text?.[currentLang],prayer.text?.ar,prayer.text?.fr,prayer.text?.it].filter(Boolean).join(' ').toLocaleLowerCase().includes(q))})).filter(category=>category.prayers.length);
@@ -679,9 +679,36 @@
     function getCurrentPrayerText(){const category=prayerLibraryData?.categories.find(c=>c.id===selectedPrayerCategory),prayer=category?.prayers.find(p=>p.id===selectedPrayer);return prayer?((prayer.title[currentLang]||prayer.title.ar)+'\n\n'+(prayer.text[currentLang]||prayer.text.ar||'')):'';}
     async function copyCurrentPrayer(){const value=getCurrentPrayerText(),status=document.getElementById('prayer-copy-status');if(!value)return;try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(value);else{const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();if(!document.execCommand('copy'))throw new Error('copy failed');area.remove();}status.textContent=prayerLibraryLabels[currentLang].copied;}catch(e){status.textContent=prayerLibraryLabels[currentLang].copyError;}}
     async function shareCurrentPrayer(){const value=getCurrentPrayerText();if(!value)return;try{if(navigator.share)await navigator.share({title:value.split('\n')[0],text:value});else await copyCurrentPrayer();}catch(e){if(e.name!=='AbortError')await copyCurrentPrayer();}}
+    function setPrayerSpeechStatus(message){prayerSpeechStatus=message;const node=document.getElementById('prayer-speech-status');if(node)node.textContent=message;}
+    function getPrayerSpeechVoice(language){
+      const voices=window.speechSynthesis?.getVoices?.()||[];
+      const preferred={ar:['ar-LB','ar'],fr:['fr-FR','fr'],it:['it-IT','it']}[language]||[language];
+      for(const code of preferred){const exact=voices.find(v=>v.lang.toLowerCase()===code.toLowerCase());if(exact)return exact;}
+      return voices.find(v=>v.lang.toLowerCase().startsWith(language+'-'))||voices.find(v=>v.lang.toLowerCase()===language)||null;
+    }
+    function playCurrentPrayer(){
+      const l=prayerLibraryLabels[currentLang],text=(prayerLibraryData?.categories.find(c=>c.id===selectedPrayerCategory)?.prayers.find(p=>p.id===selectedPrayer)?.text?.[currentLang]||'').trim();
+      if(!text)return;
+      if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){setPrayerSpeechStatus(l.unsupported);return;}
+      stopCurrentPrayer(false);
+      const utterance=new SpeechSynthesisUtterance(text);
+      utterance.lang={ar:'ar-LB',fr:'fr-FR',it:'it-IT'}[currentLang]||currentLang;
+      const voice=getPrayerSpeechVoice(currentLang);
+      if(voice){utterance.voice=voice;utterance.lang=voice.lang;}
+      utterance.rate=0.88;utterance.pitch=1;utterance.volume=1;
+      utterance.onstart=()=>setPrayerSpeechStatus(l.speaking);
+      utterance.onend=()=>{prayerSpeechUtterance=null;setPrayerSpeechStatus(l.finished);};
+      utterance.onerror=(event)=>{prayerSpeechUtterance=null;setPrayerSpeechStatus(event.error==='not-allowed'?l.unsupported:l.voiceMissing);};
+      prayerSpeechUtterance=utterance;
+      window.speechSynthesis.speak(utterance);
+      setPrayerSpeechStatus(l.speaking);
+    }
+    function pauseCurrentPrayer(){const l=prayerLibraryLabels[currentLang];if(window.speechSynthesis?.speaking&&!window.speechSynthesis.paused){window.speechSynthesis.pause();setPrayerSpeechStatus(l.paused);}}
+    function resumeCurrentPrayer(){const l=prayerLibraryLabels[currentLang];if(window.speechSynthesis?.paused){window.speechSynthesis.resume();setPrayerSpeechStatus(l.speaking);}}
+    function stopCurrentPrayer(clearStatus=true){if('speechSynthesis' in window)window.speechSynthesis.cancel();prayerSpeechUtterance=null;if(clearStatus){prayerSpeechStatus='';const node=document.getElementById('prayer-speech-status');if(node)node.textContent=prayerLibraryLabels[currentLang].audio;}}
     function openPrayer(categoryId,prayerId){selectedPrayerCategory=categoryId;selectedPrayer=prayerId;renderPrayerLibrary();}
-    function backToPrayerCategories(){selectedPrayer=null;renderPrayerLibrary();}
-    function closePrayerLibrary(){document.getElementById('prayer-library-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+    function backToPrayerCategories(){stopCurrentPrayer();selectedPrayer=null;renderPrayerLibrary();}
+    function closePrayerLibrary(){stopCurrentPrayer();document.getElementById('prayer-library-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
 
   
     const announcementLabels={
