@@ -220,7 +220,7 @@
       <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
       <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
     </section>
-    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><section class="feature-screen" id="parish-life-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeParishLife()" id="parish-life-back">←</button><h2 id="parish-life-title"></h2></div><div class="feature-tabs" id="parish-life-tabs"></div><div class="feature-content" id="parish-life-content"></div></section><section class="feature-screen" id="prayer-requests-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerRequests()" id="prayer-requests-back">←</button><h2 id="prayer-requests-title"></h2></div><div class="feature-content" id="prayer-requests-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
+    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><section class="feature-screen" id="parish-life-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeParishLife()" id="parish-life-back">←</button><h2 id="parish-life-title"></h2></div><div class="feature-tabs" id="parish-life-tabs"></div><div class="feature-content" id="parish-life-content"></div></section><section class="feature-screen" id="prayer-requests-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerRequests()" id="prayer-requests-back">←</button><h2 id="prayer-requests-title"></h2></div><div class="feature-content" id="prayer-requests-content"></div></section><section class="feature-screen" id="favorites-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeFavorites()" id="favorites-back">←</button><h2 id="favorites-title"></h2></div><div class="feature-content" id="favorites-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
   </div>
 
   <script>
@@ -392,7 +392,7 @@
 
       const navIcons = ['nav-home.png', 'nav-bell.png', 'nav-star.png', 'nav-info.png'];
       document.getElementById('bottom-nav').innerHTML = t.nav.map((label, index) => `
-        <div class="nav-item ${index === 0 ? 'active' : ''}">
+        <div class="nav-item ${index === 0 ? 'active' : ''}" role="button" tabindex="0" onclick="handleNav(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleNav(${index})}">
           <img src="assets/icons/${navIcons[index]}" alt="" />
           <span>${label}</span>
         </div>
@@ -410,6 +410,7 @@
       if (document.getElementById('announcements-screen').classList.contains('visible')) renderAnnouncements();
       if (document.getElementById('parish-life-screen').classList.contains('visible')) renderParishLife();
       if (document.getElementById('prayer-requests-screen').classList.contains('visible')) renderPrayerRequests();
+      if (document.getElementById('favorites-screen').classList.contains('visible')) renderFavorites();
     }
 
     render();
@@ -520,7 +521,7 @@
     function renderPrayerLibrary(){
       const l=prayerLibraryLabels[currentLang];document.getElementById('prayer-library-title').textContent=l.title;document.getElementById('prayer-library-back').textContent=l.back;
       const box=document.getElementById('prayer-library-content');if(!prayerLibraryData){box.innerHTML='<p class="empty-state">'+l.empty+'</p>';return;}
-      if(selectedPrayer){const category=prayerLibraryData.categories.find(c=>c.id===selectedPrayerCategory);const prayer=category.prayers.find(p=>p.id===selectedPrayer);box.innerHTML='<button class="feature-tab" onclick="backToPrayerCategories()">'+l.return+'</button><h3 style="color:var(--gold-light);margin-top:16px">'+escapeHtml(prayer.title[currentLang]||prayer.title.ar)+'</h3><p class="prayer-text">'+escapeHtml(prayer.text[currentLang]||prayer.text.ar||'')+'</p><p class="prayer-audio-note">'+l.audio+'</p>';return;}
+      if(selectedPrayer){const category=prayerLibraryData.categories.find(c=>c.id===selectedPrayerCategory);const prayer=category.prayers.find(p=>p.id===selectedPrayer);const fav=isFavorite('prayer',prayer.id);box.innerHTML='<button class="feature-tab" onclick="backToPrayerCategories()">'+l.return+'</button><h3 style="color:var(--gold-light);margin-top:16px">'+escapeHtml(prayer.title[currentLang]||prayer.title.ar)+'</h3><button class="feature-tab" style="margin-top:10px" onclick="togglePrayerFavorite(\''+escapeHtml(category.id)+'\',\''+escapeHtml(prayer.id)+'\')">'+(fav?favoriteLabels[currentLang].remove:favoriteLabels[currentLang].add)+'</button><p class="prayer-text">'+escapeHtml(prayer.text[currentLang]||prayer.text.ar||'')+'</p><p class="prayer-audio-note">'+l.audio+'</p>';return;}
       box.innerHTML=prayerLibraryData.categories.map(category=>'<section class="prayer-category"><h3>'+escapeHtml(category.names[currentLang]||category.names.ar)+'</h3>'+((category.prayers||[]).length?category.prayers.map(prayer=>'<button class="prayer-choice" onclick="openPrayer(\''+escapeHtml(category.id)+'\',\''+escapeHtml(prayer.id)+'\')">'+escapeHtml(prayer.title[currentLang]||prayer.title.ar)+'</button>').join(''):'<p class="empty-state">'+l.empty+'</p>')+'</section>').join('');
     }
     function openPrayer(categoryId,prayerId){selectedPrayerCategory=categoryId;selectedPrayer=prayerId;renderPrayerLibrary();}
@@ -577,6 +578,36 @@
     function closeParishLife(){document.getElementById('parish-life-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
 
   
+
+    const favoriteLabels={
+      ar:{title:'المفضلة',back:'رجوع',empty:'لم تحفظ أي صلاة في المفضلة بعد.',add:'أضف إلى المفضلة ☆',remove:'إزالة من المفضلة ★'},
+      fr:{title:'Favoris',back:'Retour',empty:"Vous n’avez pas encore enregistré de prière dans vos favoris.",add:'Ajouter aux favoris ☆',remove:'Retirer des favoris ★'},
+      it:{title:'Preferiti',back:'Indietro',empty:'Non hai ancora salvato preghiere nei preferiti.',add:'Aggiungi ai preferiti ☆',remove:'Rimuovi dai preferiti ★'}
+    };
+    function getFavorites(){try{return JSON.parse(localStorage.getItem('parish-favorites')||'[]');}catch(e){return [];}}
+    function saveFavorites(items){localStorage.setItem('parish-favorites',JSON.stringify(items));}
+    function isFavorite(type,id){return getFavorites().some(x=>x.type===type&&x.id===id);}
+    function togglePrayerFavorite(categoryId,prayerId){
+      const category=prayerLibraryData?.categories.find(x=>x.id===categoryId),prayer=category?.prayers.find(x=>x.id===prayerId);if(!prayer)return;
+      let items=getFavorites();const found=items.some(x=>x.type==='prayer'&&x.id===prayerId);
+      if(found)items=items.filter(x=>!(x.type==='prayer'&&x.id===prayerId));
+      else items.push({type:'prayer',id:prayerId,categoryId,title:prayer.title,text:prayer.text});
+      saveFavorites(items);renderPrayerLibrary();
+    }
+    function openFavorites(){document.getElementById('home-view').classList.add('hidden');document.getElementById('favorites-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderFavorites();}
+    function closeFavorites(){document.getElementById('favorites-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+    function renderFavorites(){
+      const l=favoriteLabels[currentLang];document.getElementById('favorites-title').textContent=l.title;document.getElementById('favorites-back').textContent=l.back;
+      const items=getFavorites(),box=document.getElementById('favorites-content');
+      if(!items.length){box.innerHTML='<p class="empty-state">'+l.empty+'</p>';return;}
+      box.innerHTML=items.map(x=>'<article class="schedule-entry"><h3 style="color:var(--gold-light)">'+escapeHtml(x.title?.[currentLang]||x.title?.ar||x.id)+'</h3><p class="prayer-text">'+escapeHtml(x.text?.[currentLang]||x.text?.ar||'')+'</p><button class="feature-tab" onclick="removeFavorite(\''+escapeHtml(x.type)+'\',\''+escapeHtml(x.id)+'\')">'+l.remove+'</button></article>').join('');
+    }
+    function removeFavorite(type,id){saveFavorites(getFavorites().filter(x=>!(x.type===type&&x.id===id)));renderFavorites();if(document.getElementById('prayer-library-screen').classList.contains('visible'))renderPrayerLibrary();}
+    function handleNav(index){
+      if(index===0){document.querySelectorAll('.feature-screen').forEach(x=>x.classList.remove('visible'));document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+      if(index===2)openFavorites();
+    }
+
     const prayerRequestLabels={
       ar:{title:'طلبات الصلاة',back:'رجوع',intro:'يمكنك إرسال نيتك للصلاة بسرية واحترام، لتصل إلى كاهن الرعية فقط.',privacy:'طلبات الصلاة خاصة، ولا يطّلع عليها إلا كاهن الرعية المخوّل.',account:'لإرسال طلب صلاة، يجب إنشاء حساب باستخدام البريد الإلكتروني وكلمة المرور، ثم تأكيد عنوان البريد الإلكتروني.',phone:'لا حاجة إلى رقم هاتف أو رسالة SMS.',pending:'بعد الإرسال، يُضاف الطلب إلى قائمة خاصة لمراجعة الكاهن.',setupTitle:'التسجيل الآمن غير مفعّل بعد',setup:'سيُتاح إنشاء الحساب وتسجيل الدخول وإرسال الطلبات بعد ربط المشروع بمصادقة Firebase وقواعد الحماية على الخادم. لم يتم تفعيل إرسال الطلبات بعد حفاظاً على الخصوصية.'},
       fr:{title:'Intentions de prière',back:'Retour',intro:'Vous pouvez transmettre votre intention de prière en toute confidentialité et avec respect. Elle sera destinée uniquement au curé.',privacy:'Les intentions sont privées. Seul le curé autorisé peut les consulter.',account:'Pour envoyer une intention, vous devrez créer un compte avec une adresse e-mail et un mot de passe, puis vérifier votre adresse e-mail.',phone:'Aucun numéro de téléphone ni SMS n’est nécessaire.',pending:'Après l’envoi, votre intention sera placée dans une file privée pour examen par le curé.',setupTitle:'Inscription sécurisée pas encore activée',setup:'La création de compte, la connexion et l’envoi seront activés après la configuration de Firebase Authentication et des règles de sécurité côté serveur. Les envois sont désactivés pour protéger votre confidentialité.'},
