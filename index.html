@@ -32,8 +32,6 @@
       height: 100vh;
       height: 100dvh;
       min-height: 100dvh;
-      padding-top: env(safe-area-inset-top, 0px);
-      padding-bottom: env(safe-area-inset-bottom, 0px);
       background-color: transparent;
       background-image: url('assets/backgrounds/church-background.jpg');
       background-size: 100% 100%;
@@ -55,7 +53,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 18px 16px 0;
+      padding: calc(18px + env(safe-area-inset-top, 0px)) 16px 0;
     }
     .emblem { width: 58px; height: 58px; }
     .header-title {
@@ -210,7 +208,7 @@
       border-top: 1.5px solid var(--gold);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      padding: 8px 4px 12px;
+      padding: 8px 4px calc(12px + env(safe-area-inset-bottom, 0px));
     }
     .nav-item {
       display: flex;
