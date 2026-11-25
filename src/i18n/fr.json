@@ -1,0 +1,48 @@
+{
+  "app": {
+    "title": "Église Notre-Dame du Secours",
+    "subtitle": "Notre paroisse, maison de prière et de foi",
+    "welcome": "Bienvenue dans notre paroisse",
+    "motto": "« Notre-Dame du Secours .. priez pour nous »",
+    "language": "Français",
+    "switchLanguage": "العربية"
+  },
+  "menu": {
+    "massTimes": {
+      "title": "Horaires des Messes",
+      "subtitle": "et Activités",
+      "icon": "assets/icons/icon-calendar.png"
+    },
+    "rosary": {
+      "title": "Le Saint Rosaire",
+      "subtitle": "Commencer la prière",
+      "icon": "assets/icons/icon-rosary.png"
+    },
+    "prayerLibrary": {
+      "title": "Bibliothèque de Prières",
+      "subtitle": "Audio et Texte",
+      "icon": "assets/icons/icon-bible.png"
+    },
+    "priestMessages": {
+      "title": "Messages du Curé",
+      "subtitle": "et Actualités Paroissiales",
+      "icon": "assets/icons/icon-megaphone.png"
+    },
+    "parishLife": {
+      "title": "Vie Paroissiale",
+      "subtitle": "et Nos Activités",
+      "icon": "assets/icons/icon-church.png"
+    },
+    "prayerRequests": {
+      "title": "Intentions de Prière",
+      "subtitle": "Prions ensemble",
+      "icon": "assets/icons/icon-praying-hands.png"
+    }
+  },
+  "nav": {
+    "home": "Accueil",
+    "notifications": "Notifications",
+    "favorites": "Favoris",
+    "about": "À propos"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "app": {
+    "title": "كنيسة سيدة المعونات",
+    "subtitle": "رعيتنا بيت الصلاة والإيمان",
+    "welcome": "أهلاً بكم في رعيتنا",
+    "motto": "«سيدة المعونات .. تشفع فينا»",
+    "language": "العربية",
+    "switchLanguage": "Français"
+  },
+  "menu": {
+    "massTimes": {
+      "title": "مواعيد القداديس",
+      "subtitle": "والنشاطات",
+      "icon": "assets/icons/icon-calendar.png"
+    },
+    "rosary": {
+      "title": "المسبحة الوردية",
+      "subtitle": "ابدأ الصلاة",
+      "icon": "assets/icons/icon-rosary.png"
+    },
+    "prayerLibrary": {
+      "title": "مكتبة الصلوات",
+      "subtitle": "مع الصوت والنص",
+      "icon": "assets/icons/icon-bible.png"
+    },
+    "priestMessages": {
+      "title": "رسائل الكاهن",
+      "subtitle": "وأخبار الرعية",
+      "icon": "assets/icons/icon-megaphone.png"
+    },
+    "parishLife": {
+      "title": "حياة الرعية",
+      "subtitle": "ونشاطاتنا",
+      "icon": "assets/icons/icon-church.png"
+    },
+    "prayerRequests": {
+      "title": "طلبات الصلاة",
+      "subtitle": "لنصلِّ معاً",
+      "icon": "assets/icons/icon-praying-hands.png"
+    }
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "notifications": "الإشعارات",
+    "favorites": "المفضلة",
+    "about": "حول التطبيق"
+  }
+}
