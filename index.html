@@ -208,7 +208,7 @@
       <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
       <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
     </section>
-    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
+    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
   </div>
 
   <script>
@@ -395,6 +395,7 @@
       if (document.getElementById('mass-screen').classList.contains('visible')) renderMassScreen();
       if (document.getElementById('rosary-screen').classList.contains('visible')) renderRosary();
       if (document.getElementById('prayer-library-screen').classList.contains('visible')) renderPrayerLibrary();
+      if (document.getElementById('announcements-screen').classList.contains('visible')) renderAnnouncements();
     }
 
     render();
@@ -421,6 +422,7 @@
       if(index===0){document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();return;}
       if(index===1){document.getElementById('home-view').classList.add('hidden');document.getElementById('rosary-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadRosary();return;}
       if(index===2){document.getElementById('home-view').classList.add('hidden');document.getElementById('prayer-library-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadPrayerLibrary();return;}
+      if(index===3){document.getElementById('home-view').classList.add('hidden');document.getElementById('announcements-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadAnnouncements();return;}
     }
     function closeRosary(){document.getElementById('rosary-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     async function loadRosary(){const box=document.getElementById('rosary-content');box.textContent=rosaryLabels[currentLang].noAudio;try{const response=await fetch('src/data/rosary.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');rosaryData=await response.json();renderRosary();}catch(e){box.textContent=rosaryLabels[currentLang].unavailable;}}
@@ -452,6 +454,26 @@
     function openPrayer(categoryId,prayerId){selectedPrayerCategory=categoryId;selectedPrayer=prayerId;renderPrayerLibrary();}
     function backToPrayerCategories(){selectedPrayer=null;renderPrayerLibrary();}
     function closePrayerLibrary(){document.getElementById('prayer-library-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+
+  
+    const announcementLabels={
+      ar:{title:'رسائل الكاهن وأخبار الرعية',back:'رجوع',loading:'جارٍ تحميل الأخبار…',empty:'لا توجد إعلانات منشورة حالياً. ستظهر هنا الأخبار والرسائل التي ينشرها كاهن الرعية.',error:'تعذّر تحميل الأخبار حالياً.'},
+      fr:{title:'Messages du Curé et actualités paroissiales',back:'Retour',loading:'Chargement des actualités…',empty:'Aucune annonce publiée pour le moment. Les nouvelles et les messages du curé apparaîtront ici.',error:'Impossible de charger les actualités pour le moment.'},
+      it:{title:'Messaggi del sacerdote e notizie parrocchiali',back:'Indietro',loading:'Caricamento delle notizie…',empty:'Nessun annuncio pubblicato al momento. Qui appariranno le notizie e i messaggi del sacerdote.',error:'Impossibile caricare le notizie al momento.'}
+    };
+    let announcementsData=null;
+    async function loadAnnouncements(){
+      const box=document.getElementById('announcements-content');box.innerHTML='<p class="empty-state">'+announcementLabels[currentLang].loading+'</p>';
+      try{const response=await fetch('src/data/announcements.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');announcementsData=await response.json();renderAnnouncements();}
+      catch(e){box.innerHTML='<p class="empty-state">'+announcementLabels[currentLang].error+'</p>';}
+    }
+    function renderAnnouncements(){
+      const l=announcementLabels[currentLang];document.getElementById('announcements-title').textContent=l.title;document.getElementById('announcements-back').textContent=l.back;
+      const box=document.getElementById('announcements-content');const entries=announcementsData?.announcements||[];
+      if(!entries.length){box.innerHTML='<p class="empty-state">'+l.empty+'</p>';return;}
+      box.innerHTML=entries.map(item=>'<article class="schedule-entry"><h3 style="color:var(--gold-light)">'+escapeHtml(item['title'+currentLang.toUpperCase()]||item.title?.[currentLang]||item.title||'')+'</h3><p style="margin-top:8px;line-height:1.8">'+escapeHtml(item['body'+currentLang.toUpperCase()]||item.body?.[currentLang]||item.body||'')+'</p>'+(item.date?'<small>'+escapeHtml(item.date)+'</small>':'')+'</article>').join('');
+    }
+    function closeAnnouncements(){document.getElementById('announcements-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
 
   </script>
 </body>
