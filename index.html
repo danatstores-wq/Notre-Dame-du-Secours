@@ -419,6 +419,7 @@
     }
 
     render();
+    document.documentElement.dataset.textSize=localStorage.getItem('parish-text-size')||'normal';
     const massLabels={
       ar:{title:'مواعيد القداديس والنشاطات',back:'رجوع',tabs:['القداديس','القداديس الخاصة','النشاطات'],empty:'لم تُضف الرعية المواعيد بعد. يرجى العودة لاحقاً للاطلاع على المعلومات المؤكدة.',loading:'جارٍ تحميل المواعيد…',error:'تعذّر تحميل المواعيد حالياً. يرجى المحاولة لاحقاً.'},
       fr:{title:'Horaires des Messes et Activités',back:'Retour',tabs:['Messes','Messes spéciales','Activités'],empty:'La paroisse n’a pas encore publié les horaires. Revenez plus tard pour consulter les informations confirmées.',loading:'Chargement des horaires…',error:'Impossible de charger les horaires pour le moment.'},
