@@ -44,5 +44,19 @@
     "notifications": "Notifications",
     "favorites": "Favoris",
     "about": "À propos"
+  },
+  "common": {
+    "notifications": "Notifications",
+    "favorites": "Favoris",
+    "notificationSettings": "Paramètres des notifications",
+    "importantAnnouncements": "Annonces importantes",
+    "massUpdates": "Mises à jour des horaires des messes",
+    "parishActivities": "Activités paroissiales",
+    "personalReminders": "Rappels personnels",
+    "reminderTime": "Moment du rappel",
+    "quietHours": "Heures silencieuses",
+    "noFavorites": "Aucun favori pour le moment",
+    "addFavorite": "Ajouter aux favoris",
+    "removeFavorite": "Retirer des favoris"
   }
 }
