@@ -259,8 +259,8 @@
         box-shadow: none;
       }
       .top-bar { padding-top: calc(18px + env(safe-area-inset-top, 0px)); }
-      /* Lift the dashboard cards slightly on iPhone to reserve room for two future cards. */
-      .cards-grid { padding-bottom: 60px; }
+      /* Raise the existing dashboard cards on iPhone to leave room for two future cards. */
+      .cards-grid { padding-bottom: 40px; transform: translateY(-32px); }
       .bottom-nav { padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
     }
 </style>
