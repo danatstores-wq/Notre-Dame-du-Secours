@@ -186,6 +186,12 @@
     .mass-selected-title{font-size:1rem;color:var(--gold-light);margin:14px 0 10px}
       html[data-text-size="small"] .feature-content{font-size:.9rem}
     html[data-text-size="large"] .feature-content{font-size:1.15rem}
+      .language-menu-wrap{position:relative}
+    .language-gear{display:flex;align-items:center;justify-content:center;min-width:42px;min-height:42px}
+    .language-dropdown{position:absolute;top:calc(100% + 8px);right:0;z-index:1000;min-width:150px;padding:6px;border:1px solid var(--gold);border-radius:12px;background:var(--navy-nav);box-shadow:0 10px 28px rgba(0,0,0,.35);direction:ltr}
+    .language-dropdown[hidden]{display:none}
+    .language-dropdown button{display:block;width:100%;padding:11px 13px;border:0;border-radius:8px;background:transparent;color:#fff;text-align:start;font:inherit;cursor:pointer}
+    .language-dropdown button:hover,.language-dropdown button:focus{background:rgba(229,182,87,.18);outline:none}
   </style>
 </head>
 <body>
@@ -197,9 +203,13 @@
           <h1 id="app-title">كنيسة سيدة المعونات</h1>
           <p id="app-subtitle">- رعيتنا بيت الصلاة والإيمان -</p>
         </div>
-        <div class="top-actions">
-          <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">Français</button>
-          <button class="lang-btn" onclick="openSettings()" aria-label="Settings"><img src="assets/icons/icon-settings.png" alt="" style="width:22px;height:22px;vertical-align:middle" /></button>
+        <div class="top-actions language-menu-wrap">
+          <button class="lang-btn language-gear" id="language-menu-button" type="button" aria-label="Choose language" aria-haspopup="true" aria-expanded="false" onclick="toggleLanguageMenu(event)"><img src="assets/icons/icon-settings.png" alt="" style="width:22px;height:22px;vertical-align:middle" /></button>
+          <div class="language-dropdown" id="language-dropdown" role="menu" hidden>
+            <button type="button" role="menuitem" onclick="selectLanguage('ar')">العربية</button>
+            <button type="button" role="menuitem" onclick="selectLanguage('fr')">Français</button>
+            <button type="button" role="menuitem" onclick="selectLanguage('it')">Italiano</button>
+          </div>
         </div>
       </header>
 
@@ -380,7 +390,6 @@
       document.getElementById('app-subtitle').textContent = t.subtitle;
       document.getElementById('welcome-text').textContent = t.welcome;
       document.getElementById('motto-text').textContent = t.motto;
-      document.getElementById('lang-toggle').textContent = t.toggle;
 
       document.getElementById('cards-container').innerHTML = t.cards.map((c, cardIndex) => `
         <div class="card" role="button" tabindex="0" onclick="openFeature(${cardIndex})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFeature(${cardIndex})}">
@@ -401,22 +410,33 @@
       `).join('');
     }
 
-    function toggleLang() {
-      const currentIndex = supportedLanguages.indexOf(currentLang);
-      currentLang = supportedLanguages[(currentIndex + 1) % supportedLanguages.length];
-      localStorage.setItem('parish-language', currentLang);
-      render();
-      if (document.getElementById('mass-screen').classList.contains('visible')) renderMassScreen();
-      if (document.getElementById('rosary-screen').classList.contains('visible')) renderRosary();
-      if (document.getElementById('prayer-library-screen').classList.contains('visible')) renderPrayerLibrary();
-      if (document.getElementById('announcements-screen').classList.contains('visible')) renderAnnouncements();
-      if (document.getElementById('parish-life-screen').classList.contains('visible')) renderParishLife();
-      if (document.getElementById('prayer-requests-screen').classList.contains('visible')) renderPrayerRequests();
-      if (document.getElementById('favorites-screen').classList.contains('visible')) renderFavorites();
-      if (document.getElementById('notifications-screen').classList.contains('visible')) renderNotifications();
-      if (document.getElementById('about-screen').classList.contains('visible')) openAbout();
-      if (document.getElementById('settings-screen').classList.contains('visible')) renderSettings();
+    function toggleLanguageMenu(event){
+      if(event)event.stopPropagation();
+      const menu=document.getElementById('language-dropdown'),button=document.getElementById('language-menu-button');
+      const opening=menu.hidden;menu.hidden=!opening;button.setAttribute('aria-expanded',String(opening));
     }
+    function closeLanguageMenu(){
+      const menu=document.getElementById('language-dropdown'),button=document.getElementById('language-menu-button');
+      if(menu){menu.hidden=true;button.setAttribute('aria-expanded','false');}
+    }
+    function selectLanguage(language){
+      if(!supportedLanguages.includes(language))return;
+      currentLang=language;localStorage.setItem('parish-language',currentLang);closeLanguageMenu();render();
+      if(document.getElementById('mass-screen').classList.contains('visible'))renderMassScreen();
+      if(document.getElementById('rosary-screen').classList.contains('visible'))renderRosary();
+      if(document.getElementById('prayer-library-screen').classList.contains('visible'))renderPrayerLibrary();
+      if(document.getElementById('announcements-screen').classList.contains('visible'))renderAnnouncements();
+      if(document.getElementById('parish-life-screen').classList.contains('visible'))renderParishLife();
+      if(document.getElementById('prayer-requests-screen').classList.contains('visible'))renderPrayerRequests();
+      if(document.getElementById('favorites-screen').classList.contains('visible'))renderFavorites();
+      if(document.getElementById('notifications-screen').classList.contains('visible'))renderNotifications();
+      if(document.getElementById('about-screen').classList.contains('visible'))openAbout();
+      if(document.getElementById('settings-screen').classList.contains('visible'))renderSettings();
+    }
+    document.addEventListener('click',function(event){
+      const wrap=document.querySelector('.language-menu-wrap');if(wrap&&!wrap.contains(event.target))closeLanguageMenu();
+    });
+    document.addEventListener('keydown',function(event){if(event.key==='Escape')closeLanguageMenu();});
 
     render();
     document.documentElement.dataset.textSize=localStorage.getItem('parish-text-size')||'normal';
