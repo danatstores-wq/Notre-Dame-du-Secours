@@ -145,6 +145,14 @@
     .feature-content{background:rgba(11,29,58,.78);border:1px solid rgba(229,182,87,.65);border-radius:16px;padding:16px;min-height:120px}
     .empty-state{text-align:center;color:#f3e5c0;line-height:1.8;padding:18px 4px}
     .schedule-entry{padding:12px 4px;border-bottom:1px solid rgba(229,182,87,.25)}
+    .rosary-mysteries{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+    .mystery-choice{background:rgba(11,29,58,.9);border:1px solid var(--gold);border-radius:14px;padding:13px 9px;color:#fff;text-align:center;font:inherit;cursor:pointer}
+    .mystery-choice.active{background:rgba(229,182,87,.22);box-shadow:0 0 0 1px var(--gold) inset}
+    .mystery-choice small{display:block;color:#e8d5a9;margin-top:5px;font-size:.7rem}
+    .rosary-progress{height:7px;background:#263b5b;border-radius:9px;overflow:hidden;margin:12px 0}
+    .rosary-progress span{display:block;height:100%;background:var(--gold);width:0}
+    .rosary-controls{display:flex;gap:10px;justify-content:space-between;margin-top:16px}
+    .rosary-controls button{flex:1}.rosary-step{text-align:center;padding:18px 6px;line-height:1.8}.rosary-step h3{color:var(--gold-light);margin-bottom:8px}
     .bottom-nav {
       background: var(--navy-nav);
       border-top: 1.5px solid var(--gold);
@@ -199,7 +207,7 @@
       <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
       <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
     </section>
-    <nav class="bottom-nav" id="bottom-nav"></nav>
+    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
   </div>
 
   <script>
@@ -359,8 +367,8 @@
       document.getElementById('motto-text').textContent = t.motto;
       document.getElementById('lang-toggle').textContent = t.toggle;
 
-      document.getElementById('cards-container').innerHTML = t.cards.map(c => `
-        <div class="card" role="button" tabindex="0" onclick="openFeature(0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFeature(0)}">
+      document.getElementById('cards-container').innerHTML = t.cards.map((c, cardIndex) => `
+        <div class="card" role="button" tabindex="0" onclick="openFeature(cardIndex)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFeature(cardIndex)}">
           <img src="${c[2]}" alt="${c[0]}" />
           <div class="card-text">
             <h3>${c[0]}</h3>
@@ -400,6 +408,25 @@
     function selectMassTab(index){massTab=index;renderMassScreen();}
     function renderMassContent(){const labels=massLabels[currentLang];if(!massData){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';return;}const entries=massData[['massSchedule','specialMasses','activities'][massTab]]||[];if(!entries.length){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.empty+'</p>';return;}document.getElementById('mass-content').innerHTML=entries.map(item=>'<article class="schedule-entry"><strong>'+escapeHtml(item['title'+currentLang.toUpperCase()]||item.title||item.label||'')+'</strong><p>'+escapeHtml(item['description'+currentLang.toUpperCase()]||item.description||'')+'</p></article>').join('');}
     function escapeHtml(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+    const rosaryLabels={
+      ar:{title:'المسبحة الوردية',back:'رجوع',choose:'اختر أسرار المسبحة',days:'الأيام',start:'ابدأ هذا السر',step:'السر',of:'من',previous:'السابق',next:'التالي',again:'العودة إلى الأسرار',unavailable:'النص الكامل للصلاة والتسجيلات الصوتية سيضافان بعد مراجعتهما واعتمادهما من الرعية.',noAudio:'لا توجد تسجيلات صوتية معتمدة بعد. يمكنك المتابعة يدوياً.',dayNames:['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']},
+      fr:{title:'Le Saint Rosaire',back:'Retour',choose:'Choisissez les mystères du Rosaire',days:'Jours',start:'Commencer ces mystères',step:'Mystère',of:'sur',previous:'Précédent',next:'Suivant',again:'Retour aux mystères',unavailable:'Le texte intégral des prières et les enregistrements seront ajoutés après vérification et approbation de la paroisse.',noAudio:'Aucun enregistrement approuvé pour le moment. Vous pouvez continuer en mode manuel.',dayNames:['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi']},
+      it:{title:'Santo Rosario',back:'Indietro',choose:'Scegli i misteri del Rosario',days:'Giorni',start:'Inizia questi misteri',step:'Mistero',of:'di',previous:'Precedente',next:'Successivo',again:'Torna ai misteri',unavailable:'Il testo completo delle preghiere e le registrazioni saranno aggiunti dopo la verifica e l’approvazione della parrocchia.',noAudio:'Non ci sono ancora registrazioni approvate. Puoi continuare in modalità manuale.',dayNames:['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato']}
+    };
+    let rosaryData=null,selectedMystery=0,rosaryEpisode=0,rosaryStarted=false;
+    function openFeature(index){
+      if(index===0){document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();return;}
+      if(index===1){document.getElementById('home-view').classList.add('hidden');document.getElementById('rosary-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadRosary();return;}
+    }
+    function closeRosary(){document.getElementById('rosary-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+    async function loadRosary(){const box=document.getElementById('rosary-content');box.textContent=rosaryLabels[currentLang].noAudio;try{const response=await fetch('src/data/rosary.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');rosaryData=await response.json();renderRosary();}catch(e){box.textContent=rosaryLabels[currentLang].unavailable;}}
+    function renderRosary(){const l=rosaryLabels[currentLang];document.getElementById('rosary-title').textContent=l.title;document.getElementById('rosary-back').textContent=l.back;const box=document.getElementById('rosary-content');if(!rosaryData){box.textContent=l.unavailable;return;}
+      if(!rosaryStarted){box.innerHTML='<p class="empty-state">'+l.choose+'</p><div class="rosary-mysteries">'+rosaryData.mysteries.map((m,i)=>'<button class="mystery-choice '+(i===selectedMystery?'active':'')+'" onclick="selectRosaryMystery('+i+')">'+escapeHtml(m.name[currentLang]||m.name.ar)+'<small>'+l.days+': '+escapeHtml(m.days.map(day=>l.dayNames[['sunday','monday','tuesday','wednesday','thursday','friday','saturday'].indexOf(day)]).join(', '))+'</small></button>').join('')+'</div><p class="empty-state">'+l.noAudio+'</p><button class="feature-tab" style="width:100%" onclick="startRosary()">'+l.start+'</button>';return;}
+      const m=rosaryData.mysteries[selectedMystery],episode=m.episodes[rosaryEpisode],progress=((rosaryEpisode+1)/5)*100;
+      box.innerHTML='<div class="rosary-step"><p>'+l.step+' '+(rosaryEpisode+1)+' '+l.of+' 5</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><h3>'+escapeHtml(m.name[currentLang]||m.name.ar)+'</h3><p>'+escapeHtml(episode[currentLang]||episode.ar)+'</p><p style="margin-top:14px">'+l.unavailable+'</p></div><div class="rosary-controls"><button class="feature-tab" onclick="moveRosary(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosary(1)">'+(rosaryEpisode===4?l.again:l.next)+'</button></div>';}
+    function selectRosaryMystery(index){selectedMystery=index;renderRosary();}
+    function startRosary(){rosaryStarted=true;rosaryEpisode=0;renderRosary();}
+    function moveRosary(direction){rosaryEpisode+=direction;if(rosaryEpisode>4||rosaryEpisode<0){rosaryStarted=false;rosaryEpisode=0;}renderRosary();}
   </script>
 </body>
 </html>
