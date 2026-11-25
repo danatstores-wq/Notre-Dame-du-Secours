@@ -1,6 +1,6 @@
 # Prayer Library — Arabic, French & Italian
 
-The Prayer Library supports Arabic (RTL), French (LTR), and Italian (LTR). Current starter content includes the Our Father, Hail Mary, Glory Be, a thanksgiving prayer, and a prayer for peace.
+The Prayer Library supports Arabic (RTL), French (LTR), and Italian (LTR). Current content includes the parish-supplied Arabic Nicene Creed, Our Father, Hail Mary, and Salve Regina. French and Italian versions of the pre-existing prayers remain unchanged. Arabic text for the Glory Be, thanksgiving prayer, and prayer for peace is marked as awaiting the parish's approved wording.
 
 ## Available reader features
 
@@ -15,7 +15,7 @@ Audio recordings are not yet available. They will be added only after suitable l
 
 ## Content and permissions
 
-Starter translations are for review and must not be presented as clergy-approved. Shared prayer content remains priest-controlled. Ordinary users can browse and save favorites locally; they cannot edit shared prayer texts.
+Arabic wording supplied for the Nicene Creed, Our Father, Hail Mary, and Salve Regina has been inserted verbatim and still requires final clergy review before publication. Other Arabic prayer texts are not displayed as completed prayers until their approved wording is supplied. Shared prayer content remains priest-controlled. Ordinary users can browse and save favorites locally; they cannot edit shared prayer texts.
 
 ## Future work
 
