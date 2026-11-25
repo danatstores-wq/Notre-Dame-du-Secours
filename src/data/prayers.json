@@ -5,7 +5,7 @@
     "fr",
     "it"
   ],
-  "reviewNote": "Arabic prayer wording supplied in this conversation has been inserted verbatim. Other Arabic prayer texts are marked as awaiting approved wording. French and Italian content has been preserved. Clergy review is still required before publication or audio recording.",
+  "reviewNote": "Arabic wording supplied by the parish has been inserted verbatim. French and Italian versions of the standard common prayers (Our Father, Hail Mary, Glory Be, Nicene-Constantinopolitan Creed, and Salve Regina) are based on official Catholic sources listed in docs/features/prayer-library.md. The thanksgiving and peace texts are parish-composed draft prayers, not official universal prayers, and require clergy review. Arabic wording for the remaining prayers is awaiting approval. Clergy review is required before publication.",
   "categories": [
     {
       "id": "common",
@@ -25,7 +25,7 @@
           "text": {
             "ar": "أبانا الّذي في السّماوات\nليتقدّس إسمكَ؛ ليأتِ ملكوتُكَ؛\nلتكنْ مشيئتُكَ كما في السّماءِ كذلكَ على الأرض.\nأعطِنا خبزَنا كفافَ يومِنا.\nواغفرْ لنا ذنوبَنا وخطايانا، كما نحنُ نغفرُ لمن خطئَ إلينا.\nولا تُدخِلنا في التّجارب، لكن نجّنا منَ الشرّير.\nلأنّ لكَ المُلكَ والقوّةَ والمجدَ، إلى أبدِ الآبدين.\nآمين.",
             "fr": "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite sur la terre comme au ciel. Donne-nous aujourd’hui notre pain de ce jour. Pardonne-nous nos offenses, comme nous pardonnons aussi à ceux qui nous ont offensés. Et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen.",
-            "it": "Padre nostro che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori. E non abbandonarci alla tentazione, ma liberaci dal male. Amen."
+            "it": "Padre nostro che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori, e non abbandonarci alla tentazione, ma liberaci dal male. Amen."
           },
           "audio": {
             "ar": null,
@@ -42,8 +42,8 @@
           },
           "text": {
             "ar": "السلام عليك يا مريم، يا ممتلئة نعمة، الرب معك،\n\nمباركة أنت في النساء ومباركة ثمرة بطنك سيّدنا يسوع المسيح،\n\nيا قديسة مريم، يا والدة الله، صلي لأجلنا نحن الخطأة، الآن وفي ساعة موتنا، آمين.",
-            "fr": "Je vous salue, Marie, pleine de grâce ; le Seigneur est avec vous. Vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant et à l’heure de notre mort. Amen.",
-            "it": "Ave Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù. Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell’ora della nostra morte. Amen."
+            "fr": "Je vous salue, Marie, pleine de grâce ; le Seigneur est avec vous. Vous êtes bénie entre toutes les femmes ; et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant et à l’heure de notre mort. Amen.",
+            "it": "Ave, o Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù. Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell’ora della nostra morte. Amen."
           },
           "audio": {
             "ar": null,
@@ -60,8 +60,8 @@
           },
           "text": {
             "ar": "النص العربي بانتظار النص المعتمد.",
-            "fr": "Gloire au Père, au Fils et au Saint-Esprit, comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
-            "it": "Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, ora e sempre, nei secoli dei secoli. Amen."
+            "fr": "Gloire au Père, au Fils et au Saint-Esprit. Comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
+            "it": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, ora e sempre, nei secoli dei secoli. Amen."
           },
           "audio": {
             "ar": null,
@@ -73,13 +73,13 @@
           "id": "nicene-creed",
           "title": {
             "ar": "قانون الإيمان",
-            "fr": "Symbole de Nicée",
-            "it": "Credo niceno"
+            "fr": "Symbole de Nicée-Constantinople",
+            "it": "Credo niceno-costantinopolitano"
           },
           "text": {
             "ar": "نؤمِن بإلهٍ واحِد، آب ضابط الكل، خالق السماء والأرض، كل ما يُرى وما لا يُرى، وبربّ واحد يسوع المسيح، إبن الله الوحيد، المولود من الآب قبل كل الدهور، إله من إله، نور من نور، إله حق من إله حق، مولود غير مخلوق، مساوٍ للآب في الجوهر، الذي به كان كل شيء، الذي من أجلنا نحن البشر، ومن أجل خلاصنا، نزل من السماء، وتجسد من الروح القدس ومن مريم العذراء، وصار إنسانًا، وصُلب عنّا على عهد بلاطس البنطي. تألم ومات وقُبر وقام في اليوم الثالث كما جاء في الكتب. وصعد إلى السماء، وجلس عن يمين الله الآب. وأيضًا يأتي بمجدٍ عظيم، ليَدين الأحياء والأموات. الذي لا فناء لملكه. ونؤمن بالروح القدس، الرب المحيي، المنبثق من الآب والإبن، الذي هو مع الآب والإبن، يُسجد له ويُمجد، الناطق بالأنبياء والرسل، وبكنيسة واحدة، جامعة، مقدسة، رسولية. ونعترف بمعمودية واحدة لمغفرة الخطايا، ونترجّى قيامة الموتى والحياة في الدهر الآتي، آمين.",
-            "fr": "Traduction à venir.",
-            "it": "Traduzione in arrivo."
+            "fr": "Je crois en un seul Dieu, le Père tout-puissant, Créateur du ciel et de la terre, de l’univers visible et invisible. Je crois en un seul Seigneur, Jésus Christ, le Fils unique de Dieu, né du Père avant tous les siècles : Il est Dieu, né de Dieu, lumière, née de la lumière, vrai Dieu, né du vrai Dieu, engendré, non pas créé, de même nature que le Père, et par lui tout a été fait. Pour nous les hommes, et pour notre salut, il descendit du ciel ; par l’Esprit Saint, il a pris chair de la Vierge Marie, et s’est fait homme. Crucifié pour nous sous Ponce Pilate, il souffrit sa passion et fut mis au tombeau. Il ressuscita le troisième jour, conformément aux Écritures, et il monta au ciel ; il est assis à la droite du Père. Il reviendra dans la gloire, pour juger les vivants et les morts ; et son règne n’aura pas de fin. Je crois en l’Esprit Saint, qui est Seigneur et qui donne la vie ; il procède du Père et du Fils ; avec le Père et le Fils, il reçoit même adoration et même gloire ; il a parlé par les prophètes. Je crois en l’Église, une, sainte, catholique et apostolique. Je reconnais un seul baptême pour le pardon des péchés. J’attends la résurrection des morts et la vie du monde à venir. Amen.",
+            "it": "Credo in un solo Dio, Padre onnipotente, Creatore del cielo e della terra, di tutte le cose visibili e invisibili. Credo in un solo Signore, Gesù Cristo, unigenito Figlio di Dio, nato dal Padre prima di tutti i secoli: Dio da Dio, Luce da Luce, Dio vero da Dio vero, generato, non creato, della stessa sostanza del Padre; per mezzo di lui tutte le cose sono state create. Per noi uomini e per la nostra salvezza discese dal cielo, e per opera dello Spirito Santo si è incarnato nel seno della Vergine Maria e si è fatto uomo. Fu crocifisso per noi sotto Ponzio Pilato, morì e fu sepolto. Il terzo giorno è risuscitato, secondo le Scritture, è salito al cielo, siede alla destra del Padre. E di nuovo verrà, nella gloria, per giudicare i vivi e i morti, e il suo regno non avrà fine. Credo nello Spirito Santo, che è Signore e dà la vita, e procede dal Padre e dal Figlio. Con il Padre e il Figlio è adorato e glorificato, e ha parlato per mezzo dei profeti. Credo la Chiesa, una santa cattolica e apostolica. Professo un solo Battesimo per il perdono dei peccati. Aspetto la risurrezione dei morti e la vita del mondo che verrà. Amen."
           },
           "audio": {
             "ar": null,
@@ -96,8 +96,8 @@
           },
           "text": {
             "ar": "السلام عليكِ يا سلطانة، يا أمّ الرحمة.\nالسلام عليكِ يا حياتنا وحلاوتنا ورجاءنا.\nنصرخ إليكِ نحن المنفيّين أولاد حوّاء.\nنتنهّد إليكِ نائحين وباكين، في هذا الوادي، وادي الدموع.\nفلذلك يا شفيعتنا، ميلي إلينا بنظركِ الحنون.\nوأرينا بعد هذا المنفى يسوع ثمرة بطنكِ المباركة.\nيا حنونة، يا رؤوفة، يا حلوة مريم البتول.",
-            "fr": "Traduction à venir.",
-            "it": "Traduzione in arrivo."
+            "fr": "Salut, ô Reine, Mère de miséricorde, notre vie, notre douceur, notre espérance, salut ! Nous crions vers toi, enfants d’Ève exilés. Vers toi nous soupirons, gémissant et pleurant dans cette vallée de larmes. Ô toi, notre avocate, tourne vers nous ton regard miséricordieux. Et, après cet exil, montre-nous Jésus, le fruit béni de tes entrailles. Ô clémente, ô miséricordieuse, ô douce Vierge Marie.",
+            "it": "Salve, Regina, madre di misericordia, vita, dolcezza e speranza nostra, salve. A te ricorriamo, esuli figli di Eva; a te sospiriamo, gementi e piangenti in questa valle di lacrime. Orsù dunque, avvocata nostra, rivolgi a noi gli occhi tuoi misericordiosi. E mostraci, dopo questo esilio, Gesù, il frutto benedetto del tuo seno. O clemente, o pia, o dolce Vergine Maria!"
           },
           "audio": {
             "ar": null,
@@ -119,8 +119,8 @@
           "id": "thanks",
           "title": {
             "ar": "صلاة شكر",
-            "fr": "Prière de remerciement",
-            "it": "Preghiera di ringraziamento"
+            "fr": "Prière paroissiale de remerciement",
+            "it": "Preghiera parrocchiale di ringraziamento"
           },
           "text": {
             "ar": "النص العربي بانتظار النص المعتمد.",
@@ -147,8 +147,8 @@
           "id": "peace",
           "title": {
             "ar": "صلاة من أجل السلام",
-            "fr": "Prière pour la paix",
-            "it": "Preghiera per la pace"
+            "fr": "Prière paroissiale pour la paix",
+            "it": "Preghiera parrocchiale per la pace"
           },
           "text": {
             "ar": "النص العربي بانتظار النص المعتمد.",
