@@ -44,5 +44,19 @@
     "notifications": "الإشعارات",
     "favorites": "المفضلة",
     "about": "حول التطبيق"
+  },
+  "common": {
+    "notifications": "الإشعارات",
+    "favorites": "المفضلة",
+    "notificationSettings": "إعدادات الإشعارات",
+    "importantAnnouncements": "الإعلانات المهمة",
+    "massUpdates": "تحديثات مواعيد القداديس",
+    "parishActivities": "نشاطات الرعية",
+    "personalReminders": "التذكيرات الشخصية",
+    "reminderTime": "وقت التذكير",
+    "quietHours": "ساعات الهدوء",
+    "noFavorites": "لم تُضف أي عناصر إلى المفضلة بعد",
+    "addFavorite": "إضافة إلى المفضلة",
+    "removeFavorite": "إزالة من المفضلة"
   }
 }
