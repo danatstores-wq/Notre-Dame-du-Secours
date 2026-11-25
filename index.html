@@ -135,6 +135,16 @@
     .card-text { flex: 1; }
     .card-text h3 { font-size: 0.85rem; color: #fff; line-height: 1.25; }
     .card-text p { font-size: 0.72rem; color: #d8c396; margin-top: 2px; }
+    .feature-screen{display:none;padding:18px 16px 24px;min-height:55vh}
+    .feature-screen.visible{display:block}.home-view.hidden{display:none}
+    .screen-heading{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    .screen-heading h2{color:var(--gold-light);font-size:1.15rem}
+    .back-btn,.feature-tab{border:1px solid var(--gold);background:rgba(11,29,58,.85);color:var(--gold-light);border-radius:12px;padding:9px 13px;font:inherit;cursor:pointer}
+    .feature-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px}
+    .feature-tab{padding:9px 4px;font-size:.78rem}.feature-tab.active{background:var(--gold);color:#081833;font-weight:700}
+    .feature-content{background:rgba(11,29,58,.78);border:1px solid rgba(229,182,87,.65);border-radius:16px;padding:16px;min-height:120px}
+    .empty-state{text-align:center;color:#f3e5c0;line-height:1.8;padding:18px 4px}
+    .schedule-entry{padding:12px 4px;border-bottom:1px solid rgba(229,182,87,.25)}
     .bottom-nav {
       background: var(--navy-nav);
       border-top: 1.5px solid var(--gold);
@@ -157,7 +167,7 @@
 </head>
 <body>
   <div class="app-shell">
-    <div>
+    <div class="home-view" id="home-view">
       <header class="top-bar">
         <img src="assets/icons/logo-marian-emblem.png" alt="Emblem" class="emblem" />
         <div class="header-title">
@@ -185,7 +195,10 @@
 
       <main class="cards-grid" id="cards-container"></main>
     </div>
-
+    <section class="feature-screen" id="mass-screen" aria-live="polite">
+      <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
+      <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
+    </section>
     <nav class="bottom-nav" id="bottom-nav"></nav>
   </div>
 
@@ -347,7 +360,7 @@
       document.getElementById('lang-toggle').textContent = t.toggle;
 
       document.getElementById('cards-container').innerHTML = t.cards.map(c => `
-        <div class="card">
+        <div class="card" role="button" tabindex="0" onclick="openFeature(0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFeature(0)}">
           <img src="${c[2]}" alt="${c[0]}" />
           <div class="card-text">
             <h3>${c[0]}</h3>
@@ -373,6 +386,19 @@
     }
 
     render();
+    const massLabels={
+      ar:{title:'مواعيد القداديس والنشاطات',back:'رجوع',tabs:['القداديس','القداديس الخاصة','النشاطات'],empty:'لم تُضف الرعية المواعيد بعد. يرجى العودة لاحقاً للاطلاع على المعلومات المؤكدة.',loading:'جارٍ تحميل المواعيد…',error:'تعذّر تحميل المواعيد حالياً. يرجى المحاولة لاحقاً.'},
+      fr:{title:'Horaires des Messes et Activités',back:'Retour',tabs:['Messes','Messes spéciales','Activités'],empty:'La paroisse n’a pas encore publié les horaires. Revenez plus tard pour consulter les informations confirmées.',loading:'Chargement des horaires…',error:'Impossible de charger les horaires pour le moment.'},
+      it:{title:'Orari delle Messe e Attività',back:'Indietro',tabs:['Messe','Messe speciali','Attività'],empty:'La parrocchia n’a pas ancora pubblicato gli orari. Torna più tardi per consultare le informazioni confermate.',loading:'Caricamento degli orari…',error:'Impossibile caricare gli orari al momento.'}
+    };
+    let massTab=0,massData=null;
+    function openFeature(index){if(index!==0)return;document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();}
+    function closeFeature(){document.getElementById('mass-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+    async function loadMassData(){const labels=massLabels[currentLang];document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';try{const response=await fetch('src/data/mass-schedule.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');massData=await response.json();renderMassContent();}catch(e){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.error+'</p>';}}
+    function renderMassScreen(){const labels=massLabels[currentLang];document.getElementById('mass-title').textContent=labels.title;document.getElementById('mass-back').textContent=labels.back;document.getElementById('mass-tabs').innerHTML=labels.tabs.map((label,index)=>'<button class="feature-tab '+(index===massTab?'active':'')+'" onclick="selectMassTab('+index+')">'+label+'</button>').join('');renderMassContent();}
+    function selectMassTab(index){massTab=index;renderMassScreen();}
+    function renderMassContent(){const labels=massLabels[currentLang];if(!massData){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';return;}const entries=massData[['massSchedule','specialMasses','activities'][massTab]]||[];if(!entries.length){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.empty+'</p>';return;}document.getElementById('mass-content').innerHTML=entries.map(item=>'<article class="schedule-entry"><strong>'+escapeHtml(item['title'+currentLang.toUpperCase()]||item.title||item.label||'')+'</strong><p>'+escapeHtml(item['description'+currentLang.toUpperCase()]||item.description||'')+'</p></article>').join('');}
+    function escapeHtml(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   </script>
 </body>
 </html>
