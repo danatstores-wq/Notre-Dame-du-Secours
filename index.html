@@ -163,6 +163,18 @@
     .rosary-decade-dots span.current{outline:2px solid var(--gold-light);outline-offset:2px}
     .rosary-guide-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
     .rosary-guide-actions button{flex:1;min-width:100px}
+
+    .rosary-diagram{margin:14px auto 18px;max-width:390px;padding:10px 8px;border:1px solid rgba(229,182,87,.35);border-radius:16px;background:rgba(7,20,43,.38)}
+    .rosary-diagram svg{display:block;width:100%;height:auto;max-height:285px}
+    .rosary-diagram .decade-bead{fill:rgba(229,182,87,.22);stroke:var(--gold);stroke-width:1.5}
+    .rosary-diagram .decade-bead.done{fill:var(--gold)}
+    .rosary-diagram .decade-bead.current{fill:#fff1c7;stroke:#fff;stroke-width:2.5}
+    .rosary-diagram .separator-bead{fill:var(--gold);stroke:#fff0c5;stroke-width:1.5}
+    .rosary-diagram .rosary-cord{fill:none;stroke:#c99a4a;stroke-width:2.2;opacity:.9}
+    .rosary-diagram .rosary-cross{fill:none;stroke:var(--gold-light);stroke-width:5;stroke-linecap:round}
+    .rosary-diagram .rosary-medal{fill:#263b5b;stroke:var(--gold);stroke-width:2}
+    .rosary-diagram .rosary-diagram-label{fill:#f3e5c0;font-size:10px;text-anchor:middle}
+
     .rosary-recommendation{border:1px solid rgba(229,182,87,.55);border-radius:12px;padding:11px;margin:10px 0;color:#f3e5c0;background:rgba(229,182,87,.08);line-height:1.7}
 
     .prayer-category{margin-bottom:14px}.prayer-category h3{color:var(--gold-light);margin-bottom:9px}.prayer-choice{display:block;width:100%;text-align:start;background:rgba(11,29,58,.9);border:1px solid rgba(229,182,87,.55);border-radius:12px;color:#fff;padding:12px;margin:7px 0;font:inherit;cursor:pointer}.prayer-text{white-space:pre-wrap;line-height:2;text-align:start;padding:14px 4px;color:#fff}.prayer-audio-note{color:#e8d5a9;font-size:.82rem;margin-top:12px}
@@ -522,9 +534,9 @@
     function renderMassContent(){const labels=massLabels[currentLang];if(!massData){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';return;}renderMassCalendar();}
     function escapeHtml(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
     const rosaryLabels={
-      ar:{title:'المسبحة الوردية',back:'رجوع',choose:'اختر أسرار المسبحة',days:'الأيام',start:'ابدأ الصلاة الموجّهة',step:'الخطوة',of:'من',previous:'السابق',next:'التالي',again:'العودة إلى الأسرار',unavailable:'النص الكامل للصلاة والتسجيلات الصوتية سيضافان بعد مراجعتهما واعتمادهما من الرعية.',noAudio:'لا توجد تسجيلات صوتية معتمدة بعد. يمكنك المتابعة يدوياً.',dayNames:['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],today:'أسرار اليوم المقترحة',guideIntro:'اتبع خطوات المسبحة بالترتيب. تظهر أسماء الصلوات والتأملات، أما النصوص الكاملة فتضاف بعد اعتمادها من الرعية.',mystery:'التأمل',decade:'العقد',optional:'صلاة اختيارية',skip:'تخطّي',finish:'أحسنت! أكملت خطوات المسبحة.',restart:'ابدأ من جديد',backMysteries:'اختيار أسرار أخرى',opening:'الصلوات الافتتاحية',closing:'الصلاة الختامية',beads:'تقدّم العقد',beadNumber:'الخرزة',outOf:'من 10',decadeNumber:'العقد',decadeOutOf:'من 5'},
-      fr:{title:'Le Saint Rosaire',back:'Retour',choose:'Choisissez les mystères du Rosaire',days:'Jours',start:'Commencer la prière guidée',step:'Étape',of:'sur',previous:'Précédent',next:'Suivant',again:'Retour aux mystères',unavailable:'Le texte intégral des prières et les enregistrements seront ajoutés après vérification et approbation de la paroisse.',noAudio:'Aucun enregistrement approuvé pour le moment. Vous pouvez continuer en mode manuel.',dayNames:['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],today:'Mystères proposés aujourd’hui',guideIntro:'Suivez les étapes du Rosaire dans l’ordre. Les noms des prières et méditations sont affichés ; les textes complets seront ajoutés après approbation de la paroisse.',mystery:'Méditation',decade:'Dizaine',optional:'Prière facultative',skip:'Passer',finish:'Bravo ! Vous avez terminé les étapes du Rosaire.',restart:'Recommencer',backMysteries:'Choisir d’autres mystères',opening:'Prières d’ouverture',closing:'Prière finale',beads:'Progression de la dizaine',beadNumber:'Grain',outOf:'sur 10',decadeNumber:'Dizaine',decadeOutOf:'sur 5'},
-      it:{title:'Santo Rosario',back:'Indietro',choose:'Scegli i misteri del Rosario',days:'Giorni',start:'Inizia la preghiera guidata',step:'Passaggio',of:'di',previous:'Precedente',next:'Successivo',again:'Torna ai misteri',unavailable:'Il testo completo delle preghiere e le registrazioni saranno aggiunti dopo la verifica e l’approvazione della parrocchia.',noAudio:'Non ci sono ancora registrazioni approvate. Puoi continuare in modalità manuale.',dayNames:['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],today:'Misteri suggeriti per oggi',guideIntro:'Segui in ordine i passaggi del Rosario. Sono mostrati i nomi delle preghiere e delle meditazioni; i testi completi saranno aggiunti dopo l’approvazione della parrocchia.',mystery:'Meditazione',decade:'Decina',optional:'Preghiera facoltativa',skip:'Salta',finish:'Complimenti! Hai completato i passaggi del Rosario.',restart:'Ricomincia',backMysteries:'Scegli altri misteri',opening:'Preghiere iniziali',closing:'Preghiera finale',beads:'Progresso della decina',beadNumber:'Grano',outOf:'su 10',decadeNumber:'Decina',decadeOutOf:'su 5'}
+      ar:{title:'المسبحة الوردية',back:'رجوع',choose:'اختر أسرار المسبحة',days:'الأيام',start:'ابدأ الصلاة الموجّهة',step:'الخطوة',of:'من',previous:'السابق',next:'التالي',again:'العودة إلى الأسرار',unavailable:'النص الكامل للصلاة والتسجيلات الصوتية سيضافان بعد مراجعتهما واعتمادهما من الرعية.',noAudio:'لا توجد تسجيلات صوتية معتمدة بعد. يمكنك المتابعة يدوياً.',dayNames:['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],today:'أسرار اليوم المقترحة',guideIntro:'اتبع خطوات المسبحة بالترتيب. تظهر أسماء الصلوات والتأملات، أما النصوص الكاملة فتضاف بعد اعتمادها من الرعية.',mystery:'التأمل',decade:'العقد',optional:'صلاة اختيارية',skip:'تخطّي',finish:'أحسنت! أكملت خطوات المسبحة.',restart:'ابدأ من جديد',backMysteries:'اختيار أسرار أخرى',opening:'الصلوات الافتتاحية',closing:'الصلاة الختامية',beads:'تقدّم العقد',beadNumber:'الخرزة',outOf:'من 10',decadeNumber:'العقد',decadeOutOf:'من 5',diagram:'رسم توضيحي للمسبحة: الصليب والخرزات الافتتاحية وخمسة عقود'},
+      fr:{title:'Le Saint Rosaire',back:'Retour',choose:'Choisissez les mystères du Rosaire',days:'Jours',start:'Commencer la prière guidée',step:'Étape',of:'sur',previous:'Précédent',next:'Suivant',again:'Retour aux mystères',unavailable:'Le texte intégral des prières et les enregistrements seront ajoutés après vérification et approbation de la paroisse.',noAudio:'Aucun enregistrement approuvé pour le moment. Vous pouvez continuer en mode manuel.',dayNames:['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],today:'Mystères proposés aujourd’hui',guideIntro:'Suivez les étapes du Rosaire dans l’ordre. Les noms des prières et méditations sont affichés ; les textes complets seront ajoutés après approbation de la paroisse.',mystery:'Méditation',decade:'Dizaine',optional:'Prière facultative',skip:'Passer',finish:'Bravo ! Vous avez terminé les étapes du Rosaire.',restart:'Recommencer',backMysteries:'Choisir d’autres mystères',opening:'Prières d’ouverture',closing:'Prière finale',beads:'Progression de la dizaine',beadNumber:'Grain',outOf:'sur 10',decadeNumber:'Dizaine',decadeOutOf:'sur 5',diagram:'Schéma du chapelet : croix, grains d’ouverture et cinq dizaines'},
+      it:{title:'Santo Rosario',back:'Indietro',choose:'Scegli i misteri del Rosario',days:'Giorni',start:'Inizia la preghiera guidata',step:'Passaggio',of:'di',previous:'Precedente',next:'Successivo',again:'Torna ai misteri',unavailable:'Il testo completo delle preghiere e le registrazioni saranno aggiunti dopo la verifica e l’approvazione della parrocchia.',noAudio:'Non ci sono ancora registrazioni approvate. Puoi continuare in modalità manuale.',dayNames:['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],today:'Misteri suggeriti per oggi',guideIntro:'Segui in ordine i passaggi del Rosario. Sono mostrati i nomi delle preghiere e delle meditazioni; i testi completi saranno aggiunti dopo l’approvazione della parrocchia.',mystery:'Meditazione',decade:'Decina',optional:'Preghiera facoltativa',skip:'Salta',finish:'Complimenti! Hai completato i passaggi del Rosario.',restart:'Ricomincia',backMysteries:'Scegli altri misteri',opening:'Preghiere iniziali',closing:'Preghiera finale',beads:'Progresso della decina',beadNumber:'Grano',outOf:'su 10',decadeNumber:'Decina',decadeOutOf:'su 5',diagram:'Schema del rosario: croce, grani iniziali e cinque decine'}
     };
     let rosaryData=null,selectedMystery=0,rosaryEpisode=0,rosaryStarted=false,rosaryGuideSteps=[],rosaryGuideIndex=0;
     const rosaryWeekdays=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
@@ -544,6 +556,24 @@
       const idx=rosaryData.mysteries.findIndex(m=>Array.isArray(m.days)&&m.days.includes(day));
       return idx>=0?idx:0;
     }
+    function renderRosaryDiagram(activeDecade=0,activeBead=-1){
+      const l=rosaryLabels[currentLang],cx=190,cy=118,rx=116,ry=78;
+      let beads='';
+      for(let i=0;i<50;i++){
+        const angle=(-90+i*360/50)*Math.PI/180;
+        const x=cx+rx*Math.cos(angle),y=cy+ry*Math.sin(angle);
+        const decade=Math.floor(i/10)+1,bead=i%10;
+        const cls='decade-bead'+(activeDecade>decade?' done':'')+(activeDecade===decade&&activeBead===bead?' current':'');
+        beads+='<circle class="'+cls+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.7"><title>'+l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(bead+1)+'</title></circle>';
+      }
+      let separators='';
+      for(let i=0;i<5;i++){
+        const angle=(-90+(i*10+9.5)*360/50)*Math.PI/180;
+        const x=cx+rx*Math.cos(angle),y=cy+ry*Math.sin(angle);
+        separators+='<circle class="separator-bead" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="6"/>';
+      }
+      return '<div class="rosary-diagram"><svg viewBox="0 0 380 290" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><ellipse class="rosary-cord" cx="190" cy="118" rx="116" ry="78"/>'+beads+separators+'<path class="rosary-cord" d="M190 196 L190 222 L190 244"/><circle class="rosary-medal" cx="190" cy="210" r="11"/><circle class="separator-bead" cx="190" cy="230" r="5"/><circle class="separator-bead" cx="190" cy="242" r="5"/><circle class="separator-bead" cx="190" cy="254" r="5"/><path class="rosary-cross" d="M190 266 V284 M180 273 H200"/><text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
+    }
     function renderRosary(){
       const l=rosaryLabels[currentLang];
       document.getElementById('rosary-title').textContent=l.title;
@@ -560,7 +590,7 @@
           return '<button class="mystery-choice '+active+'" onclick="selectRosaryMystery('+i+')">'+name+'<small>'+l.days+': '+days+'</small></button>';
         }).join('');
         const suggestedName=escapeHtml(rosaryData.mysteries[suggested].name[currentLang]||rosaryData.mysteries[suggested].name.ar);
-        box.innerHTML='<p class="empty-state">'+l.choose+'</p><div class="rosary-recommendation"><strong>'+l.today+': </strong>'+suggestedName+'</div><div class="rosary-mysteries">'+mysteryCards+'</div><p class="empty-state">'+l.noAudio+'</p><button class="feature-tab" style="width:100%" onclick="startRosary()">'+l.start+'</button>';
+        box.innerHTML=renderRosaryDiagram()+'<p class="empty-state">'+l.choose+'</p><div class="rosary-recommendation"><strong>'+l.today+': </strong>'+suggestedName+'</div><div class="rosary-mysteries">'+mysteryCards+'</div><p class="empty-state">'+l.noAudio+'</p><button class="feature-tab" style="width:100%" onclick="startRosary()">'+l.start+'</button>';
         return;
       }
       rosaryGuideSteps=buildRosaryGuide();
@@ -583,7 +613,7 @@
       const decade=step.decade?' · '+l.decadeNumber+' '+step.decade+' '+l.decadeOutOf:'';
       const previous=rosaryGuideIndex===0?'disabled':'';
       const action=step.kind==='optional'?l.skip:l.next;
-      box.innerHTML='<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
+      box.innerHTML=renderRosaryDiagram(step.decade||0,step.kind==='hail'?step.hailIndex:-1)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
     }
     function selectRosaryMystery(index){selectedMystery=index;window.rosaryUserSelected=true;renderRosary();}
     function buildRosaryGuide(){
