@@ -675,9 +675,9 @@
       host.innerHTML='<p class="empty-state">جارٍ تحميل فهرس الكتاب المقدّس… / Chargement… / Caricamento…</p>';
       try{
         if(!bibleIndex){
-          const cachedIndex=bibleCacheGet('it-index');
+          const cachedIndex=await bibleCacheGet('it-index');
           if(cachedIndex){bibleIndex=cachedIndex;}
-          else{const response=await fetch(IT_BIBLE_BASE+'indice.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');bibleCacheSet('it-index',bibleIndex);}
+          else{const response=await fetch(IT_BIBLE_BASE+'indice.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');await bibleCacheSet('it-index',bibleIndex);}
         }
         if(!bibleBook)bibleBook=bibleIndex[0];
         renderBibleReader();
