@@ -613,9 +613,12 @@
     const bibleLabels={
       ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — اليسوعية',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
       fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — édition jésuite',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.'},
-      it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — edizione gesuita',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.'}
+      it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — edizione gesuita',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
     let bibleIndex=null, bibleBook=null, bibleChapter=1, bibleCurrentLanguage=null;
+    const IT_BIBLE_BASE='https://parolaviva.art/api/v1/bibbia/';
+    function bibleCacheGet(key){try{return JSON.parse(localStorage.getItem('bible-cache:'+key)||'null');}catch(_){return null;}}
+    function bibleCacheSet(key,value){try{localStorage.setItem('bible-cache:'+key,JSON.stringify(value));const keys=Object.keys(localStorage).filter(k=>k.startsWith('bible-cache:'));while(keys.length>18){localStorage.removeItem(keys.shift());}}catch(_){/* private mode or storage quota: continue online */}}
     function openBible(){document.getElementById('home-view').classList.add('hidden');document.getElementById('bible-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderBibleScreen();}
     function closeBible(){document.getElementById('bible-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     function renderBibleScreen(){
@@ -642,9 +645,9 @@
       host.innerHTML='<p class="empty-state">جارٍ تحميل فهرس الكتاب المقدّس… / Chargement… / Caricamento…</p>';
       try{
         if(!bibleIndex){
-          const response=await fetch('https://parolaviva.art/api/v1/bibbia/indice.json');
-          if(!response.ok)throw new Error('Index unavailable');
-          bibleIndex=await response.json();
+          const cachedIndex=bibleCacheGet('it-index');
+          if(cachedIndex){bibleIndex=cachedIndex;}
+          else{const response=await fetch(IT_BIBLE_BASE+'indice.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');bibleCacheSet('it-index',bibleIndex);}
         }
         if(!bibleBook)bibleBook=bibleIndex[0];
         renderBibleReader();
@@ -657,7 +660,7 @@
       if(!host||!bibleIndex||!bibleBook)return;
       const options=bibleIndex.map(b=>'<option value="'+b.s+'" '+(b.s===bibleBook.s?'selected':'')+'>'+escapeHtml(b.n)+'</option>').join('');
       const chapters=Array.from({length:bibleBook.c},(_,i)=>'<option value="'+(i+1)+'" '+(i+1===bibleChapter?'selected':'')+'>'+(i+1)+'</option>').join('');
-      host.innerHTML='<div class="bible-controls"><select id="bible-book-select" aria-label="Book" onchange="changeBibleBook(this.value)">'+options+'</select><select id="bible-chapter-select" aria-label="Chapter" onchange="changeBibleChapter(this.value)">'+chapters+'</select></div><div id="bible-verses" class="bible-verses"><p class="empty-state">Loading chapter…</p></div>';
+      host.innerHTML='<div class="bible-controls"><select id="bible-book-select" aria-label="Book" onchange="changeBibleBook(this.value)">'+options+'</select><select id="bible-chapter-select" aria-label="Chapter" onchange="changeBibleChapter(this.value)">'+chapters+'</select></div><div id="bible-verses" class="bible-verses"><p class="empty-state">Loading chapter…</p></div><p class="bible-note" style="margin-top:14px">'+bibleLabels.it.attribution+'</p>';
       loadBibleChapter();
     }
     function changeBibleBook(code){bibleBook=bibleIndex.find(b=>b.s===code)||bibleIndex[0];bibleChapter=1;renderBibleReader();}
@@ -666,11 +669,11 @@
       const box=document.getElementById('bible-verses');if(!box)return;
       box.innerHTML='<p class="empty-state">Loading chapter…</p>';
       try{
-        const response=await fetch('https://parolaviva.art/api/v1/bibbia/'+encodeURIComponent(bibleBook.s)+'/'+bibleChapter+'.json');
-        if(!response.ok)throw new Error('Chapter unavailable');
-        const data=await response.json();
+        const cacheKey='it-'+bibleBook.s+'-'+bibleChapter;
+        let data=bibleCacheGet(cacheKey);
+        if(!data){const response=await fetch(IT_BIBLE_BASE+encodeURIComponent(bibleBook.s)+'/'+bibleChapter+'.json');if(!response.ok)throw new Error('Chapter unavailable');data=await response.json();if(!data||!Array.isArray(data.v)||!data.v.length)throw new Error('Invalid chapter data');bibleCacheSet(cacheKey,data);}
         box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(data.n||bibleBook.n)+' — '+bibleChapter+'</h3>'+data.v.map(v=>'<p class="bible-verse"><sup>'+v.n+'</sup> '+escapeHtml(v.t)+'</p>').join('');
-      }catch(error){box.innerHTML='<p class="empty-state">Chapter unavailable. Please try again.</p>';}
+      }catch(error){box.innerHTML='<p class="empty-state">Chapter unavailable. Connect to the internet and try again.</p>';}
     }
 
     const rosaryLabels={
