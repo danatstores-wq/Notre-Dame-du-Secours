@@ -4,14 +4,16 @@
     "ar": null,
     "fr": null,
     "status": "recordings-not-yet-provided",
-    "timingMarkers": []
+    "timingMarkers": [],
+    "it": null
   },
   "mysteries": [
     {
       "id": "joyful",
       "name": {
         "ar": "الأسرار الفرحية",
-        "fr": "Mystères joyeux"
+        "fr": "Mystères joyeux",
+        "it": "Misteri gaudiosi"
       },
       "days": [
         "monday",
@@ -20,23 +22,28 @@
       "episodes": [
         {
           "ar": "بشارة الملاك لمريم العذراء",
-          "fr": "L’Annonciation"
+          "fr": "L’Annonciation",
+          "it": "L’Annunciazione dell’Angelo a Maria"
         },
         {
           "ar": "زيارة مريم لأليصابات",
-          "fr": "La Visitation"
+          "fr": "La Visitation",
+          "it": "La Visitazione di Maria a Elisabetta"
         },
         {
           "ar": "ولادة يسوع في بيت لحم",
-          "fr": "La Nativité"
+          "fr": "La Nativité",
+          "it": "La Nascita di Gesù a Betlemme"
         },
         {
           "ar": "تقديم يسوع في الهيكل",
-          "fr": "La Présentation de Jésus au Temple"
+          "fr": "La Présentation de Jésus au Temple",
+          "it": "La Presentazione di Gesù al Tempio"
         },
         {
           "ar": "يسوع في الهيكل بين العلماء",
-          "fr": "Jésus retrouvé au Temple"
+          "fr": "Jésus retrouvé au Temple",
+          "it": "Il Ritrovamento di Gesù nel Tempio"
         }
       ]
     },
@@ -44,7 +51,8 @@
       "id": "luminous",
       "name": {
         "ar": "الأسرار النورانية",
-        "fr": "Mystères lumineux"
+        "fr": "Mystères lumineux",
+        "it": "Misteri luminosi"
       },
       "days": [
         "thursday"
@@ -52,23 +60,28 @@
       "episodes": [
         {
           "ar": "معمودية يسوع في الأردن",
-          "fr": "Le Baptême de Jésus au Jourdain"
+          "fr": "Le Baptême de Jésus au Jourdain",
+          "it": "Il Battesimo di Gesù nel Giordano"
         },
         {
           "ar": "عرس قانا الجليل",
-          "fr": "Les Noces de Cana"
+          "fr": "Les Noces de Cana",
+          "it": "Le Nozze di Cana"
         },
         {
           "ar": "إعلان ملكوت الله والدعوة إلى التوبة",
-          "fr": "L’Annonce du Royaume et l’appel à la conversion"
+          "fr": "L’Annonce du Royaume et l’appel à la conversion",
+          "it": "L’Annuncio del Regno di Dio e l’invito alla conversione"
         },
         {
           "ar": "تجلي يسوع",
-          "fr": "La Transfiguration"
+          "fr": "La Transfiguration",
+          "it": "La Trasfigurazione di Gesù"
         },
         {
           "ar": "تأسيس سر القربان",
-          "fr": "L’Institution de l’Eucharistie"
+          "fr": "L’Institution de l’Eucharistie",
+          "it": "L’Istituzione dell’Eucaristia"
         }
       ]
     },
@@ -76,7 +89,8 @@
       "id": "sorrowful",
       "name": {
         "ar": "الأسرار الحزينة",
-        "fr": "Mystères douloureux"
+        "fr": "Mystères douloureux",
+        "it": "Misteri dolorosi"
       },
       "days": [
         "tuesday",
@@ -85,23 +99,28 @@
       "episodes": [
         {
           "ar": "صلاة يسوع في بستان الزيتون",
-          "fr": "L’Agonie de Jésus au Jardin des Oliviers"
+          "fr": "L’Agonie de Jésus au Jardin des Oliviers",
+          "it": "L’Agonia di Gesù nell’Orto degli Ulivi"
         },
         {
           "ar": "جلد يسوع",
-          "fr": "La Flagellation"
+          "fr": "La Flagellation",
+          "it": "La Flagellazione di Gesù"
         },
         {
           "ar": "تتويج يسوع بالشوك",
-          "fr": "Le Couronnement d’épines"
+          "fr": "Le Couronnement d’épines",
+          "it": "L’Incoronazione di spine"
         },
         {
           "ar": "حمل يسوع الصليب",
-          "fr": "Le Portement de la Croix"
+          "fr": "Le Portement de la Croix",
+          "it": "Gesù porta la Croce"
         },
         {
           "ar": "صلب يسوع وموته",
-          "fr": "La Crucifixion et la Mort de Jésus"
+          "fr": "La Crucifixion et la Mort de Jésus",
+          "it": "La Crocifissione e la Morte di Gesù"
         }
       ]
     },
@@ -109,7 +128,8 @@
       "id": "glorious",
       "name": {
         "ar": "الأسرار المجيدة",
-        "fr": "Mystères glorieux"
+        "fr": "Mystères glorieux",
+        "it": "Misteri gloriosi"
       },
       "days": [
         "wednesday",
@@ -118,23 +138,28 @@
       "episodes": [
         {
           "ar": "قيامة يسوع",
-          "fr": "La Résurrection"
+          "fr": "La Résurrection",
+          "it": "La Risurrezione di Gesù"
         },
         {
           "ar": "صعود يسوع إلى السماء",
-          "fr": "L’Ascension"
+          "fr": "L’Ascension",
+          "it": "L’Ascensione di Gesù al Cielo"
         },
         {
           "ar": "حلول الروح القدس",
-          "fr": "La Pentecôte"
+          "fr": "La Pentecôte",
+          "it": "La Discesa dello Spirito Santo"
         },
         {
           "ar": "انتقال مريم العذراء",
-          "fr": "L’Assomption de Marie"
+          "fr": "L’Assomption de Marie",
+          "it": "L’Assunzione di Maria"
         },
         {
           "ar": "تتويج مريم ملكة السماء والأرض",
-          "fr": "Le Couronnement de Marie"
+          "fr": "Le Couronnement de Marie",
+          "it": "L’Incoronazione di Maria Regina del Cielo e della Terra"
         }
       ]
     }
@@ -146,7 +171,8 @@
       "bead": "cross",
       "label": {
         "ar": "إشارة الصليب",
-        "fr": "Signe de la Croix"
+        "fr": "Signe de la Croix",
+        "it": "Segno della Croce"
       }
     },
     {
@@ -155,7 +181,8 @@
       "bead": "cross",
       "label": {
         "ar": "قانون الإيمان",
-        "fr": "Credo"
+        "fr": "Credo",
+        "it": "Credo"
       }
     },
     {
@@ -164,7 +191,8 @@
       "bead": "single",
       "label": {
         "ar": "أبانا",
-        "fr": "Notre Père"
+        "fr": "Notre Père",
+        "it": "Padre Nostro"
       }
     },
     {
@@ -173,7 +201,8 @@
       "bead": "small",
       "label": {
         "ar": "السلام عليك يا مريم",
-        "fr": "Je vous salue Marie"
+        "fr": "Je vous salue Marie",
+        "it": "Ave Maria"
       }
     },
     {
@@ -182,7 +211,8 @@
       "bead": "small",
       "label": {
         "ar": "السلام عليك يا مريم",
-        "fr": "Je vous salue Marie"
+        "fr": "Je vous salue Marie",
+        "it": "Ave Maria"
       }
     },
     {
@@ -191,7 +221,8 @@
       "bead": "small",
       "label": {
         "ar": "السلام عليك يا مريم",
-        "fr": "Je vous salue Marie"
+        "fr": "Je vous salue Marie",
+        "it": "Ave Maria"
       }
     },
     {
@@ -200,7 +231,8 @@
       "bead": "single",
       "label": {
         "ar": "المجد للآب",
-        "fr": "Gloire au Père"
+        "fr": "Gloire au Père",
+        "it": "Gloria al Padre"
       }
     },
     {
@@ -218,7 +250,8 @@
           "bead": "single",
           "label": {
             "ar": "أبانا",
-            "fr": "Notre Père"
+            "fr": "Notre Père",
+            "it": "Padre Nostro"
           }
         },
         {
@@ -228,7 +261,8 @@
           "bead": "small",
           "label": {
             "ar": "السلام عليك يا مريم",
-            "fr": "Je vous salue Marie"
+            "fr": "Je vous salue Marie",
+            "it": "Ave Maria"
           }
         },
         {
@@ -237,7 +271,8 @@
           "bead": "single",
           "label": {
             "ar": "المجد للآب",
-            "fr": "Gloire au Père"
+            "fr": "Gloire au Père",
+            "it": "Gloria al Padre"
           }
         },
         {
@@ -245,7 +280,8 @@
           "type": "optional-prayer",
           "label": {
             "ar": "يا يسوع، اغفر لنا خطايانا...",
-            "fr": "Ô mon Jésus, pardonnez-nous nos péchés..."
+            "fr": "Ô mon Jésus, pardonnez-nous nos péchés...",
+            "it": "Preghiera"
           }
         }
       ]
@@ -255,7 +291,8 @@
       "type": "prayer",
       "label": {
         "ar": "صلاة ختامية",
-        "fr": "Prière finale"
+        "fr": "Prière finale",
+        "it": "Preghiera finale"
       }
     }
   ]
