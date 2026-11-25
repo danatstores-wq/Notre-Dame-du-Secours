@@ -226,7 +226,7 @@
     .mass-selected-title{font-size:1rem;color:var(--gold-light);margin:14px 0 10px}
       html[data-text-size="small"] .feature-content{font-size:.9rem}
     html[data-text-size="large"] .feature-content{font-size:1.15rem}
-      .church-history-list{padding-inline-start:22px;line-height:1.9}.church-history-list li{padding:5px 0}.church-action-link{display:flex;align-items:center;gap:10px;margin:10px 0;padding:13px;border:1px solid rgba(229,182,87,.65);border-radius:12px;background:rgba(229,182,87,.09);color:var(--gold-light);text-decoration:none;font-weight:700}.card-symbol{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;font-size:1.8rem}.language-menu-wrap{position:relative}
+      .church-history-list{padding-inline-start:22px;line-height:1.9}.church-history-list li{padding:5px 0}.church-action-link{display:flex;align-items:center;gap:10px;margin:10px 0;padding:13px;border:1px solid rgba(229,182,87,.65);border-radius:12px;background:rgba(229,182,87,.09);color:var(--gold-light);text-decoration:none;font-weight:700}.church-menu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.church-menu-card{min-width:0;min-height:118px;padding:14px 8px;border:1px solid rgba(229,182,87,.65);border-radius:14px;background:rgba(229,182,87,.09);color:var(--gold-light);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;font:inherit;font-weight:700;cursor:pointer}.church-menu-icon{font-size:2rem;line-height:1}.card-symbol{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;font-size:1.8rem}.language-menu-wrap{position:relative}
     .language-gear{display:flex;align-items:center;justify-content:center;min-width:42px;min-height:42px}
     .language-dropdown{position:absolute;top:calc(100% + 8px);right:0;z-index:1000;min-width:150px;padding:6px;border:1px solid var(--gold);border-radius:12px;background:var(--navy-nav);box-shadow:0 10px 28px rgba(0,0,0,.35);direction:ltr}
     .language-dropdown[hidden]{display:none}
@@ -315,9 +315,6 @@
             "لنصلِّ معاً",
             "assets/icons/icon-praying-hands.png"
           ],
-          ["كنيستنا", "تاريخ الكنيسة", "🏛️"],
-          ["اتصل بنا", "تواصل مع الرعية", "☎️"],
-          ["موقع الكنيسة", "افتح خرائط Google", "📍"]
         ],
         "nav": [
           "الرئيسية",
@@ -364,9 +361,6 @@
             "Prions ensemble",
             "assets/icons/icon-praying-hands.png"
           ],
-          ["Notre église", "Son histoire", "🏛️"],
-          ["Contactez-nous", "Contacter la paroisse", "☎️"],
-          ["Emplacement", "Ouvrir Google Maps", "📍"]
         ],
         "nav": [
           "Accueil",
@@ -413,9 +407,6 @@
             "Preghiamo insieme",
             "assets/icons/icon-praying-hands.png"
           ],
-          ["La nostra chiesa", "La sua storia", "🏛️"],
-          ["Contattaci", "Contatta la parrocchia", "☎️"],
-          ["Posizione", "Apri Google Maps", "📍"]
         ],
         "nav": [
           "Home",
@@ -832,7 +823,7 @@
       if(index===0){document.querySelectorAll('.feature-screen').forEach(x=>x.classList.remove('visible'));document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
       if(index===1)openNotifications();
       if(index===2)openFavorites();
-      if(index===3)openAbout();
+      if(index===3)openOurChurch();
     }
 
 
@@ -855,6 +846,12 @@
       it:{title:'La nostra chiesa',back:'Indietro',name:'Chiesa Nostra Signora del Soccorso – Saqiet El Misk',location:'Saqiet El Misk, zona di Bhersaf, Metn, Monte Libano',intro:'Storica chiesa maronita dedicata alla Vergine Maria con il titolo di Nostra Signora del Soccorso. Un luogo di preghiera e di fede per la comunità.',history:'Cenni storici',points:['1812: costruzione sul luogo della precedente chiesa di Sant’Antonio.','1841: consacrazione da parte del vescovo Elias Mhaseb.','1910: la vecchia cupola viene sostituita da quella attuale grazie alle offerte degli abitanti e della diaspora.','Primo quarto del XX secolo: decorazione degli interni.','2012: affreschi di I. Roukos sulla volta; la chiesa custodisce inoltre numerose icone.'],contact:'Contattaci',map:'Posizione su Google Maps',note:'Queste informazioni provengono da fonti storiche pubblicate. La parrocchia potrà aggiungere archivi e fotografie.'}
     };
     const churchMapUrl='https://www.google.com/maps/search/?api=1&query=Saydet+El+Maounet+Church+Saqiet+El+Misk+Bharsaf+Lebanon';
+    function openOurChurch(){
+      const l=churchHistoryLabels[currentLang];
+      document.getElementById('home-view').classList.add('hidden');document.getElementById('about-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';
+      document.getElementById('about-title').textContent=l.title;document.getElementById('about-back').textContent=l.back;
+      document.getElementById('about-content').innerHTML='<div class="church-menu-grid"><button type="button" class="church-menu-card" onclick="openAbout()"><span class="church-menu-icon" aria-hidden="true">🏛️</span><span>'+l.title+'</span></button><button type="button" class="church-menu-card" onclick="openContact()"><span class="church-menu-icon" aria-hidden="true">☎️</span><span>'+l.contact+'</span></button><button type="button" class="church-menu-card" onclick="openChurchMap()"><span class="church-menu-icon" aria-hidden="true">📍</span><span>'+l.map+'</span></button></div>';
+    }
     function openAbout(){
       document.getElementById('home-view').classList.add('hidden');document.getElementById('about-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';
       const l=churchHistoryLabels[currentLang];document.getElementById('about-title').textContent=l.title;document.getElementById('about-back').textContent=l.back;
