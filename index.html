@@ -175,6 +175,14 @@
     .rosary-diagram .opening-bead.current{fill:url(#doneBead);stroke:#fff;stroke-width:2;filter:url(#rosaryGlow)}
     .rosary-diagram .separator-bead{fill:url(#goldBead);stroke:#fff0c5;stroke-width:1.2;filter:url(#rosaryGlowSoft)}.rosary-diagram .separator-bead.done{fill:url(#doneBead);filter:url(#rosaryGlowSoft)}.rosary-diagram .separator-bead.current{fill:url(#doneBead);stroke:#fff;stroke-width:2;filter:url(#rosaryGlow)}
     .rosary-diagram .bead-shine{fill:rgba(255,255,255,.52);stroke:rgba(255,255,255,.28);stroke-width:.35;pointer-events:none}
+    .rosary-diagram .bead-glint{fill:#fff;opacity:.8;pointer-events:none;filter:drop-shadow(0 0 1px #fff)}
+    .rosary-diagram .decade-bead,.rosary-diagram .opening-bead,.rosary-diagram .opening-large-bead,.rosary-diagram .separator-bead{filter:url(#beadShadow)}
+    .rosary-diagram .rosary-cord{fill:none;stroke:url(#cordGold);stroke-width:3.2;stroke-linecap:round;filter:drop-shadow(0 2px 2px rgba(0,0,0,.8))}
+    .rosary-diagram .medal-rim{fill:url(#goldBead);stroke:#fff0bd;stroke-width:1.5;filter:drop-shadow(0 2px 2px rgba(0,0,0,.7))}
+    .rosary-diagram .medal-center{fill:#263d60;stroke:#f8dfa0;stroke-width:1.3}
+    .rosary-diagram .medal-mark{fill:none;stroke:#f8dfa0;stroke-width:1.2;stroke-linecap:round}
+    .rosary-diagram .rosary-crucifix path{fill:none;stroke:url(#crossGold);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 2px 2px rgba(0,0,0,.8))}
+    .rosary-diagram .rosary-crucifix .cross-highlight{stroke:#fff0bd;stroke-width:1.2;opacity:.8;filter:none}
     .rosary-diagram .rosary-cord{fill:none;stroke:#9b7542;stroke-width:2.1;opacity:.95;filter:drop-shadow(0 1px 1px rgba(0,0,0,.55))}
     .rosary-diagram .rosary-cross{fill:none;stroke:#d8bd82;stroke-width:4;stroke-linecap:round;filter:drop-shadow(0 1px 1px rgba(0,0,0,.7))}
     .rosary-diagram .rosary-medal{fill:url(#goldBead);stroke:#f5d58a;stroke-width:1.6}
@@ -565,13 +573,13 @@
       return idx>=0?idx:0;
     }
     function renderRosaryDiagram(activeDecade=0,activeBead=-1,openingBead=-1,openingStep=-1){
-      const l=rosaryLabels[currentLang],cx=190,cy=118,rx=116,ry=78;
+      const l=rosaryLabels[currentLang],cx=190,cy=126,rx=128,ry=86;
       let beads='';
-      // Traditional oval rosary: five decades, with a larger separator bead before each decade.
-      // Each bead is shaded and highlighted to resemble a polished pearl rather than a flat dot.
+      // A traditional five-decade rosary: 50 small Hail Mary beads and
+      // five larger Our Father beads, joined by a visible cord.
       const bead=(cls,x,y,r,title)=>{
-        const cx=x.toFixed(1),cy=y.toFixed(1),radius=r.toFixed(1);
-        return '<g class="rosary-bead-group"><circle class="'+cls+'" cx="'+cx+'" cy="'+cy+'" r="'+radius+'"><title>'+title+'</title></circle><ellipse class="bead-shine" cx="'+(x-r*.28).toFixed(1)+'" cy="'+(y-r*.34).toFixed(1)+'" rx="'+(r*.34).toFixed(1)+'" ry="'+(r*.2).toFixed(1)+'"/></g>';
+        const sx=x.toFixed(1),sy=y.toFixed(1),sr=r.toFixed(1);
+        return '<g class="rosary-bead-group"><circle class="'+cls+'" cx="'+sx+'" cy="'+sy+'" r="'+sr+'"><title>'+title+'</title></circle><ellipse class="bead-shine" cx="'+(x-r*.3).toFixed(1)+'" cy="'+(y-r*.36).toFixed(1)+'" rx="'+(r*.36).toFixed(1)+'" ry="'+(r*.22).toFixed(1)+'"/><circle class="bead-glint" cx="'+(x-r*.38).toFixed(1)+'" cy="'+(y-r*.48).toFixed(1)+'" r="'+Math.max(1,r*.09).toFixed(1)+'"/></g>';
       };
       for(let i=0;i<55;i++){
         const angle=(90+i*360/55)*Math.PI/180;
@@ -581,30 +589,36 @@
           const completed=activeDecade>decade||(activeDecade===decade&&activeBead>=0);
           const current=activeDecade===decade&&activeBead<0;
           const cls='separator-bead'+(completed?' done':'')+(current?' current':'');
-          beads+=bead(cls,x,y,6.7,l.decadeNumber+' '+decade+' — '+l.ourFatherLabel);
+          beads+=bead(cls,x,y,8.1,l.decadeNumber+' '+decade+' — '+l.ourFatherLabel);
         }else{
           const decade=Math.floor(i/11)+1,beadNo=(i%11)-1;
           const completed=activeDecade>decade||(activeDecade===decade&&activeBead>beadNo);
           const current=activeDecade===decade&&activeBead===beadNo;
           const cls='decade-bead'+(completed?' done':'')+(current?' current':'');
-          beads+=bead(cls,x,y,4.9,l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(beadNo+1));
+          beads+=bead(cls,x,y,6.0,l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(beadNo+1));
         }
       }
-      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,247+i*11,5.4,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
+      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,267+i*13,6.2,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
       const ourFatherClass='opening-large-bead'+(openingStep>2?' done':'')+(openingStep===2?' current':'');
       const gloryClass='opening-large-bead'+(openingStep>6?' done':'')+(openingStep===6?' current':'');
-      const openingLarge=bead(gloryClass,190,235,7.4,l.gloryBeLabel)+bead(ourFatherClass,190,285,7.4,l.ourFatherLabel);
-      return '<div class="rosary-diagram"><svg viewBox="0 0 380 328" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><defs>'+
-        '<radialGradient id="pearlBead" cx="32%" cy="25%" r="78%"><stop offset="0" stop-color="#fffef5"/><stop offset=".28" stop-color="#f8e8c4"/><stop offset=".68" stop-color="#d7b875"/><stop offset="1" stop-color="#8e672f"/></radialGradient>'+
-        '<radialGradient id="goldBead" cx="30%" cy="22%" r="80%"><stop offset="0" stop-color="#fff8d9"/><stop offset=".38" stop-color="#f4d58a"/><stop offset="1" stop-color="#a8752d"/></radialGradient>'+
-        '<radialGradient id="doneBead" cx="30%" cy="22%" r="80%"><stop offset="0" stop-color="#fffef0"/><stop offset=".42" stop-color="#ffe39a"/><stop offset="1" stop-color="#d39b3e"/></radialGradient>'+
-        '<filter id="rosaryGlow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="3.2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'+
-        '<filter id="rosaryGlowSoft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="1.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'+
-        '<ellipse class="rosary-cord" cx="190" cy="118" rx="116" ry="78"/>'+beads+
-        '<path class="rosary-cord" d="M190 196 L190 205 M190 227 L190 278 M190 292 L190 306"/>'+
-        '<ellipse class="rosary-medal" cx="190" cy="216" rx="9" ry="12"/><circle class="medal-center" cx="190" cy="216" r="5"/>'+
+      const openingLarge=bead(gloryClass,190,251,8.4,l.gloryBeLabel)+bead(ourFatherClass,190,314,8.4,l.ourFatherLabel);
+      return '<div class="rosary-diagram"><svg viewBox="0 0 380 390" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><defs>'+
+        '<radialGradient id="pearlBead" cx="28%" cy="22%" r="82%"><stop offset="0" stop-color="#fff"/><stop offset=".2" stop-color="#fff9e9"/><stop offset=".52" stop-color="#ead9bd"/><stop offset=".82" stop-color="#b99566"/><stop offset="1" stop-color="#654526"/></radialGradient>'+
+        '<radialGradient id="goldBead" cx="28%" cy="20%" r="82%"><stop offset="0" stop-color="#fffdf0"/><stop offset=".25" stop-color="#f8e6ae"/><stop offset=".7" stop-color="#c99b4c"/><stop offset="1" stop-color="#76501f"/></radialGradient>'+
+        '<radialGradient id="doneBead" cx="28%" cy="20%" r="82%"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ffe9ad"/><stop offset=".75" stop-color="#d9a84f"/><stop offset="1" stop-color="#80551e"/></radialGradient>'+
+        '<linearGradient id="cordGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d99c"/><stop offset=".45" stop-color="#89612e"/><stop offset="1" stop-color="#e3bd75"/></linearGradient>'+
+        '<linearGradient id="crossGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0bd"/><stop offset=".45" stop-color="#c99b4c"/><stop offset="1" stop-color="#76501f"/></linearGradient>'+
+        '<filter id="rosaryGlow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'+
+        '<filter id="rosaryGlowSoft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="1.4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'+
+        '<filter id="beadShadow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.5" result="blur"/><feOffset dy="1.5"/><feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'+
+        '<path class="rosary-cord" d="M190 212 C120 211 62 172 62 126 C62 78 119 40 190 40 C261 40 318 78 318 126 C318 174 260 211 190 212"/>'+
+        beads+
+        '<path class="rosary-cord" d="M190 213 C190 224 190 230 190 239 M190 263 L190 243 M190 325 L190 338"/>'+
+        '<path class="medal-rim" d="M190 221 C179 221 174 229 176 238 C178 247 184 251 190 254 C196 251 202 247 204 238 C206 229 201 221 190 221Z"/>'+
+        '<circle class="medal-center" cx="190" cy="237" r="8"/><path class="medal-mark" d="M190 230 V244 M185 235 H195"/>'+
         openingLarge+openingHail+
-        '<path class="rosary-cross" d="M190 306 V320 M180 311 H200"/><text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
+        '<g class="rosary-crucifix"><path d="M190 338 V378 M176 350 H204"/><path d="M190 338 V378 M176 350 H204" class="cross-highlight"/><circle cx="190" cy="338" r="3.2"/></g>'+
+        '<text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
     }
     function renderRosary(){
       const l=rosaryLabels[currentLang];
