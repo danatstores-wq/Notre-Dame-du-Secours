@@ -208,7 +208,7 @@
       <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
       <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
     </section>
-    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
+    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><section class="feature-screen" id="parish-life-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeParishLife()" id="parish-life-back">←</button><h2 id="parish-life-title"></h2></div><div class="feature-tabs" id="parish-life-tabs"></div><div class="feature-content" id="parish-life-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
   </div>
 
   <script>
@@ -396,6 +396,7 @@
       if (document.getElementById('rosary-screen').classList.contains('visible')) renderRosary();
       if (document.getElementById('prayer-library-screen').classList.contains('visible')) renderPrayerLibrary();
       if (document.getElementById('announcements-screen').classList.contains('visible')) renderAnnouncements();
+      if (document.getElementById('parish-life-screen').classList.contains('visible')) renderParishLife();
     }
 
     render();
@@ -423,6 +424,7 @@
       if(index===1){document.getElementById('home-view').classList.add('hidden');document.getElementById('rosary-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadRosary();return;}
       if(index===2){document.getElementById('home-view').classList.add('hidden');document.getElementById('prayer-library-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadPrayerLibrary();return;}
       if(index===3){document.getElementById('home-view').classList.add('hidden');document.getElementById('announcements-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadAnnouncements();return;}
+      if(index===4){document.getElementById('home-view').classList.add('hidden');document.getElementById('parish-life-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadParishLife();return;}
     }
     function closeRosary(){document.getElementById('rosary-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     async function loadRosary(){const box=document.getElementById('rosary-content');box.textContent=rosaryLabels[currentLang].noAudio;try{const response=await fetch('src/data/rosary.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');rosaryData=await response.json();renderRosary();}catch(e){box.textContent=rosaryLabels[currentLang].unavailable;}}
@@ -474,6 +476,35 @@
       box.innerHTML=entries.map(item=>'<article class="schedule-entry"><h3 style="color:var(--gold-light)">'+escapeHtml(item['title'+currentLang.toUpperCase()]||item.title?.[currentLang]||item.title||'')+'</h3><p style="margin-top:8px;line-height:1.8">'+escapeHtml(item['body'+currentLang.toUpperCase()]||item.body?.[currentLang]||item.body||'')+'</p>'+(item.date?'<small>'+escapeHtml(item.date)+'</small>':'')+'</article>').join('');
     }
     function closeAnnouncements(){document.getElementById('announcements-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+
+  
+    const parishLifeLabels={
+      ar:{title:'حياة الرعية ونشاطاتنا',back:'رجوع',tabs:['المجموعات','النشاطات','الصور'],loading:'جارٍ تحميل معلومات الرعية…',emptyGroups:'لم تُضف معلومات عن المجموعات الرعوية بعد.',emptyActivities:'لا توجد نشاطات منشورة حالياً.',emptyGalleries:'لا توجد صور منشورة حالياً.',error:'تعذّر تحميل معلومات الرعية حالياً.'},
+      fr:{title:'Vie paroissiale et activités',back:'Retour',tabs:['Groupes','Activités','Photos'],loading:'Chargement des informations paroissiales…',emptyGroups:'Aucune information sur les groupes paroissiaux pour le moment.',emptyActivities:'Aucune activité publiée pour le moment.',emptyGalleries:'Aucune photo publiée pour le moment.',error:'Impossible de charger les informations paroissiales.'},
+      it:{title:'Vita parrocchiale e attività',back:'Indietro',tabs:['Gruppi','Attività','Foto'],loading:'Caricamento delle informazioni parrocchiali…',emptyGroups:'Nessuna informazione sui gruppi parrocchiali al momento.',emptyActivities:'Nessuna attività pubblicata al momento.',emptyGalleries:'Nessuna foto pubblicata al momento.',error:'Impossibile caricare le informazioni parrocchiali.'}
+    };
+    let parishLifeData=null,parishLifeTab=0;
+    async function loadParishLife(){
+      const box=document.getElementById('parish-life-content');box.innerHTML='<p class="empty-state">'+parishLifeLabels[currentLang].loading+'</p>';
+      try{const response=await fetch('src/data/parish-life.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');parishLifeData=await response.json();renderParishLife();}
+      catch(e){box.innerHTML='<p class="empty-state">'+parishLifeLabels[currentLang].error+'</p>';}
+    }
+    function renderParishLife(){
+      const l=parishLifeLabels[currentLang];document.getElementById('parish-life-title').textContent=l.title;document.getElementById('parish-life-back').textContent=l.back;
+      document.getElementById('parish-life-tabs').innerHTML=l.tabs.map((label,i)=>'<button class="feature-tab '+(i===parishLifeTab?'active':'')+'" onclick="selectParishLifeTab('+i+')">'+label+'</button>').join('');
+      const box=document.getElementById('parish-life-content');if(!parishLifeData){box.innerHTML='<p class="empty-state">'+l.error+'</p>';return;}
+      const keys=['groups','activities','galleries'],emptyKeys=['emptyGroups','emptyActivities','emptyGalleries'],items=parishLifeData[keys[parishLifeTab]]||[];
+      if(!items.length){box.innerHTML='<p class="empty-state">'+l[emptyKeys[parishLifeTab]]+'</p>';return;}
+      box.innerHTML=items.map(item=>{
+        const title=item['title'+currentLang.toUpperCase()]||item.title?.[currentLang]||item.name?.[currentLang]||item.title||item.name||'';
+        const description=item['description'+currentLang.toUpperCase()]||item.description?.[currentLang]||item.description||'';
+        const date=item.date||item.startDate||'';
+        const image=item.image||item.photo||'';
+        return '<article class="schedule-entry">'+(image?'<img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:190px;object-fit:cover;border-radius:10px;margin-bottom:10px">':'')+'<h3 style="color:var(--gold-light)">'+escapeHtml(title)+'</h3>'+(description?'<p style="margin-top:8px;line-height:1.8">'+escapeHtml(description)+'</p>':'')+(date?'<small>'+escapeHtml(date)+'</small>':'')+'</article>';
+      }).join('');
+    }
+    function selectParishLifeTab(index){parishLifeTab=index;renderParishLife();}
+    function closeParishLife(){document.getElementById('parish-life-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
 
   </script>
 </body>
