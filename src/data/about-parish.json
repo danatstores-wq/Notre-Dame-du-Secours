@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "parish": {
+    "name": {
+      "ar": "كنيسة سيدة المعونات",
+      "fr": "Église Notre-Dame du Secours",
+      "it": "Chiesa Nostra Signora del Soccorso"
+    },
+    "history": {"ar": null, "fr": null, "it": null},
+    "address": null,
+    "mapCoordinates": null,
+    "phone": null,
+    "email": null,
+    "website": null,
+    "officeHours": null
+  },
+  "gallery": [],
+  "contentStatus": "awaiting-parish-approved-information",
+  "note": "No address, contact information, history, hours, or map pin is invented. Populate only after parish confirmation and priest approval."
+}
