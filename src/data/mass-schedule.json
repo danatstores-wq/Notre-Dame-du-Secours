@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "language": "ar-fr",
+  "language": "ar-fr-it",
   "massSchedule": [],
   "specialMasses": [],
   "activities": [],
   "_notes": {
-    "massSchedule": "Populate only with parish-confirmed times. Example shape: {id, dayOfWeek, time, labelAr, labelFr, locationAr, locationFr}.",
-    "specialMasses": "Special or feast-day Mass entries require approved dates/times.",
-    "activities": "Parish calendar activities require confirmed details."
+    "massSchedule": "Populate only with parish-confirmed times. Suggested shape: {id, dayOfWeek, time, titleAr, titleFr, titleIt, locationAr, locationFr, locationIt}.",
+    "specialMasses": "Special or feast-day Mass entries require approved dates/times and translated titles.",
+    "activities": "Parish calendar activities require confirmed details and translated titles/descriptions."
   }
 }
