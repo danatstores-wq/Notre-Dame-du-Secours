@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "languages": [
+    "ar",
+    "fr",
+    "it"
+  ],
+  "categories": [
+    "health",
+    "family",
+    "peace",
+    "thanksgiving",
+    "other"
+  ],
+  "requests": [],
+  "settings": {
+    "anonymousSubmissionEnabled": false,
+    "publicSharingEnabled": false,
+    "retentionPeriodDays": null
+  },
+  "note": "Empty scaffold. Configure privacy, retention, abuse protection, and server-side access rules before enabling submissions."
+}
