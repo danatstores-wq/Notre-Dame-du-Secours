@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "languages": [
+    "ar",
+    "fr",
+    "it"
+  ],
+  "reviewNote": "Starter content for clergy review before app release. No audio recordings included.",
+  "categories": [
+    {
+      "id": "common",
+      "names": {
+        "ar": "صلوات أساسية",
+        "fr": "Prières essentielles",
+        "it": "Preghiere essenziali"
+      },
+      "prayers": [
+        {
+          "id": "our-father",
+          "title": {
+            "ar": "أبانا",
+            "fr": "Notre Père",
+            "it": "Padre nostro"
+          },
+          "text": {
+            "ar": "أبانا الذي في السماوات، ليتقدّس اسمك، ليأتِ ملكوتك، لتكن مشيئتك كما في السماء كذلك على الأرض. أعطنا خبزنا كفاف يومنا، واغفر لنا خطايانا كما نحن نغفر لمن أخطأ إلينا، ولا تدخلنا في التجربة، لكن نجّنا من الشرير. آمين.",
+            "fr": "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite sur la terre comme au ciel. Donne-nous aujourd’hui notre pain de ce jour. Pardonne-nous nos offenses, comme nous pardonnons aussi à ceux qui nous ont offensés. Et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen.",
+            "it": "Padre nostro che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori. E non abbandonarci alla tentazione, ma liberaci dal male. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null
+          }
+        },
+        {
+          "id": "hail-mary",
+          "title": {
+            "ar": "السلام عليكِ يا مريم",
+            "fr": "Je vous salue Marie",
+            "it": "Ave Maria"
+          },
+          "text": {
+            "ar": "السلام عليكِ يا مريم، يا ممتلئة نعمة، الرب معكِ. مباركة أنتِ في النساء، ومباركة ثمرة بطنكِ يسوع. يا مريم القديسة، يا والدة الله، صلّي لأجلنا نحن الخطأة، الآن وفي ساعة موتنا. آمين.",
+            "fr": "Je vous salue, Marie, pleine de grâce ; le Seigneur est avec vous. Vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant et à l’heure de notre mort. Amen.",
+            "it": "Ave Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù. Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell’ora della nostra morte. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null
+          }
+        },
+        {
+          "id": "glory-be",
+          "title": {
+            "ar": "المجد للآب",
+            "fr": "Gloire au Père",
+            "it": "Gloria al Padre"
+          },
+          "text": {
+            "ar": "المجد للآب والابن والروح القدس، كما كان في البدء والآن وكل أوان وإلى دهر الدهور. آمين.",
+            "fr": "Gloire au Père, au Fils et au Saint-Esprit, comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
+            "it": "Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, ora e sempre, nei secoli dei secoli. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "thanksgiving",
+      "names": {
+        "ar": "صلوات الشكر",
+        "fr": "Prières de remerciement",
+        "it": "Preghiere di ringraziamento"
+      },
+      "prayers": [
+        {
+          "id": "thanks",
+          "title": {
+            "ar": "صلاة شكر",
+            "fr": "Prière de remerciement",
+            "it": "Preghiera di ringraziamento"
+          },
+          "text": {
+            "ar": "يا رب، أشكرك على نعمتك ومحبتك، وعلى كل عطية تمنحني إياها. ساعدني أن أعيش بقلب ممتن، وأن أشارك خيرك مع الآخرين. آمين.",
+            "fr": "Seigneur, je te remercie pour ta grâce, ton amour et tous les dons que tu m’accordes. Aide-moi à vivre avec un cœur reconnaissant et à partager tes bienfaits avec les autres. Amen.",
+            "it": "Signore, ti ringrazio per la tua grazia, il tuo amore e ogni dono che mi concedi. Aiutami a vivere con un cuore riconoscente e a condividere il tuo bene con gli altri. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "peace",
+      "names": {
+        "ar": "صلوات من أجل السلام",
+        "fr": "Prières pour la paix",
+        "it": "Preghiere per la pace"
+      },
+      "prayers": [
+        {
+          "id": "peace",
+          "title": {
+            "ar": "صلاة من أجل السلام",
+            "fr": "Prière pour la paix",
+            "it": "Preghiera per la pace"
+          },
+          "text": {
+            "ar": "يا رب السلام، ازرع سلامك في قلوبنا وفي عائلاتنا والعالم. علّمنا أن نكون أدوات للمصالحة والمحبة، وأن نرفض العنف ونختار الرحمة. آمين.",
+            "fr": "Seigneur de la paix, fais grandir ta paix dans nos cœurs, nos familles et dans le monde. Apprends-nous à être des artisans de réconciliation et d’amour, à rejeter la violence et à choisir la miséricorde. Amen.",
+            "it": "Signore della pace, dona la tua pace ai nostri cuori, alle nostre famiglie e al mondo. Insegnaci a essere strumenti di riconciliazione e di amore, a rifiutare la violenza e a scegliere la misericordia. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null
+          }
+        }
+      ]
+    }
+  ]
+}
