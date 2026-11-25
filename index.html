@@ -691,6 +691,7 @@
     function playCurrentPrayer(){
       const l=prayerLibraryLabels[currentLang],text=(prayerLibraryData?.categories.find(c=>c.id===selectedPrayerCategory)?.prayers.find(p=>p.id===selectedPrayer)?.text?.[currentLang]||'').trim();
       if(!text)return;
+      if(/بانتظار|à venir|in arrivo|awaiting/i.test(text)){setPrayerSpeechStatus(l.textPending);return;}
       if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){setPrayerSpeechStatus(l.unsupported);return;}
       stopCurrentPrayer(false);
       const utterance=new SpeechSynthesisUtterance(text);
