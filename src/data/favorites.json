@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "storage": "device-local",
+  "requiresAccount": false,
+  "supportedContentTypes": [
+    "prayer",
+    "rosary",
+    "announcement",
+    "mass",
+    "parishActivity"
+  ],
+  "items": [],
+  "note": "Empty local-data scaffold. Favorites are personal and must never modify or delete shared parish content."
+}
