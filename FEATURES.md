@@ -33,11 +33,14 @@ This document tracks the planned features for the trilingual Arabic (RTL), Frenc
 - Text, publication date, optional photos/audio/video.
 - Push notifications for important posts.
 - Admin publishing without requiring an app update.
+- Only the priest's specifically authorized administrator account may manage shared posts; ordinary users can read and save favorites but cannot publish or edit.
 
 ## 5. Parish Life & Activities
 - Parish groups, youth/children activities, gatherings, community events.
 - Upcoming and past activity listings and photo galleries.
 - Optional event registration as a future feature.
+- Arabic, French, and Italian content; do not invent group names, schedules, contacts, or events.
+- Only the priest's specifically authorized administrator account may create, edit, publish, archive, or remove shared group/activity content; ordinary users are read-only.
 
 ## 6. Prayer Requests
 - Submit in Arabic or French.
