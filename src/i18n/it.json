@@ -1,0 +1,48 @@
+{
+  "app": {
+    "title": "Chiesa Nostra Signora del Soccorso",
+    "subtitle": "La nostra parrocchia, casa di preghiera e di fede",
+    "welcome": "Benvenuti nella nostra parrocchia",
+    "motto": "« Nostra Signora del Soccorso, prega per noi »",
+    "language": "Italiano",
+    "switchLanguage": "العربية / Français"
+  },
+  "menu": {
+    "massTimes": {
+      "title": "Orari delle Messe",
+      "subtitle": "e Attività",
+      "icon": "assets/icons/icon-calendar.png"
+    },
+    "rosary": {
+      "title": "Santo Rosario",
+      "subtitle": "Inizia la preghiera",
+      "icon": "assets/icons/icon-rosary.png"
+    },
+    "prayerLibrary": {
+      "title": "Biblioteca delle Preghiere",
+      "subtitle": "Audio e Testo",
+      "icon": "assets/icons/icon-bible.png"
+    },
+    "priestMessages": {
+      "title": "Messaggi del Sacerdote",
+      "subtitle": "e Notizie Parrocchiali",
+      "icon": "assets/icons/icon-megaphone.png"
+    },
+    "parishLife": {
+      "title": "Vita Parrocchiale",
+      "subtitle": "e Attività",
+      "icon": "assets/icons/icon-church.png"
+    },
+    "prayerRequests": {
+      "title": "Intenzioni di Preghiera",
+      "subtitle": "Preghiamo insieme",
+      "icon": "assets/icons/icon-praying-hands.png"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "notifications": "Notifiche",
+    "favorites": "Preferiti",
+    "about": "Informazioni"
+  }
+}
