@@ -1,0 +1,262 @@
+{
+  "version": 1,
+  "audio": {
+    "ar": null,
+    "fr": null,
+    "status": "recordings-not-yet-provided",
+    "timingMarkers": []
+  },
+  "mysteries": [
+    {
+      "id": "joyful",
+      "name": {
+        "ar": "الأسرار الفرحية",
+        "fr": "Mystères joyeux"
+      },
+      "days": [
+        "monday",
+        "saturday"
+      ],
+      "episodes": [
+        {
+          "ar": "بشارة الملاك لمريم العذراء",
+          "fr": "L’Annonciation"
+        },
+        {
+          "ar": "زيارة مريم لأليصابات",
+          "fr": "La Visitation"
+        },
+        {
+          "ar": "ولادة يسوع في بيت لحم",
+          "fr": "La Nativité"
+        },
+        {
+          "ar": "تقديم يسوع في الهيكل",
+          "fr": "La Présentation de Jésus au Temple"
+        },
+        {
+          "ar": "يسوع في الهيكل بين العلماء",
+          "fr": "Jésus retrouvé au Temple"
+        }
+      ]
+    },
+    {
+      "id": "luminous",
+      "name": {
+        "ar": "الأسرار النورانية",
+        "fr": "Mystères lumineux"
+      },
+      "days": [
+        "thursday"
+      ],
+      "episodes": [
+        {
+          "ar": "معمودية يسوع في الأردن",
+          "fr": "Le Baptême de Jésus au Jourdain"
+        },
+        {
+          "ar": "عرس قانا الجليل",
+          "fr": "Les Noces de Cana"
+        },
+        {
+          "ar": "إعلان ملكوت الله والدعوة إلى التوبة",
+          "fr": "L’Annonce du Royaume et l’appel à la conversion"
+        },
+        {
+          "ar": "تجلي يسوع",
+          "fr": "La Transfiguration"
+        },
+        {
+          "ar": "تأسيس سر القربان",
+          "fr": "L’Institution de l’Eucharistie"
+        }
+      ]
+    },
+    {
+      "id": "sorrowful",
+      "name": {
+        "ar": "الأسرار الحزينة",
+        "fr": "Mystères douloureux"
+      },
+      "days": [
+        "tuesday",
+        "friday"
+      ],
+      "episodes": [
+        {
+          "ar": "صلاة يسوع في بستان الزيتون",
+          "fr": "L’Agonie de Jésus au Jardin des Oliviers"
+        },
+        {
+          "ar": "جلد يسوع",
+          "fr": "La Flagellation"
+        },
+        {
+          "ar": "تتويج يسوع بالشوك",
+          "fr": "Le Couronnement d’épines"
+        },
+        {
+          "ar": "حمل يسوع الصليب",
+          "fr": "Le Portement de la Croix"
+        },
+        {
+          "ar": "صلب يسوع وموته",
+          "fr": "La Crucifixion et la Mort de Jésus"
+        }
+      ]
+    },
+    {
+      "id": "glorious",
+      "name": {
+        "ar": "الأسرار المجيدة",
+        "fr": "Mystères glorieux"
+      },
+      "days": [
+        "wednesday",
+        "sunday"
+      ],
+      "episodes": [
+        {
+          "ar": "قيامة يسوع",
+          "fr": "La Résurrection"
+        },
+        {
+          "ar": "صعود يسوع إلى السماء",
+          "fr": "L’Ascension"
+        },
+        {
+          "ar": "حلول الروح القدس",
+          "fr": "La Pentecôte"
+        },
+        {
+          "ar": "انتقال مريم العذراء",
+          "fr": "L’Assomption de Marie"
+        },
+        {
+          "ar": "تتويج مريم ملكة السماء والأرض",
+          "fr": "Le Couronnement de Marie"
+        }
+      ]
+    }
+  ],
+  "prayerSequence": [
+    {
+      "id": "sign-of-cross",
+      "type": "prayer",
+      "bead": "cross",
+      "label": {
+        "ar": "إشارة الصليب",
+        "fr": "Signe de la Croix"
+      }
+    },
+    {
+      "id": "creed",
+      "type": "prayer",
+      "bead": "cross",
+      "label": {
+        "ar": "قانون الإيمان",
+        "fr": "Credo"
+      }
+    },
+    {
+      "id": "our-father-opening",
+      "type": "prayer",
+      "bead": "single",
+      "label": {
+        "ar": "أبانا",
+        "fr": "Notre Père"
+      }
+    },
+    {
+      "id": "hail-mary-opening-1",
+      "type": "prayer",
+      "bead": "small",
+      "label": {
+        "ar": "السلام عليك يا مريم",
+        "fr": "Je vous salue Marie"
+      }
+    },
+    {
+      "id": "hail-mary-opening-2",
+      "type": "prayer",
+      "bead": "small",
+      "label": {
+        "ar": "السلام عليك يا مريم",
+        "fr": "Je vous salue Marie"
+      }
+    },
+    {
+      "id": "hail-mary-opening-3",
+      "type": "prayer",
+      "bead": "small",
+      "label": {
+        "ar": "السلام عليك يا مريم",
+        "fr": "Je vous salue Marie"
+      }
+    },
+    {
+      "id": "glory-be-opening",
+      "type": "prayer",
+      "bead": "single",
+      "label": {
+        "ar": "المجد للآب",
+        "fr": "Gloire au Père"
+      }
+    },
+    {
+      "id": "decade",
+      "type": "repeat",
+      "count": 5,
+      "steps": [
+        {
+          "id": "mystery-announcement",
+          "type": "mystery"
+        },
+        {
+          "id": "our-father",
+          "type": "prayer",
+          "bead": "single",
+          "label": {
+            "ar": "أبانا",
+            "fr": "Notre Père"
+          }
+        },
+        {
+          "id": "hail-mary",
+          "type": "repeat",
+          "count": 10,
+          "bead": "small",
+          "label": {
+            "ar": "السلام عليك يا مريم",
+            "fr": "Je vous salue Marie"
+          }
+        },
+        {
+          "id": "glory-be",
+          "type": "prayer",
+          "bead": "single",
+          "label": {
+            "ar": "المجد للآب",
+            "fr": "Gloire au Père"
+          }
+        },
+        {
+          "id": "fatima-prayer",
+          "type": "optional-prayer",
+          "label": {
+            "ar": "يا يسوع، اغفر لنا خطايانا...",
+            "fr": "Ô mon Jésus, pardonnez-nous nos péchés..."
+          }
+        }
+      ]
+    },
+    {
+      "id": "closing",
+      "type": "prayer",
+      "label": {
+        "ar": "صلاة ختامية",
+        "fr": "Prière finale"
+      }
+    }
+  ]
+}
