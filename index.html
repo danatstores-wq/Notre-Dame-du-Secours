@@ -563,26 +563,30 @@
     function renderRosaryDiagram(activeDecade=0,activeBead=-1,openingBead=-1,openingStep=-1){
       const l=rosaryLabels[currentLang],cx=190,cy=118,rx=116,ry=78;
       let beads='';
-      for(let i=0;i<50;i++){
-        const angle=(-90+i*360/50)*Math.PI/180;
+      // The loop is ordered as five groups: one large Our Father bead, then ten small Hail Mary beads.
+      // The first large bead sits immediately after the medal at the bottom of the loop.
+      for(let i=0;i<55;i++){
+        const angle=(90+i*360/55)*Math.PI/180;
         const x=cx+rx*Math.cos(angle),y=cy+ry*Math.sin(angle);
-        const decade=Math.floor(i/10)+1,bead=i%10;
-        const completed=activeDecade>decade||(activeDecade===decade&&activeBead>bead);
-        const current=activeDecade===decade&&activeBead===bead;
-        const cls='decade-bead'+(completed?' done':'')+(current?' current':'');
-        beads+='<circle class="'+cls+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4.2"><title>'+l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(bead+1)+'</title></circle>';
-      }
-      let separators='';
-      for(let i=0;i<5;i++){
-        const angle=(-90+(i*10+9.5)*360/50)*Math.PI/180;
-        const x=cx+rx*Math.cos(angle),y=cy+ry*Math.sin(angle);
-        separators+='<circle class="separator-bead" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="6"/>';
+        if(i%11===0){
+          const decade=i/11+1;
+          const completed=activeDecade>decade||(activeDecade===decade&&activeBead>=0);
+          const current=activeDecade===decade&&activeBead<0;
+          const cls='separator-bead'+(completed?' done':'')+(current?' current':'');
+          beads+='<circle class="'+cls+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="6.2"><title>'+l.decadeNumber+' '+decade+' — '+l.ourFatherLabel+'</title></circle>';
+        }else{
+          const decade=Math.floor(i/11)+1,bead=(i%11)-1;
+          const completed=activeDecade>decade||(activeDecade===decade&&activeBead>bead);
+          const current=activeDecade===decade&&activeBead===bead;
+          const cls='decade-bead'+(completed?' done':'')+(current?' current':'');
+          beads+='<circle class="'+cls+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4.2"><title>'+l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(bead+1)+'</title></circle>';
+        }
       }
       const openingHail=[0,1,2].map(i=>'<circle class="opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':'')+'" cx="190" cy="'+(240+i*11)+'" r="5"><title>'+l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel+'</title></circle>').join('');
       const ourFatherClass='opening-large-bead'+(openingStep>2?' done':'')+(openingStep===2?' current':'');
       const gloryClass='opening-large-bead'+(openingStep>6?' done':'')+(openingStep===6?' current':'');
       const openingLarge='<circle class="'+gloryClass+'" cx="190" cy="228" r="7"><title>'+l.gloryBeLabel+'</title></circle><circle class="'+ourFatherClass+'" cx="190" cy="276" r="7"><title>'+l.ourFatherLabel+'</title></circle>';
-      return '<div class="rosary-diagram"><svg viewBox="0 0 380 310" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><defs><filter id="rosaryGlow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="3.2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="rosaryGlowSoft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="1.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><ellipse class="rosary-cord" cx="190" cy="118" rx="116" ry="78"/>'+beads+separators+'<path class="rosary-cord" d="M190 196 L190 218 M190 235 L190 270 M190 283 L190 296"/><circle class="rosary-medal" cx="190" cy="207" r="11"/>'+openingLarge+openingHail+'<path class="rosary-cross" d="M190 296 V307 M180 300 H200"/><text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
+      return '<div class="rosary-diagram"><svg viewBox="0 0 380 310" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><defs><filter id="rosaryGlow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="3.2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="rosaryGlowSoft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="1.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><ellipse class="rosary-cord" cx="190" cy="118" rx="116" ry="78"/>'+beads+'<path class="rosary-cord" d="M190 196 L190 218 M190 235 L190 270 M190 283 L190 296"/><circle class="rosary-medal" cx="190" cy="207" r="11"/>'+openingLarge+openingHail+'<path class="rosary-cross" d="M190 296 V307 M180 300 H200"/><text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
     }
     function renderRosary(){
       const l=rosaryLabels[currentLang];
@@ -622,7 +626,7 @@
       const openingBead=step.kind==='hail'&&!step.decade?step.hailIndex:-1;
       const previous=rosaryGuideIndex===0?'disabled':'';
       const action=step.kind==='optional'?l.skip:l.next;
-      box.innerHTML=renderRosaryDiagram(step.decade||0,diagramBead,openingBead,step.decade?7:rosaryGuideIndex)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
+      box.innerHTML=renderRosaryDiagram(step.decade||(step.kind==='closing'?6:0),diagramBead,openingBead,step.decade?7:rosaryGuideIndex)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
     }
     function selectRosaryMystery(index){selectedMystery=index;window.rosaryUserSelected=true;renderRosary();}
     function buildRosaryGuide(){
