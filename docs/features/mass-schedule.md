@@ -1,23 +1,23 @@
 # Feature 1 — Mass Schedule & Activities
 
-## Screen structure
-1. Tabs/filters: Masses, Special Masses, Activities.
-2. Masses: weekly schedule grouped by day; show time and church/location.
-3. Special Masses: approved date/time details for feast days and special celebrations.
-4. Activities: calendar and upcoming-list toggle; tap an activity for details.
-5. Event detail: title, date, time, location, description, optional photo, reminder button.
-6. Reminder: optional local notification for a selected event.
+## Visitor experience
+- Three tabs: weekly Masses, special/feast-day Masses, and parish activities.
+- Activities are intended to support calendar and upcoming-list views, with event details and optional local reminders.
+- The dashboard card opens this feature; a back control returns to the dashboard.
+- The screen reads its public content from `src/data/mass-schedule.json`.
 
-## Arabic/French behavior
-- Arabic uses RTL layout and Arabic labels.
-- French uses LTR layout and French labels.
-- Day and month names are localized.
-- Schedule data can have separate Arabic/French names and descriptions.
+## Language and direction
+- Arabic: RTL.
+- French and Italian: LTR.
+- Tab labels and empty/loading/error states are localized in all three languages.
+- Schedule and activity content should provide Arabic, French, and Italian fields wherever possible.
 
-## Data and publishing
-- Schedule data is in `src/data/mass-schedule.json`.
-- Keep the data empty until the parish confirms its real schedule. Do not display fabricated Mass times.
-- Plan for authorized content management so parish staff can update schedules/events without an app release.
+## Data integrity
+- The current data arrays are intentionally empty.
+- Do not invent or display Mass times, feast-day celebrations, or activities.
+- Populate entries only after the parish confirms the exact information.
+- The current preview provides read-only display. It does not yet provide priest editing, calendar reminders, or backend publishing.
 
-## Proposed card icon
-Keep the existing calendar icon. The card title is localized as Mass Schedule / Horaires des Messes; its subtitle indicates Activities / Activités.
+## Administration (planned)
+- The priest is the sole administrator allowed to add, edit, publish, or remove schedule and activity entries.
+- Enforce these permissions in the backend/database rules, not only in the interface.
