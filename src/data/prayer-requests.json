@@ -1,22 +1,18 @@
 {
-  "version": 1,
-  "languages": [
-    "ar",
-    "fr",
-    "it"
-  ],
-  "categories": [
-    "health",
-    "family",
-    "peace",
-    "thanksgiving",
-    "other"
-  ],
+  "version": 2,
+  "languages": ["ar", "fr", "it"],
+  "categories": ["health", "family", "peace", "thanksgiving", "other"],
   "requests": [],
+  "requestStatuses": ["pending", "approved", "rejected"],
   "settings": {
+    "registrationRequiredForPrayerRequests": true,
+    "emailPasswordAuthentication": true,
+    "emailVerificationRequired": true,
+    "phoneVerificationRequired": false,
     "anonymousSubmissionEnabled": false,
     "publicSharingEnabled": false,
+    "defaultStatus": "pending",
     "retentionPeriodDays": null
   },
-  "note": "Empty scaffold. Configure privacy, retention, abuse protection, and server-side access rules before enabling submissions."
+  "note": "Empty scaffold only. All app features except prayer-request submission remain accessible without registration. Email verification delivery is deferred; enforce verified-email status and all permissions on the trusted backend before production."
 }
