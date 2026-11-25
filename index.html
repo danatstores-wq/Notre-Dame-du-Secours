@@ -598,10 +598,10 @@
           beads+=bead(cls,x,y,6.0,l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(beadNo+1));
         }
       }
-      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,267+i*13,6.2,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
+      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,275+i*13,6.2,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
       const ourFatherClass='opening-large-bead'+(openingStep>2?' done':'')+(openingStep===2?' current':'');
       const gloryClass='opening-large-bead'+(openingStep>6?' done':'')+(openingStep===6?' current':'');
-      const openingLarge=bead(gloryClass,190,251,8.4,l.gloryBeLabel)+bead(ourFatherClass,190,314,8.4,l.ourFatherLabel);
+      const openingLarge=bead(gloryClass,190,258,8.4,l.gloryBeLabel)+bead(ourFatherClass,190,319,8.4,l.ourFatherLabel);
       return '<div class="rosary-diagram"><svg viewBox="0 0 380 390" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><defs>'+
         '<radialGradient id="pearlBead" cx="28%" cy="22%" r="82%"><stop offset="0" stop-color="#fff"/><stop offset=".2" stop-color="#fff9e9"/><stop offset=".52" stop-color="#ead9bd"/><stop offset=".82" stop-color="#b99566"/><stop offset="1" stop-color="#654526"/></radialGradient>'+
         '<radialGradient id="goldBead" cx="28%" cy="20%" r="82%"><stop offset="0" stop-color="#fffdf0"/><stop offset=".25" stop-color="#f8e6ae"/><stop offset=".7" stop-color="#c99b4c"/><stop offset="1" stop-color="#76501f"/></radialGradient>'+
@@ -613,9 +613,9 @@
         '<filter id="beadShadow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.5" result="blur"/><feOffset dy="1.5"/><feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'+
         '<path class="rosary-cord" d="M190 212 C120 211 62 172 62 126 C62 78 119 40 190 40 C261 40 318 78 318 126 C318 174 260 211 190 212"/>'+
         beads+
-        '<path class="rosary-cord" d="M190 213 C190 224 190 230 190 239 M190 263 L190 243 M190 325 L190 338"/>'+
-        '<path class="medal-rim" d="M190 221 C179 221 174 229 176 238 C178 247 184 251 190 254 C196 251 202 247 204 238 C206 229 201 221 190 221Z"/>'+
-        '<circle class="medal-center" cx="190" cy="237" r="8"/><path class="medal-mark" d="M190 230 V244 M185 235 H195"/>'+
+        '<path class="rosary-cord" d="M190 213 C190 220 190 224 190 228 M190 247 L190 250 M190 330 L190 338"/>'+
+        '<path class="medal-rim" d="M190 216 C179 216 174 224 176 233 C178 242 184 246 190 249 C196 246 202 242 204 233 C206 224 201 216 190 216Z"/>'+
+        '<circle class="medal-center" cx="190" cy="232" r="8"/><path class="medal-mark" d="M190 225 V239 M185 230 H195"/>'+
         openingLarge+openingHail+
         '<g class="rosary-crucifix"><path d="M190 338 V378 M176 350 H204"/><path d="M190 338 V378 M176 350 H204" class="cross-highlight"/><circle cx="190" cy="338" r="3.2"/></g>'+
         '<text class="rosary-diagram-label" x="190" y="18">'+l.decadeNumber+' 1–5</text></svg></div>';
