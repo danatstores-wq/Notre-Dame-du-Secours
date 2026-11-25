@@ -420,7 +420,7 @@
     };
     let massTab=0,massData=null;
     let massCalendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
-    let selectedMassDate=new Date().toISOString().slice(0,10);
+    let selectedMassDate=dateKey(new Date());
     const massCalendarLabels={
       ar:{today:'اليوم',prev:'الشهر السابق',next:'الشهر التالي',selected:'المواعيد في هذا اليوم',week:['اثن','ثل','أرب','خمي','جمع','سبت','أحد'],noDay:'لا توجد مواعيد مؤكدة لهذا اليوم.',months:['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول']},
       fr:{today:"Aujourd’hui",prev:'Mois précédent',next:'Mois suivant',selected:'Horaires de cette journée',week:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],noDay:'Aucun horaire confirmé pour cette journée.',months:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']},
