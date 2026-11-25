@@ -617,8 +617,38 @@
     };
     let bibleIndex=null, bibleBook=null, bibleChapter=1, bibleCurrentLanguage=null;
     const IT_BIBLE_BASE='https://parolaviva.art/api/v1/bibbia/';
-    function bibleCacheGet(key){try{return JSON.parse(localStorage.getItem('bible-cache:'+key)||'null');}catch(_){return null;}}
-    function bibleCacheSet(key,value){try{localStorage.setItem('bible-cache:'+key,JSON.stringify(value));const keys=Object.keys(localStorage).filter(k=>k.startsWith('bible-cache:'));while(keys.length>18){localStorage.removeItem(keys.shift());}}catch(_){/* private mode or storage quota: continue online */}}
+    const BIBLE_DB_NAME='notre-dame-bible',BIBLE_DB_VERSION=1;
+    function bibleDb(){return new Promise((resolve,reject)=>{if(!('indexedDB'in window)){reject(new Error('Offline storage is not supported on this device'));return;}const req=indexedDB.open(BIBLE_DB_NAME,BIBLE_DB_VERSION);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('chapters'))db.createObjectStore('chapters');if(!db.objectStoreNames.contains('meta'))db.createObjectStore('meta');};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('Could not open offline storage'));});}
+    async function bibleDbGet(store,key){const db=await bibleDb();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readonly'),req=tx.objectStore(store).get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);tx.oncomplete=()=>db.close();});}
+    async function bibleDbSet(store,key,value){const db=await bibleDb();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(value,key);tx.oncomplete=()=>{db.close();resolve(true);};tx.onerror=()=>{db.close();reject(tx.error||new Error('Offline save failed'));};});}
+    async function bibleCacheGet(key){try{return await bibleDbGet(key==='it-index'?'meta':'chapters',key);}catch(_){return null;}}
+    async function bibleCacheSet(key,value){try{await bibleDbSet(key==='it-index'?'meta':'chapters',key,value);}catch(_){/* continue online if offline storage is unavailable */}}
+    async function downloadItalianBible(){
+      const button=document.getElementById('bible-download-all'),status=document.getElementById('bible-download-status');
+      if(!button||!status||!bibleIndex)return;
+      button.disabled=true;let done=0,total=bibleIndex.reduce((sum,b)=>sum+b.c,0);
+      status.textContent='Preparing offline Bible…';
+      try{
+        await bibleDbSet('meta','it-index',bibleIndex);
+        for(const book of bibleIndex){
+          for(let chapter=1;chapter<=book.c;chapter++){
+            const key='it-'+book.s+'-'+chapter;
+            let data=await bibleDbGet('chapters',key);
+            if(!data){
+              const response=await fetch(IT_BIBLE_BASE+encodeURIComponent(book.s)+'/'+chapter+'.json');
+              if(!response.ok)throw new Error('Download stopped at '+book.n+' '+chapter);
+              data=await response.json();
+              if(!data||!Array.isArray(data.v)||!data.v.length)throw new Error('Invalid chapter: '+book.n+' '+chapter);
+              await bibleDbSet('chapters',key,data);
+            }
+            done++;status.textContent='Saving offline: '+done+' / '+total+' chapters ('+Math.round(done/total*100)+'%)';
+          }
+        }
+        await bibleDbSet('meta','it-complete',{books:73,chapters:total,completedAt:new Date().toISOString()});
+        status.textContent='Complete: all 73 books ('+total+' chapters) are saved for offline reading.';
+        button.textContent='Bible saved offline';
+      }catch(error){status.textContent='Download paused: '+(error.message||'connection problem')+'. Tap to continue; saved chapters will be kept.';button.disabled=false;}
+    }
     function openBible(){document.getElementById('home-view').classList.add('hidden');document.getElementById('bible-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderBibleScreen();}
     function closeBible(){document.getElementById('bible-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     function renderBibleScreen(){
@@ -660,7 +690,7 @@
       if(!host||!bibleIndex||!bibleBook)return;
       const options=bibleIndex.map(b=>'<option value="'+b.s+'" '+(b.s===bibleBook.s?'selected':'')+'>'+escapeHtml(b.n)+'</option>').join('');
       const chapters=Array.from({length:bibleBook.c},(_,i)=>'<option value="'+(i+1)+'" '+(i+1===bibleChapter?'selected':'')+'>'+(i+1)+'</option>').join('');
-      host.innerHTML='<div class="bible-controls"><select id="bible-book-select" aria-label="Book" onchange="changeBibleBook(this.value)">'+options+'</select><select id="bible-chapter-select" aria-label="Chapter" onchange="changeBibleChapter(this.value)">'+chapters+'</select></div><div id="bible-verses" class="bible-verses"><p class="empty-state">Loading chapter…</p></div><p class="bible-note" style="margin-top:14px">'+bibleLabels.it.attribution+'</p>';
+      host.innerHTML='<button id="bible-download-all" class="feature-tab" type="button" onclick="downloadItalianBible()">Download complete Bible for offline reading</button><p id="bible-download-status" class="bible-note" aria-live="polite">The complete 73-book text can be saved on this device for offline reading.</p><div class="bible-controls"><select id="bible-book-select" aria-label="Book" onchange="changeBibleBook(this.value)">'+options+'</select><select id="bible-chapter-select" aria-label="Chapter" onchange="changeBibleChapter(this.value)">'+chapters+'</select></div><div id="bible-verses" class="bible-verses"><p class="empty-state">Loading chapter…</p></div><p class="bible-note" style="margin-top:14px">'+bibleLabels.it.attribution+'</p>';
       loadBibleChapter();
     }
     function changeBibleBook(code){bibleBook=bibleIndex.find(b=>b.s===code)||bibleIndex[0];bibleChapter=1;renderBibleReader();}
@@ -670,8 +700,8 @@
       box.innerHTML='<p class="empty-state">Loading chapter…</p>';
       try{
         const cacheKey='it-'+bibleBook.s+'-'+bibleChapter;
-        let data=bibleCacheGet(cacheKey);
-        if(!data){const response=await fetch(IT_BIBLE_BASE+encodeURIComponent(bibleBook.s)+'/'+bibleChapter+'.json');if(!response.ok)throw new Error('Chapter unavailable');data=await response.json();if(!data||!Array.isArray(data.v)||!data.v.length)throw new Error('Invalid chapter data');bibleCacheSet(cacheKey,data);}
+        let data=await bibleCacheGet(cacheKey);
+        if(!data){const response=await fetch(IT_BIBLE_BASE+encodeURIComponent(bibleBook.s)+'/'+bibleChapter+'.json');if(!response.ok)throw new Error('Chapter unavailable');data=await response.json();if(!data||!Array.isArray(data.v)||!data.v.length)throw new Error('Invalid chapter data');await bibleCacheSet(cacheKey,data);}
         box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(data.n||bibleBook.n)+' — '+bibleChapter+'</h3>'+data.v.map(v=>'<p class="bible-verse"><sup>'+v.n+'</sup> '+escapeHtml(v.t)+'</p>').join('');
       }catch(error){box.innerHTML='<p class="empty-state">Chapter unavailable. Connect to the internet and try again.</p>';}
     }
