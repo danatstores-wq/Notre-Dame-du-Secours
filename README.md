@@ -1,13 +1,17 @@
 # كنيسة سيدة المعونات | Église Notre-Dame des Secours
 
-Bilingual (**Arabic `RTL` / French `LTR`**) mobile web & PWA starter template with separated visual assets.
+Multilingual mobile web app / PWA for Notre-Dame-du-Secours, with Arabic (RTL), French (LTR), and Italian (LTR) interfaces.
+
+## Deployment
+
+The live GitHub Pages site is published from the `main` branch. Pushing a commit to `main` triggers a fresh Pages deployment.
 
 ## Folder Structure
 ```text
 ├── assets/
 │   ├── backgrounds/
 │   │   ├── main-bg.jpg        # Clean hero & navy UI background (no text/buttons)
-│   │   └── main-bg.png        # Lossless PNG version
+│   │     └── main-bg.png      # Lossless PNG version
 │   └── icons/
 │       ├── logo-marian-emblem.svg
 │       ├── icon-settings.svg
@@ -26,6 +30,6 @@ Bilingual (**Arabic `RTL` / French `LTR`**) mobile web & PWA starter template wi
 │   └── i18n/
 │       ├── ar.json            # Arabic strings
 │       └── fr.json            # French strings
-├── index.html                 # Ready-to-run bilingual AR/FR UI preview
+├── index.html                 # Main multilingual app interface
 └── ui-reference.jpg           # Full design mockup
 ```
