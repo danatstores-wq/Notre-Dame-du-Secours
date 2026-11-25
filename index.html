@@ -226,7 +226,7 @@
     .mass-selected-title{font-size:1rem;color:var(--gold-light);margin:14px 0 10px}
       html[data-text-size="small"] .feature-content{font-size:.9rem}
     html[data-text-size="large"] .feature-content{font-size:1.15rem}
-      .language-menu-wrap{position:relative}
+      .church-history-list{padding-inline-start:22px;line-height:1.9}.church-history-list li{padding:5px 0}.church-action-link{display:flex;align-items:center;gap:10px;margin:10px 0;padding:13px;border:1px solid rgba(229,182,87,.65);border-radius:12px;background:rgba(229,182,87,.09);color:var(--gold-light);text-decoration:none;font-weight:700}.card-symbol{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;font-size:1.8rem}.language-menu-wrap{position:relative}
     .language-gear{display:flex;align-items:center;justify-content:center;min-width:42px;min-height:42px}
     .language-dropdown{position:absolute;top:calc(100% + 8px);right:0;z-index:1000;min-width:150px;padding:6px;border:1px solid var(--gold);border-radius:12px;background:var(--navy-nav);box-shadow:0 10px 28px rgba(0,0,0,.35);direction:ltr}
     .language-dropdown[hidden]{display:none}
@@ -314,7 +314,10 @@
             "طلبات الصلاة",
             "لنصلِّ معاً",
             "assets/icons/icon-praying-hands.png"
-          ]
+          ],
+          ["كنيستنا", "تاريخ الكنيسة", "🏛️"],
+          ["اتصل بنا", "تواصل مع الرعية", "☎️"],
+          ["موقع الكنيسة", "افتح خرائط Google", "📍"]
         ],
         "nav": [
           "الرئيسية",
@@ -360,7 +363,10 @@
             "Intentions de Prière",
             "Prions ensemble",
             "assets/icons/icon-praying-hands.png"
-          ]
+          ],
+          ["Notre église", "Son histoire", "🏛️"],
+          ["Contactez-nous", "Contacter la paroisse", "☎️"],
+          ["Emplacement", "Ouvrir Google Maps", "📍"]
         ],
         "nav": [
           "Accueil",
@@ -406,7 +412,10 @@
             "Intenzioni di Preghiera",
             "Preghiamo insieme",
             "assets/icons/icon-praying-hands.png"
-          ]
+          ],
+          ["La nostra chiesa", "La sua storia", "🏛️"],
+          ["Contattaci", "Contatta la parrocchia", "☎️"],
+          ["Posizione", "Apri Google Maps", "📍"]
         ],
         "nav": [
           "Home",
@@ -433,7 +442,7 @@
 
       document.getElementById('cards-container').innerHTML = t.cards.map((c, cardIndex) => `
         <div class="card" role="button" tabindex="0" onclick="openFeature(${cardIndex})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFeature(${cardIndex})}">
-          <img src="${c[2]}" alt="${c[0]}" />
+          ${c[2].startsWith("assets/")?`<img src="${c[2]}" alt="${c[0]}" />`:`<span class="card-symbol" aria-hidden="true">${c[2]}</span>`}
           <div class="card-text">
             <h3>${c[0]}</h3>
             <p>${c[1]}</p>
@@ -563,6 +572,7 @@
       if(index===3){document.getElementById('home-view').classList.add('hidden');document.getElementById('announcements-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadAnnouncements();return;}
       if(index===4){document.getElementById('home-view').classList.add('hidden');document.getElementById('parish-life-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';loadParishLife();return;}
       if(index===5){document.getElementById('home-view').classList.add('hidden');document.getElementById('prayer-requests-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderPrayerRequests();return;}
+      if(index===6){openAbout();return;}if(index===7){openContact();return;}if(index===8){openChurchMap();return;}
     }
     function closeRosary(){document.getElementById('rosary-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     async function loadRosary(){const box=document.getElementById('rosary-content');box.textContent=rosaryLabels[currentLang].noAudio;try{const response=await fetch('src/data/rosary.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');rosaryData=await response.json();renderRosary();}catch(e){box.textContent=rosaryLabels[currentLang].unavailable;}}
@@ -827,9 +837,9 @@
 
 
     const simplePageLabels={
-      ar:{notifications:'الإشعارات',about:'حول الرعية',back:'رجوع',important:'الإعلانات المهمة',masses:'تحديثات مواعيد القداديس',activities:'نشاطات الرعية',reminders:'التذكيرات الشخصية',saved:'تم حفظ تفضيلاتك على هذا الجهاز.',notReady:'إرسال الإشعارات الفعلية غير مفعّل بعد.',parish:'كنيسة سيدة المعونات',pending:'سيُضاف تاريخ الرعية والعنوان ووسائل التواصل والصور بعد موافقة الرعية.'},
-      fr:{notifications:'Notifications',about:'À propos de la paroisse',back:'Retour',important:'Annonces importantes',masses:'Mises à jour des horaires des Messes',activities:'Activités paroissiales',reminders:'Rappels personnels',saved:'Vos préférences sont enregistrées sur cet appareil.',notReady:'La livraison réelle des notifications n’est pas encore activée.',parish:'Église Notre-Dame du Secours',pending:'L’histoire, l’adresse, les coordonnées et les photos seront ajoutées après approbation de la paroisse.'},
-      it:{notifications:'Notifiche',about:'Informazioni sulla parrocchia',back:'Indietro',important:'Avvisi importanti',masses:'Aggiornamenti degli orari delle Messe',activities:'Attività parrocchiali',reminders:'Promemoria personali',saved:'Le preferenze sono salvate su questo dispositivo.',notReady:'L’invio effettivo delle notifiche non è ancora attivo.',parish:'Chiesa Nostra Signora del Soccorso',pending:'La storia, l’indirizzo, i contatti e le foto saranno aggiunti dopo l’approvazione della parrocchia.'}
+      ar:{notifications:'الإشعارات',about:'كنيستنا',back:'رجوع',important:'الإعلانات المهمة',masses:'تحديثات مواعيد القداديس',activities:'نشاطات الرعية',reminders:'التذكيرات الشخصية',saved:'تم حفظ تفضيلاتك على هذا الجهاز.',notReady:'إرسال الإشعارات الفعلية غير مفعّل بعد.',parish:'كنيسة سيدة المعونات',pending:'سيُضاف تاريخ الرعية والعنوان ووسائل التواصل والصور بعد موافقة الرعية.'},
+      fr:{notifications:'Notifications',about:'Notre église',back:'Retour',important:'Annonces importantes',masses:'Mises à jour des horaires des Messes',activities:'Activités paroissiales',reminders:'Rappels personnels',saved:'Vos préférences sont enregistrées sur cet appareil.',notReady:'La livraison réelle des notifications n’est pas encore activée.',parish:'Église Notre-Dame du Secours',pending:'L’histoire, l’adresse, les coordonnées et les photos seront ajoutées après approbation de la paroisse.'},
+      it:{notifications:'Notifiche',about:'La nostra chiesa',back:'Indietro',important:'Avvisi importanti',masses:'Aggiornamenti degli orari delle Messe',activities:'Attività parrocchiali',reminders:'Promemoria personali',saved:'Le preferenze sono salvate su questo dispositivo.',notReady:'L’invio effettivo delle notifiche non è ancora attivo.',parish:'Chiesa Nostra Signora del Soccorso',pending:'La storia, l’indirizzo, i contatti e le foto saranno aggiunti dopo l’approvazione della parrocchia.'}
     };
     function getNotificationPrefs(){try{return JSON.parse(localStorage.getItem('parish-notification-preferences')||'{"important":true,"masses":true,"activities":false,"reminders":true}');}catch(e){return {important:true,masses:true,activities:false,reminders:true};}}
     function openNotifications(){document.getElementById('home-view').classList.add('hidden');document.getElementById('notifications-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderNotifications();}
@@ -839,10 +849,24 @@
       document.getElementById('notifications-content').innerHTML=rows.map(([key,label])=>'<label class="schedule-entry" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span>'+label+'</span><input type="checkbox" style="width:22px;height:22px;accent-color:var(--gold)" '+(p[key]?'checked':'')+' onchange="setNotificationPreference(\''+key+'\',this.checked)"></label>').join('')+'<p class="prayer-audio-note">'+l.saved+'</p><p class="empty-state">'+l.notReady+'</p>';
     }
     function setNotificationPreference(key,value){const p=getNotificationPrefs();p[key]=!!value;localStorage.setItem('parish-notification-preferences',JSON.stringify(p));}
+    const churchHistoryLabels={
+      ar:{title:'كنيستنا',back:'رجوع',name:'كنيسة سيّدة المعونات – ساقية المسك',location:'ساقية المسك، نطاق بحرصاف، قضاء المتن، جبل لبنان',intro:'كنيسة مارونية تاريخية مكرّسة للعذراء مريم تحت اسم سيّدة المعونات، وهي بيت صلاة وإيمان لأبناء الرعية.',history:'محطات تاريخية',points:['1812: شُيّدت الكنيسة في موقع كنيسة مار أنطونيوس.','1841: كرّسها المطران إلياس محاسب.','1910: أُزيلت القبة القديمة وأُنشئت القبة الحالية بدعم من أبناء البلدة والمغتربين.','الربع الأول من القرن العشرين: زُيّن داخل الكنيسة.','2012: زُيّن السقف بلوحات جدارية من عمل إ. روكّوز، وتضم الكنيسة أيقونات عديدة.'],contact:'اتصل بنا',map:'موقع الكنيسة على الخريطة',note:'المعلومات التاريخية مستندة إلى مراجع منشورة، ويمكن للرعية إضافة وثائقها وصورها.'},
+      fr:{title:'Notre église',back:'Retour',name:'Église Notre-Dame du Secours – Saqiet El Misk',location:'Saqiet El Misk, secteur de Bhersaf, Metn, Mont-Liban',intro:'Église maronite historique dédiée à la Vierge Marie sous le vocable de Notre-Dame du Secours. Un lieu de prière et de foi pour la communauté.',history:'Repères historiques',points:['1812 : construction à l’emplacement de l’ancienne église Saint-Antoine.','1841 : consécration par l’évêque Elias Mhaseb.','1910 : l’ancienne coupole est remplacée par la coupole actuelle grâce aux dons des habitants et de la diaspora.','Premier quart du XXe siècle : décoration intérieure de l’église.','2012 : fresques d’I. Roukos sur la voûte ; l’église conserve également de nombreuses icônes.'],contact:'Contactez-nous',map:'Emplacement sur Google Maps',note:'Ces informations proviennent de sources historiques publiées. La paroisse pourra ajouter ses archives et photographies.'},
+      it:{title:'La nostra chiesa',back:'Indietro',name:'Chiesa Nostra Signora del Soccorso – Saqiet El Misk',location:'Saqiet El Misk, zona di Bhersaf, Metn, Monte Libano',intro:'Storica chiesa maronita dedicata alla Vergine Maria con il titolo di Nostra Signora del Soccorso. Un luogo di preghiera e di fede per la comunità.',history:'Cenni storici',points:['1812: costruzione sul luogo della precedente chiesa di Sant’Antonio.','1841: consacrazione da parte del vescovo Elias Mhaseb.','1910: la vecchia cupola viene sostituita da quella attuale grazie alle offerte degli abitanti e della diaspora.','Primo quarto del XX secolo: decorazione degli interni.','2012: affreschi di I. Roukos sulla volta; la chiesa custodisce inoltre numerose icone.'],contact:'Contattaci',map:'Posizione su Google Maps',note:'Queste informazioni provengono da fonti storiche pubblicate. La parrocchia potrà aggiungere archivi e fotografie.'}
+    };
+    const churchMapUrl='https://www.google.com/maps/search/?api=1&query=Saydet+El+Maounet+Church+Saqiet+El+Misk+Bharsaf+Lebanon';
     function openAbout(){
       document.getElementById('home-view').classList.add('hidden');document.getElementById('about-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';
-      const l=simplePageLabels[currentLang];document.getElementById('about-title').textContent=l.about;document.getElementById('about-back').textContent=l.back;document.getElementById('about-content').innerHTML='<article class="schedule-entry"><h3 style="color:var(--gold-light)">'+l.parish+'</h3><p style="line-height:1.9;margin-top:10px">'+l.pending+'</p></article>';
+      const l=churchHistoryLabels[currentLang];document.getElementById('about-title').textContent=l.title;document.getElementById('about-back').textContent=l.back;
+      document.getElementById('about-content').innerHTML='<article class="schedule-entry"><h3 style="color:var(--gold-light)">'+l.name+'</h3><p style="line-height:1.9;margin-top:8px;color:#e8d5a9">'+l.location+'</p><p style="line-height:1.9;margin-top:12px">'+l.intro+'</p></article><article class="schedule-entry"><h3 style="color:var(--gold-light);margin-bottom:10px">'+l.history+'</h3><ol class="church-history-list">'+l.points.map(x=>'<li>'+x+'</li>').join('')+'</ol><p style="line-height:1.8;margin-top:12px;color:#e8d5a9;font-size:.82rem">'+l.note+'</p></article>';
     }
+    function openContact(){
+      document.getElementById('home-view').classList.add('hidden');document.getElementById('about-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';
+      const l=churchHistoryLabels[currentLang];document.getElementById('about-title').textContent=l.contact;document.getElementById('about-back').textContent=l.back;
+      const msg=currentLang==='ar'?'لم أتمكن من التحقق من رقم هاتف أو بريد إلكتروني رسمي للرعية من المصادر العامة.':currentLang==='fr'?'Aucun numéro de téléphone ou e-mail officiel de la paroisse n’a pu être vérifié dans les sources publiques.':'Non è stato possibile verificare un numero di telefono o un’e-mail ufficiale della parrocchia nelle fonti pubbliche.';
+      document.getElementById('about-content').innerHTML='<article class="schedule-entry"><h3 style="color:var(--gold-light)">'+l.name+'</h3><p style="line-height:1.9;margin-top:8px">'+l.location+'</p><p style="line-height:1.9;margin-top:12px">'+msg+'</p></article><a class="church-action-link" href="'+churchMapUrl+'" target="_blank" rel="noopener">📍 '+l.map+'</a>';
+    }
+    function openChurchMap(){window.open(churchMapUrl,'_blank','noopener');}
     function closeSimpleScreen(id){document.getElementById(id).classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
 
 
