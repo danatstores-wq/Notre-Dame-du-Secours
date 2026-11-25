@@ -11,7 +11,7 @@
     {
       "id": "joyful",
       "name": {
-        "ar": "الأسرار الفرحية",
+        "ar": "أسرار الفرح",
         "fr": "Mystères joyeux",
         "it": "Misteri gaudiosi"
       },
@@ -50,7 +50,7 @@
     {
       "id": "luminous",
       "name": {
-        "ar": "الأسرار النورانية",
+        "ar": "أسرار النور",
         "fr": "Mystères lumineux",
         "it": "Misteri luminosi"
       },
@@ -88,7 +88,7 @@
     {
       "id": "sorrowful",
       "name": {
-        "ar": "الأسرار الحزينة",
+        "ar": "أسرار الحزن",
         "fr": "Mystères douloureux",
         "it": "Misteri dolorosi"
       },
@@ -127,7 +127,7 @@
     {
       "id": "glorious",
       "name": {
-        "ar": "الأسرار المجيدة",
+        "ar": "أسرار المجد",
         "fr": "Mystères glorieux",
         "it": "Misteri gloriosi"
       },
