@@ -587,7 +587,7 @@
     }
     function selectRosaryMystery(index){selectedMystery=index;window.rosaryUserSelected=true;renderRosary();}
     function buildRosaryGuide(){
-      const sequence=rosaryData.prayerSequence||[],steps=[],label=id=>{const item=sequence.find(x=>x.id===id);return item?.label?.[currentLang]||item?.label?.ar||id;};
+      const sequence=rosaryData.prayerSequence||[],steps=[],label=id=>{const item=sequence.find(x=>x.id===id)||sequence.flatMap(x=>x.steps||[]).find(x=>x.id===id);return item?.label?.[currentLang]||item?.label?.ar||id;};
       steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('sign-of-cross')});
       steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('creed')});
       steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('our-father-opening')});
