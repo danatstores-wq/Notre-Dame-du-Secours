@@ -4,24 +4,24 @@
 - Four sets of mysteries: Joyful, Luminous, Sorrowful, and Glorious.
 - Show traditional weekday associations and five mystery meditations for each set.
 - Suggest the mystery group associated with the visitor's local weekday, while allowing manual selection.
-- Guided sequence includes the opening prayers, three opening Hail Marys, five decades, ten Hail Mary steps per decade, Glory Be, an optional Fatima prayer step, and the closing prayer.
-- Show overall step progress, a labeled bead counter (1–10), with the corresponding beads glowing directly on the Rosary diagram; no duplicate dot strip is shown below the prayer card. The current decade is identified in the guide.
-- Previous/next navigation is available; the optional Fatima prayer can be skipped.
+- Guided sequence follows the traditional order: Sign of the Cross, Apostles' Creed, opening Our Father, three opening Hail Marys, opening Glory Be, then five decades. Each decade contains the announced mystery, one Our Father, ten Hail Marys, Glory Be, and an optional Fatima prayer. The closing prayer follows the fifth decade.
+- The Rosary diagram now represents the physical bead order: crucifix; opening Our Father bead; three small Hail Mary beads; opening Glory Be bead; medal; then five decades, each with one large Our Father bead followed by ten small Hail Mary beads.
+- The loop contains exactly 5 large decade beads and 50 small Hail Mary beads (55 beads total). Each decade is one large bead followed by ten small beads.
+- The active bead glows directly on the diagram; completed beads remain softly illuminated. The opening beads stay illuminated while the user progresses through the five decades. There is no duplicate dot strip below the prayer card.
+- Show overall step progress and a labeled bead counter (1–10). Previous/next navigation is available; the optional Fatima prayer can be skipped.
 - Arabic, French, and Italian are supported, including RTL for Arabic and LTR for French/Italian.
 - Changing language while the guide is open refreshes the displayed prayer labels.
 - The dashboard card opens the Rosary screen; back returns to the dashboard.
 
 ## Prayer text and audio
-- The guide currently displays the names of prayers and meditations, not the full prayer texts.
-- Full prayer texts must be reviewed and approved by the parish before being displayed.
-- Audio source slots for Arabic, French, and Italian remain empty until genuine parish-approved recordings are supplied.
-- Do not fabricate audio or use synthesized speech as a replacement for parish recordings.
-- The screen clearly indicates that approved audio and full texts are not yet available.
+- The guide currently displays prayer names and mystery meditations, not the complete prayer texts.
+- Full prayer texts must be reviewed and approved by the parish before publication or audio generation.
+- The app has audio source slots for Arabic, French, and Italian, but no recordings have been generated or attached yet.
+- AI narration may be used once the priest approves the exact text and the parish approves the voice/accent for each language. Do not label an unverified Arabic voice as Lebanese.
+- Add play/pause/seek and synchronized timing markers once the three approved recordings are ready.
 
 ## Future improvements
 - Add parish-approved full prayer texts for every language.
-- Display a responsive schematic Rosary diagram with the cross, opening beads, central medal, and five decades (50 small beads plus decade separators).
-- Highlight the active bead and completed/current decades during guided progression; provide a localized accessible SVG title and description in Arabic, French, and Italian.
-- Add play/pause/seek and synchronized audio timing markers once approved recordings exist.
 - Add offline prayer text and optional downloaded audio.
 - Add accessible controls and reduced-motion support.
+- Complete browser/device visual testing of the updated diagram.
