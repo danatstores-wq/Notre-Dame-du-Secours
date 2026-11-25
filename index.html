@@ -368,7 +368,7 @@
       document.getElementById('lang-toggle').textContent = t.toggle;
 
       document.getElementById('cards-container').innerHTML = t.cards.map((c, cardIndex) => `
-        <div class="card" role="button" tabindex="0" onclick="openFeature(\${cardIndex})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFeature(\${cardIndex})}">
+        <div class="card" role="button" tabindex="0" onclick="openFeature(${cardIndex})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFeature(${cardIndex})}">
           <img src="${c[2]}" alt="${c[0]}" />
           <div class="card-text">
             <h3>${c[0]}</h3>
