@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "languages": ["ar", "fr", "it"],
+  "defaultLanguage": "ar",
+  "textSize": "standard",
+  "notificationPreferences": {
+    "enabled": false,
+    "importantAnnouncements": true,
+    "massUpdates": true,
+    "parishActivities": false,
+    "personalReminders": true
+  },
+  "privacyNoticeVersion": null,
+  "requiresAccount": false,
+  "storage": "device-local",
+  "note": "Local preference schema only. The privacy notice must be parish-approved before release."
+}
