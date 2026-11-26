@@ -1484,7 +1484,7 @@
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signOut, updateProfile, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
@@ -1505,17 +1505,17 @@ const storage = getStorage(app);
 let currentUser = null;
 let currentCmsKey = "announcements";
 const profileText = {
-  ar:{login:"تسجيل الدخول",register:"إنشاء حساب",email:"البريد الإلكتروني",password:"كلمة المرور",name:"الاسم",saveProfile:"حفظ الملف الشخصي",forgot:"نسيت كلمة المرور؟",logout:"تسجيل الخروج",verify:"يرجى تأكيد بريدك الإلكتروني من رسالة التحقق ثم تسجيل الدخول مجدداً.",guest:"زائر",browse:"يمكنك تصفح محتوى الرعية دون إنشاء حساب.",signed:"تم تسجيل الدخول",admin:"لوحة إدارة الكاهن",adminNote:"إدارة محتوى الرعية المنشور",content:"نوع المحتوى",load:"تحميل المحتوى",save:"حفظ التغييرات",upload:"رفع صورة",noAdmin:"هذا الحساب لا يملك صلاحية الإدارة.",saved:"تم الحفظ بنجاح.",badJson:"صيغة JSON غير صحيحة.",working:"جارٍ التنفيذ…",profile:"ملفي الشخصي",welcome:"مرحباً"},
-  fr:{login:"Connexion",register:"Créer un compte",email:"E-mail",password:"Mot de passe",name:"Nom",saveProfile:"Enregistrer le profil",forgot:"Mot de passe oublié ?",logout:"Déconnexion",verify:"Veuillez vérifier votre adresse e-mail puis reconnectez-vous.",guest:"Visiteur",browse:"Vous pouvez consulter le contenu paroissial sans créer de compte.",signed:"Connecté",admin:"Administration du curé",adminNote:"Gérer le contenu publié de la paroisse",content:"Type de contenu",load:"Charger le contenu",save:"Enregistrer",upload:"Téléverser une image",noAdmin:"Ce compte n’a pas les droits d’administration.",saved:"Enregistré.",badJson:"Format JSON invalide.",working:"Traitement…",profile:"Mon profil",welcome:"Bienvenue"},
-  it:{login:"Accedi",register:"Crea account",email:"E-mail",password:"Password",name:"Nome",saveProfile:"Salva profilo",forgot:"Password dimenticata?",logout:"Esci",verify:"Verifica il tuo indirizzo e-mail e accedi di nuovo.",guest:"Ospite",browse:"Puoi consultare i contenuti della parrocchia senza creare un account.",signed:"Accesso effettuato",admin:"Amministrazione del parroco",adminNote:"Gestisci i contenuti pubblicati della parrocchia",content:"Tipo di contenuto",load:"Carica contenuto",save:"Salva modifiche",upload:"Carica immagine",noAdmin:"Questo account non dispone dei permessi di amministrazione.",saved:"Salvato.",badJson:"Formato JSON non valido.",working:"Elaborazione…",profile:"Il mio profilo",welcome:"Benvenuto"},
-  en:{login:"Sign in",register:"Create account",email:"Email address",password:"Password",name:"Your name",saveProfile:"Save profile",forgot:"Forgot password?",logout:"Sign out",verify:"Please verify your email using the link we sent, then sign in again.",guest:"Guest",browse:"You can browse parish content without creating an account.",signed:"Signed in",admin:"Priest Administration",adminNote:"Manage published parish content",content:"Content type",load:"Load content",save:"Save changes",upload:"Upload image",noAdmin:"This account does not have administrator access.",saved:"Saved successfully.",badJson:"The JSON is not valid.",working:"Working…",profile:"My Profile",welcome:"Welcome"}
+  ar:{login:"تسجيل الدخول",register:"إنشاء حساب",email:"البريد الإلكتروني",password:"كلمة المرور",name:"الاسم",saveProfile:"حفظ الملف الشخصي",forgot:"نسيت كلمة المرور؟",logout:"تسجيل الخروج",verify:"يرجى تأكيد بريدك الإلكتروني من رسالة التحقق ثم تسجيل الدخول مجدداً.",guest:"زائر",browse:"يمكنك تصفح محتوى الرعية دون إنشاء حساب.",signed:"تم تسجيل الدخول",admin:"لوحة إدارة الكاهن",adminNote:"إدارة محتوى الرعية المنشور",content:"نوع المحتوى",load:"تحميل المحتوى",save:"حفظ التغييرات",upload:"رفع صورة",noAdmin:"هذا الحساب لا يملك صلاحية الإدارة.",saved:"تم الحفظ بنجاح.",badJson:"صيغة JSON غير صحيحة.",working:"جارٍ التنفيذ…",profile:"ملفي الشخصي",welcome:"مرحباً",remember:"تذكّرني",cmsMass:"مواعيد القداديس",cmsAnnouncements:"إعلانات الكاهن",cmsLife:"حياة الرعية ونشاطاتها",cmsPrayers:"مكتبة الصلوات",enterEmail:"أدخل بريدك الإلكتروني أولاً.",resetSent:"تم إرسال رسالة إعادة تعيين كلمة المرور.",profileUpdated:"تم تحديث الملف الشخصي.",enterName:"أدخل اسمك.",imageChoose:"اختر صورة أقل من 8 ميغابايت.",imageUploaded:"تم رفع الصورة ونسخ رابطها.",imageCopyBlocked:"تم رفع الصورة لكن تعذّر النسخ التلقائي."},
+  fr:{login:"Connexion",register:"Créer un compte",email:"E-mail",password:"Mot de passe",name:"Nom",saveProfile:"Enregistrer le profil",forgot:"Mot de passe oublié ?",logout:"Déconnexion",verify:"Veuillez vérifier votre adresse e-mail puis reconnectez-vous.",guest:"Visiteur",browse:"Vous pouvez consulter le contenu paroissial sans créer de compte.",signed:"Connecté",admin:"Administration du curé",adminNote:"Gérer le contenu publié de la paroisse",content:"Type de contenu",load:"Charger le contenu",save:"Enregistrer",upload:"Téléverser une image",noAdmin:"Ce compte n’a pas les droits d’administration.",saved:"Enregistré.",badJson:"Format JSON invalide.",working:"Traitement…",profile:"Mon profil",welcome:"Bienvenue",remember:"Se souvenir de moi",cmsMass:"Horaires des Messes",cmsAnnouncements:"Annonces du prêtre",cmsLife:"Vie et activités paroissiales",cmsPrayers:"Bibliothèque de prières",enterEmail:"Saisissez d’abord votre adresse e-mail.",resetSent:"E-mail de réinitialisation envoyé.",profileUpdated:"Profil mis à jour.",enterName:"Saisissez votre nom.",imageChoose:"Choisissez une image de moins de 8 Mo.",imageUploaded:"Image téléversée et lien copié.",imageCopyBlocked:"Image téléversée, mais la copie automatique a échoué."},
+  it:{login:"Accedi",register:"Crea account",email:"E-mail",password:"Password",name:"Nome",saveProfile:"Salva profilo",forgot:"Password dimenticata?",logout:"Esci",verify:"Verifica il tuo indirizzo e-mail e accedi di nuovo.",guest:"Ospite",browse:"Puoi consultare i contenuti della parrocchia senza creare un account.",signed:"Accesso effettuato",admin:"Amministrazione del parroco",adminNote:"Gestisci i contenuti pubblicati della parrocchia",content:"Tipo di contenuto",load:"Carica contenuto",save:"Salva modifiche",upload:"Carica immagine",noAdmin:"Questo account non dispone dei permessi di amministrazione.",saved:"Salvato.",badJson:"Formato JSON non valido.",working:"Elaborazione…",profile:"Il mio profilo",welcome:"Benvenuto",remember:"Ricordami",cmsMass:"Orari delle Messe",cmsAnnouncements:"Avvisi del sacerdote",cmsLife:"Vita e attività parrocchiali",cmsPrayers:"Biblioteca di preghiere",enterEmail:"Inserisci prima la tua email.",resetSent:"Email di reimpostazione inviata.",profileUpdated:"Profilo aggiornato.",enterName:"Inserisci il tuo nome.",imageChoose:"Scegli un’immagine inferiore a 8 MB.",imageUploaded:"Immagine caricata e link copiato.",imageCopyBlocked:"Immagine caricata, ma la copia automatica non è riuscita."},
+  en:{login:"Sign in",register:"Create account",email:"Email address",password:"Password",name:"Your name",saveProfile:"Save profile",forgot:"Forgot password?",logout:"Sign out",verify:"Please verify your email using the link we sent, then sign in again.",guest:"Guest",browse:"You can browse parish content without creating an account.",signed:"Signed in",admin:"Priest Administration",adminNote:"Manage published parish content",content:"Content type",load:"Load content",save:"Save changes",upload:"Upload image",noAdmin:"This account does not have administrator access.",saved:"Saved successfully.",badJson:"The JSON is not valid.",working:"Working…",profile:"My Profile",welcome:"Welcome",remember:"Remember me",cmsMass:"Mass schedule",cmsAnnouncements:"Announcements and priest messages",cmsLife:"Parish life and activities",cmsPrayers:"Prayer library",enterEmail:"Enter your email address first.",resetSent:"Password reset email sent.",profileUpdated:"Profile updated.",enterName:"Enter your name.",imageChoose:"Choose an image under 8 MB.",imageUploaded:"Image uploaded and link copied.",imageCopyBlocked:"Image uploaded, but automatic copying was blocked."}
 };
 const cmsLabels = {
-  massSchedule:"Mass schedules and parish calendar",
-  announcements:"Announcements and priest messages",
-  parishLife:"Parish groups, activities and gallery",
-  prayers:"Prayer library"
-};
+ ar:{massSchedule:profileText.ar.cmsMass,announcements:profileText.ar.cmsAnnouncements,parishLife:profileText.ar.cmsLife,prayers:profileText.ar.cmsPrayers},
+ fr:{massSchedule:profileText.fr.cmsMass,announcements:profileText.fr.cmsAnnouncements,parishLife:profileText.fr.cmsLife,prayers:profileText.fr.cmsPrayers},
+ it:{massSchedule:profileText.it.cmsMass,announcements:profileText.it.cmsAnnouncements,parishLife:profileText.it.cmsLife,prayers:profileText.it.cmsPrayers},
+ en:{massSchedule:profileText.en.cmsMass,announcements:profileText.en.cmsAnnouncements,parishLife:profileText.en.cmsLife,prayers:profileText.en.cmsPrayers}
+}[document.documentElement.lang] || {massSchedule:"Mass schedule",announcements:"Announcements",parishLife:"Parish life",prayers:"Prayer library"};
 const lang = () => profileText[document.documentElement.lang] || profileText.en;
 const isAdmin = user => !!user && user.emailVerified && (user.email||"").toLowerCase()===ADMIN_EMAIL;
 const safe = value => String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -1535,6 +1535,7 @@ function profileShell(){
      <h3 style="color:var(--gold-light)">${t.login}</h3>
      <input id="parish-login-email" type="email" autocomplete="email" required placeholder="${t.email}" style="padding:12px;border-radius:9px;border:1px solid var(--gold);font:inherit">
      <input id="parish-login-password" type="password" autocomplete="current-password" required minlength="6" placeholder="${t.password}" style="padding:12px;border-radius:9px;border:1px solid var(--gold);font:inherit">
+     <label style="display:flex;align-items:center;gap:9px;color:#e8d5a9;font-size:.9rem"><input id="parish-remember-me" type="checkbox" checked> ${t.remember}</label>
      <button class="feature-tab" type="submit">${t.login}</button>
      <button class="feature-tab" type="button" id="parish-reset-button">${t.forgot}</button>
     </form>
@@ -1550,7 +1551,7 @@ function profileShell(){
    </div>`;
   document.getElementById("parish-login-form").addEventListener("submit",async e=>{
    e.preventDefault();const email=document.getElementById("parish-login-email").value.trim(),password=document.getElementById("parish-login-password").value;
-   try{status(t.working);const cred=await signInWithEmailAndPassword(auth,email,password);await cred.user.reload();if(!cred.user.emailVerified){await signOut(auth);status(t.verify,true);return;}status(t.signed);}
+   try{status(t.working);const remember=document.getElementById("parish-remember-me").checked;await setPersistence(auth,remember?browserLocalPersistence:browserSessionPersistence);const cred=await signInWithEmailAndPassword(auth,email,password);await cred.user.reload();if(!cred.user.emailVerified){await signOut(auth);status(t.verify,true);return;}status(t.signed);}
    catch(err){status(authError(err),true);}
   });
   document.getElementById("parish-register-form").addEventListener("submit",async e=>{
@@ -1588,8 +1589,8 @@ function profileShell(){
   document.getElementById("parish-logout-button").addEventListener("click",()=>signOut(auth).catch(err=>status(authError(err),true)));
   document.getElementById("parish-profile-form").addEventListener("submit",async e=>{
    e.preventDefault();const name=document.getElementById("parish-profile-name").value.trim();
-   if(!name){status("Enter your name.",true);return;}
-   try{await updateProfile(currentUser,{displayName:name});await currentUser.reload();currentUser=auth.currentUser;profileShell();status("Profile updated.");}catch(err){status(authError(err),true);}
+   if(!name){status(t.enterName,true);return;}
+   try{await updateProfile(currentUser,{displayName:name});await currentUser.reload();currentUser=auth.currentUser;profileShell();status(t.profileUpdated);}catch(err){status(authError(err),true);}
   });
   if(admin){
    document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);
@@ -1618,8 +1619,8 @@ async function saveCmsEditor(){
 async function uploadParishImage(event){
  if(!isAdmin(currentUser)){status(lang().noAdmin,true);return;}
  const file=event.target.files?.[0];if(!file)return;
- if(!file.type.startsWith("image/")||file.size>8*1024*1024){status("Choose an image under 8 MB.",true);return;}
- try{status(lang().working);const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_"),path="parish-media/"+Date.now()+"-"+safeName,storageRef=ref(storage,path);await uploadBytes(storageRef,file,{contentType:file.type});const url=await getDownloadURL(storageRef);try{await navigator.clipboard.writeText(url);status("Image uploaded. The image URL has been copied. Paste it into the image field in your content.");}catch(e){status("Image uploaded, but automatic copying was blocked. URL: "+url);}}
+ if(!file.type.startsWith("image/")||file.size>8*1024*1024){status(t.imageChoose,true);return;}
+ try{status(lang().working);const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_"),path="parish-media/"+Date.now()+"-"+safeName,storageRef=ref(storage,path);await uploadBytes(storageRef,file,{contentType:file.type});const url=await getDownloadURL(storageRef);try{await navigator.clipboard.writeText(url);status(t.imageUploaded);}catch(e){status(t.imageCopyBlocked+" URL: "+url);}}
  catch(err){status(authError(err),true);}
 }
 onAuthStateChanged(auth,user=>{currentUser=user;profileShell();});
