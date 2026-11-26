@@ -132,6 +132,8 @@ const maronite = { en: {}, ar: {} };
 for (const item of Object.keys(maroniteEn)) {
   const parts = item.split('-').map(Number);
   const month = parts[0], day = parts[1];
+  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  if (day > daysInMonth) continue;
   const key = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
   maronite.en[key] = maroniteEn[item];
   maronite.ar[key] = maroniteAr[item];
