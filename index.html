@@ -1728,8 +1728,14 @@ function renderMassScheduleAdmin(){
 }
 
 async function saveCmsEditor(){
- if(!isAdmin(currentUser)){status(lang().noAdmin,true);return;}
+ if(!currentUser){status(lang().noAdmin,true);return;}
  try{
+  await currentUser.reload();
+  currentUser=auth.currentUser;
+  if((currentUser.email||"").toLowerCase()!==ADMIN_EMAIL||!currentUser.emailVerified){
+   status(lang().noAdmin+" "+(document.documentElement.lang==="ar"?"تأكد من تأكيد البريد ثم سجّل الخروج والدخول مجدداً.":document.documentElement.lang==="fr"?"Vérifiez l’adresse e-mail puis déconnectez-vous et reconnectez-vous.":document.documentElement.lang==="it"?"Verifica l’e-mail, poi esci e accedi di nuovo.":"Verify the email, then sign out and sign in again."),true);return;
+  }
+  await currentUser.getIdToken(true);
   const payload=JSON.parse(document.getElementById("parish-cms-editor").value),key=document.getElementById("parish-cms-type").value;
   currentCmsKey=key;
   await setDoc(doc(db,"siteContent",key),{payload,updatedAt:serverTimestamp(),updatedBy:currentUser.email});
