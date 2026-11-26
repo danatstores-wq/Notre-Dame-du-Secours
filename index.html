@@ -630,7 +630,7 @@
         cells+='<button class="mass-calendar-day '+(key===selectedMassDate?'selected ':'')+(has?'has-entry':'')+'" onclick="chooseMassDate(\''+key+'\')" aria-label="'+key+'">'+day+'</button>';
       }
       const selected=new Date(selectedMassDate+'T12:00:00'),dayEntries=entriesForDate(selected);
-      const locale=currentLang==='ar'?'ar':currentLang==='fr'?'fr-FR':'it-IT';
+      const locale=currentLang==='ar'?'ar':currentLang==='fr'?'fr-FR':currentLang==='en'?'en-US':'it-IT';
       const dateTitle=selected.toLocaleDateString(locale,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
       const list=dayEntries.length?dayEntries.map(item=>{
         const title=item['title'+currentLang.toUpperCase()]||item.title||item.label||item.name||'';
@@ -672,7 +672,7 @@
       const l=saintsCalendarLabels[currentLang],host=document.getElementById('saints-calendar-content');
       document.getElementById('saints-calendar-title').textContent=l.title;document.getElementById('saints-calendar-back').textContent=l.back;
       const y=saintsCalDate.getFullYear(),m=saintsCalDate.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),selected=saintsCalDate.getDate();
-      const monthName=new Intl.DateTimeFormat(currentLang==='ar'?'ar':currentLang==='fr'?'fr':'it',{month:'long',year:'numeric'}).format(saintsCalDate);
+      const monthName=new Intl.DateTimeFormat(currentLang==='ar'?'ar':currentLang==='fr'?'fr':'en',{month:'long',year:'numeric'}).format(saintsCalDate);
       let cells='';for(let i=0;i<first;i++)cells+='<span class="mass-calendar-empty"></span>';
       for(let d=1;d<=days;d++)cells+='<button class="saints-cal-day '+(d===selected?'selected':'')+'" onclick="chooseSaintsDate(\''+y+'-'+pad2(m+1)+'-'+pad2(d)+'\')">'+d+'</button>';
       host.innerHTML='<p class="bible-note">'+l.choose+'</p><div class="saints-cal-wrap"><div class="saints-cal-head"><button onclick="moveSaintsMonth(-1)" aria-label="Previous month">‹</button><strong>'+escapeHtml(monthName)+'</strong><button onclick="moveSaintsMonth(1)" aria-label="Next month">›</button></div><input class="saints-cal-date" type="date" value="'+saintsDateKey(saintsCalDate)+'" onchange="chooseSaintsDate(this.value)" aria-label="'+l.month+'"><div class="saints-cal-week">'+l.days.map(x=>'<span>'+x+'</span>').join('')+'</div><div class="saints-cal-grid">'+cells+'</div></div><div id="saints-day-results"><p class="saints-loading">'+l.loading+'</p></div>';
@@ -1310,7 +1310,7 @@
     }
     function renderSettings(){
       const l=settingsLabels[currentLang],size=localStorage.getItem('parish-text-size')||'normal';document.getElementById('settings-title').textContent=l.title;document.getElementById('settings-back').textContent=l.back;
-      document.getElementById('settings-content').innerHTML='<article class="schedule-entry"><strong>'+l.language+'</strong><p style="margin-top:8px">'+({ar:'العربية',fr:'Français',it:'Italiano'}[currentLang])+'</p><select class="feature-tab" aria-label="'+l.language+'" onchange="selectLanguage(this.value)"><option value="ar" '+(currentLang==='ar'?'selected':'')+'>العربية</option><option value="fr" '+(currentLang==='fr'?'selected':'')+'>Français</option><option value="it" '+(currentLang==='it'?'selected':'')+'>Italiano</option><option value="en" '+(currentLang==='en'?'selected':'')+'>English</option></select></article><article class="schedule-entry"><strong>'+l.size+'</strong><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">'+[['small',l.small],['normal',l.normal],['large',l.large]].map(([v,t])=>'<button class="feature-tab '+(size===v?'active':'')+'" onclick="setTextSize(\''+v+'\')">'+t+'</button>').join('')+'</div></article><article class="schedule-entry"><strong>'+l.privacy+'</strong><p style="line-height:1.8;margin-top:8px">'+l.privacyPending+'</p></article>';
+      document.getElementById('settings-content').innerHTML='<article class="schedule-entry"><strong>'+l.language+'</strong><p style="margin-top:8px">'+({ar:'العربية',fr:'Français',it:'Italiano',en:'English'}[currentLang])+'</p><select class="feature-tab" aria-label="'+l.language+'" onchange="selectLanguage(this.value)"><option value="ar" '+(currentLang==='ar'?'selected':'')+'>العربية</option><option value="fr" '+(currentLang==='fr'?'selected':'')+'>Français</option><option value="it" '+(currentLang==='it'?'selected':'')+'>Italiano</option><option value="en" '+(currentLang==='en'?'selected':'')+'>English</option></select></article><article class="schedule-entry"><strong>'+l.size+'</strong><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">'+[['small',l.small],['normal',l.normal],['large',l.large]].map(([v,t])=>'<button class="feature-tab '+(size===v?'active':'')+'" onclick="setTextSize(\''+v+'\')">'+t+'</button>').join('')+'</div></article><article class="schedule-entry"><strong>'+l.privacy+'</strong><p style="line-height:1.8;margin-top:8px">'+l.privacyPending+'</p></article>';
     }
     function setTextSize(size){localStorage.setItem('parish-text-size',size);document.documentElement.dataset.textSize=size;renderSettings();}
 
