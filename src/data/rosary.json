@@ -5,7 +5,8 @@
     "fr": null,
     "status": "recordings-not-yet-provided",
     "timingMarkers": [],
-    "it": null
+    "it": null,
+    "en": null
   },
   "mysteries": [
     {
@@ -13,7 +14,8 @@
       "name": {
         "ar": "أسرار الفرح",
         "fr": "Mystères joyeux",
-        "it": "Misteri gaudiosi"
+        "it": "Misteri gaudiosi",
+        "en": "The Joyful Mysteries"
       },
       "days": [
         "monday",
@@ -23,27 +25,32 @@
         {
           "ar": "بشارة الملاك لمريم العذراء",
           "fr": "L’Annonciation",
-          "it": "L’Annunciazione dell’Angelo a Maria"
+          "it": "L’Annunciazione dell’Angelo a Maria",
+          "en": "The Annunciation"
         },
         {
           "ar": "زيارة مريم لأليصابات",
           "fr": "La Visitation",
-          "it": "La Visitazione di Maria a Elisabetta"
+          "it": "La Visitazione di Maria a Elisabetta",
+          "en": "The Visitation"
         },
         {
           "ar": "ولادة يسوع في بيت لحم",
           "fr": "La Nativité",
-          "it": "La Nascita di Gesù a Betlemme"
+          "it": "La Nascita di Gesù a Betlemme",
+          "en": "The Nativity of Jesus in Bethlehem"
         },
         {
           "ar": "تقديم يسوع في الهيكل",
           "fr": "La Présentation de Jésus au Temple",
-          "it": "La Presentazione di Gesù al Tempio"
+          "it": "La Presentazione di Gesù al Tempio",
+          "en": "The Presentation of Jesus in the Temple"
         },
         {
           "ar": "يسوع في الهيكل بين العلماء",
           "fr": "Jésus retrouvé au Temple",
-          "it": "Il Ritrovamento di Gesù nel Tempio"
+          "it": "Il Ritrovamento di Gesù nel Tempio",
+          "en": "The Finding of Jesus in the Temple"
         }
       ]
     },
@@ -52,7 +59,8 @@
       "name": {
         "ar": "أسرار النور",
         "fr": "Mystères lumineux",
-        "it": "Misteri luminosi"
+        "it": "Misteri luminosi",
+        "en": "The Luminous Mysteries"
       },
       "days": [
         "thursday"
@@ -61,27 +69,32 @@
         {
           "ar": "معمودية يسوع في الأردن",
           "fr": "Le Baptême de Jésus au Jourdain",
-          "it": "Il Battesimo di Gesù nel Giordano"
+          "it": "Il Battesimo di Gesù nel Giordano",
+          "en": "The Baptism of Jesus in the Jordan"
         },
         {
           "ar": "عرس قانا الجليل",
           "fr": "Les Noces de Cana",
-          "it": "Le Nozze di Cana"
+          "it": "Le Nozze di Cana",
+          "en": "The Wedding at Cana"
         },
         {
           "ar": "إعلان ملكوت الله والدعوة إلى التوبة",
           "fr": "L’Annonce du Royaume et l’appel à la conversion",
-          "it": "L’Annuncio del Regno di Dio e l’invito alla conversione"
+          "it": "L’Annuncio del Regno di Dio e l’invito alla conversione",
+          "en": "The Proclamation of the Kingdom of God and the Call to Conversion"
         },
         {
           "ar": "تجلي يسوع",
           "fr": "La Transfiguration",
-          "it": "La Trasfigurazione di Gesù"
+          "it": "La Trasfigurazione di Gesù",
+          "en": "The Transfiguration"
         },
         {
           "ar": "تأسيس سر القربان",
           "fr": "L’Institution de l’Eucharistie",
-          "it": "L’Istituzione dell’Eucaristia"
+          "it": "L’Istituzione dell’Eucaristia",
+          "en": "The Institution of the Eucharist"
         }
       ]
     },
@@ -90,7 +103,8 @@
       "name": {
         "ar": "أسرار الحزن",
         "fr": "Mystères douloureux",
-        "it": "Misteri dolorosi"
+        "it": "Misteri dolorosi",
+        "en": "The Sorrowful Mysteries"
       },
       "days": [
         "tuesday",
@@ -100,27 +114,32 @@
         {
           "ar": "صلاة يسوع في بستان الزيتون",
           "fr": "L’Agonie de Jésus au Jardin des Oliviers",
-          "it": "L’Agonia di Gesù nell’Orto degli Ulivi"
+          "it": "L’Agonia di Gesù nell’Orto degli Ulivi",
+          "en": "The Agony of Jesus in the Garden of Gethsemane"
         },
         {
           "ar": "جلد يسوع",
           "fr": "La Flagellation",
-          "it": "La Flagellazione di Gesù"
+          "it": "La Flagellazione di Gesù",
+          "en": "The Scourging at the Pillar"
         },
         {
           "ar": "تتويج يسوع بالشوك",
           "fr": "Le Couronnement d’épines",
-          "it": "L’Incoronazione di spine"
+          "it": "L’Incoronazione di spine",
+          "en": "The Crowning with Thorns"
         },
         {
           "ar": "حمل يسوع الصليب",
           "fr": "Le Portement de la Croix",
-          "it": "Gesù porta la Croce"
+          "it": "Gesù porta la Croce",
+          "en": "The Carrying of the Cross"
         },
         {
           "ar": "صلب يسوع وموته",
           "fr": "La Crucifixion et la Mort de Jésus",
-          "it": "La Crocifissione e la Morte di Gesù"
+          "it": "La Crocifissione e la Morte di Gesù",
+          "en": "The Crucifixion and Death of Jesus"
         }
       ]
     },
@@ -129,7 +148,8 @@
       "name": {
         "ar": "أسرار المجد",
         "fr": "Mystères glorieux",
-        "it": "Misteri gloriosi"
+        "it": "Misteri gloriosi",
+        "en": "The Glorious Mysteries"
       },
       "days": [
         "wednesday",
@@ -139,27 +159,32 @@
         {
           "ar": "قيامة يسوع",
           "fr": "La Résurrection",
-          "it": "La Risurrezione di Gesù"
+          "it": "La Risurrezione di Gesù",
+          "en": "The Resurrection of Jesus"
         },
         {
           "ar": "صعود يسوع إلى السماء",
           "fr": "L’Ascension",
-          "it": "L’Ascensione di Gesù al Cielo"
+          "it": "L’Ascensione di Gesù al Cielo",
+          "en": "The Ascension of Jesus into Heaven"
         },
         {
           "ar": "حلول الروح القدس",
           "fr": "La Pentecôte",
-          "it": "La Discesa dello Spirito Santo"
+          "it": "La Discesa dello Spirito Santo",
+          "en": "The Descent of the Holy Spirit at Pentecost"
         },
         {
           "ar": "انتقال مريم العذراء",
           "fr": "L’Assomption de Marie",
-          "it": "L’Assunzione di Maria"
+          "it": "L’Assunzione di Maria",
+          "en": "The Assumption of the Blessed Virgin Mary"
         },
         {
           "ar": "تتويج مريم ملكة السماء والأرض",
           "fr": "Le Couronnement de Marie",
-          "it": "L’Incoronazione di Maria Regina del Cielo e della Terra"
+          "it": "L’Incoronazione di Maria Regina del Cielo e della Terra",
+          "en": "The Coronation of Mary as Queen of Heaven"
         }
       ]
     }
@@ -295,5 +320,11 @@
         "it": "Preghiera finale"
       }
     }
+  ],
+  "languages": [
+    "ar",
+    "fr",
+    "it",
+    "en"
   ]
 }
