@@ -1293,7 +1293,7 @@
     function openContact(){
       document.getElementById('home-view').classList.add('hidden');document.getElementById('about-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';
       const l=churchHistoryLabels[currentLang];document.getElementById('about-title').textContent=l.contact;document.getElementById('about-back').textContent=l.back;
-      const msg=currentLang==='ar'?'لم أتمكن من التحقق من رقم هاتف أو بريد إلكتروني رسمي للرعية من المصادر العامة.':currentLang==='fr'?'Aucun numéro de téléphone ou e-mail officiel de la paroisse n’a pu être vérifié dans les sources publiques.':'Non è stato possibile verificare un numero di telefono o un’e-mail ufficiale della parrocchia nelle fonti pubbliche.';
+      const msg=currentLang==='ar'?'لم أتمكن من التحقق من رقم هاتف أو بريد إلكتروني رسمي للرعية من المصادر العامة.':currentLang==='fr'?'Aucun numéro de téléphone ou e-mail officiel de la paroisse n’a pu être vérifié dans les sources publiques.':currentLang==='en'?'I could not verify an official parish phone number or email address from public sources.':'Non è stato possibile verificare un numero di telefono o un’e-mail ufficiale della parrocchia nelle fonti pubbliche.';
       document.getElementById('about-content').innerHTML='<article class="schedule-entry"><h3 style="color:var(--gold-light)">'+l.name+'</h3><p style="line-height:1.9;margin-top:8px">'+l.location+'</p><p style="line-height:1.9;margin-top:12px">'+msg+'</p></article><a class="church-action-link" href="'+churchMapUrl+'" target="_blank" rel="noopener">📍 '+l.map+'</a>';
     }
     function openChurchMap(){window.open(churchMapUrl,'_blank','noopener');}
