@@ -766,14 +766,14 @@
     function renderMaroniteSaints(items,l){if(!items.length)return '<p>'+l.none+'</p>';return items.map(n=>'<p>'+escapeHtml(n)+'</p>').join('');}
 
     const bibleLabels={
-      ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — فان دايك الكاثوليكية (73 سفراً)',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
-      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — Van Dyck catholique (73 livres)',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
-      it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — Van Dyck cattolica (73 libri)',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
+      ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — فان دايك الكاثوليكية (73 سفراً)',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',},
+      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — Van Dyck catholique (73 livres)',french:'Français — Crampon 1923',italian:'Italien — Martini',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
+      it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — Van Dyck cattolica (73 libri)',french:'Francese — Crampon 1923',italian:'Italiano — Martini', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
     bibleLabels.ar.english='الإنجليزية — دواي رايمز 1899';
     bibleLabels.fr.english='Anglais — Douay-Rheims 1899';
     bibleLabels.it.english='Inglese — Douay-Rheims 1899';
-    bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Van Dyck Catholic Bible (73 books)',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',pending:'This text is being prepared for full integration in the app.',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
+    bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Van Dyck Catholic Bible (73 books)',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
     const AR_BIBLE_BASE='https://raw.githubusercontent.com/midvash/bible-data/main/versions/ar/svd/books/';
     let arabicBibleIndex=null,arabicBibleBook=null,arabicBibleChapter=1;
     // All 73 Arabic Catholic books are driven by one canonical index and one book selector.\n    const EN_BIBLE_BASE='./bibles/en/';
@@ -1049,7 +1049,7 @@
         '<button class="bible-language" onclick="openBibleLanguage(\'fr\')">'+l.french+'</button>'+
         '<button class="bible-language" onclick="openBibleLanguage(\'it\')">'+l.italian+'</button>'+
         '<button class="bible-language" onclick="openBibleLanguage(\'en\')">'+l.english+'</button></div>'+
-        '<div id="bible-reader" class="bible-reader"><p class="bible-note">'+l.pending+'</p></div>';
+        '<div id="bible-reader" class="bible-reader"></div>';
       if(bibleCurrentLanguage) openBibleLanguage(bibleCurrentLanguage);
     }
     async function openBibleLanguage(lang){
@@ -1061,7 +1061,7 @@
       if(lang==='fr'){openFrenchBible();return;}
       if(lang==='en'){openEnglishBible();return;}
       if(lang!=='it'){
-        host.innerHTML='<p class="empty-state">'+bibleLabels[currentLang].pending+'</p>';
+        host.innerHTML='';
         return;
       }
       host.innerHTML='<p class="empty-state">جارٍ تحميل فهرس الكتاب المقدّس… / Chargement… / Caricamento…</p>';
@@ -1097,7 +1097,7 @@
     }
 
     const rosaryLabels={
-      ar:{title:'المسبحة الوردية',back:'رجوع',choose:'اختر أسرار المسبحة',days:'الأيام',start:'ابدأ الصلاة الموجّهة',step:'الخطوة',of:'من',previous:'السابق',next:'التالي',again:'العودة إلى الأسرار',unavailable:'النص الكامل للصلاة والتسجيلات الصوتية سيضافان بعد مراجعتهما واعتمادهما من الرعية.',noAudio:'لا توجد تسجيلات صوتية معتمدة بعد. يمكنك المتابعة يدوياً.',dayNames:['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],today:'أسرار اليوم المقترحة',guideIntro:'اتبع خطوات المسبحة بالترتيب. تظهر أسماء الصلوات والتأملات، أما النصوص الكاملة فتضاف بعد اعتمادها من الرعية.',mystery:'التأمل',decade:'العقد',optional:'صلاة اختيارية',skip:'تخطّي',finish:'أحسنت! أكملت خطوات المسبحة.',restart:'ابدأ من جديد',backMysteries:'اختيار أسرار أخرى',opening:'الصلوات الافتتاحية',closing:'الصلاة الختامية',beads:'تقدّم العقد',beadNumber:'الخرزة',outOf:'من 10',decadeNumber:'العقد',decadeOutOf:'من 5',diagram:'رسم توضيحي للمسبحة: الصليب، خرزة أبانا، ثلاث خرزات السلام، خرزة المجد، ثم خمسة عقود' ,ourFatherLabel:'أبانا',gloryBeLabel:'المجد للآب',hailMaryLabel:'السلام عليك يا مريم'},
+      ar:{title:'المسبحة الوردية',back:'رجوع',choose:'اختر أسرار المسبحة',days:'الأيام',start:'ابدأ الصلاة الموجّهة',step:'الخطوة',of:'من',previous:'السابق',next:'التالي',again:'العودة إلى الأسرار',unavailable:'النص الكامل للصلاة والتسجيلات الصوتية سيضافان بعد مراجعتهما واعتمادهما من الرعية.',noAudio:'اختر أحد أسرار المسبحة لبدء الصلاة.',dayNames:['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],today:'أسرار اليوم المقترحة',guideIntro:'اتبع خطوات المسبحة بالترتيب. تظهر أسماء الصلوات والتأملات، أما النصوص الكاملة فتضاف بعد اعتمادها من الرعية.',mystery:'التأمل',decade:'العقد',optional:'صلاة اختيارية',skip:'تخطّي',finish:'أحسنت! أكملت خطوات المسبحة.',restart:'ابدأ من جديد',backMysteries:'اختيار أسرار أخرى',opening:'الصلوات الافتتاحية',closing:'الصلاة الختامية',beads:'تقدّم العقد',beadNumber:'الخرزة',outOf:'من 10',decadeNumber:'العقد',decadeOutOf:'من 5',diagram:'رسم توضيحي للمسبحة: الصليب، خرزة أبانا، ثلاث خرزات السلام، خرزة المجد، ثم خمسة عقود' ,ourFatherLabel:'أبانا',gloryBeLabel:'المجد للآب',hailMaryLabel:'السلام عليك يا مريم'},
       fr:{title:'Le Saint Rosaire',back:'Retour',choose:'Choisissez les mystères du Rosaire',days:'Jours',start:'Commencer la prière guidée',step:'Étape',of:'sur',previous:'Précédent',next:'Suivant',again:'Retour aux mystères',unavailable:'Le texte intégral des prières et les enregistrements seront ajoutés après vérification et approbation de la paroisse.',noAudio:'Aucun enregistrement approuvé pour le moment. Vous pouvez continuer en mode manuel.',dayNames:['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],today:'Mystères proposés aujourd’hui',guideIntro:'Suivez les étapes du Rosaire dans l’ordre. Les noms des prières et méditations sont affichés ; les textes complets seront ajoutés après approbation de la paroisse.',mystery:'Méditation',decade:'Dizaine',optional:'Prière facultative',skip:'Passer',finish:'Bravo ! Vous avez terminé les étapes du Rosaire.',restart:'Recommencer',backMysteries:'Choisir d’autres mystères',opening:'Prières d’ouverture',closing:'Prière finale',beads:'Progression de la dizaine',beadNumber:'Grain',outOf:'sur 10',decadeNumber:'Dizaine',decadeOutOf:'sur 5',diagram:'Schéma du chapelet : croix, grain du Notre Père, trois grains de Je vous salue Marie, grain du Gloire au Père, puis cinq dizaines',ourFatherLabel:'Notre Père',gloryBeLabel:'Gloire au Père',hailMaryLabel:'Je vous salue Marie'},
       it:{title:'Santo Rosario',back:'Indietro',choose:'Scegli i misteri del Rosario',days:'Giorni',start:'Inizia la preghiera guidata',step:'Passaggio',of:'di',previous:'Precedente',next:'Successivo',again:'Torna ai misteri',unavailable:'Il testo completo delle preghiere e le registrazioni saranno aggiunti dopo la verifica e l’approvazione della parrocchia.',noAudio:'Non ci sono ancora registrazioni approvate. Puoi continuare in modalità manuale.',dayNames:['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],today:'Misteri suggeriti per oggi',guideIntro:'Segui in ordine i passaggi del Rosario. Sono mostrati i nomi delle preghiere e delle meditazioni; i testi completi saranno aggiunti dopo l’approvazione della parrocchia.',mystery:'Meditazione',decade:'Decina',optional:'Preghiera facoltativa',skip:'Salta',finish:'Complimenti! Hai completato i passaggi del Rosario.',restart:'Ricomincia',backMysteries:'Scegli altri misteri',opening:'Preghiere iniziali',closing:'Preghiera finale',beads:'Progresso della decina',beadNumber:'Grano',outOf:'su 10',decadeNumber:'Decina',decadeOutOf:'su 5',diagram:'Schema del rosario: croce, grano del Padre Nostro, tre grani dell’Ave Maria, grano del Gloria al Padre e poi cinque decine',ourFatherLabel:'Padre Nostro',gloryBeLabel:'Gloria al Padre',hailMaryLabel:'Ave Maria'}
     };
@@ -1187,7 +1187,7 @@
           return '<button class="mystery-choice '+active+'" onclick="selectRosaryMystery('+i+')">'+name+'<small>'+l.days+': '+days+'</small></button>';
         }).join('');
         const suggestedName=escapeHtml(rosaryData.mysteries[suggested].name[currentLang]||rosaryData.mysteries[suggested].name.ar);
-        box.innerHTML=renderRosaryDiagram()+'<p class="empty-state">'+l.choose+'</p><div class="rosary-recommendation"><strong>'+l.today+': </strong>'+suggestedName+'</div><div class="rosary-mysteries">'+mysteryCards+'</div><p class="empty-state">'+l.noAudio+'</p><button class="feature-tab" style="width:100%" onclick="startRosary()">'+l.start+'</button>';
+        box.innerHTML=renderRosaryDiagram()+'<p class="empty-state">'+l.choose+'</p><div class="rosary-recommendation"><strong>'+l.today+': </strong>'+suggestedName+'</div><div class="rosary-mysteries">'+mysteryCards+'</div><button class="feature-tab" style="width:100%" onclick="startRosary()">'+l.start+'</button>';
         return;
       }
       rosaryGuideSteps=buildRosaryGuide();
@@ -1203,28 +1203,31 @@
       }
       const detail=step.detail?'<p>'+escapeHtml(step.detail)+'</p>':'';
       const optional=step.kind==='optional'?'<p class="rosary-guide-meta">'+l.optional+'</p>':'';
+      const audioFiles={signOfCross:'sign-of-the-cross.wav',creed:'apostles-creed.wav',ourFather:'our-father.wav',hailMary:'hail-mary.wav',gloryBe:'glory-be.wav'};
+      const audioFile=step.audioKey?audioFiles[step.audioKey]:null;
+      const audioMarkup=currentLang==='ar'&&audioFile?'<div class="prayer-audio-controls"><audio controls preload="none" style="width:100%"><source src="assets/audio/ar/rosary/'+audioFile+'" type="audio/wav">متصفحك لا يدعم تشغيل الصوت.</audio></div>':'';
       const decade=step.decade?' · '+l.decadeNumber+' '+step.decade+' '+l.decadeOutOf:'';
       const completedHail=step.decade?rosaryGuideSteps.slice(0,rosaryGuideIndex).filter(s=>s.kind==='hail'&&s.decade===step.decade).length:0;
       const diagramBead=step.decade?(step.kind==='hail'?step.hailIndex:completedHail-1):-1;
       const openingBead=step.kind==='hail'&&!step.decade?step.hailIndex:-1;
       const previous=rosaryGuideIndex===0?'disabled':'';
       const action=step.kind==='optional'?l.skip:l.next;
-      box.innerHTML=renderRosaryDiagram(step.decade||(step.kind==='closing'?6:0),diagramBead,openingBead,step.decade?7:rosaryGuideIndex)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
+      box.innerHTML=renderRosaryDiagram(step.decade||(step.kind==='closing'?6:0),diagramBead,openingBead,step.decade?7:rosaryGuideIndex)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress"><span style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+audioMarkup+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
     }
     function selectRosaryMystery(index){selectedMystery=index;window.rosaryUserSelected=true;renderRosary();}
     function buildRosaryGuide(){
       const sequence=rosaryData.prayerSequence||[],steps=[],label=id=>{const item=sequence.find(x=>x.id===id)||sequence.flatMap(x=>x.steps||[]).find(x=>x.id===id);return item?.label?.[currentLang]||item?.label?.ar||id;};
-      steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('sign-of-cross')});
-      steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('creed')});
-      steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('our-father-opening')});
-      for(let i=1;i<=3;i++)steps.push({kind:'hail',section:rosaryLabels[currentLang].opening,title:label('hail-mary-opening-'+i),hailIndex:i-1});
-      steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('glory-be-opening')});
+      steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('sign-of-cross'),audioKey:'signOfCross'});
+      steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('creed'),audioKey:'creed'});
+      steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('our-father-opening'),audioKey:'ourFather'});
+      for(let i=1;i<=3;i++)steps.push({kind:'hail',section:rosaryLabels[currentLang].opening,title:label('hail-mary-opening-'+i),hailIndex:i-1,audioKey:'hailMary'});
+      steps.push({kind:'prayer',section:rosaryLabels[currentLang].opening,title:label('glory-be-opening'),audioKey:'gloryBe'});
       const mystery=rosaryData.mysteries[selectedMystery];
       for(let decade=1;decade<=5;decade++){
         steps.push({kind:'mystery',section:rosaryLabels[currentLang].decade+' '+decade,title:mystery.episodes[decade-1][currentLang]||mystery.episodes[decade-1].ar,detail:mystery.name[currentLang]||mystery.name.ar,decade});
-        steps.push({kind:'prayer',section:rosaryLabels[currentLang].decade+' '+decade,title:label('our-father')});
-        for(let bead=1;bead<=10;bead++)steps.push({kind:'hail',section:rosaryLabels[currentLang].decade+' '+decade,title:label('hail-mary'),hailIndex:bead-1,decade});
-        steps.push({kind:'prayer',section:rosaryLabels[currentLang].decade+' '+decade,title:label('glory-be')});
+        steps.push({kind:'prayer',section:rosaryLabels[currentLang].decade+' '+decade,title:label('our-father'),audioKey:'ourFather'});
+        for(let bead=1;bead<=10;bead++)steps.push({kind:'hail',section:rosaryLabels[currentLang].decade+' '+decade,title:label('hail-mary'),hailIndex:bead-1,decade,audioKey:'hailMary'});
+        steps.push({kind:'prayer',section:rosaryLabels[currentLang].decade+' '+decade,title:label('glory-be'),audioKey:'gloryBe'});
         steps.push({kind:'optional',section:rosaryLabels[currentLang].decade+' '+decade,title:label('fatima-prayer')});
       }
       steps.push({kind:'prayer',section:rosaryLabels[currentLang].closing,title:label('closing')});
