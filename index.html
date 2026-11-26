@@ -623,7 +623,7 @@
     function chooseMassDate(key){selectedMassDate=key;const d=new Date(key+'T12:00:00');massCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassContent();}
     function changeMassMonth(delta){massCalendarMonth=new Date(massCalendarMonth.getFullYear(),massCalendarMonth.getMonth()+delta,1);renderMassContent();}
     function goMassToday(){const d=new Date();selectedMassDate=dateKey(d);massCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassContent();}
-    function openFeature(index){if(index===7){openSaintsCalendar();return;}if(index!==0)return;document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();}
+    function openFeature(index){if(index===6){openBible();return;}if(index===7){openSaintsCalendar();return;}if(index!==0)return;document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();}
     function closeFeature(){document.getElementById('mass-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     async function loadMassData(){const labels=massLabels[currentLang];document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';try{const response=await fetch('src/data/mass-schedule.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');massData=await response.json();renderMassContent();}catch(e){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.error+'</p>';}}
     function renderMassScreen(){const labels=massLabels[currentLang];document.getElementById('mass-title').textContent=labels.title;document.getElementById('mass-back').textContent=labels.back;document.getElementById('mass-tabs').innerHTML=labels.tabs.map((label,index)=>'<button class="feature-tab '+(index===massTab?'active':'')+'" onclick="selectMassTab('+index+')">'+label+'</button>').join('');renderMassContent();}
@@ -756,7 +756,7 @@
         button.textContent='Bible saved offline';
       }catch(error){status.textContent='Download paused: '+(error.message||'connection problem')+'. Tap to continue; saved chapters will be kept.';button.disabled=false;}
     }
-    const FR_BIBLE_BASE='https://raw.githubusercontent.com/clinto-abraham/bible.ciyo.in/b76e44393b3593ce10334e04421ffa82ce9c98/public/data/french/bible/';
+    const FR_BIBLE_BASE='https://cdn.jsdelivr.net/gh/clinto-abraham/bible.ciyo.in@b76e44393b3593ce10334e04421ffa82ce9c98/public/data/french/bible/';
     let frenchBibleIndex=null,frenchBibleBook=null,frenchBibleChapter=1;
     async function loadFrenchBibleIndex(){
       if(frenchBibleIndex)return frenchBibleIndex;
