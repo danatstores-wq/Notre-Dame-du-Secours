@@ -218,7 +218,7 @@
       background: var(--navy-nav);
       border-top: 1.5px solid var(--gold);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       padding: 8px 4px calc(12px + env(safe-area-inset-bottom, 0px));
     }
     .nav-item {
@@ -232,6 +232,7 @@
     }
     .nav-item.active { color: var(--gold-light); font-weight: 700; }
     .nav-item img { width: 24px; height: 24px; }
+    .nav-profile-icon { width:24px; height:24px; display:grid; place-items:center; font-size:21px; line-height:1; }
   
     .saints-cal-wrap{border:1px solid rgba(229,182,87,.6);border-radius:16px;padding:12px;background:rgba(8,22,45,.86);margin:10px 0 16px}
     .saints-cal-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
@@ -334,7 +335,7 @@
       <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
       <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
     </section>
-    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><section class="feature-screen" id="parish-life-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeParishLife()" id="parish-life-back">←</button><h2 id="parish-life-title"></h2></div><div class="feature-tabs" id="parish-life-tabs"></div><div class="feature-content" id="parish-life-content"></div></section><section class="feature-screen" id="prayer-requests-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerRequests()" id="prayer-requests-back">←</button><h2 id="prayer-requests-title"></h2></div><div class="feature-content" id="prayer-requests-content"></div></section><section class="feature-screen" id="favorites-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeFavorites()" id="favorites-back">←</button><h2 id="favorites-title"></h2></div><div class="feature-content" id="favorites-content"></div></section><section class="feature-screen" id="notifications-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('notifications-screen')" id="notifications-back">←</button><h2 id="notifications-title"></h2></div><div class="feature-content" id="notifications-content"></div></section><section class="feature-screen" id="about-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('about-screen')" id="about-back">←</button><h2 id="about-title"></h2></div><div class="feature-content" id="about-content"></div></section><section class="feature-screen" id="settings-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('settings-screen')" id="settings-back">←</button><h2 id="settings-title"></h2></div><div class="feature-content" id="settings-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
+    <section class="feature-screen" id="rosary-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeRosary()" id="rosary-back">←</button><h2 id="rosary-title"></h2></div><div class="feature-content" id="rosary-content"></div></section><section class="feature-screen" id="prayer-library-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerLibrary()" id="prayer-library-back">←</button><h2 id="prayer-library-title"></h2></div><div class="feature-content" id="prayer-library-content"></div></section><section class="feature-screen" id="announcements-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeAnnouncements()" id="announcements-back">←</button><h2 id="announcements-title"></h2></div><div class="feature-content" id="announcements-content"></div></section><section class="feature-screen" id="parish-life-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeParishLife()" id="parish-life-back">←</button><h2 id="parish-life-title"></h2></div><div class="feature-tabs" id="parish-life-tabs"></div><div class="feature-content" id="parish-life-content"></div></section><section class="feature-screen" id="prayer-requests-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closePrayerRequests()" id="prayer-requests-back">←</button><h2 id="prayer-requests-title"></h2></div><div class="feature-content" id="prayer-requests-content"></div></section><section class="feature-screen" id="favorites-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeFavorites()" id="favorites-back">←</button><h2 id="favorites-title"></h2></div><div class="feature-content" id="favorites-content"></div></section><section class="feature-screen" id="notifications-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('notifications-screen')" id="notifications-back">←</button><h2 id="notifications-title"></h2></div><div class="feature-content" id="notifications-content"></div></section><section class="feature-screen" id="about-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('about-screen')" id="about-back">←</button><h2 id="about-title"></h2></div><div class="feature-content" id="about-content"></div></section><section class="feature-screen" id="settings-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSimpleScreen('settings-screen')" id="settings-back">←</button><h2 id="settings-title"></h2></div><div class="feature-content" id="settings-content"></div></section><section class="feature-screen" id="profile-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeProfile()" id="profile-back">←</button><h2 id="profile-title"></h2></div><div class="feature-content" id="profile-content"></div></section><nav class="bottom-nav" id="bottom-nav"></nav>
   </div>
 
   <script>
@@ -388,7 +389,8 @@
           "الرئيسية",
           "الإشعارات",
           "المفضلة",
-          "كنيستنا"
+          "كنيستنا",
+          "ملفي"
         ]
       },
       "fr": {
@@ -440,7 +442,8 @@
           "Accueil",
           "Notifications",
           "Favoris",
-          "Notre église"
+          "Notre église",
+          "Profil"
         ]
       },
       "it": {
@@ -492,7 +495,8 @@
           "Home",
           "Notifiche",
           "Preferiti",
-          "La nostra chiesa"
+          "La nostra chiesa",
+          "Profilo"
         ]
       }
     ,
@@ -513,7 +517,7 @@
           ["The Holy Bible","Old and New Testaments","📖"],
           ["Saints Calendar","Catholic and Maronite saints","assets/icons/icon-saints-calendar.svg"]
         ],
-        "nav": ["Home","Notifications","Favorites","Our Church"]
+        "nav": ["Home","Notifications","Favorites","Our Church","Profile"]
       }
     }
 
@@ -542,12 +546,10 @@
       `).join('');
 
       const navIcons = ['nav-home.png', 'nav-bell.png', 'nav-star.png', 'nav-info.png'];
-      document.getElementById('bottom-nav').innerHTML = t.nav.map((label, index) => `
-        <div class="nav-item ${index === 0 ? 'active' : ''}" role="button" tabindex="0" onclick="handleNav(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleNav(${index})}">
-          <img src="assets/icons/${navIcons[index]}" alt="" />
-          <span>${label}</span>
-        </div>
-      `).join('');
+      document.getElementById('bottom-nav').innerHTML = t.nav.map((label, index) => {
+        const icon = index < navIcons.length ? `<img src="assets/icons/${navIcons[index]}" alt="" />` : '<span class="nav-profile-icon" aria-hidden="true">👤</span>';
+        return `<div class="nav-item ${index === 0 ? 'active' : ''}" role="button" tabindex="0" aria-label="${label}" onclick="handleNav(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleNav(${index})}">${icon}<span>${label}</span></div>`;
+      }).join('');
     }
 
     function toggleLanguageMenu(event){
@@ -1257,8 +1259,33 @@
       if(index===1)openNotifications();
       if(index===2)openFavorites();
       if(index===3)openOurChurch();
+      if(index===4)openProfile();
     }
 
+    const profileLabels={
+      ar:{title:'ملفي الشخصي',back:'رجوع',guest:'زائر',intro:'يمكنك استخدام محتوى الرعية دون إنشاء حساب. ستتم إضافة تسجيل الدخول وإنشاء الحساب وإدارة بياناتك هنا بعد تفعيل Firebase Authentication بشكل آمن.',status:'الحسابات غير مفعّلة بعد',details:'ستظهر هنا بيانات ملفك الشخصي وإعدادات حسابك بعد ربط تسجيل الدخول الآمن.'},
+      fr:{title:'Mon profil',back:'Retour',guest:'Visiteur',intro:'Vous pouvez consulter le contenu paroissial sans créer de compte. La connexion, la création de compte et la gestion de vos informations seront ajoutées ici après l’activation sécurisée de Firebase Authentication.',status:'Les comptes ne sont pas encore activés',details:'Les informations de votre profil et les paramètres du compte apparaîtront ici après la mise en place de la connexion sécurisée.'},
+      it:{title:'Il mio profilo',back:'Indietro',guest:'Ospite',intro:'Puoi utilizzare i contenuti della parrocchia senza creare un account. Accesso, registrazione e gestione dei dati saranno aggiunti qui dopo l’attivazione sicura di Firebase Authentication.',status:'Gli account non sono ancora attivi',details:'Le informazioni del profilo e le impostazioni dell’account appariranno qui dopo l’integrazione dell’accesso sicuro.'},
+      en:{title:'My Profile',back:'Back',guest:'Guest',intro:'You can use the parish app without creating an account. Sign-in, account registration and profile management will be added here when Firebase Authentication is securely connected.',status:'Accounts are not enabled yet',details:'Your profile information and account settings will appear here after secure sign-in is integrated.'}
+    };
+    function openProfile(){
+      document.querySelectorAll('.feature-screen').forEach(x=>x.classList.remove('visible'));
+      document.getElementById('home-view').classList.add('hidden');
+      document.getElementById('profile-screen').classList.add('visible');
+      document.getElementById('bottom-nav').style.display='none';
+      renderProfile();
+    }
+    function renderProfile(){
+      const l=profileLabels[currentLang]||profileLabels.en;
+      document.getElementById('profile-title').textContent=l.title;
+      document.getElementById('profile-back').textContent=l.back;
+      document.getElementById('profile-content').innerHTML='<div style="text-align:center;padding:16px 6px 20px"><div style="width:76px;height:76px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:rgba(229,182,87,.16);border:1px solid var(--gold);font-size:2.2rem" aria-hidden="true">👤</div><h3 style="color:var(--gold-light);margin-bottom:5px">'+l.guest+'</h3><p style="color:#e8d5a9;font-size:.84rem">'+l.status+'</p></div><div class="schedule-entry" style="line-height:1.9">'+l.intro+'</div><div class="schedule-entry" style="line-height:1.9">'+l.details+'</div>';
+    }
+    function closeProfile(){
+      document.getElementById('profile-screen').classList.remove('visible');
+      document.getElementById('home-view').classList.remove('hidden');
+      document.getElementById('bottom-nav').style.display='grid';
+    }
 
     const simplePageLabels={
       ar:{notifications:'الإشعارات',about:'كنيستنا',back:'رجوع',important:'الإعلانات المهمة',masses:'تحديثات مواعيد القداديس',activities:'نشاطات الرعية',reminders:'التذكيرات الشخصية',saved:'تم حفظ تفضيلاتك على هذا الجهاز.',notReady:'إرسال الإشعارات الفعلية غير مفعّل بعد.',parish:'كنيسة سيدة المعونات',pending:'سيُضاف تاريخ الرعية والعنوان ووسائل التواصل والصور بعد موافقة الرعية.'},
