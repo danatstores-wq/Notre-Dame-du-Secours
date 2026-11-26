@@ -648,7 +648,7 @@
     function goMassToday(){const d=new Date();selectedMassDate=dateKey(d);massCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassContent();}
     function openFeature(index){if(index===6){openBible();return;}if(index===7){openSaintsCalendar();return;}if(index!==0)return;document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();}
     function closeFeature(){document.getElementById('mass-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
-    async function loadMassData(){const labels=massLabels[currentLang];document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';try{const response=await fetch('src/data/mass-schedule.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');massData=await response.json();renderMassContent();}catch(e){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.error+'</p>';}}
+    async function loadMassData(){const labels=massLabels[currentLang];document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';try{const cloud=await window.parishCms?.load('massSchedule');if(cloud!==null&&cloud!==undefined){massData=cloud;renderMassContent();return;}const response=await fetch('src/data/mass-schedule.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');massData=await response.json();renderMassContent();}catch(e){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.error+'</p>';}}
     function renderMassScreen(){const labels=massLabels[currentLang];document.getElementById('mass-title').textContent=labels.title;document.getElementById('mass-back').textContent=labels.back;document.getElementById('mass-tabs').innerHTML=labels.tabs.map((label,index)=>'<button class="feature-tab '+(index===massTab?'active':'')+'" onclick="selectMassTab('+index+')">'+label+'</button>').join('');renderMassContent();}
     function selectMassTab(index){massTab=index;renderMassScreen();}
     function renderMassContent(){const labels=massLabels[currentLang];if(!massData){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';return;}renderMassCalendar();}
@@ -1127,7 +1127,7 @@
     let prayerLibraryData=null,selectedPrayerCategory=null,selectedPrayer=null,prayerSearchQuery='',prayerReaderScale=1,prayerSpeechUtterance=null,prayerSpeechStatus='';
     async function loadPrayerLibrary(){
       const box=document.getElementById('prayer-library-content');box.innerHTML='<p class="empty-state">…</p>';
-      try{const response=await fetch('src/data/prayers.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');prayerLibraryData=await response.json();selectedPrayerCategory=null;selectedPrayer=null;prayerSearchQuery='';renderPrayerLibrary();}
+      try{const cloud=await window.parishCms?.load('prayers');if(cloud!==null&&cloud!==undefined){prayerLibraryData=cloud;}else{const response=await fetch('src/data/prayers.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');prayerLibraryData=await response.json();}selectedPrayerCategory=null;selectedPrayer=null;prayerSearchQuery='';renderPrayerLibrary();}
       catch(e){box.innerHTML='<p class="empty-state">'+prayerLibraryLabels[currentLang].empty+'</p>';}
     }
     function renderPrayerLibrary(){
@@ -1188,7 +1188,7 @@
     let announcementsData=null;
     async function loadAnnouncements(){
       const box=document.getElementById('announcements-content');box.innerHTML='<p class="empty-state">'+announcementLabels[currentLang].loading+'</p>';
-      try{const response=await fetch('src/data/announcements.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');announcementsData=await response.json();renderAnnouncements();}
+      try{const cloud=await window.parishCms?.load('announcements');if(cloud!==null&&cloud!==undefined){announcementsData=cloud;}else{const response=await fetch('src/data/announcements.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');announcementsData=await response.json();}renderAnnouncements();}
       catch(e){box.innerHTML='<p class="empty-state">'+announcementLabels[currentLang].error+'</p>';}
     }
     function renderAnnouncements(){
@@ -1208,7 +1208,7 @@
     let parishLifeData=null,parishLifeTab=0;
     async function loadParishLife(){
       const box=document.getElementById('parish-life-content');box.innerHTML='<p class="empty-state">'+parishLifeLabels[currentLang].loading+'</p>';
-      try{const response=await fetch('src/data/parish-life.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');parishLifeData=await response.json();renderParishLife();}
+      try{const cloud=await window.parishCms?.load('parishLife');if(cloud!==null&&cloud!==undefined){parishLifeData=cloud;}else{const response=await fetch('src/data/parish-life.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');parishLifeData=await response.json();}renderParishLife();}
       catch(e){box.innerHTML='<p class="empty-state">'+parishLifeLabels[currentLang].error+'</p>';}
     }
     function renderParishLife(){
