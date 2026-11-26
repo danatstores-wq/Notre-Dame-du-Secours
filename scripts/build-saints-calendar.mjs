@@ -22,7 +22,7 @@ function htmlToLines(html) {
   return decodeEntities(html
     .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<\/(p|div|li|h[1-6]|section|article|tr)>/gi, '\n')
+    .replace(/<\/(p|div|li|h[1-6]|section|article|tr|td|th)>/gi, '\n')
     .replace(/<[^>]+>/g, ' '))
     .replace(/[\t\f\v ]+/g, ' ')
     .split(/\r?\n/).map(x => x.trim()).filter(Boolean);
@@ -56,12 +56,40 @@ function parseMaroniteSynaxarion(html) {
 }
 function parseArabicMaroniteIndex(html) {
   const monthPatterns = [
-    ['كانون\\s*الثاني', 1], ['شباط', 2], ['آذار|اذار', 3], ['نيسان', 4],
-    ['أيار|ايار', 5], ['حزيران', 6], ['تموز', 7], ['آب|اب', 8],
-    ['أيلول|ايلول', 9], ['تشرين\\s*الأول|تشرين\\s*الاول', 10],
-    ['تشرين\\s*الثاني', 11], ['كانون\\s*الأول|كانون\\s*الاول', 12]
+    [/^كانون\s*الثاني$/u, 1], [/^شباط$/u, 2], [/^(آذار|اذار)$/u, 3], [/^نيسان$/u, 4],
+    [/^(أيار|ايار)$/u, 5], [/^حزيران$/u, 6], [/^تموز$/u, 7], [/^(آب|اب)$/u, 8],
+    [/^(أيلول|ايلول)$/u, 9], [/^تشرين\s*(الأول|الاول)$/u, 10],
+    [/^تشرين\s*الثاني$/u, 11], [/^كانون\s*(الأول|الاول)$/u, 12]
   ];
-  const monthRegex = new RegExp('(?:أول|اول|[0-9]{1,2})\\\\s*(' + monthPatterns.map(x => '(' + x[0] + ')').join('|') + ')\\\\s*
+  const lines = htmlToLines(html);
+  const entries = {};
+  let pending = [], inIndex = false;
+  for (const line of lines) {
+    if (line.includes('فهرس السنكسار الشمسي')) { inIndex = true; pending = []; continue; }
+    if (!inIndex) continue;
+    if (/^حرف\s/u.test(line)) { pending = []; continue; }
+    const match = line.match(/(أول|اول|[0-9]{1,2})\s*(كانون\s*الثاني|شباط|آذار|اذار|نيسان|أيار|ايار|حزيران|تموز|آب|اب|أيلول|ايلول|تشرين\s*(?:الأول|الاول|الثاني)|كانون\s*(?:الأول|الاول))\s*$/u);
+    if (!match) {
+      if (line.length > 1 && !/^(أسماء القديسين|تاريخ العيد|الصفحة)$/u.test(line)) pending.push(line);
+      continue;
+    }
+    const day = /^(أول|اول)$/u.test(match[1]) ? 1 : Number(match[1]);
+    const monthText = match[2].replace(/\s+/g, ' ').trim();
+    const monthIndex = monthPatterns.findIndex(([pattern]) => pattern.test(monthText));
+    const month = monthIndex >= 0 ? monthPatterns[monthIndex][1] : 0;
+    const namePart = line.slice(0, match.index).trim();
+    const name = [...pending, namePart].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+    pending = [];
+    if (!month || !day || !name) continue;
+    const key = String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+    if (!entries[key]) entries[key] = [];
+    if (!entries[key].includes(name)) entries[key].push(name);
+  }
+  const count = Object.keys(entries).length;
+  if (count < 250) throw new Error('Arabic Maronite index parser found only ' + count + ' dated entries');
+  return entries;
+}
+function toArabicName(name) {
   const mappings = [
     [/Saint Maron/i, 'مار مارون'], [/Saint Sharbel/i, 'مار شربل'], [/Saint Charbel/i, 'مار شربل'],
     [/Saint Rafqa/i, 'القديسة رفقا'], [/Saint Nimatullah[^,;.]*/i, 'القديس نعمة الله الحرديني'],
