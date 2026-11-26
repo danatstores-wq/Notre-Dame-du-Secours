@@ -1615,8 +1615,58 @@ function authError(err){
 }
 async function loadCmsEditor(){
  const t=lang(),key=document.getElementById("parish-cms-type").value,editor=document.getElementById("parish-cms-editor");currentCmsKey=key;
- try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));let payload;if(snap.exists())payload=snap.data().payload;else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");payload=await fallback.json();}if(payload&&typeof payload==="object"&&!Array.isArray(payload)){delete payload._notes;if(key==="announcements"||key==="parishLife")delete payload.note;if(key==="prayers"){delete payload.reviewNote;delete payload.prayerSourceAudit;}}editor.value=JSON.stringify(payload,null,2);if(key==="massSchedule")renderMassScheduleAdmin();else if(key==="announcements")renderAnnouncementsAdmin();else{const panel=document.getElementById("mass-admin-panel");if(panel)panel.style.display="none";}status(lang().loaded);}
+ try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));let payload;if(snap.exists())payload=snap.data().payload;else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");payload=await fallback.json();}if(payload&&typeof payload==="object"&&!Array.isArray(payload)){delete payload._notes;if(key==="announcements"||key==="parishLife")delete payload.note;if(key==="prayers"){delete payload.reviewNote;delete payload.prayerSourceAudit;}}editor.value=JSON.stringify(payload,null,2);if(key==="massSchedule")renderMassScheduleAdmin();else if(key==="announcements")renderAnnouncementsAdmin();else if(key==="prayers")renderPrayerAdmin();else{const panel=document.getElementById("mass-admin-panel");if(panel)panel.style.display="none";document.getElementById("parish-cms-editor").style.display="block";}status(lang().loaded);}
  catch(err){status(authError(err),true);}
+}
+let adminPrayerCategoryId=null,adminPrayerId=null;
+function renderPrayerAdmin(){
+ const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor");
+ if(!panel||!editor)return;
+ let payload;try{payload=JSON.parse(editor.value||"{}");}catch(e){panel.innerHTML="<p>"+lang().badJson+"</p>";panel.style.display="block";return;}
+ if(!Array.isArray(payload.categories))payload.categories=[];
+ if(!adminPrayerCategoryId||!payload.categories.some(c=>c.id===adminPrayerCategoryId))adminPrayerCategoryId=payload.categories[0]?.id||null;
+ const category=payload.categories.find(c=>c.id===adminPrayerCategoryId);
+ if(!category){panel.innerHTML="<h3 style='color:var(--gold-light)'>Prayer Library</h3><p>No categories found.</p>";panel.style.display="block";editor.style.display="none";return;}
+ if(!Array.isArray(category.prayers))category.prayers=[];
+ if(!adminPrayerId||!category.prayers.some(p=>p.id===adminPrayerId))adminPrayerId=category.prayers[0]?.id||null;
+ const prayer=category.prayers.find(p=>p.id===adminPrayerId);
+ const langCode=document.documentElement.lang||"en";
+ const labels={
+ ar:{heading:"إدارة مكتبة الصلوات",category:"القسم",choose:"اختر الصلاة",add:"إضافة صلاة",remove:"حذف الصلاة",title:"عنوان الصلاة",text:"نص الصلاة",hint:"اختر القسم والصلاة، ثم عدّل العنوان والنص باللغات الأربع. اضغط «حفظ التغييرات» لنشر التعديلات.",empty:"لا توجد صلوات في هذا القسم. اضغط إضافة صلاة.",confirm:"هل تريد حذف هذه الصلاة؟",langs:{ar:"العربية",fr:"الفرنسية",it:"الإيطالية",en:"الإنجليزية"}},
+ en:{heading:"Manage Prayer Library",category:"Category",choose:"Select prayer",add:"Add prayer",remove:"Delete prayer",title:"Prayer title",text:"Prayer text",hint:"Choose a category and prayer, then edit its title and text in all four languages. Press Save Changes to publish.",empty:"There are no prayers in this category. Select Add Prayer.",confirm:"Delete this prayer?",langs:{ar:"Arabic",fr:"French",it:"Italian",en:"English"}},
+ fr:{heading:"Gérer la bibliothèque de prières",category:"Catégorie",choose:"Choisir une prière",add:"Ajouter une prière",remove:"Supprimer la prière",title:"Titre de la prière",text:"Texte de la prière",hint:"Choisissez une catégorie et une prière, puis modifiez le titre et le texte dans les quatre langues. Cliquez sur Enregistrer pour publier.",empty:"Aucune prière dans cette catégorie. Cliquez sur Ajouter une prière.",confirm:"Supprimer cette prière ?",langs:{ar:"Arabe",fr:"Français",it:"Italien",en:"Anglais"}},
+ it:{heading:"Gestisci la biblioteca delle preghiere",category:"Categoria",choose:"Seleziona preghiera",add:"Aggiungi preghiera",remove:"Elimina preghiera",title:"Titolo della preghiera",text:"Testo della preghiera",hint:"Scegli una categoria e una preghiera, poi modifica titolo e testo nelle quattro lingue. Premi Salva modifiche per pubblicare.",empty:"Nessuna preghiera in questa categoria. Premi Aggiungi preghiera.",confirm:"Eliminare questa preghiera?",langs:{ar:"Arabo",fr:"Francese",it:"Italiano",en:"Inglese"}}
+ }[langCode]||{heading:"Manage Prayer Library",category:"Category",choose:"Select prayer",add:"Add prayer",remove:"Delete prayer",title:"Prayer title",text:"Prayer text",hint:"Edit the prayer in all four languages, then save.",empty:"No prayers in this category.",confirm:"Delete this prayer?",langs:{ar:"Arabic",fr:"French",it:"Italian",en:"English"}};
+ const categoryOptions=payload.categories.map(c=>'<option value="'+safe(c.id)+'" '+(c.id===adminPrayerCategoryId?'selected':'')+'>'+safe(c.names?.[langCode]||c.names?.en||c.id)+'</option>').join("");
+ const prayerOptions=category.prayers.map(p=>'<option value="'+safe(p.id)+'" '+(p.id===adminPrayerId?'selected':'')+'>'+safe(p.title?.[langCode]||p.title?.en||p.title?.ar||p.id)+'</option>').join("");
+ let html="<h3 style='color:var(--gold-light)'>"+labels.heading+"</h3><p>"+labels.hint+"</p>";
+ html+='<label style="display:block;margin:10px 0">'+labels.category+'<select id="prayer-admin-category" style="display:block;width:100%;padding:10px;margin-top:5px">'+categoryOptions+'</select></label>';
+ html+='<label style="display:block;margin:10px 0">'+labels.choose+'<select id="prayer-admin-choice" style="display:block;width:100%;padding:10px;margin-top:5px">'+prayerOptions+'</select></label>';
+ html+='<button class="feature-tab" type="button" id="prayer-admin-add">'+labels.add+'</button>';
+ if(prayer){
+  html+='<div style="margin-top:14px">';
+  ["ar","fr","it","en"].forEach(code=>{
+   html+='<label style="display:block;margin:10px 0">'+labels.title+' — '+labels.langs[code]+'<input data-prayer-field="title" data-prayer-lang="'+code+'" value="'+safe(prayer.title?.[code]||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label>';
+   html+='<label style="display:block;margin:10px 0">'+labels.text+' — '+labels.langs[code]+'<textarea data-prayer-field="text" data-prayer-lang="'+code+'" rows="5" style="display:block;width:100%;padding:10px;margin-top:5px">'+safe(prayer.text?.[code]||"")+'</textarea></label>';
+  });
+  html+='<button class="feature-tab" type="button" id="prayer-admin-delete">'+labels.remove+'</button></div>';
+ }else html+='<p class="empty-state">'+labels.empty+'</p>';
+ panel.innerHTML=html;panel.style.display="block";editor.style.display="none";
+ panel.querySelector("#prayer-admin-category").addEventListener("change",e=>{adminPrayerCategoryId=e.target.value;adminPrayerId=null;renderPrayerAdmin();});
+ panel.querySelector("#prayer-admin-choice").addEventListener("change",e=>{adminPrayerId=e.target.value;renderPrayerAdmin();});
+ panel.querySelector("#prayer-admin-add").addEventListener("click",()=>{
+  const p=JSON.parse(editor.value||"{}"),c=p.categories.find(x=>x.id===adminPrayerCategoryId);if(!c)return;
+  const id="prayer-"+Date.now();c.prayers=c.prayers||[];c.prayers.push({id,title:{ar:"",fr:"",it:"",en:""},text:{ar:"",fr:"",it:"",en:""},audio:{ar:null,fr:null,it:null,en:null}});
+  editor.value=JSON.stringify(p,null,2);adminPrayerId=id;renderPrayerAdmin();
+ });
+ panel.querySelectorAll("[data-prayer-field]").forEach(input=>input.addEventListener("input",()=>{
+  const p=JSON.parse(editor.value||"{}"),c=p.categories.find(x=>x.id===adminPrayerCategoryId),item=c?.prayers.find(x=>x.id===adminPrayerId);if(!item)return;
+  const field=input.dataset.prayerField,language=input.dataset.prayerLang;item[field]=item[field]||{};item[field][language]=input.value;editor.value=JSON.stringify(p,null,2);
+ }));
+ const del=panel.querySelector("#prayer-admin-delete");if(del)del.addEventListener("click",()=>{
+  if(!window.confirm(labels.confirm))return;
+  const p=JSON.parse(editor.value||"{}"),c=p.categories.find(x=>x.id===adminPrayerCategoryId);c.prayers=c.prayers.filter(x=>x.id!==adminPrayerId);adminPrayerId=null;editor.value=JSON.stringify(p,null,2);renderPrayerAdmin();
+ });
 }
 function renderAnnouncementsAdmin(){
  const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor"),t=lang();
