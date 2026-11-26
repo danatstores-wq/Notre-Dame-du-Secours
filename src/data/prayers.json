@@ -6,7 +6,7 @@
     "it",
     "en"
   ],
-  "reviewNote": "The four Arabic prayers (Our Father, Hail Mary, Nicene Creed, and Salve Regina) now use the fully vowelled text approved by the user in this conversation. Arabic audio recordings are pending generation because the connected HeyGen account has insufficient remaining monthly speech allowance. Other Arabic prayer texts remain pending approval. Clergy review is required before publication. New four-language devotions have been added with source attribution. Some chaplets and the Marian difficult-intentions novena are traditional/private devotional forms, not universal liturgical texts; translations should receive parish clergy review before being treated as approved parish wording. The devotions category was split into Chaplets/Rosaries, Novenas, and standalone prayers; Mary novena title updated to the user-approved Arabic title. Full user-approved prayer texts and exact multilingual matches still require replacing the draft texts before publication.",
+  "reviewNote": "Library structure and requested Arabic titles are updated. The user approved proofreading-only corrections for the supplied Arabic texts; do not reconstruct missing approved wording. The repository currently contains draft texts/translations for several devotions. These are NOT yet the complete approved versions. Exact approved prayer texts must be recovered from the user's supplied messages before replacing drafts. Pending review: Chaplet for the Holy Souls in Purgatory and the requested Groups of Christ chaplet. Keep all chaplets under Rosaries and novenas under Novenas. The Marian novena title must remain exactly: تساعيّة العذراء مريم التي تحلُّ العقد. Four-language translations should match verified Catholic sources where available and remain clergy-review drafts until confirmed.",
   "categories": [
     {
       "id": "common",
@@ -193,8 +193,8 @@
       "names": {
         "ar": "المسابح",
         "fr": "Chapelets",
-        "it": "Coroncine",
-        "en": "Chaplets"
+        "it": "Rosari",
+        "en": "Rosaries"
       },
       "prayers": [
         {
