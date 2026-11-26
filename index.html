@@ -1614,8 +1614,44 @@ function authError(err){
 }
 async function loadCmsEditor(){
  const t=lang(),key=document.getElementById("parish-cms-type").value,editor=document.getElementById("parish-cms-editor");
- try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));if(snap.exists())editor.value=JSON.stringify(snap.data().payload,null,2);else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");editor.value=JSON.stringify(await fallback.json(),null,2);}if(key==="massSchedule")renderMassScheduleAdmin();else{const panel=document.getElementById("mass-admin-panel");if(panel)panel.style.display="none";}status(lang().loaded);}
+ try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));if(snap.exists())editor.value=JSON.stringify(snap.data().payload,null,2);else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");editor.value=JSON.stringify(await fallback.json(),null,2);}if(key==="massSchedule")renderMassScheduleAdmin();else if(key==="announcements")renderAnnouncementsAdmin();else{const panel=document.getElementById("mass-admin-panel");if(panel)panel.style.display="none";}status(lang().loaded);}
  catch(err){status(authError(err),true);}
+}
+function renderAnnouncementsAdmin(){
+ const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor"),t=lang();
+ if(!panel||!editor)return;
+ let payload;try{payload=JSON.parse(editor.value||"{}");}catch(e){panel.innerHTML="<p>"+t.badJson+"</p>";panel.style.display="block";return;}
+ if(!Array.isArray(payload.announcements))payload.announcements=[];
+ const labels={
+  ar:{heading:"إضافة وتعديل الإعلانات",add:"إضافة إعلان",remove:"حذف الإعلان",date:"التاريخ",title:"العنوان",body:"نص الإعلان",ar:"العربية",en:"الإنجليزية",fr:"الفرنسية",it:"الإيطالية",hint:"أدخل الإعلان باللغات الأربع. ثم اضغط «حفظ التغييرات» لنشره."},
+  en:{heading:"Add and edit announcements",add:"Add announcement",remove:"Delete announcement",date:"Date",title:"Title",body:"Announcement text",ar:"Arabic",en:"English",fr:"French",it:"Italian",hint:"Complete the announcement in all four languages, then select Save Changes to publish it."},
+  fr:{heading:"Ajouter et modifier les annonces",add:"Ajouter une annonce",remove:"Supprimer l’annonce",date:"Date",title:"Titre",body:"Texte de l’annonce",ar:"Arabe",en:"Anglais",fr:"Français",it:"Italien",hint:"Rédigez l’annonce dans les quatre langues, puis choisissez Enregistrer les modifications pour la publier."},
+  it:{heading:"Aggiungi e modifica gli avvisi",add:"Aggiungi avviso",remove:"Elimina avviso",date:"Data",title:"Titolo",body:"Testo dell’avviso",ar:"Arabo",en:"Inglese",fr:"Francese",it:"Italiano",hint:"Compila l’avviso in tutte e quattro le lingue, poi seleziona Salva modifiche per pubblicarlo."}
+ }[document.documentElement.lang]||{heading:"Announcements",add:"Add announcement",remove:"Delete",date:"Date",title:"Title",body:"Text",ar:"Arabic",en:"English",fr:"French",it:"Italian"};
+ let html="<h3 style='color:var(--gold-light)'>"+labels.heading+"</h3><p>"+labels.hint+"</p>";
+ payload.announcements.forEach((item,i)=>{
+  html+="<section class='schedule-entry' style='display:grid;gap:9px;margin:10px 0;padding:12px'>";
+  html+="<label>"+labels.date+"<input type='date' data-ann-row='"+i+"' data-ann-field='date' value='"+safe(item.date||"")+"' style='width:100%;padding:9px'></label>";
+  [["AR","ar"],["EN","en"],["FR","fr"],["IT","it"]].forEach(([code,language])=>{
+   html+="<label>"+labels.title+" ("+labels[language]+")<input data-ann-row='"+i+"' data-ann-field='title"+code+"' value='"+safe(item["title"+code]||"")+"' style='width:100%;padding:9px'></label>";
+   html+="<label>"+labels.body+" ("+labels[language]+")<textarea data-ann-row='"+i+"' data-ann-field='body"+code+"' rows='3' style='width:100%;padding:9px'>"+safe(item["body"+code]||"")+"</textarea></label>";
+  });
+  html+="<button class='feature-tab' type='button' data-ann-delete='"+i+"'>"+labels.remove+"</button></section>";
+ });
+ html+="<button class='feature-tab' type='button' id='announcement-admin-add'>"+labels.add+"</button>";
+ panel.innerHTML=html;panel.style.display="block";
+ panel.querySelectorAll("[data-ann-field]").forEach(input=>input.addEventListener("change",()=>{
+  const p=JSON.parse(editor.value||"{}"),idx=Number(input.dataset.annRow),field=input.dataset.annField;
+  p.announcements[idx][field]=input.value;editor.value=JSON.stringify(p,null,2);
+ }));
+ panel.querySelectorAll("[data-ann-delete]").forEach(button=>button.addEventListener("click",()=>{
+  const p=JSON.parse(editor.value||"{}");p.announcements.splice(Number(button.dataset.annDelete),1);editor.value=JSON.stringify(p,null,2);renderAnnouncementsAdmin();
+ }));
+ panel.querySelector("#announcement-admin-add").addEventListener("click",()=>{
+  const p=JSON.parse(editor.value||"{}");if(!Array.isArray(p.announcements))p.announcements=[];
+  p.announcements.push({id:"announcement-"+Date.now(),date:new Date().toISOString().slice(0,10),titleAR:"",titleEN:"",titleFR:"",titleIT:"",bodyAR:"",bodyEN:"",bodyFR:"",bodyIT:""});
+  editor.value=JSON.stringify(p,null,2);renderAnnouncementsAdmin();
+ });
 }
 function renderMassScheduleAdmin(){
  const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor"),t=lang();
