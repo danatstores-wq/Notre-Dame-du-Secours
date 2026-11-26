@@ -26,10 +26,17 @@ The live GitHub Pages site is published from the `main` branch. Pushing a commit
 │       ├── nav-bell.svg
 │       ├── nav-star.svg
 │       └── nav-info.svg
+├── bibles/
+│   ├── en/                    # Complete Douay-Rheims 1899 Catholic Bible (73 books)
+│   ├── fr/                    # French Catholic Bible
+│   └── it/                    # Italian Catholic Bible
+├── scripts/
+│   └── build-english-bible.mjs # Rebuild bundled English Bible from eBible USFM
 ├── src/
 │   └── i18n/
 │       ├── ar.json            # Arabic strings
-│       └── fr.json            # French strings
-├── index.html                 # Main multilingual app interface
+│       ├── fr.json            # French strings
+│       └── it.json            # Italian strings
+├── index.html                 # Main app interface (Arabic, French, Italian, English)
 └── ui-reference.jpg           # Full design mockup
 ```
