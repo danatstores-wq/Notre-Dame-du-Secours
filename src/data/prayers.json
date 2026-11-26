@@ -6,7 +6,7 @@
     "it",
     "en"
   ],
-  "reviewNote": "The four Arabic prayers (Our Father, Hail Mary, Nicene Creed, and Salve Regina) now use the fully vowelled text approved by the user in this conversation. Arabic audio recordings are pending generation because the connected HeyGen account has insufficient remaining monthly speech allowance. Other Arabic prayer texts remain pending approval. Clergy review is required before publication. New four-language devotions have been added with source attribution. Some chaplets and the Marian difficult-intentions novena are traditional/private devotional forms, not universal liturgical texts; translations should receive parish clergy review before being treated as approved parish wording.",
+  "reviewNote": "The four Arabic prayers (Our Father, Hail Mary, Nicene Creed, and Salve Regina) now use the fully vowelled text approved by the user in this conversation. Arabic audio recordings are pending generation because the connected HeyGen account has insufficient remaining monthly speech allowance. Other Arabic prayer texts remain pending approval. Clergy review is required before publication. New four-language devotions have been added with source attribution. Some chaplets and the Marian difficult-intentions novena are traditional/private devotional forms, not universal liturgical texts; translations should receive parish clergy review before being treated as approved parish wording. The devotions category was split into Chaplets/Rosaries, Novenas, and standalone prayers; Mary novena title updated to the user-approved Arabic title. Full user-approved prayer texts and exact multilingual matches still require replacing the draft texts before publication.",
   "categories": [
     {
       "id": "common",
@@ -189,12 +189,12 @@
       ]
     },
     {
-      "id": "traditional-devotions",
+      "id": "rosaries",
       "names": {
-        "ar": "تسابيح وتساعيات وصلوات تقليدية",
-        "fr": "Chapelets, neuvaines et prières traditionnelles",
-        "it": "Coroncine, novene e preghiere tradizionali",
-        "en": "Chaplets, Novenas & Traditional Prayers"
+        "ar": "المسابح",
+        "fr": "Chapelets",
+        "it": "Coroncine",
+        "en": "Chaplets"
       },
       "prayers": [
         {
@@ -223,62 +223,6 @@
             "fr": "Référence de dévotion traditionnelle ; pas un texte liturgique universel.",
             "it": "Riferimento devozionale tradizionale; non è un testo liturgico universale.",
             "en": "Traditional devotional reference; not a universal liturgical text."
-          }
-        },
-        {
-          "id": "act-of-contrition",
-          "title": {
-            "ar": "فعل الندامة",
-            "fr": "Acte de contrition",
-            "it": "Atto di dolore",
-            "en": "Act of Contrition"
-          },
-          "text": {
-            "ar": "إلهي، أنا نادم من كل قلبي على جميع خطاياي، لأنني بخطاياي استحققت عقوباتك العادلة، ولا سيما لأنني أسأت إليك، يا إلهي، الصالح المستحق كل حب. لذلك أريد بنعمتك أن لا أعود إلى الخطيئة، وأن أتجنب كل ما يوقعني فيها. آمين.",
-            "fr": "Mon Dieu, j’ai un très grand regret de vous avoir offensé, parce que vous êtes infiniment bon et que le péché vous déplaît. Je prends la ferme résolution, avec le secours de votre sainte grâce, de ne plus vous offenser et de faire pénitence. Amen.",
-            "it": "Mio Dio, mi pento e mi dolgo con tutto il cuore dei miei peccati, perché peccando ho meritato i tuoi castighi e soprattutto perché ho offeso te, infinitamente buono e degno di essere amato sopra ogni cosa. Propongo, con il tuo santo aiuto, di non offenderti mai più e di fuggire le occasioni prossime di peccato. Amen.",
-            "en": "O my God, I am heartily sorry for having offended You, and I detest all my sins because of Your just punishments, but most of all because they offend You, my God, who are all-good and deserving of all my love. I firmly resolve, with the help of Your grace, to sin no more and to avoid the near occasions of sin. Amen."
-          },
-          "audio": {
-            "ar": null,
-            "fr": null,
-            "it": null,
-            "en": null
-          },
-          "sourceUrl": "https://www.usccb.org/prayers/act-contrition",
-          "sourceNote": {
-            "ar": "الصيغة العربية ترجمة رعوية؛ تُراجع مع النص المعتمد في الرعية.",
-            "fr": "Texte de prière catholique ; voir la ressource de l’USCCB.",
-            "it": "Preghiera cattolica; consultare la risorsa USCCB.",
-            "en": "USCCB Catholic prayer resource."
-          }
-        },
-        {
-          "id": "prayer-holy-spirit",
-          "title": {
-            "ar": "صلاة إلى الروح القدس",
-            "fr": "Prière au Saint-Esprit",
-            "it": "Preghiera allo Spirito Santo",
-            "en": "Prayer to the Holy Spirit"
-          },
-          "text": {
-            "ar": "هلمّ أيها الروح القدس، واملأ قلوب مؤمنيك، وأضرم فيها نار محبتك. أرسل روحك فيُخلقوا، وتُجدّد وجه الأرض.\n\nلنصلِّ: يا الله، يا من علّمت قلوب المؤمنين بنور الروح القدس، هب لنا أن نعرف بالروح نفسه ما هو صالح، وأن ننعم دائماً بتعزيته. بالمسيح ربنا. آمين.",
-            "fr": "Viens, Esprit Saint, remplis le cœur de tes fidèles et allume en eux le feu de ton amour. Envoie ton Esprit, et tout sera créé, et tu renouvelleras la face de la terre.\n\nPrions : Dieu qui as instruit le cœur de tes fidèles par la lumière du Saint-Esprit, donne-nous, par ce même Esprit, de goûter ce qui est juste et de jouir toujours de sa consolation. Par Jésus Christ, notre Seigneur. Amen.",
-            "it": "Vieni, Santo Spirito, riempi i cuori dei tuoi fedeli e accendi in essi il fuoco del tuo amore. Manda il tuo Spirito e sarà una nuova creazione, e rinnoverai la faccia della terra.\n\nPreghiamo: O Dio, che hai illuminato i cuori dei fedeli con la luce dello Spirito Santo, concedi a noi, guidati dallo stesso Spirito, di conoscere ciò che è bene e di godere sempre della sua consolazione. Per Cristo nostro Signore. Amen.",
-            "en": "Come, Holy Spirit, fill the hearts of your faithful and kindle in them the fire of your love. Send forth your Spirit and they shall be created, and You shall renew the face of the earth.\n\nLet us pray: O God, who have taught the hearts of the faithful by the light of the Holy Spirit, grant that in the same Spirit we may be truly wise and ever rejoice in His consolation. Through Christ our Lord. Amen."
-          },
-          "audio": {
-            "ar": null,
-            "fr": null,
-            "it": null,
-            "en": null
-          },
-          "sourceUrl": "https://www.usccb.org/prayers/prayer-holy-spirit",
-          "sourceNote": {
-            "ar": "الصلاة منشورة لدى مجلس أساقفة الولايات المتحدة الكاثوليك.",
-            "fr": "Prière publiée par la Conférence des évêques catholiques des États-Unis.",
-            "it": "Preghiera pubblicata dalla Conferenza dei Vescovi Cattolici degli Stati Uniti.",
-            "en": "Prayer published by the United States Conference of Catholic Bishops."
           }
         },
         {
@@ -336,35 +280,18 @@
             "it": "Fonte diocesana: Arcidiocesi di Denver; breve litania adattata.",
             "en": "Diocesan source: Archdiocese of Denver; short litany wording adapted."
           }
-        },
-        {
-          "id": "guardian-angel-prayer",
-          "title": {
-            "ar": "صلاة إلى الملاك الحارس",
-            "fr": "Prière à l’Ange gardien",
-            "it": "Preghiera all’Angelo custode",
-            "en": "Prayer to Your Guardian Angel"
-          },
-          "text": {
-            "ar": "يا ملاك الله، يا حارسي العزيز، الذي ائتمنتك محبة الله عليّ، كن بجانبي اليوم وكل يوم، لتنيرني وتحرسني وتقودني وترشدني. آمين.",
-            "fr": "Ange de Dieu, qui êtes mon gardien, vous à qui la bonté divine m’a confié, éclairez-moi, gardez-moi, conduisez-moi et dirigez-moi. Amen.",
-            "it": "Angelo di Dio, che sei il mio custode, illumina, custodisci, reggi e governa me, che ti fui affidato dalla pietà celeste. Amen.",
-            "en": "Angel of God, my guardian dear, to whom God’s love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."
-          },
-          "audio": {
-            "ar": null,
-            "fr": null,
-            "it": null,
-            "en": null
-          },
-          "sourceUrl": "https://www.usccb.org/prayers/prayer-your-guardian-angel",
-          "sourceNote": {
-            "ar": "صلاة الملاك الحارس من موارد مجلس أساقفة الولايات المتحدة الكاثوليك.",
-            "fr": "Prière de l’Ange gardien, ressource de l’USCCB.",
-            "it": "Preghiera all’Angelo custode, risorsa USCCB.",
-            "en": "Guardian Angel prayer from the USCCB."
-          }
-        },
+        }
+      ]
+    },
+    {
+      "id": "novenas",
+      "names": {
+        "ar": "التساعيات",
+        "fr": "Neuvaines",
+        "it": "Novene",
+        "en": "Novenas"
+      },
+      "prayers": [
         {
           "id": "saint-joseph-novena",
           "title": {
@@ -396,10 +323,10 @@
         {
           "id": "mary-impossible-causes-novena",
           "title": {
-            "ar": "تساعية السيدة العذراء للأمور المستعصية",
-            "fr": "Neuvaine à la Vierge Marie pour les causes difficiles",
-            "it": "Novena alla Vergine Maria per le cause difficili",
-            "en": "Novena to the Blessed Virgin Mary for Difficult and Impossible Causes"
+            "ar": "تساعيّة العذراء مريم التي تحلُّ العقد",
+            "fr": "Neuvaine à Marie qui défait les nœuds",
+            "it": "Novena a Maria che scioglie i nodi",
+            "en": "Novena to Mary, Undoer of Knots"
           },
           "text": {
             "ar": "تُصلّى هذه التساعية تسعة أيام متتالية، واضعاً أمام الله الأمر الصعب الذي تحمله في قلبك، طالباً شفاعة مريم العذراء وثقتك بمشيئة الله.\n\nفي بداية كل يوم: باسم الآب والابن والروح القدس. آمين. ثم قل: يا مريم، يا أم يسوع وأمنا، أتقدم إليك في هذه المحنة التي تبدو لي مستعصية. أطلب شفاعتك لدى ابنك يسوع، لا لكي أفرض مشيئتي، بل لكي يقودني إلى ما هو صالح، ويمنحني النور والقوة والسلام. آمين.\n\nتأملات الأيام:\nاليوم الأول: الثقة بالله عندما لا أرى طريقاً.\nاليوم الثاني: الصبر وسط الانتظار.\nاليوم الثالث: الشجاعة لمواجهة الخوف.\nاليوم الرابع: المصالحة والغفران.\nاليوم الخامس: شفاء القلوب والعائلات.\nاليوم السادس: الرجاء في المرض والضيق.\nاليوم السابع: طلب الحكمة لاتخاذ القرار الصحيح.\nاليوم الثامن: تسليم النتيجة لمشيئة الله.\nاليوم التاسع: الشكر والثبات في الإيمان.\n\nبعد التأمل، قل: السلام عليك يا مريم ثلاث مرات، ثم اختم: يا أم الرحمة، صلّي لأجلنا، ورافقينا إلى ابنك يسوع. آمين.\n\nهذه صيغة رعوية لتساعية خاصة بالطلبات الصعبة، وليست نصاً رسمياً ليتورجياً أو وعداً بتحقيق الطلب.",
@@ -419,6 +346,101 @@
             "fr": "Neuvaine pastorale rédigée à partir de l’enseignement de l’Église sur la prière et l’intercession ; non publiée comme texte officiel du Vatican.",
             "it": "Novena pastorale composta alla luce dell’insegnamento della Chiesa sulla preghiera e l’intercessione; non è un testo ufficiale vaticano.",
             "en": "A parish-style novena informed by Catholic teaching on prayer and intercession; not an official Vatican-published text."
+          }
+        }
+      ]
+    },
+    {
+      "id": "individual-prayers",
+      "names": {
+        "ar": "صلوات منفردة",
+        "fr": "Prières",
+        "it": "Preghiere",
+        "en": "Prayers"
+      },
+      "prayers": [
+        {
+          "id": "act-of-contrition",
+          "title": {
+            "ar": "فعل الندامة",
+            "fr": "Acte de contrition",
+            "it": "Atto di dolore",
+            "en": "Act of Contrition"
+          },
+          "text": {
+            "ar": "إلهي، أنا نادم من كل قلبي على جميع خطاياي، لأنني بخطاياي استحققت عقوباتك العادلة، ولا سيما لأنني أسأت إليك، يا إلهي، الصالح المستحق كل حب. لذلك أريد بنعمتك أن لا أعود إلى الخطيئة، وأن أتجنب كل ما يوقعني فيها. آمين.",
+            "fr": "Mon Dieu, j’ai un très grand regret de vous avoir offensé, parce que vous êtes infiniment bon et que le péché vous déplaît. Je prends la ferme résolution, avec le secours de votre sainte grâce, de ne plus vous offenser et de faire pénitence. Amen.",
+            "it": "Mio Dio, mi pento e mi dolgo con tutto il cuore dei miei peccati, perché peccando ho meritato i tuoi castighi e soprattutto perché ho offeso te, infinitamente buono e degno di essere amato sopra ogni cosa. Propongo, con il tuo santo aiuto, di non offenderti mai più e di fuggire le occasioni prossime di peccato. Amen.",
+            "en": "O my God, I am heartily sorry for having offended You, and I detest all my sins because of Your just punishments, but most of all because they offend You, my God, who are all-good and deserving of all my love. I firmly resolve, with the help of Your grace, to sin no more and to avoid the near occasions of sin. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.usccb.org/prayers/act-contrition",
+          "sourceNote": {
+            "ar": "الصيغة العربية ترجمة رعوية؛ تُراجع مع النص المعتمد في الرعية.",
+            "fr": "Texte de prière catholique ; voir la ressource de l’USCCB.",
+            "it": "Preghiera cattolica; consultare la risorsa USCCB.",
+            "en": "USCCB Catholic prayer resource."
+          }
+        },
+        {
+          "id": "prayer-holy-spirit",
+          "title": {
+            "ar": "صلاة إلى الروح القدس",
+            "fr": "Prière au Saint-Esprit",
+            "it": "Preghiera allo Spirito Santo",
+            "en": "Prayer to the Holy Spirit"
+          },
+          "text": {
+            "ar": "هلمّ أيها الروح القدس، واملأ قلوب مؤمنيك، وأضرم فيها نار محبتك. أرسل روحك فيُخلقوا، وتُجدّد وجه الأرض.\n\nلنصلِّ: يا الله، يا من علّمت قلوب المؤمنين بنور الروح القدس، هب لنا أن نعرف بالروح نفسه ما هو صالح، وأن ننعم دائماً بتعزيته. بالمسيح ربنا. آمين.",
+            "fr": "Viens, Esprit Saint, remplis le cœur de tes fidèles et allume en eux le feu de ton amour. Envoie ton Esprit, et tout sera créé, et tu renouvelleras la face de la terre.\n\nPrions : Dieu qui as instruit le cœur de tes fidèles par la lumière du Saint-Esprit, donne-nous, par ce même Esprit, de goûter ce qui est juste et de jouir toujours de sa consolation. Par Jésus Christ, notre Seigneur. Amen.",
+            "it": "Vieni, Santo Spirito, riempi i cuori dei tuoi fedeli e accendi in essi il fuoco del tuo amore. Manda il tuo Spirito e sarà una nuova creazione, e rinnoverai la faccia della terra.\n\nPreghiamo: O Dio, che hai illuminato i cuori dei fedeli con la luce dello Spirito Santo, concedi a noi, guidati dallo stesso Spirito, di conoscere ciò che è bene e di godere sempre della sua consolazione. Per Cristo nostro Signore. Amen.",
+            "en": "Come, Holy Spirit, fill the hearts of your faithful and kindle in them the fire of your love. Send forth your Spirit and they shall be created, and You shall renew the face of the earth.\n\nLet us pray: O God, who have taught the hearts of the faithful by the light of the Holy Spirit, grant that in the same Spirit we may be truly wise and ever rejoice in His consolation. Through Christ our Lord. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.usccb.org/prayers/prayer-holy-spirit",
+          "sourceNote": {
+            "ar": "الصلاة منشورة لدى مجلس أساقفة الولايات المتحدة الكاثوليك.",
+            "fr": "Prière publiée par la Conférence des évêques catholiques des États-Unis.",
+            "it": "Preghiera pubblicata dalla Conferenza dei Vescovi Cattolici degli Stati Uniti.",
+            "en": "Prayer published by the United States Conference of Catholic Bishops."
+          }
+        },
+        {
+          "id": "guardian-angel-prayer",
+          "title": {
+            "ar": "صلاة إلى الملاك الحارس",
+            "fr": "Prière à l’Ange gardien",
+            "it": "Preghiera all’Angelo custode",
+            "en": "Prayer to Your Guardian Angel"
+          },
+          "text": {
+            "ar": "يا ملاك الله، يا حارسي العزيز، الذي ائتمنتك محبة الله عليّ، كن بجانبي اليوم وكل يوم، لتنيرني وتحرسني وتقودني وترشدني. آمين.",
+            "fr": "Ange de Dieu, qui êtes mon gardien, vous à qui la bonté divine m’a confié, éclairez-moi, gardez-moi, conduisez-moi et dirigez-moi. Amen.",
+            "it": "Angelo di Dio, che sei il mio custode, illumina, custodisci, reggi e governa me, che ti fui affidato dalla pietà celeste. Amen.",
+            "en": "Angel of God, my guardian dear, to whom God’s love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.usccb.org/prayers/prayer-your-guardian-angel",
+          "sourceNote": {
+            "ar": "صلاة الملاك الحارس من موارد مجلس أساقفة الولايات المتحدة الكاثوليك.",
+            "fr": "Prière de l’Ange gardien, ressource de l’USCCB.",
+            "it": "Preghiera all’Angelo custode, risorsa USCCB.",
+            "en": "Guardian Angel prayer from the USCCB."
           }
         }
       ]
