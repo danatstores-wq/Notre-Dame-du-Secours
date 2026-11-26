@@ -756,7 +756,7 @@
         button.textContent='Bible saved offline';
       }catch(error){status.textContent='Download paused: '+(error.message||'connection problem')+'. Tap to continue; saved chapters will be kept.';button.disabled=false;}
     }
-    const FR_BIBLE_BASE='https://cdn.jsdelivr.net/gh/clinto-abraham/bible.ciyo.in@b76e44393b3593ce10334e04421ffa82ce9c98/public/data/french/bible/';
+    const FR_BIBLE_BASE='https://raw.githubusercontent.com/clinto-abraham/bible.ciyo.in/b76e44393b3593ce10334e04421ffa82ce9c98/public/data/french/bible/';
     let frenchBibleIndex=null,frenchBibleBook=null,frenchBibleChapter=1;
     async function loadFrenchBibleIndex(){
       if(frenchBibleIndex)return frenchBibleIndex;
