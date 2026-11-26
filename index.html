@@ -542,6 +542,7 @@
       if(!supportedLanguages.includes(language))return;
       stopCurrentPrayer();currentLang=language;localStorage.setItem('parish-language',currentLang);closeLanguageMenu();render();
       if(document.getElementById('bible-screen').classList.contains('visible'))renderBibleScreen();
+      if(document.getElementById('saints-calendar-screen').classList.contains('visible'))renderSaintsCalendar();
       if(document.getElementById('mass-screen').classList.contains('visible'))renderMassScreen();
       if(document.getElementById('rosary-screen').classList.contains('visible'))renderRosary();
       if(document.getElementById('prayer-library-screen').classList.contains('visible'))renderPrayerLibrary();
