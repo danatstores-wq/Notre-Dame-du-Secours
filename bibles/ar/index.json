@@ -1,1 +1,732 @@
-[{"name":"التكوين","slug":"genesis","nativeName":"التكوين","chapterCount":50,"language":"arabic","dir":"rtl","sourceCode":"Gen"},{"name":"الخروج","slug":"exodus","nativeName":"الخروج","chapterCount":40,"language":"arabic","dir":"rtl","sourceCode":"Exod"},{"name":"اللاويين","slug":"leviticus","nativeName":"اللاويين","chapterCount":27,"language":"arabic","dir":"rtl","sourceCode":"Lev"},{"name":"العدد","slug":"numbers","nativeName":"العدد","chapterCount":36,"language":"arabic","dir":"rtl","sourceCode":"Num"},{"name":"التثنية","slug":"deuteronomy","nativeName":"التثنية","chapterCount":34,"language":"arabic","dir":"rtl","sourceCode":"Deut"},{"name":"يشوع","slug":"joshua","nativeName":"يشوع","chapterCount":24,"language":"arabic","dir":"rtl","sourceCode":"Josh"},{"name":"القضاة","slug":"judges","nativeName":"القضاة","chapterCount":21,"language":"arabic","dir":"rtl","sourceCode":"Judg"},{"name":"راعوث","slug":"ruth","nativeName":"راعوث","chapterCount":4,"language":"arabic","dir":"rtl","sourceCode":"Ruth"},{"name":"صموئيل الأول","slug":"1-samuel","nativeName":"صموئيل الأول","chapterCount":31,"language":"arabic","dir":"rtl","sourceCode":"1Sam"},{"name":"صموئيل الثاني","slug":"2-samuel","nativeName":"صموئيل الثاني","chapterCount":24,"language":"arabic","dir":"rtl","sourceCode":"2Sam"},{"name":"الملوك الأول","slug":"1-kings","nativeName":"الملوك الأول","chapterCount":22,"language":"arabic","dir":"rtl","sourceCode":"1Kgs"},{"name":"الملوك الثاني","slug":"2-kings","nativeName":"الملوك الثاني","chapterCount":25,"language":"arabic","dir":"rtl","sourceCode":"2Kgs"},{"name":"أخبار الأيام الأول","slug":"1-chronicles","nativeName":"أخبار الأيام الأول","chapterCount":29,"language":"arabic","dir":"rtl","sourceCode":"1Chr"},{"name":"أخبار الأيام الثاني","slug":"2-chronicles","nativeName":"أخبار الأيام الثاني","chapterCount":36,"language":"arabic","dir":"rtl","sourceCode":"2Chr"},{"name":"عزرا","slug":"ezra","nativeName":"عزرا","chapterCount":10,"language":"arabic","dir":"rtl","sourceCode":"Ezra"},{"name":"نحميا","slug":"nehemiah","nativeName":"نحميا","chapterCount":13,"language":"arabic","dir":"rtl","sourceCode":"Neh"},{"name":"أستير","slug":"esther","nativeName":"أستير","chapterCount":10,"language":"arabic","dir":"rtl","sourceCode":"Esth"},{"name":"أيوب","slug":"job","nativeName":"أيوب","chapterCount":42,"language":"arabic","dir":"rtl","sourceCode":"Job"},{"name":"المزامير","slug":"psalms","nativeName":"المزامير","chapterCount":150,"language":"arabic","dir":"rtl","sourceCode":"Ps"},{"name":"الأمثال","slug":"proverbs","nativeName":"الأمثال","chapterCount":31,"language":"arabic","dir":"rtl","sourceCode":"Prov"},{"name":"الجامعة","slug":"ecclesiastes","nativeName":"الجامعة","chapterCount":12,"language":"arabic","dir":"rtl","sourceCode":"Eccl"},{"name":"نشيد الأنشاد","slug":"song-of-solomon","nativeName":"نشيد الأنشاد","chapterCount":8,"language":"arabic","dir":"rtl","sourceCode":"Song"},{"name":"إشعياء","slug":"isaiah","nativeName":"إشعياء","chapterCount":66,"language":"arabic","dir":"rtl","sourceCode":"Isa"},{"name":"إرميا","slug":"jeremiah","nativeName":"إرميا","chapterCount":52,"language":"arabic","dir":"rtl","sourceCode":"Jer"},{"name":"مراثي إرميا","slug":"lamentations","nativeName":"مراثي إرميا","chapterCount":5,"language":"arabic","dir":"rtl","sourceCode":"Lam"},{"name":"حزقيال","slug":"ezekiel","nativeName":"حزقيال","chapterCount":48,"language":"arabic","dir":"rtl","sourceCode":"Ezek"},{"name":"دانيال","slug":"daniel","nativeName":"دانيال","chapterCount":12,"language":"arabic","dir":"rtl","sourceCode":"Dan"},{"name":"هوشع","slug":"hosea","nativeName":"هوشع","chapterCount":14,"language":"arabic","dir":"rtl","sourceCode":"Hos"},{"name":"يوئيل","slug":"joel","nativeName":"يوئيل","chapterCount":3,"language":"arabic","dir":"rtl","sourceCode":"Joel"},{"name":"عاموس","slug":"amos","nativeName":"عاموس","chapterCount":9,"language":"arabic","dir":"rtl","sourceCode":"Amos"},{"name":"عوبديا","slug":"obadiah","nativeName":"عوبديا","chapterCount":1,"language":"arabic","dir":"rtl","sourceCode":"Obad"},{"name":"يونان","slug":"jonah","nativeName":"يونان","chapterCount":4,"language":"arabic","dir":"rtl","sourceCode":"Jonah"},{"name":"ميخا","slug":"micah","nativeName":"ميخا","chapterCount":7,"language":"arabic","dir":"rtl","sourceCode":"Mic"},{"name":"ناحوم","slug":"nahum","nativeName":"ناحوم","chapterCount":3,"language":"arabic","dir":"rtl","sourceCode":"Nah"},{"name":"حبقوق","slug":"habakkuk","nativeName":"حبقوق","chapterCount":3,"language":"arabic","dir":"rtl","sourceCode":"Hab"},{"name":"صفنيا","slug":"zephaniah","nativeName":"صفنيا","chapterCount":3,"language":"arabic","dir":"rtl","sourceCode":"Zeph"},{"name":"حجي","slug":"haggai","nativeName":"حجي","chapterCount":2,"language":"arabic","dir":"rtl","sourceCode":"Hag"},{"name":"زكريا","slug":"zechariah","nativeName":"زكريا","chapterCount":14,"language":"arabic","dir":"rtl","sourceCode":"Zech"},{"name":"ملاخي","slug":"malachi","nativeName":"ملاخي","chapterCount":4,"language":"arabic","dir":"rtl","sourceCode":"Mal"},{"name":"متى","slug":"matthew","nativeName":"متى","chapterCount":28,"language":"arabic","dir":"rtl","sourceCode":"Matt"},{"name":"مرقس","slug":"mark","nativeName":"مرقس","chapterCount":16,"language":"arabic","dir":"rtl","sourceCode":"Mark"},{"name":"لوقا","slug":"luke","nativeName":"لوقا","chapterCount":24,"language":"arabic","dir":"rtl","sourceCode":"Luke"},{"name":"يوحنا","slug":"john","nativeName":"يوحنا","chapterCount":21,"language":"arabic","dir":"rtl","sourceCode":"John"},{"name":"أعمال الرسل","slug":"acts","nativeName":"أعمال الرسل","chapterCount":28,"language":"arabic","dir":"rtl","sourceCode":"Acts"},{"name":"رومية","slug":"romans","nativeName":"رومية","chapterCount":16,"language":"arabic","dir":"rtl","sourceCode":"Rom"},{"name":"كورنثوس الأولى","slug":"1-corinthians","nativeName":"كورنثوس الأولى","chapterCount":16,"language":"arabic","dir":"rtl","sourceCode":"1Cor"},{"name":"كورنثوس الثانية","slug":"2-corinthians","nativeName":"كورنثوس الثانية","chapterCount":13,"language":"arabic","dir":"rtl","sourceCode":"2Cor"},{"name":"غلاطية","slug":"galatians","nativeName":"غلاطية","chapterCount":6,"language":"arabic","dir":"rtl","sourceCode":"Gal"},{"name":"أفسس","slug":"ephesians","nativeName":"أفسس","chapterCount":6,"language":"arabic","dir":"rtl","sourceCode":"Eph"},{"name":"فيلبي","slug":"philippians","nativeName":"فيلبي","chapterCount":4,"language":"arabic","dir":"rtl","sourceCode":"Phil"},{"name":"كولوسي","slug":"colossians","nativeName":"كولوسي","chapterCount":4,"language":"arabic","dir":"rtl","sourceCode":"Col"},{"name":"تسالونيكي الأولى","slug":"1-thessalonians","nativeName":"تسالونيكي الأولى","chapterCount":5,"language":"arabic","dir":"rtl","sourceCode":"1Thess"},{"name":"تسالونيكي الثانية","slug":"2-thessalonians","nativeName":"تسالونيكي الثانية","chapterCount":3,"language":"arabic","dir":"rtl","sourceCode":"2Thess"},{"name":"تيموثاوس الأولى","slug":"1-timothy","nativeName":"تيموثاوس الأولى","chapterCount":6,"language":"arabic","dir":"rtl","sourceCode":"1Tim"},{"name":"تيموثاوس الثانية","slug":"2-timothy","nativeName":"تيموثاوس الثانية","chapterCount":4,"language":"arabic","dir":"rtl","sourceCode":"2Tim"},{"name":"تيطس","slug":"titus","nativeName":"تيطس","chapterCount":3,"language":"arabic","dir":"rtl","sourceCode":"Titus"},{"name":"فليمون","slug":"philemon","nativeName":"فليمون","chapterCount":1,"language":"arabic","dir":"rtl","sourceCode":"Phlm"},{"name":"العبرانيين","slug":"hebrews","nativeName":"العبرانيين","chapterCount":13,"language":"arabic","dir":"rtl","sourceCode":"Heb"},{"name":"يعقوب","slug":"james","nativeName":"يعقوب","chapterCount":5,"language":"arabic","dir":"rtl","sourceCode":"Jas"},{"name":"بطرس الأولى","slug":"1-peter","nativeName":"بطرس الأولى","chapterCount":5,"language":"arabic","dir":"rtl","sourceCode":"1Pet"},{"name":"بطرس الثانية","slug":"2-peter","nativeName":"بطرس الثانية","chapterCount":3,"language":"arabic","dir":"rtl","sourceCode":"2Pet"},{"name":"يوحنا الأولى","slug":"1-john","nativeName":"يوحنا الأولى","chapterCount":5,"language":"arabic","dir":"rtl","sourceCode":"1John"},{"name":"يوحنا الثانية","slug":"2-john","nativeName":"يوحنا الثانية","chapterCount":1,"language":"arabic","dir":"rtl","sourceCode":"2John"},{"name":"يوحنا الثالثة","slug":"3-john","nativeName":"يوحنا الثالثة","chapterCount":1,"language":"arabic","dir":"rtl","sourceCode":"3John"},{"name":"يهوذا","slug":"jude","nativeName":"يهوذا","chapterCount":1,"language":"arabic","dir":"rtl","sourceCode":"Jude"},{"name":"الرؤيا","slug":"revelation","nativeName":"الرؤيا","chapterCount":22,"language":"arabic","dir":"rtl","sourceCode":"Rev"}]
+[
+  {
+    "name": "التكوين",
+    "slug": "genesis",
+    "nativeName": "التكوين",
+    "chapterCount": 50,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Gen",
+    "sourceType": "svd"
+  },
+  {
+    "name": "الخروج",
+    "slug": "exodus",
+    "nativeName": "الخروج",
+    "chapterCount": 40,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Exod",
+    "sourceType": "svd"
+  },
+  {
+    "name": "اللاويين",
+    "slug": "leviticus",
+    "nativeName": "اللاويين",
+    "chapterCount": 27,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Lev",
+    "sourceType": "svd"
+  },
+  {
+    "name": "العدد",
+    "slug": "numbers",
+    "nativeName": "العدد",
+    "chapterCount": 36,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Num",
+    "sourceType": "svd"
+  },
+  {
+    "name": "التثنية",
+    "slug": "deuteronomy",
+    "nativeName": "التثنية",
+    "chapterCount": 34,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Deut",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يشوع",
+    "slug": "joshua",
+    "nativeName": "يشوع",
+    "chapterCount": 24,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Josh",
+    "sourceType": "svd"
+  },
+  {
+    "name": "القضاة",
+    "slug": "judges",
+    "nativeName": "القضاة",
+    "chapterCount": 21,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Judg",
+    "sourceType": "svd"
+  },
+  {
+    "name": "راعوث",
+    "slug": "ruth",
+    "nativeName": "راعوث",
+    "chapterCount": 4,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Ruth",
+    "sourceType": "svd"
+  },
+  {
+    "name": "صموئيل الأول",
+    "slug": "1-samuel",
+    "nativeName": "صموئيل الأول",
+    "chapterCount": 31,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "1Sam",
+    "sourceType": "svd"
+  },
+  {
+    "name": "صموئيل الثاني",
+    "slug": "2-samuel",
+    "nativeName": "صموئيل الثاني",
+    "chapterCount": 24,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "2Sam",
+    "sourceType": "svd"
+  },
+  {
+    "name": "الملوك الأول",
+    "slug": "1-kings",
+    "nativeName": "الملوك الأول",
+    "chapterCount": 22,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "1Kgs",
+    "sourceType": "svd"
+  },
+  {
+    "name": "الملوك الثاني",
+    "slug": "2-kings",
+    "nativeName": "الملوك الثاني",
+    "chapterCount": 25,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "2Kgs",
+    "sourceType": "svd"
+  },
+  {
+    "name": "أخبار الأيام الأول",
+    "slug": "1-chronicles",
+    "nativeName": "أخبار الأيام الأول",
+    "chapterCount": 29,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "1Chr",
+    "sourceType": "svd"
+  },
+  {
+    "name": "أخبار الأيام الثاني",
+    "slug": "2-chronicles",
+    "nativeName": "أخبار الأيام الثاني",
+    "chapterCount": 36,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "2Chr",
+    "sourceType": "svd"
+  },
+  {
+    "name": "عزرا",
+    "slug": "ezra",
+    "nativeName": "عزرا",
+    "chapterCount": 10,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Ezra",
+    "sourceType": "svd"
+  },
+  {
+    "name": "نحميا",
+    "slug": "nehemiah",
+    "nativeName": "نحميا",
+    "chapterCount": 13,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Neh",
+    "sourceType": "svd"
+  },
+  {
+    "slug": "tobit",
+    "name": "سفر طوبيا",
+    "nativeName": "سفر طوبيا",
+    "chapterCount": 14,
+    "language": "arabic",
+    "dir": "rtl",
+    "file": "tobit_arabic_catholic.json",
+    "sourceType": "catholic"
+  },
+  {
+    "slug": "judith",
+    "name": "سفر يهوديت",
+    "nativeName": "سفر يهوديت",
+    "chapterCount": 16,
+    "language": "arabic",
+    "dir": "rtl",
+    "file": "judith_arabic_catholic.json",
+    "sourceType": "catholic"
+  },
+  {
+    "name": "أستير",
+    "slug": "esther",
+    "nativeName": "أستير",
+    "chapterCount": 10,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Esth",
+    "sourceType": "svd"
+  },
+  {
+    "slug": "1-maccabees",
+    "name": "سفر المكابيين الأول",
+    "nativeName": "سفر المكابيين الأول",
+    "chapterCount": 16,
+    "language": "arabic",
+    "dir": "rtl",
+    "file": "1_maccabees_full_ar.json",
+    "sourceType": "catholic"
+  },
+  {
+    "slug": "2-maccabees",
+    "name": "سفر المكابيين الثاني",
+    "nativeName": "سفر المكابيين الثاني",
+    "chapterCount": 15,
+    "language": "arabic",
+    "dir": "rtl",
+    "file": "2_maccabees_full_ar.json",
+    "sourceType": "catholic"
+  },
+  {
+    "name": "أيوب",
+    "slug": "job",
+    "nativeName": "أيوب",
+    "chapterCount": 42,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Job",
+    "sourceType": "svd"
+  },
+  {
+    "name": "المزامير",
+    "slug": "psalms",
+    "nativeName": "المزامير",
+    "chapterCount": 150,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Ps",
+    "sourceType": "svd"
+  },
+  {
+    "name": "الأمثال",
+    "slug": "proverbs",
+    "nativeName": "الأمثال",
+    "chapterCount": 31,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Prov",
+    "sourceType": "svd"
+  },
+  {
+    "name": "الجامعة",
+    "slug": "ecclesiastes",
+    "nativeName": "الجامعة",
+    "chapterCount": 12,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Eccl",
+    "sourceType": "svd"
+  },
+  {
+    "name": "نشيد الأنشاد",
+    "slug": "song-of-solomon",
+    "nativeName": "نشيد الأنشاد",
+    "chapterCount": 8,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Song",
+    "sourceType": "svd"
+  },
+  {
+    "slug": "wisdom",
+    "name": "سفر الحكمة",
+    "nativeName": "سفر الحكمة",
+    "chapterCount": 19,
+    "language": "arabic",
+    "dir": "rtl",
+    "file": "wisdom_arabic_catholic.json",
+    "sourceType": "catholic"
+  },
+  {
+    "slug": "sirach",
+    "name": "سفر يشوع بن سيراخ",
+    "nativeName": "سفر يشوع بن سيراخ",
+    "chapterCount": 51,
+    "language": "arabic",
+    "dir": "rtl",
+    "file": "sirach_arabic_catholic.json",
+    "sourceType": "catholic"
+  },
+  {
+    "name": "إشعياء",
+    "slug": "isaiah",
+    "nativeName": "إشعياء",
+    "chapterCount": 66,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Isa",
+    "sourceType": "svd"
+  },
+  {
+    "name": "إرميا",
+    "slug": "jeremiah",
+    "nativeName": "إرميا",
+    "chapterCount": 52,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Jer",
+    "sourceType": "svd"
+  },
+  {
+    "name": "مراثي إرميا",
+    "slug": "lamentations",
+    "nativeName": "مراثي إرميا",
+    "chapterCount": 5,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Lam",
+    "sourceType": "svd"
+  },
+  {
+    "slug": "baruch",
+    "name": "سفر باروخ",
+    "nativeName": "سفر باروخ",
+    "chapterCount": 6,
+    "language": "arabic",
+    "dir": "rtl",
+    "file": "baruch_arabic_catholic.json",
+    "sourceType": "catholic"
+  },
+  {
+    "name": "حزقيال",
+    "slug": "ezekiel",
+    "nativeName": "حزقيال",
+    "chapterCount": 48,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Ezek",
+    "sourceType": "svd"
+  },
+  {
+    "name": "دانيال",
+    "slug": "daniel",
+    "nativeName": "دانيال",
+    "chapterCount": 12,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Dan",
+    "sourceType": "svd"
+  },
+  {
+    "name": "هوشع",
+    "slug": "hosea",
+    "nativeName": "هوشع",
+    "chapterCount": 14,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Hos",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يوئيل",
+    "slug": "joel",
+    "nativeName": "يوئيل",
+    "chapterCount": 3,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Joel",
+    "sourceType": "svd"
+  },
+  {
+    "name": "عاموس",
+    "slug": "amos",
+    "nativeName": "عاموس",
+    "chapterCount": 9,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Amos",
+    "sourceType": "svd"
+  },
+  {
+    "name": "عوبديا",
+    "slug": "obadiah",
+    "nativeName": "عوبديا",
+    "chapterCount": 1,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Obad",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يونان",
+    "slug": "jonah",
+    "nativeName": "يونان",
+    "chapterCount": 4,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Jonah",
+    "sourceType": "svd"
+  },
+  {
+    "name": "ميخا",
+    "slug": "micah",
+    "nativeName": "ميخا",
+    "chapterCount": 7,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Mic",
+    "sourceType": "svd"
+  },
+  {
+    "name": "ناحوم",
+    "slug": "nahum",
+    "nativeName": "ناحوم",
+    "chapterCount": 3,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Nah",
+    "sourceType": "svd"
+  },
+  {
+    "name": "حبقوق",
+    "slug": "habakkuk",
+    "nativeName": "حبقوق",
+    "chapterCount": 3,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Hab",
+    "sourceType": "svd"
+  },
+  {
+    "name": "صفنيا",
+    "slug": "zephaniah",
+    "nativeName": "صفنيا",
+    "chapterCount": 3,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Zeph",
+    "sourceType": "svd"
+  },
+  {
+    "name": "حجي",
+    "slug": "haggai",
+    "nativeName": "حجي",
+    "chapterCount": 2,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Hag",
+    "sourceType": "svd"
+  },
+  {
+    "name": "زكريا",
+    "slug": "zechariah",
+    "nativeName": "زكريا",
+    "chapterCount": 14,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Zech",
+    "sourceType": "svd"
+  },
+  {
+    "name": "ملاخي",
+    "slug": "malachi",
+    "nativeName": "ملاخي",
+    "chapterCount": 4,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Mal",
+    "sourceType": "svd"
+  },
+  {
+    "name": "متى",
+    "slug": "matthew",
+    "nativeName": "متى",
+    "chapterCount": 28,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Matt",
+    "sourceType": "svd"
+  },
+  {
+    "name": "مرقس",
+    "slug": "mark",
+    "nativeName": "مرقس",
+    "chapterCount": 16,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Mark",
+    "sourceType": "svd"
+  },
+  {
+    "name": "لوقا",
+    "slug": "luke",
+    "nativeName": "لوقا",
+    "chapterCount": 24,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Luke",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يوحنا",
+    "slug": "john",
+    "nativeName": "يوحنا",
+    "chapterCount": 21,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "John",
+    "sourceType": "svd"
+  },
+  {
+    "name": "أعمال الرسل",
+    "slug": "acts",
+    "nativeName": "أعمال الرسل",
+    "chapterCount": 28,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Acts",
+    "sourceType": "svd"
+  },
+  {
+    "name": "رومية",
+    "slug": "romans",
+    "nativeName": "رومية",
+    "chapterCount": 16,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Rom",
+    "sourceType": "svd"
+  },
+  {
+    "name": "كورنثوس الأولى",
+    "slug": "1-corinthians",
+    "nativeName": "كورنثوس الأولى",
+    "chapterCount": 16,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "1Cor",
+    "sourceType": "svd"
+  },
+  {
+    "name": "كورنثوس الثانية",
+    "slug": "2-corinthians",
+    "nativeName": "كورنثوس الثانية",
+    "chapterCount": 13,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "2Cor",
+    "sourceType": "svd"
+  },
+  {
+    "name": "غلاطية",
+    "slug": "galatians",
+    "nativeName": "غلاطية",
+    "chapterCount": 6,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Gal",
+    "sourceType": "svd"
+  },
+  {
+    "name": "أفسس",
+    "slug": "ephesians",
+    "nativeName": "أفسس",
+    "chapterCount": 6,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Eph",
+    "sourceType": "svd"
+  },
+  {
+    "name": "فيلبي",
+    "slug": "philippians",
+    "nativeName": "فيلبي",
+    "chapterCount": 4,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Phil",
+    "sourceType": "svd"
+  },
+  {
+    "name": "كولوسي",
+    "slug": "colossians",
+    "nativeName": "كولوسي",
+    "chapterCount": 4,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Col",
+    "sourceType": "svd"
+  },
+  {
+    "name": "تسالونيكي الأولى",
+    "slug": "1-thessalonians",
+    "nativeName": "تسالونيكي الأولى",
+    "chapterCount": 5,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "1Thess",
+    "sourceType": "svd"
+  },
+  {
+    "name": "تسالونيكي الثانية",
+    "slug": "2-thessalonians",
+    "nativeName": "تسالونيكي الثانية",
+    "chapterCount": 3,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "2Thess",
+    "sourceType": "svd"
+  },
+  {
+    "name": "تيموثاوس الأولى",
+    "slug": "1-timothy",
+    "nativeName": "تيموثاوس الأولى",
+    "chapterCount": 6,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "1Tim",
+    "sourceType": "svd"
+  },
+  {
+    "name": "تيموثاوس الثانية",
+    "slug": "2-timothy",
+    "nativeName": "تيموثاوس الثانية",
+    "chapterCount": 4,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "2Tim",
+    "sourceType": "svd"
+  },
+  {
+    "name": "تيطس",
+    "slug": "titus",
+    "nativeName": "تيطس",
+    "chapterCount": 3,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Titus",
+    "sourceType": "svd"
+  },
+  {
+    "name": "فليمون",
+    "slug": "philemon",
+    "nativeName": "فليمون",
+    "chapterCount": 1,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Phlm",
+    "sourceType": "svd"
+  },
+  {
+    "name": "العبرانيين",
+    "slug": "hebrews",
+    "nativeName": "العبرانيين",
+    "chapterCount": 13,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Heb",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يعقوب",
+    "slug": "james",
+    "nativeName": "يعقوب",
+    "chapterCount": 5,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Jas",
+    "sourceType": "svd"
+  },
+  {
+    "name": "بطرس الأولى",
+    "slug": "1-peter",
+    "nativeName": "بطرس الأولى",
+    "chapterCount": 5,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "1Pet",
+    "sourceType": "svd"
+  },
+  {
+    "name": "بطرس الثانية",
+    "slug": "2-peter",
+    "nativeName": "بطرس الثانية",
+    "chapterCount": 3,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "2Pet",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يوحنا الأولى",
+    "slug": "1-john",
+    "nativeName": "يوحنا الأولى",
+    "chapterCount": 5,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "1John",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يوحنا الثانية",
+    "slug": "2-john",
+    "nativeName": "يوحنا الثانية",
+    "chapterCount": 1,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "2John",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يوحنا الثالثة",
+    "slug": "3-john",
+    "nativeName": "يوحنا الثالثة",
+    "chapterCount": 1,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "3John",
+    "sourceType": "svd"
+  },
+  {
+    "name": "يهوذا",
+    "slug": "jude",
+    "nativeName": "يهوذا",
+    "chapterCount": 1,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Jude",
+    "sourceType": "svd"
+  },
+  {
+    "name": "الرؤيا",
+    "slug": "revelation",
+    "nativeName": "الرؤيا",
+    "chapterCount": 22,
+    "language": "arabic",
+    "dir": "rtl",
+    "sourceCode": "Rev",
+    "sourceType": "svd"
+  }
+]
