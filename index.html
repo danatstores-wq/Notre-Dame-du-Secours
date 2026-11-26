@@ -719,7 +719,7 @@
 
     const bibleLabels={
       ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — اليسوعية',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
-      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — édition jésuite',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Crampon 1923 (domaine public). Données de chapitres : FreCrampon.'},
+      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — édition jésuite',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
       it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — edizione gesuita',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
     let bibleIndex=null, bibleBook=null, bibleChapter=1, bibleCurrentLanguage=null;
@@ -734,7 +734,7 @@
       const button=document.getElementById('bible-download-all'),status=document.getElementById('bible-download-status');
       if(!button||!status||!bibleIndex)return;
       button.disabled=true;let done=0,total=bibleIndex.reduce((sum,b)=>sum+b.c,0);
-      status.textContent='Preparing offline Bible…';
+      status.textContent='Preparing the complete 73-book Bible for offline reading on this device…';
       try{
         await bibleDbSet('meta','it-index',bibleIndex);
         for(const book of bibleIndex){
@@ -752,11 +752,11 @@
           }
         }
         await bibleDbSet('meta','it-complete',{books:73,chapters:total,completedAt:new Date().toISOString()});
-        status.textContent='Complete: all 73 books ('+total+' chapters) are saved for offline reading.';
+        status.textContent='Complete: all 73 books ('+total+' chapters) are saved on this device for offline reading.';
         button.textContent='Bible saved offline';
       }catch(error){status.textContent='Download paused: '+(error.message||'connection problem')+'. Tap to continue; saved chapters will be kept.';button.disabled=false;}
     }
-    const FR_BIBLE_BASE='https://raw.githubusercontent.com/clinto-abraham/bible.ciyo.in/b76e44393b3593ce10334e04421ffa82ce9c98/public/data/french/bible/';
+    const FR_BIBLE_BASE='https://raw.githubusercontent.com/clinto-abraham/bible.ciyo.in/b76e44393b3593ce10334e04421ffa82ce9e9c98/public/data/french/bible/';
     let frenchBibleIndex=null,frenchBibleBook=null,frenchBibleChapter=1;
     async function loadFrenchBibleIndex(){
       if(frenchBibleIndex)return frenchBibleIndex;
