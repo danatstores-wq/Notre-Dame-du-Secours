@@ -660,8 +660,8 @@
       box.innerHTML='<p class="saints-loading">'+l.loading+'</p>';
       const [roman,maronite]=await Promise.allSettled([loadRomanSaints(date),loadMaroniteSaints(date)]);
       if(!document.getElementById('saints-day-results'))return;
-      const romanHtml=roman.status==='fulfilled'?renderRomanSaints(roman.value,l):'<p>'+l.error+'</p>';
-      const maroniteHtml=maronite.status==='fulfilled'?renderMaroniteSaints(maronite.value,l):'<p>'+l.error+'</p>';
+      const romanHtml=roman.status==='fulfilled'?renderRomanSaints(roman.value,l):'<p>'+l.error+'</p><p><a href="https://litcal.johnromanodorazio.com/" target="_blank" rel="noopener" style="color:#fff0b3">Open Roman calendar source</a></p>';
+      const maroniteHtml=maronite.status==='fulfilled'?renderMaroniteSaints(maronite.value,l):'<p>'+l.error+'</p><p><a href="https://olm.org.lb/en/liturgical-calendar/'+key+'" target="_blank" rel="noopener" style="color:#fff0b3">Open Maronite Synaxarion source</a></p>';
       box.innerHTML='<div class="saints-source-card"><h3>'+l.catholic+'</h3>'+romanHtml+'<p class="source-tag">'+l.sourceCatholic+'</p></div><div class="saints-source-card"><h3>'+l.maronite+'</h3>'+maroniteHtml+'<p class="source-tag">'+l.sourceMaronite+'</p></div>';
     }
     async function loadRomanSaints(date){
