@@ -32,6 +32,10 @@ jobs:
             echo "Missing VITE_FIREBASE_API_KEY in GitHub Actions secrets or variables."
             exit 1
           fi
+          if [ "$FIREBASE_API_KEY" = "__FIREBASE_API_KEY__" ]; then
+            echo "Firebase API key is still the placeholder."
+            exit 1
+          fi
           python - <<'PY'
           import os
           from pathlib import Path
