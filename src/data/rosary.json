@@ -197,7 +197,8 @@
       "label": {
         "ar": "إشارة الصليب",
         "fr": "Signe de la Croix",
-        "it": "Segno della Croce"
+        "it": "Segno della Croce",
+        "en": "Sign of the Cross"
       }
     },
     {
@@ -207,7 +208,8 @@
       "label": {
         "ar": "قانون الإيمان",
         "fr": "Credo",
-        "it": "Credo"
+        "it": "Credo",
+        "en": "Nicene Creed"
       }
     },
     {
@@ -217,7 +219,8 @@
       "label": {
         "ar": "أبانا الّذي في السّماوات",
         "fr": "Notre Père",
-        "it": "Padre Nostro"
+        "it": "Padre Nostro",
+        "en": "Our Father"
       }
     },
     {
@@ -227,7 +230,8 @@
       "label": {
         "ar": "السلام عليك يا مريم",
         "fr": "Je vous salue Marie",
-        "it": "Ave Maria"
+        "it": "Ave Maria",
+        "en": "Hail Mary"
       }
     },
     {
@@ -237,7 +241,8 @@
       "label": {
         "ar": "السلام عليك يا مريم",
         "fr": "Je vous salue Marie",
-        "it": "Ave Maria"
+        "it": "Ave Maria",
+        "en": "Hail Mary"
       }
     },
     {
@@ -247,7 +252,8 @@
       "label": {
         "ar": "السلام عليك يا مريم",
         "fr": "Je vous salue Marie",
-        "it": "Ave Maria"
+        "it": "Ave Maria",
+        "en": "Hail Mary"
       }
     },
     {
@@ -257,7 +263,8 @@
       "label": {
         "ar": "المجد للآب",
         "fr": "Gloire au Père",
-        "it": "Gloria al Padre"
+        "it": "Gloria al Padre",
+        "en": "Glory Be"
       }
     },
     {
@@ -276,7 +283,8 @@
           "label": {
             "ar": "أبانا الّذي في السّماوات",
             "fr": "Notre Père",
-            "it": "Padre Nostro"
+            "it": "Padre Nostro",
+            "en": "Our Father"
           }
         },
         {
@@ -287,7 +295,8 @@
           "label": {
             "ar": "السلام عليك يا مريم",
             "fr": "Je vous salue Marie",
-            "it": "Ave Maria"
+            "it": "Ave Maria",
+            "en": "Hail Mary"
           }
         },
         {
@@ -297,7 +306,8 @@
           "label": {
             "ar": "المجد للآب",
             "fr": "Gloire au Père",
-            "it": "Gloria al Padre"
+            "it": "Gloria al Padre",
+            "en": "Glory Be"
           }
         },
         {
@@ -306,7 +316,8 @@
           "label": {
             "ar": "صلاة فاطيما (النص العربي بانتظار الاعتماد)",
             "fr": "Ô mon Jésus, pardonnez-nous, préservez-nous du feu de l’enfer ; emmenez au Paradis toutes les âmes, surtout celles qui en ont le plus besoin.",
-            "it": "O Gesù mio, perdonateci, liberateci dal fuoco dell’inferno; portate in Cielo tutte le anime, specialmente quelle che ne hanno più bisogno."
+            "it": "O Gesù mio, perdonateci, liberateci dal fuoco dell’inferno; portate in Cielo tutte le anime, specialmente quelle che ne hanno più bisogno.",
+            "en": "O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to Heaven, especially those in most need of Thy mercy."
           }
         }
       ]
@@ -317,7 +328,8 @@
       "label": {
         "ar": "السلام عليكِ يا سلطانة",
         "fr": "Prière finale",
-        "it": "Preghiera finale"
+        "it": "Preghiera finale",
+        "en": "Hail, Holy Queen"
       }
     }
   ],
