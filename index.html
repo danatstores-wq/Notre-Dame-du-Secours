@@ -252,7 +252,7 @@
     .mass-calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;color:var(--gold-light)}
     .mass-calendar-head button,.mass-calendar-today{border:1px solid rgba(229,182,87,.55);background:rgba(229,182,87,.12);color:#fff;border-radius:9px;padding:8px 13px;font:inherit;cursor:pointer}
     .mass-calendar-week,.mass-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center}
-    .mass-calendar-week{font-size:.75rem;color:#e8d5a9;margin-bottom:7px}
+    .mass-calendar-week{font-size:clamp(.48rem,1.8vw,.75rem);white-space:nowrap;color:#e8d5a9;margin-bottom:7px}
     .mass-calendar-day{min-width:0;aspect-ratio:1;border:1px solid rgba(229,182,87,.18);border-radius:9px;background:rgba(255,255,255,.04);color:#fff;font:inherit;cursor:pointer;position:relative}
     .mass-calendar-day.selected{background:var(--gold);color:#17233a;font-weight:800}
     .mass-calendar-day.has-entry:after{content:'';position:absolute;width:5px;height:5px;border-radius:50%;background:var(--gold-light);bottom:4px;left:calc(50% - 2px)}
@@ -594,7 +594,7 @@
     let massCalendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
     let selectedMassDate=dateKey(new Date());
     const massCalendarLabels={
-      ar:{today:'اليوم',prev:'الشهر السابق',next:'الشهر التالي',selected:'المواعيد في هذا اليوم',week:['اثن','ثل','أرب','خمي','جمع','سبت','أحد'],noDay:'لا توجد مواعيد مؤكدة لهذا اليوم.',months:['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول']},
+      ar:{today:'اليوم',prev:'الشهر السابق',next:'الشهر التالي',selected:'المواعيد في هذا اليوم',week:['الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت','الأحد'],noDay:'لا توجد مواعيد مؤكدة لهذا اليوم.',months:['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول']},
       fr:{today:"Aujourd’hui",prev:'Mois précédent',next:'Mois suivant',selected:'Horaires de cette journée',week:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],noDay:'Aucun horaire confirmé pour cette journée.',months:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']},
       it:{today:'Oggi',prev:'Mese precedente',next:'Mese successivo',selected:'Orari di questo giorno',week:['Lun','Mar','Mer','Gio','Ven','Sab','Dom'],noDay:'Nessun orario confermato per questo giorno.',months:['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre']},
       en:{today:"Today",prev:"Previous month",next:"Next month",selected:"Mass times for this day",week:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],noDay:"No confirmed Mass times for this day.",months:["January","February","March","April","May","June","July","August","September","October","November","December"]}
@@ -1760,7 +1760,7 @@ let adminMassCalendarMonth=new Date(new Date().getFullYear(),new Date().getMonth
 function renderAdminMassCalendar(){
  const language=document.documentElement.lang;
  const labels={
-  ar:{today:"اليوم",prev:"الشهر السابق",next:"الشهر التالي",selected:"التاريخ المحدد",week:["اثن","ثل","أرب","خمي","جمع","سبت","أحد"],months:["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"]},
+  ar:{today:"اليوم",prev:"الشهر السابق",next:"الشهر التالي",selected:"التاريخ المحدد",week:["الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت","الأحد"],months:["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"]},
   en:{today:"Today",prev:"Previous month",next:"Next month",selected:"Selected date",week:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],months:["January","February","March","April","May","June","July","August","September","October","November","December"]},
   fr:{today:"Aujourd’hui",prev:"Mois précédent",next:"Mois suivant",selected:"Date sélectionnée",week:["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"],months:["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"]},
   it:{today:"Oggi",prev:"Mese precedente",next:"Mese successivo",selected:"Data selezionata",week:["Lun","Mar","Mer","Gio","Ven","Sab","Dom"],months:["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"]}
