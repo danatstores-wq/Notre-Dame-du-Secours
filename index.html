@@ -1654,13 +1654,28 @@ function renderAnnouncementsAdmin(){
   editor.value=JSON.stringify(p,null,2);renderAnnouncementsAdmin();
  });
 }
+let adminMassSelectedDate=(function(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");})();
+let adminMassCalendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+function renderAdminMassCalendar(){
+ const language=document.documentElement.lang;
+ const labels={
+  ar:{today:"اليوم",prev:"الشهر السابق",next:"الشهر التالي",selected:"التاريخ المحدد",week:["اثن","ثل","أرب","خمي","جمع","سبت","أحد"],months:["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"]},
+  en:{today:"Today",prev:"Previous month",next:"Next month",selected:"Selected date",week:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],months:["January","February","March","April","May","June","July","August","September","October","November","December"]},
+  fr:{today:"Aujourd’hui",prev:"Mois précédent",next:"Mois suivant",selected:"Date sélectionnée",week:["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"],months:["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"]},
+  it:{today:"Oggi",prev:"Mese precedente",next:"Mese successivo",selected:"Data selezionata",week:["Lun","Mar","Mer","Gio","Ven","Sab","Dom"],months:["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"]}
+ }[language]||{today:"Today",prev:"Previous month",next:"Next month",selected:"Selected date",week:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],months:["January","February","March","April","May","June","July","August","September","October","November","December"]};
+ const year=adminMassCalendarMonth.getFullYear(),month=adminMassCalendarMonth.getMonth(),offset=(new Date(year,month,1).getDay()+6)%7,days=new Date(year,month+1,0).getDate();
+ let cells="";for(let i=0;i<offset;i++)cells+='<span class="mass-calendar-empty"></span>';
+ for(let day=1;day<=days;day++){const key=year+"-"+String(month+1).padStart(2,"0")+"-"+String(day).padStart(2,"0");cells+='<button type="button" class="mass-calendar-day '+(key===adminMassSelectedDate?"selected":"")+'" data-admin-mass-date="'+key+'">'+day+'</button>';}
+ return '<div class="mass-calendar"><div class="mass-calendar-head"><button type="button" id="admin-mass-prev" aria-label="'+labels.prev+'">‹</button><strong>'+labels.months[month]+' '+year+'</strong><button type="button" id="admin-mass-next" aria-label="'+labels.next+'">›</button></div><div class="mass-calendar-week">'+labels.week.map(x=>'<span>'+x+'</span>').join("")+'</div><div class="mass-calendar-grid">'+cells+'</div><p class="mass-selected-title">'+labels.selected+': <strong>'+adminMassSelectedDate+'</strong></p><button type="button" class="mass-calendar-today" id="admin-mass-today">'+labels.today+'</button></div>';
+}
 function renderMassScheduleAdmin(){
  const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor"),t=lang();
  if(!panel||!editor)return;
  let payload;try{payload=JSON.parse(editor.value||"{}");}catch(e){panel.innerHTML="<p>"+t.badJson+"</p>";panel.style.display="block";return;}
  if(!Array.isArray(payload.massSchedule))payload.massSchedule=[];
  const dayLabels={ar:["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],fr:["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"],it:["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}[document.documentElement.lang]||["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
- let html="<h3 style='color:var(--gold-light)'>"+t.scheduleEditor+"</h3><p>"+t.saveHint+"</p>";
+ let html="<h3 style='color:var(--gold-light)'>"+t.scheduleEditor+"</h3><p>"+t.saveHint+"</p>"+renderAdminMassCalendar();
  payload.massSchedule.forEach((item,i)=>{
   html+="<section class='schedule-entry' style='display:grid;gap:8px;margin:10px 0;padding:12px'>";
   html+="<label>"+t.day+"<select data-row='"+i+"' data-field='dayOfWeek' style='width:100%;padding:9px'>"+dayLabels.map((d,n)=>"<option value='"+n+"' "+(Number(item.dayOfWeek)===n?"selected":"")+">"+d+"</option>").join("")+"</select></label>";
@@ -1682,6 +1697,10 @@ function renderMassScheduleAdmin(){
  });
  html+="<button class='feature-tab' type='button' id='mass-admin-special-add'>"+t.addSpecialMass+"</button>";
  panel.innerHTML=html;panel.style.display="block";
+ panel.querySelectorAll("[data-admin-mass-date]").forEach(button=>button.addEventListener("click",()=>{adminMassSelectedDate=button.dataset.adminMassDate;adminMassCalendarMonth=new Date(adminMassSelectedDate+"T12:00:00");renderMassScheduleAdmin();}));
+ panel.querySelector("#admin-mass-prev").addEventListener("click",()=>{adminMassCalendarMonth=new Date(adminMassCalendarMonth.getFullYear(),adminMassCalendarMonth.getMonth()-1,1);renderMassScheduleAdmin();});
+ panel.querySelector("#admin-mass-next").addEventListener("click",()=>{adminMassCalendarMonth=new Date(adminMassCalendarMonth.getFullYear(),adminMassCalendarMonth.getMonth()+1,1);renderMassScheduleAdmin();});
+ panel.querySelector("#admin-mass-today").addEventListener("click",()=>{const d=new Date();adminMassSelectedDate=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");adminMassCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassScheduleAdmin();});
  panel.querySelectorAll("input[type=date],input[type=time]").forEach(input=>input.addEventListener("click",()=>{try{if(typeof input.showPicker==="function")input.showPicker();else input.focus();}catch(e){input.focus();}}));
  panel.querySelectorAll("[data-field]").forEach(input=>input.addEventListener("change",()=>{
   let p=JSON.parse(editor.value||"{}");const index=Number(input.dataset.row),field=input.dataset.field;
@@ -1699,7 +1718,7 @@ function renderMassScheduleAdmin(){
  }));
  panel.querySelector("#mass-admin-special-add").addEventListener("click",()=>{
   let p=JSON.parse(editor.value||"{}");if(!Array.isArray(p.specialMasses))p.specialMasses=[];
-  p.specialMasses.push({id:"special-"+Date.now(),date:new Date().toISOString().slice(0,10),time:"09:00",titleAr:"قداس",titleFr:"Messe",titleIt:"Messa",titleEn:"Mass",location:""});editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
+  p.specialMasses.push({id:"special-"+Date.now(),date:adminMassSelectedDate,time:"09:00",titleAr:"قداس",titleFr:"Messe",titleIt:"Messa",titleEn:"Mass",location:""});editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
  });
  panel.querySelector("#mass-admin-add").addEventListener("click",()=>{
   let p=JSON.parse(editor.value||"{}");if(!Array.isArray(p.massSchedule))p.massSchedule=[];
