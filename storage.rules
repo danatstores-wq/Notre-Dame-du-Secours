@@ -1,0 +1,22 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isPriest() {
+      return request.auth != null
+        && request.auth.token.email == 'notredamedusecours5@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    match /parish-media/{fileName} {
+      allow read: if true;
+      allow write: if isPriest()
+        && request.resource != null
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
