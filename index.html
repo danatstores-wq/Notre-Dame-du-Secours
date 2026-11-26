@@ -576,6 +576,7 @@
       if(document.getElementById('notifications-screen').classList.contains('visible'))renderNotifications();
       if(document.getElementById('about-screen').classList.contains('visible'))openAbout();
       if(document.getElementById('settings-screen').classList.contains('visible'))renderSettings();
+      if(document.getElementById('profile-screen').classList.contains('visible'))renderProfile();
     }
     document.addEventListener('click',function(event){
       const wrap=document.querySelector('.language-menu-wrap');if(wrap&&!wrap.contains(event.target))closeLanguageMenu();
