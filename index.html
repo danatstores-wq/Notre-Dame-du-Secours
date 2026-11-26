@@ -638,7 +638,7 @@
       it:{title:'Calendario dei Santi',back:'Indietro',month:'Mese',catholic:'Chiesa cattolica — Calendario romano generale',maronite:'Chiesa maronita — Sinassario',choose:'Seleziona una data per vedere i santi commemorati',loading:'Caricamento delle commemorazioni…',none:'Nessuna commemorazione di santi registrata per questa data nella fonte disponibile.',error:'Impossibile caricare il calendario. Controlla la connessione e riprova.',days:['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],sourceCatholic:'Dati del Calendario romano generale tramite LitCal; decreti ufficiali del Vaticano',sourceMaronite:'Fonte: Ordine Libanese Maronita'}
     };
     let saintsCalDate=new Date();saintsCalDate.setHours(12,0,0,0);
-    let saintsRomanYearCache={},saintsDayCache={};
+    let saintsRomanYearCache={},saintsDayCache={},saintsLoadRequest=0;
     const pad2=n=>String(n).padStart(2,'0');
     function saintsDateKey(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
     function saintsPersistentGet(key){try{return JSON.parse(localStorage.getItem('saints-calendar:'+key)||'null');}catch(e){return null;}}
@@ -658,10 +658,10 @@
       loadSaintsForDate(saintsCalDate);
     }
     async function loadSaintsForDate(date){
-      const key=saintsDateKey(date),l=saintsCalendarLabels[currentLang],box=document.getElementById('saints-day-results');if(!box)return;
+      const request=++saintsLoadRequest,key=saintsDateKey(date),l=saintsCalendarLabels[currentLang],box=document.getElementById('saints-day-results');if(!box)return;
       box.innerHTML='<p class="saints-loading">'+l.loading+'</p>';
       const [roman,maronite]=await Promise.allSettled([loadRomanSaints(date),loadMaroniteSaints(date)]);
-      if(!document.getElementById('saints-day-results'))return;
+      if(request!==saintsLoadRequest||!document.getElementById('saints-day-results'))return;
       const romanHtml=roman.status==='fulfilled'?renderRomanSaints(roman.value,l):'<p>'+l.error+'</p><p><a href="https://litcal.johnromanodorazio.com/" target="_blank" rel="noopener" style="color:#fff0b3">Open Roman calendar source</a></p>';
       const maroniteLocale=currentLang==='ar'?'ar':'en';const maroniteHtml=maronite.status==='fulfilled'?renderMaroniteSaints(maronite.value,l):'<p>'+l.error+'</p><p><a href="https://olm.org.lb/'+maroniteLocale+'/liturgical-calendar/'+key+'" target="_blank" rel="noopener" style="color:#fff0b3">Open Maronite Synaxarion source</a></p>';
       box.innerHTML='<div class="saints-source-card"><h3>'+l.catholic+'</h3>'+romanHtml+'<p class="source-tag">'+l.sourceCatholic+'</p><p class="source-tag"><a href="https://www.vatican.va/content/romancuria/en/dicasteri/dicastero-culto-divino-e-disciplina-sacramenti/documenti.html" target="_blank" rel="noopener" style="color:#fff0b3">Official Vatican decrees</a></p></div><div class="saints-source-card"><h3>'+l.maronite+'</h3>'+maroniteHtml+'<p class="source-tag">'+l.sourceMaronite+'</p><p class="source-tag"><a href="https://olm.org.lb/'+(currentLang==='ar'?'ar':'en')+'/liturgical-calendar/'+key+'" target="_blank" rel="noopener" style="color:#fff0b3">Official Maronite Synaxarion</a></p></div>';
