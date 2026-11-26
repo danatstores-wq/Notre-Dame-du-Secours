@@ -1594,7 +1594,7 @@ function profileShell(){
    try{await updateProfile(currentUser,{displayName:name});await currentUser.reload();currentUser=auth.currentUser;profileShell();status(t.profileUpdated);}catch(err){status(authError(err),true);}
   });
   if(admin){
-   document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);document.getElementById("mass-admin-open").addEventListener("click",()=>renderMassScheduleAdmin());
+   document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);document.getElementById("mass-admin-open").addEventListener("click",()=>{document.getElementById("parish-cms-type").value="massSchedule";loadCmsEditor();});
    document.getElementById("parish-cms-save").addEventListener("click",saveCmsEditor);
    document.getElementById("parish-image-upload").addEventListener("change",uploadParishImage);
    loadCmsEditor();
@@ -1614,7 +1614,7 @@ function authError(err){
 }
 async function loadCmsEditor(){
  const t=lang(),key=document.getElementById("parish-cms-type").value,editor=document.getElementById("parish-cms-editor");
- try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));if(snap.exists())editor.value=JSON.stringify(snap.data().payload,null,2);else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");editor.value=JSON.stringify(await fallback.json(),null,2);}if(key==="massSchedule")renderMassScheduleAdmin();status(lang().loaded);}
+ try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));if(snap.exists())editor.value=JSON.stringify(snap.data().payload,null,2);else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");editor.value=JSON.stringify(await fallback.json(),null,2);}if(key==="massSchedule")renderMassScheduleAdmin();else{const panel=document.getElementById("mass-admin-panel");if(panel)panel.style.display="none";}status(lang().loaded);}
  catch(err){status(authError(err),true);}
 }
 function renderMassScheduleAdmin(){
