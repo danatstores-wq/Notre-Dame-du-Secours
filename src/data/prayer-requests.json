@@ -1,9 +1,24 @@
 {
   "version": 2,
-  "languages": ["ar", "fr", "it"],
-  "categories": ["health", "family", "peace", "thanksgiving", "other"],
+  "languages": [
+    "ar",
+    "fr",
+    "it",
+    "en"
+  ],
+  "categories": [
+    "health",
+    "family",
+    "peace",
+    "thanksgiving",
+    "other"
+  ],
   "requests": [],
-  "requestStatuses": ["pending", "approved", "rejected"],
+  "requestStatuses": [
+    "pending",
+    "approved",
+    "rejected"
+  ],
   "settings": {
     "registrationRequiredForPrayerRequests": true,
     "emailPasswordAuthentication": true,
