@@ -1,6 +1,6 @@
 # كنيسة سيدة المعونات | Église Notre-Dame des Secours
 
-Multilingual mobile web app / PWA for Notre-Dame-du-Secours, with Arabic (RTL), French (LTR), and Italian (LTR) interfaces.
+Multilingual mobile web app / PWA for Notre-Dame-du-Secours, with Arabic (RTL), French (LTR), Italian (LTR), and English (LTR) interfaces.
 
 ## Deployment
 
