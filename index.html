@@ -1580,7 +1580,7 @@ function profileShell(){
      ${Object.entries(cmsLabels).map(([key,label])=>`<option value="${key}">${safe(label)}</option>`).join("")}
     </select>
     <button class="feature-tab" id="parish-cms-load" style="width:100%;margin-top:10px">${t.load}</button>
-    <textarea id="parish-cms-editor" spellcheck="false" rows="14" style="width:100%;margin-top:10px;padding:11px;border-radius:9px;border:1px solid var(--gold);background:#07152c;color:#fff;font:12px/1.5 monospace"></textarea><button class="feature-tab" type="button" id="mass-admin-open" style="width:100%;margin-top:10px">Edit Mass schedule visually</button><div id="mass-admin-panel" style="display:none;margin-top:12px"></div>
+    <textarea id="parish-cms-editor" spellcheck="false" rows="14" style="width:100%;margin-top:10px;padding:11px;border-radius:9px;border:1px solid var(--gold);background:#07152c;color:#fff;font:12px/1.5 monospace"></textarea><button class="feature-tab" type="button" id="mass-admin-open" style="width:100%;margin-top:10px">${t.scheduleEditor}</button><div id="mass-admin-panel" style="display:none;margin-top:12px"></div>
     <button class="feature-tab" id="parish-cms-save" style="width:100%;margin-top:10px">${t.save}</button>
     <label style="display:block;margin-top:14px">${t.upload}</label>
     <input id="parish-image-upload" type="file" accept="image/*" style="width:100%;margin-top:8px;color:white">
