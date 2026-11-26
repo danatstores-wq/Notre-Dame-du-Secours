@@ -633,9 +633,9 @@
 
 
     const saintsCalendarLabels={
-      ar:{title:'تقويم القدّيسين',back:'رجوع',month:'الشهر',catholic:'الكنيسة الكاثوليكية — التقويم الروماني العام',maronite:'الكنيسة المارونية — السنكسار',choose:'اختر تاريخاً لعرض تذكارات القدّيسين',loading:'جارٍ تحميل تذكارات هذا اليوم…',none:'لا توجد تذكرة قدّيس مسجّلة لهذا التاريخ في المصدر المتاح.',error:'تعذّر تحميل هذا التقويم الآن. تحقّق من اتصال الإنترنت وحاول مجدداً.',days:['أح','إث','ثلا','أر','خم','جم','سب'],sourceCatholic:'المصدر: التقويم الروماني العام',sourceMaronite:'المصدر: الرهبانية اللبنانية المارونية'},
-      fr:{title:'Calendrier des Saints',back:'Retour',month:'Mois',catholic:'Église catholique — Calendrier romain général',maronite:'Église maronite — Synaxaire',choose:'Choisissez une date pour voir les saints commémorés',loading:'Chargement des commémorations…',none:'Aucune commémoration de saint n’est enregistrée pour cette date dans la source disponible.',error:'Impossible de charger le calendrier. Vérifiez votre connexion et réessayez.',days:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],sourceCatholic:'Source : Calendrier romain général',sourceMaronite:'Source : Ordre libanais maronite'},
-      it:{title:'Calendario dei Santi',back:'Indietro',month:'Mese',catholic:'Chiesa cattolica — Calendario romano generale',maronite:'Chiesa maronita — Sinassario',choose:'Seleziona una data per vedere i santi commemorati',loading:'Caricamento delle commemorazioni…',none:'Nessuna commemorazione di santi registrata per questa data nella fonte disponibile.',error:'Impossibile caricare il calendario. Controlla la connessione e riprova.',days:['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],sourceCatholic:'Fonte: Calendario romano generale',sourceMaronite:'Fonte: Ordine Libanese Maronita'}
+      ar:{title:'تقويم القدّيسين',back:'رجوع',month:'الشهر',catholic:'الكنيسة الكاثوليكية — التقويم الروماني العام',maronite:'الكنيسة المارونية — السنكسار',choose:'اختر تاريخاً لعرض تذكارات القدّيسين',loading:'جارٍ تحميل تذكارات هذا اليوم…',none:'لا توجد تذكرة قدّيس مسجّلة لهذا التاريخ في المصدر المتاح.',error:'تعذّر تحميل هذا التقويم الآن. تحقّق من اتصال الإنترنت وحاول مجدداً.',days:['أح','إث','ثلا','أر','خم','جم','سب'],sourceCatholic:'بيانات التقويم الروماني العام عبر LitCal؛ راجع مراسيم الفاتيكان الرسمية',sourceMaronite:'المصدر: الرهبانية اللبنانية المارونية'},
+      fr:{title:'Calendrier des Saints',back:'Retour',month:'Mois',catholic:'Église catholique — Calendrier romain général',maronite:'Église maronite — Synaxaire',choose:'Choisissez une date pour voir les saints commémorés',loading:'Chargement des commémorations…',none:'Aucune commémoration de saint n’est enregistrée pour cette date dans la source disponible.',error:'Impossible de charger le calendrier. Vérifiez votre connexion et réessayez.',days:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],sourceCatholic:'Données du calendrier romain général via LitCal ; décrets officiels du Vatican',sourceMaronite:'Source : Ordre libanais maronite'},
+      it:{title:'Calendario dei Santi',back:'Indietro',month:'Mese',catholic:'Chiesa cattolica — Calendario romano generale',maronite:'Chiesa maronita — Sinassario',choose:'Seleziona una data per vedere i santi commemorati',loading:'Caricamento delle commemorazioni…',none:'Nessuna commemorazione di santi registrata per questa data nella fonte disponibile.',error:'Impossibile caricare il calendario. Controlla la connessione e riprova.',days:['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],sourceCatholic:'Dati del Calendario romano generale tramite LitCal; decreti ufficiali del Vaticano',sourceMaronite:'Fonte: Ordine Libanese Maronita'}
     };
     let saintsCalDate=new Date();saintsCalDate.setHours(12,0,0,0);
     let saintsRomanYearCache={},saintsDayCache={};
@@ -661,27 +661,39 @@
       const [roman,maronite]=await Promise.allSettled([loadRomanSaints(date),loadMaroniteSaints(date)]);
       if(!document.getElementById('saints-day-results'))return;
       const romanHtml=roman.status==='fulfilled'?renderRomanSaints(roman.value,l):'<p>'+l.error+'</p><p><a href="https://litcal.johnromanodorazio.com/" target="_blank" rel="noopener" style="color:#fff0b3">Open Roman calendar source</a></p>';
-      const maroniteHtml=maronite.status==='fulfilled'?renderMaroniteSaints(maronite.value,l):'<p>'+l.error+'</p><p><a href="https://olm.org.lb/en/liturgical-calendar/'+key+'" target="_blank" rel="noopener" style="color:#fff0b3">Open Maronite Synaxarion source</a></p>';
+      const maroniteLocale=currentLang==='ar'?'ar':'en';const maroniteHtml=maronite.status==='fulfilled'?renderMaroniteSaints(maronite.value,l):'<p>'+l.error+'</p><p><a href="https://olm.org.lb/'+maroniteLocale+'/liturgical-calendar/'+key+'" target="_blank" rel="noopener" style="color:#fff0b3">Open Maronite Synaxarion source</a></p>';
       box.innerHTML='<div class="saints-source-card"><h3>'+l.catholic+'</h3>'+romanHtml+'<p class="source-tag">'+l.sourceCatholic+'</p></div><div class="saints-source-card"><h3>'+l.maronite+'</h3>'+maroniteHtml+'<p class="source-tag">'+l.sourceMaronite+'</p></div>';
     }
     async function loadRomanSaints(date){
-      const y=date.getFullYear(),key=String(y);if(!saintsRomanYearCache[key]){
-        const r=await fetch('https://litcal.johnromanodorazio.com/api/v5/calendar/'+y+'?locale='+({ar:'ar',fr:'fr',it:'it'}[currentLang]||'en'));
-        if(!r.ok)throw new Error('Roman calendar unavailable');saintsRomanYearCache[key]=await r.json();
+      const y=date.getFullYear(),locale=currentLang==='ar'?'ar':currentLang==='fr'?'fr':'it',key=y+'-'+locale;
+      if(!saintsRomanYearCache[key]){
+        const r=await fetch('https://litcal.johnromanodorazio.com/api/v5/calendar/'+y+'?locale='+locale);
+        if(!r.ok)throw new Error('Roman calendar unavailable');
+        saintsRomanYearCache[key]=await r.json();
       }
       const data=saintsRomanYearCache[key],events=data.litcal||data.calendar||data.events||[];
       return events.filter(e=>Number(e.month)===date.getMonth()+1&&Number(e.day)===date.getDate()).map(e=>({name:e.name,rank:e.grade||e.rank||e.type||''}));
     }
     async function loadMaroniteSaints(date){
-      const key=saintsDateKey(date);if(saintsDayCache[key])return saintsDayCache[key];
-      const r=await fetch('https://olm.org.lb/en/liturgical-calendar/'+key);if(!r.ok)throw new Error('Maronite calendar unavailable');
+      const key=saintsDateKey(date),locale=currentLang==='ar'?'ar':'en',cacheKey=locale+'-'+key;
+      if(saintsDayCache[cacheKey])return saintsDayCache[cacheKey];
+      const url='https://olm.org.lb/'+locale+'/liturgical-calendar/'+key;
+      const r=await fetch(url);if(!r.ok)throw new Error('Maronite calendar unavailable');
       const html=await r.text(),doc=new DOMParser().parseFromString(html,'text/html');
-      let textContent=doc.body?doc.body.innerText||doc.body.textContent:html.replace(/<[^>]*>/g,' ');
-      textContent=textContent.replace(/\r/g,'').replace(/[ \t]+/g,' ');
-      const match=textContent.match(/Synaxarion\s*([\s\S]*?)(?:Gospel|Liturgical Year|Previous day|$)/i);
-      let names=match?match[1].split('\n').map(x=>x.trim()).filter(Boolean):[];
-      names=names.filter(x=>!/^Synaxarion$/i.test(x)&&!/^\d+\s+[A-Z]/.test(x)).slice(0,20);
-      if(!names.length)throw new Error('Maronite Synaxarion not found');saintsDayCache[key]=names;return names;
+      const raw=(doc.body?(doc.body.innerText||doc.body.textContent):html.replace(/<[^>]*>/g,' ')).replace(/\\r/g,'');
+      const lines=raw.split('\\n').map(x=>x.trim()).filter(Boolean);
+      const heading=locale==='ar'?'السنكسار':'Synaxarion';
+      const start=lines.findIndex(x=>x.replace(/[：:]/g,'').trim()===heading);
+      if(start<0)throw new Error('Maronite Synaxarion heading not found');
+      const names=[];
+      for(let i=start+1;i<lines.length&&names.length<20;i++){
+        const line=lines[i];
+        if(/^(Liturgical Year|Gospel|Previous day|Next day|Liturgy service|Letter|السنّة الطقسيّة|السنة الطقسية|الإنجيل|اليوم السابق|اليوم التالي|خدمة الليتورجيا|خدمة الليتورجيّا|الرسالة)/i.test(line))break;
+        if(/^\\d{1,2}\\s+[A-Z][a-z]{2}\\s+\\d{4}$/.test(line))break;
+        if(line!==heading&&line.length>1&&!/^(Back to Today|Today|Synaxarion)$/i.test(line))names.push(line.replace(/^[-•*]\\s*/,''));
+      }
+      if(!names.length)throw new Error('Maronite Synaxarion entries not found');
+      saintsDayCache[cacheKey]=names;return names;
     }
     function renderRomanSaints(items,l){
       if(!items.length)return '<p>'+l.none+'</p>';
