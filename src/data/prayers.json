@@ -509,10 +509,10 @@
             "en": "Prayer to Your Guardian Angel"
           },
           "text": {
-            "ar": "يا ملاك الله، يا حارسي العزيز، الذي ائتمنتك محبة الله عليّ، كن بجانبي اليوم وكل يوم، لتنيرني وتحرسني وتقودني وترشدني. آمين.",
-            "fr": "Ange de Dieu, qui êtes mon gardien, vous à qui la bonté divine m’a confié, éclairez-moi, gardez-moi, conduisez-moi et dirigez-moi. Amen.",
-            "it": "Angelo di Dio, che sei il mio custode, illumina, custodisci, reggi e governa me, che ti fui affidato dalla pietà celeste. Amen.",
-            "en": "Angel of God, my guardian dear, to whom God’s love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."
+            "ar": "أيها الملاك المُلازم نفسي الشقيّة وحياتي الذليلة، لا تُهملني أنا الخاطئ، ولا تبتعد عني بسبب إسرافي وتبدّخي، ولا تعطِ مجالًا للشيطان الشرير لكي يسود على جسدي هذا المائت، بل أمسك بيدي الشقيّة المسترخية، واهدني إلى طريق الخلاص.\n\nنعم، يا ملاك الله القديس، الحارس والساتر نفسي الشقيّة وجسدي، سامحني بكل ما أحزنتك به جميع أيام حياتي. وإن كنت قد أخطأت في نهاري اليوم، فكن أنت ساترًا لي في هذه الليلة، واحفظني من جميع حِيَل المعاند، لكي لا أُسخط الله بخطيئة من الخطايا، وتشفّع من أجلي إلى الرب، ليثبّتني في مخافته ويطهّرني لصلاحه عبدًا مستحقًا. آمين.",
+            "en": "O angel who accompany my wretched soul and my lowly life, do not abandon me, a sinner, nor turn away from me because of my excesses and indulgence. Do not allow the evil devil to gain dominion over this mortal body; rather, take my feeble, slackened hand and guide me along the path of salvation.\n\nYes, holy Angel of God, guardian and protector of my wretched soul and body, forgive me for all the ways I have grieved you throughout the days of my life. And if I have sinned during this day, be my protector throughout this night, and guard me from all the snares of the adversary, so that I may not anger God by any sin. Intercede for me with the Lord, that He may establish me in His fear and purify me for His goodness, as a servant worthy of Him. Amen.",
+            "fr": "Ô ange qui accompagnez mon âme misérable et ma pauvre vie, ne m’abandonnez pas, moi qui suis pécheur, et ne vous éloignez pas de moi à cause de mes excès et de mon laisser-aller. Ne permettez pas au mauvais démon de dominer ce corps mortel ; mais prenez ma main faible et défaillante et conduisez-moi sur le chemin du salut.\n\nOui, saint Ange de Dieu, gardien et protecteur de mon âme misérable et de mon corps, pardonnez-moi tout ce en quoi je vous ai attristé durant tous les jours de ma vie. Et si j’ai péché aujourd’hui, soyez mon protecteur pendant cette nuit et gardez-moi de tous les pièges de l’adversaire, afin que je n’offense pas Dieu par aucun péché. Intercédez pour moi auprès du Seigneur, afin qu’Il m’affermisse dans sa crainte et me purifie pour sa bonté, comme un serviteur digne de Lui. Amen.",
+            "it": "O angelo che accompagni la mia anima misera e la mia povera vita, non abbandonarmi, peccatore, e non allontanarti da me a causa dei miei eccessi e della mia sregolatezza. Non permettere che il maligno domini questo corpo mortale; prendi invece la mia mano debole e inerte e guidami sulla via della salvezza.\n\nSì, santo Angelo di Dio, custode e protettore della mia anima misera e del mio corpo, perdonami per tutto ciò con cui ti ho rattristato durante tutti i giorni della mia vita. E se oggi ho peccato, sii il mio custode durante questa notte e proteggimi da tutte le insidie dell’avversario, affinché io non offenda Dio con alcun peccato. Intercedi per me presso il Signore, perché mi confermi nel suo santo timore e mi purifichi per la sua bontà, rendendomi un servo degno di Lui. Amen."
           },
           "audio": {
             "ar": null,
@@ -522,10 +522,10 @@
           },
           "sourceUrl": "https://www.usccb.org/prayers/prayer-your-guardian-angel",
           "sourceNote": {
-            "ar": "صلاة الملاك الحارس من موارد مجلس أساقفة الولايات المتحدة الكاثوليك.",
-            "fr": "Prière de l’Ange gardien, ressource de l’USCCB.",
-            "it": "Preghiera all’Angelo custode, risorsa USCCB.",
-            "en": "Guardian Angel prayer from the USCCB."
+            "ar": "النص العربي الذي قدّمه المستخدم، مع تصحيح إملائي وترقيمي فقط.",
+            "en": "Faithful translation of the Arabic prayer supplied by the user.",
+            "fr": "Traduction fidèle de la prière arabe fournie par l’utilisateur.",
+            "it": "Traduzione fedele della preghiera araba fornita dall’utente."
           }
         },
         {
