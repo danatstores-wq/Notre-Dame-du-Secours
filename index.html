@@ -9,6 +9,7 @@
       var isIOS = /iPhone|iPad|iPod/i.test(ua) ||
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       if (isIOS) document.documentElement.classList.add("ios-device");
+      if (/Android/i.test(ua)) document.documentElement.classList.add("android-device");
     })();
   </script>
   <title>كنيسة سيدة المعونات | Église Notre-Dame du Secours</title>
@@ -301,6 +302,7 @@
     html.ios-device .divider { transform: translateY(-88px); }
     html.ios-device .cards-grid { padding-bottom: 40px; transform: translateY(-88px); }
     html.ios-device .bottom-nav { padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+    html.android-device .cards-grid { transform: translateY(22px); }
 </style>
 </head>
 <body>
