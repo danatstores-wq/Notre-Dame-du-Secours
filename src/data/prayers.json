@@ -3,7 +3,8 @@
   "languages": [
     "ar",
     "fr",
-    "it"
+    "it",
+    "en"
   ],
   "reviewNote": "The four Arabic prayers (Our Father, Hail Mary, Nicene Creed, and Salve Regina) now use the fully vowelled text approved by the user in this conversation. Arabic audio recordings are pending generation because the connected HeyGen account has insufficient remaining monthly speech allowance. Other Arabic prayer texts remain pending approval. Clergy review is required before publication.",
   "categories": [
@@ -12,7 +13,8 @@
       "names": {
         "ar": "صلوات أساسية",
         "fr": "Prières essentielles",
-        "it": "Preghiere essenziali"
+        "it": "Preghiere essenziali",
+        "en": "Essential Prayers"
       },
       "prayers": [
         {
@@ -20,17 +22,20 @@
           "title": {
             "ar": "أبانا",
             "fr": "Notre Père",
-            "it": "Padre nostro"
+            "it": "Padre nostro",
+            "en": "Our Father"
           },
           "text": {
             "ar": "أَبَانَا الَّذِي فِي السَّمَاوَاتِ،\nلِيَتَقَدَّسِ اسْمُكَ؛ لِيَأْتِ مَلَكُوتُكَ؛\nلِتَكُنْ مَشِيئَتُكَ كَمَا فِي السَّمَاءِ كَذَلِكَ عَلَى الْأَرْضِ.\nأَعْطِنَا خُبْزَنَا كَفَافَ يَوْمِنَا.\nوَاغْفِرْ لَنَا ذُنُوبَنَا وَخَطَايَانَا، كَمَا نَحْنُ نَغْفِرُ لِمَنْ خَطِئَ إِلَيْنَا.\nوَلَا تُدْخِلْنَا فِي التَّجَارِبِ، لَكِنْ نَجِّنَا مِنَ الشِّرِّيرِ.\nلِأَنَّ لَكَ الْمُلْكَ وَالْقُوَّةَ وَالْمَجْدَ، إِلَى أَبَدِ الْآبِدِينَ.\nآمِينَ.",
             "fr": "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite sur la terre comme au ciel. Donne-nous aujourd’hui notre pain de ce jour. Pardonne-nous nos offenses, comme nous pardonnons aussi à ceux qui nous ont offensés. Et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen.",
-            "it": "Padre nostro che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori, e non abbandonarci alla tentazione, ma liberaci dal male. Amen."
+            "it": "Padre nostro che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori, e non abbandonarci alla tentazione, ma liberaci dal male. Amen.",
+            "en": "Our Father, who art in heaven, hallowed be thy name; thy kingdom come; thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen."
           },
           "audio": {
             "ar": null,
             "fr": null,
-            "it": null
+            "it": null,
+            "en": null
           }
         },
         {
@@ -38,17 +43,20 @@
           "title": {
             "ar": "السلام عليكِ يا مريم",
             "fr": "Je vous salue Marie",
-            "it": "Ave Maria"
+            "it": "Ave Maria",
+            "en": "Hail Mary"
           },
           "text": {
             "ar": "السَّلَامُ عَلَيْكِ يَا مَرْيَمُ، يَا مُمْتَلِئَةَ نِعْمَةً، الرَّبُّ مَعَكِ.\n\nمُبَارَكَةٌ أَنْتِ فِي النِّسَاءِ، وَمُبَارَكَةٌ ثَمَرَةُ بَطْنِكِ سَيِّدُنَا يَسُوعُ الْمَسِيحُ.\n\nيَا قِدِّيسَةَ مَرْيَمُ، يَا وَالِدَةَ اللهِ، صَلِّي لِأَجْلِنَا نَحْنُ الْخَطَأَةَ، الْآنَ وَفِي سَاعَةِ مَوْتِنَا. آمِينَ.",
             "fr": "Je vous salue, Marie, pleine de grâce ; le Seigneur est avec vous. Vous êtes bénie entre toutes les femmes ; et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant et à l’heure de notre mort. Amen.",
-            "it": "Ave, o Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù. Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell’ora della nostra morte. Amen."
+            "it": "Ave, o Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù. Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell’ora della nostra morte. Amen.",
+            "en": "Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen."
           },
           "audio": {
             "ar": null,
             "fr": null,
-            "it": null
+            "it": null,
+            "en": null
           }
         },
         {
@@ -56,17 +64,20 @@
           "title": {
             "ar": "المجد للآب",
             "fr": "Gloire au Père",
-            "it": "Gloria al Padre"
+            "it": "Gloria al Padre",
+            "en": "Glory Be"
           },
           "text": {
             "ar": "النص العربي بانتظار النص المعتمد.",
             "fr": "Gloire au Père, au Fils et au Saint-Esprit. Comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
-            "it": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, ora e sempre, nei secoli dei secoli. Amen."
+            "it": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, ora e sempre, nei secoli dei secoli. Amen.",
+            "en": "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen."
           },
           "audio": {
             "ar": null,
             "fr": null,
-            "it": null
+            "it": null,
+            "en": null
           }
         },
         {
@@ -74,17 +85,20 @@
           "title": {
             "ar": "قانون الإيمان",
             "fr": "Symbole de Nicée-Constantinople",
-            "it": "Credo niceno-costantinopolitano"
+            "it": "Credo niceno-costantinopolitano",
+            "en": "Nicene Creed"
           },
           "text": {
             "ar": "نُؤْمِنُ بِإِلَهٍ وَاحِدٍ، آبٍ ضَابِطِ الْكُلِّ، خَالِقِ السَّمَاءِ وَالْأَرْضِ، كُلِّ مَا يُرَى وَمَا لَا يُرَى.\n\nوَبِرَبٍّ وَاحِدٍ يَسُوعَ الْمَسِيحِ، اِبْنِ اللهِ الْوَحِيدِ، الْمَوْلُودِ مِنَ الْآبِ قَبْلَ كُلِّ الدُّهُورِ، إِلَهٍ مِنْ إِلَهٍ، نُورٍ مِنْ نُورٍ، إِلَهٍ حَقٍّ مِنْ إِلَهٍ حَقٍّ، مَوْلُودٍ غَيْرِ مَخْلُوقٍ، مُسَاوٍ لِلْآبِ فِي الْجَوْهَرِ، الَّذِي بِهِ كَانَ كُلُّ شَيْءٍ.\n\nالَّذِي مِنْ أَجْلِنَا نَحْنُ الْبَشَرَ، وَمِنْ أَجْلِ خَلَاصِنَا، نَزَلَ مِنَ السَّمَاءِ، وَتَجَسَّدَ مِنَ الرُّوحِ الْقُدُسِ وَمِنْ مَرْيَمَ الْعَذْرَاءِ، وَصَارَ إِنْسَانًا، وَصُلِبَ عَنَّا عَلَى عَهْدِ بِلَاطُسَ الْبُنْطِيِّ.\n\nتَأَلَّمَ وَمَاتَ وَقُبِرَ وَقَامَ فِي الْيَوْمِ الثَّالِثِ كَمَا جَاءَ فِي الْكُتُبِ. وَصَعِدَ إِلَى السَّمَاءِ، وَجَلَسَ عَنْ يَمِينِ اللهِ الْآبِ. وَأَيْضًا يَأْتِي بِمَجْدٍ عَظِيمٍ، لِيَدِينَ الْأَحْيَاءَ وَالْأَمْوَاتَ. الَّذِي لَا فَنَاءَ لِمُلْكِهِ.\n\nوَنُؤْمِنُ بِالرُّوحِ الْقُدُسِ، الرَّبِّ الْمُحْيِي، الْمُنْبَثِقِ مِنَ الْآبِ وَالِابْنِ، الَّذِي هُوَ مَعَ الْآبِ وَالِابْنِ، يُسْجَدُ لَهُ وَيُمَجَّدُ، النَّاطِقِ بِالْأَنْبِيَاءِ وَالرُّسُلِ.\n\nوَبِكَنِيسَةٍ وَاحِدَةٍ، جَامِعَةٍ، مُقَدَّسَةٍ، رَسُولِيَّةٍ. وَنَعْتَرِفُ بِمَعْمُودِيَّةٍ وَاحِدَةٍ لِمَغْفِرَةِ الْخَطَايَا، وَنَتَرَجَّى قِيَامَةَ الْمَوْتَى وَالْحَيَاةَ فِي الدَّهْرِ الْآتِي. آمِينَ.",
             "fr": "Je crois en un seul Dieu, le Père tout-puissant, Créateur du ciel et de la terre, de l’univers visible et invisible. Je crois en un seul Seigneur, Jésus Christ, le Fils unique de Dieu, né du Père avant tous les siècles : Il est Dieu, né de Dieu, lumière, née de la lumière, vrai Dieu, né du vrai Dieu, engendré, non pas créé, de même nature que le Père, et par lui tout a été fait. Pour nous les hommes, et pour notre salut, il descendit du ciel ; par l’Esprit Saint, il a pris chair de la Vierge Marie, et s’est fait homme. Crucifié pour nous sous Ponce Pilate, il souffrit sa passion et fut mis au tombeau. Il ressuscita le troisième jour, conformément aux Écritures, et il monta au ciel ; il est assis à la droite du Père. Il reviendra dans la gloire, pour juger les vivants et les morts ; et son règne n’aura pas de fin. Je crois en l’Esprit Saint, qui est Seigneur et qui donne la vie ; il procède du Père et du Fils ; avec le Père et le Fils, il reçoit même adoration et même gloire ; il a parlé par les prophètes. Je crois en l’Église, une, sainte, catholique et apostolique. Je reconnais un seul baptême pour le pardon des péchés. J’attends la résurrection des morts et la vie du monde à venir. Amen.",
-            "it": "Credo in un solo Dio, Padre onnipotente, Creatore del cielo e della terra, di tutte le cose visibili e invisibili. Credo in un solo Signore, Gesù Cristo, unigenito Figlio di Dio, nato dal Padre prima di tutti i secoli: Dio da Dio, Luce da Luce, Dio vero da Dio vero, generato, non creato, della stessa sostanza del Padre; per mezzo di lui tutte le cose sono state create. Per noi uomini e per la nostra salvezza discese dal cielo, e per opera dello Spirito Santo si è incarnato nel seno della Vergine Maria e si è fatto uomo. Fu crocifisso per noi sotto Ponzio Pilato, morì e fu sepolto. Il terzo giorno è risuscitato, secondo le Scritture, è salito al cielo, siede alla destra del Padre. E di nuovo verrà, nella gloria, per giudicare i vivi e i morti, e il suo regno non avrà fine. Credo nello Spirito Santo, che è Signore e dà la vita, e procede dal Padre e dal Figlio. Con il Padre e il Figlio è adorato e glorificato, e ha parlato per mezzo dei profeti. Credo la Chiesa, una santa cattolica e apostolica. Professo un solo Battesimo per il perdono dei peccati. Aspetto la risurrezione dei morti e la vita del mondo che verrà. Amen."
+            "it": "Credo in un solo Dio, Padre onnipotente, Creatore del cielo e della terra, di tutte le cose visibili e invisibili. Credo in un solo Signore, Gesù Cristo, unigenito Figlio di Dio, nato dal Padre prima di tutti i secoli: Dio da Dio, Luce da Luce, Dio vero da Dio vero, generato, non creato, della stessa sostanza del Padre; per mezzo di lui tutte le cose sono state create. Per noi uomini e per la nostra salvezza discese dal cielo, e per opera dello Spirito Santo si è incarnato nel seno della Vergine Maria e si è fatto uomo. Fu crocifisso per noi sotto Ponzio Pilato, morì e fu sepolto. Il terzo giorno è risuscitato, secondo le Scritture, è salito al cielo, siede alla destra del Padre. E di nuovo verrà, nella gloria, per giudicare i vivi e i morti, e il suo regno non avrà fine. Credo nello Spirito Santo, che è Signore e dà la vita, e procede dal Padre e dal Figlio. Con il Padre e il Figlio è adorato e glorificato, e ha parlato per mezzo dei profeti. Credo la Chiesa, una santa cattolica e apostolica. Professo un solo Battesimo per il perdono dei peccati. Aspetto la risurrezione dei morti e la vita del mondo che verrà. Amen.",
+            "en": "I believe in one God, the Father almighty, maker of heaven and earth, of all things visible and invisible. I believe in one Lord Jesus Christ, the Only Begotten Son of God, born of the Father before all ages. God from God, Light from Light, true God from true God, begotten, not made, consubstantial with the Father; through him all things were made. For us and for our salvation he came down from heaven, and by the Holy Spirit was incarnate of the Virgin Mary, and became man. For our sake he was crucified under Pontius Pilate, he suffered death and was buried, and rose again on the third day in accordance with the Scriptures. He ascended into heaven and is seated at the right hand of the Father. He will come again in glory to judge the living and the dead and his kingdom will have no end. I believe in the Holy Spirit, the Lord, the giver of life, who proceeds from the Father and the Son, who with the Father and the Son is adored and glorified, who has spoken through the prophets. I believe in one, holy, catholic and apostolic Church. I confess one Baptism for the forgiveness of sins and I look forward to the resurrection of the dead and the life of the world to come. Amen."
           },
           "audio": {
             "ar": null,
             "fr": null,
-            "it": null
+            "it": null,
+            "en": null
           }
         },
         {
@@ -92,17 +106,20 @@
           "title": {
             "ar": "السلام عليكِ يا سلطانة",
             "fr": "Salut, ô Reine",
-            "it": "Salve Regina"
+            "it": "Salve Regina",
+            "en": "Hail, Holy Queen"
           },
           "text": {
             "ar": "السَّلَامُ عَلَيْكِ يَا سُلْطَانَةُ، يَا أُمَّ الرَّحْمَةِ.\n\nالسَّلَامُ عَلَيْكِ يَا حَيَاتَنَا وَحَلَاوَتَنَا وَرَجَاءَنَا.\n\nنَصْرُخُ إِلَيْكِ نَحْنُ الْمَنْفِيِّينَ أَوْلَادَ حَوَّاءَ.\n\nنَتَنَهَّدُ إِلَيْكِ نَائِحِينَ وَبَاكِينَ، فِي هَذَا الْوَادِي، وَادِي الدُّمُوعِ.\n\nفَلِذَلِكَ يَا شَفِيعَتَنَا، مِيلِي إِلَيْنَا بِنَظَرِكِ الْحَنُونِ.\n\nوَأَرِينَا بَعْدَ هَذَا الْمَنْفَى يَسُوعَ ثَمَرَةَ بَطْنِكِ الْمُبَارَكَةِ.\n\nيَا حَنُونَةُ، يَا رَؤُوفَةُ، يَا حُلْوَةَ مَرْيَمَ الْبَتُولِ.",
             "fr": "Salut, ô Reine, Mère de miséricorde, notre vie, notre douceur, notre espérance, salut ! Nous crions vers toi, enfants d’Ève exilés. Vers toi nous soupirons, gémissant et pleurant dans cette vallée de larmes. Ô toi, notre avocate, tourne vers nous ton regard miséricordieux. Et, après cet exil, montre-nous Jésus, le fruit béni de tes entrailles. Ô clémente, ô miséricordieuse, ô douce Vierge Marie.",
-            "it": "Salve, Regina, madre di misericordia, vita, dolcezza e speranza nostra, salve. A te ricorriamo, esuli figli di Eva; a te sospiriamo, gementi e piangenti in questa valle di lacrime. Orsù dunque, avvocata nostra, rivolgi a noi gli occhi tuoi misericordiosi. E mostraci, dopo questo esilio, Gesù, il frutto benedetto del tuo seno. O clemente, o pia, o dolce Vergine Maria!"
+            "it": "Salve, Regina, madre di misericordia, vita, dolcezza e speranza nostra, salve. A te ricorriamo, esuli figli di Eva; a te sospiriamo, gementi e piangenti in questa valle di lacrime. Orsù dunque, avvocata nostra, rivolgi a noi gli occhi tuoi misericordiosi. E mostraci, dopo questo esilio, Gesù, il frutto benedetto del tuo seno. O clemente, o pia, o dolce Vergine Maria!",
+            "en": "Hail, holy Queen, Mother of mercy, our life, our sweetness and our hope. To thee do we cry, poor banished children of Eve; to thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us, and after this our exile show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Amen."
           },
           "audio": {
             "ar": null,
             "fr": null,
-            "it": null
+            "it": null,
+            "en": null
           }
         }
       ]
@@ -112,7 +129,8 @@
       "names": {
         "ar": "صلوات الشكر",
         "fr": "Prières de remerciement",
-        "it": "Preghiere di ringraziamento"
+        "it": "Preghiere di ringraziamento",
+        "en": "Prayers of Thanksgiving"
       },
       "prayers": [
         {
@@ -120,17 +138,20 @@
           "title": {
             "ar": "صلاة شكر",
             "fr": "Prière paroissiale de remerciement",
-            "it": "Preghiera parrocchiale di ringraziamento"
+            "it": "Preghiera parrocchiale di ringraziamento",
+            "en": "Parish Prayer of Thanksgiving"
           },
           "text": {
             "ar": "النص العربي بانتظار النص المعتمد.",
             "fr": "Seigneur, je te remercie pour ta grâce, ton amour et tous les dons que tu m’accordes. Aide-moi à vivre avec un cœur reconnaissant et à partager tes bienfaits avec les autres. Amen.",
-            "it": "Signore, ti ringrazio per la tua grazia, il tuo amore e ogni dono che mi concedi. Aiutami a vivere con un cuore riconoscente e a condividere il tuo bene con gli altri. Amen."
+            "it": "Signore, ti ringrazio per la tua grazia, il tuo amore e ogni dono che mi concedi. Aiutami a vivere con un cuore riconoscente e a condividere il tuo bene con gli altri. Amen.",
+            "en": "Lord, I thank you for your grace, your love, and all the gifts you give me. Help me to recognize your blessings each day, to use them generously, and to share them with others. Keep my heart grateful and guide me to live according to your will. Amen."
           },
           "audio": {
             "ar": null,
             "fr": null,
-            "it": null
+            "it": null,
+            "en": null
           }
         }
       ]
@@ -140,7 +161,8 @@
       "names": {
         "ar": "صلوات من أجل السلام",
         "fr": "Prières pour la paix",
-        "it": "Preghiere per la pace"
+        "it": "Preghiere per la pace",
+        "en": "Prayers for Peace"
       },
       "prayers": [
         {
@@ -148,17 +170,20 @@
           "title": {
             "ar": "صلاة من أجل السلام",
             "fr": "Prière paroissiale pour la paix",
-            "it": "Preghiera parrocchiale per la pace"
+            "it": "Preghiera parrocchiale per la pace",
+            "en": "Parish Prayer for Peace"
           },
           "text": {
             "ar": "النص العربي بانتظار النص المعتمد.",
             "fr": "Seigneur de la paix, fais grandir ta paix dans nos cœurs, nos familles et dans le monde. Apprends-nous à être des artisans de réconciliation et d’amour, à rejeter la violence et à choisir la miséricorde. Amen.",
-            "it": "Signore della pace, dona la tua pace ai nostri cuori, alle nostre famiglie e al mondo. Insegnaci a essere strumenti di riconciliazione e di amore, a rifiutare la violenza e a scegliere la misericordia. Amen."
+            "it": "Signore della pace, dona la tua pace ai nostri cuori, alle nostre famiglie e al mondo. Insegnaci a essere strumenti di riconciliazione e di amore, a rifiutare la violenza e a scegliere la misericordia. Amen.",
+            "en": "Lord of peace, let your peace grow in our hearts, our families, and throughout the world. Teach us to forgive, to listen, and to build bridges where there is division. Protect all those who suffer from violence and war, and make us instruments of your peace. Amen."
           },
           "audio": {
             "ar": null,
             "fr": null,
-            "it": null
+            "it": null,
+            "en": null
           }
         }
       ]
