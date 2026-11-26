@@ -28,7 +28,9 @@ const stripMarkers = value => String(value)
   .replace(/\\[a-zA-Z0-9+]+\*?/g,' ')
   .replace(/\|[a-zA-Z0-9_-]+="[^"]*"/g,'')
   .replace(/[{}]/g,'')
-  .replace(/\s+/g,' ').trim();
+  .replace(/\s+/g,' ')
+  .replace(/\s+([,.;:!?])/g,'$1')
+  .replace(/\s+([’'])/g,'$1').trim();
 
 function parseUsfm(raw, bookName, slug) {
   const chapters=[];
