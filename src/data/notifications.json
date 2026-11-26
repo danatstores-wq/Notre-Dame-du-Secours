@@ -1,6 +1,11 @@
 {
   "version": 1,
-  "languages": ["ar", "fr", "it"],
+  "languages": [
+    "ar",
+    "fr",
+    "it",
+    "en"
+  ],
   "categories": [
     "importantAnnouncements",
     "massUpdates",
