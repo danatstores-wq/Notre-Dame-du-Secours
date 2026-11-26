@@ -9,10 +9,10 @@ service firebase.storage {
 
     match /parish-media/{fileName} {
       allow read: if true;
-      allow write: if isPriest()
-        && request.resource != null
+      allow create, update: if isPriest()
         && request.resource.size < 8 * 1024 * 1024
         && request.resource.contentType.matches('image/.*');
+      allow delete: if isPriest();
     }
 
     match /{allPaths=**} {
