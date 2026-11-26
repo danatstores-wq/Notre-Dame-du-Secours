@@ -232,7 +232,22 @@
     }
     .nav-item.active { color: var(--gold-light); font-weight: 700; }
     .nav-item img { width: 24px; height: 24px; }
-      .mass-calendar{border:1px solid rgba(229,182,87,.55);border-radius:16px;padding:12px;background:rgba(8,22,45,.82);margin-bottom:18px}
+  
+    .saints-cal-wrap{border:1px solid rgba(229,182,87,.6);border-radius:16px;padding:12px;background:rgba(8,22,45,.86);margin:10px 0 16px}
+    .saints-cal-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+    .saints-cal-head button,.saints-cal-date{border:1px solid rgba(229,182,87,.55);background:rgba(229,182,87,.12);color:#fff;border-radius:9px;padding:8px 11px;font:inherit}
+    .saints-cal-head strong{color:var(--gold-light);text-align:center}
+    .saints-cal-date{width:100%;margin:0 0 12px;color-scheme:dark}
+    .saints-cal-week,.saints-cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center}
+    .saints-cal-week{font-size:.72rem;color:#e8d5a9;margin-bottom:7px}
+    .saints-cal-day{min-width:0;aspect-ratio:1;border:1px solid rgba(229,182,87,.2);border-radius:9px;background:rgba(255,255,255,.04);color:#fff;font:inherit;cursor:pointer}
+    .saints-cal-day.selected{background:var(--gold);color:#17233a;font-weight:800}
+    .saints-source-card{border:1px solid rgba(229,182,87,.45);border-radius:14px;padding:13px;margin:10px 0;background:rgba(8,22,45,.82)}
+    .saints-source-card h3{color:var(--gold-light);margin-bottom:8px;font-size:1rem}
+    .saints-source-card p{line-height:1.8;margin:5px 0}
+    .saints-source-card .source-tag{font-size:.72rem;color:#e8d5a9;margin-top:9px}
+    .saints-loading{color:#e8d5a9;padding:12px;text-align:center}
+    .mass-calendar{border:1px solid rgba(229,182,87,.55);border-radius:16px;padding:12px;background:rgba(8,22,45,.82);margin-bottom:18px}
     .mass-calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;color:var(--gold-light)}
     .mass-calendar-head button,.mass-calendar-today{border:1px solid rgba(229,182,87,.55);background:rgba(229,182,87,.12);color:#fff;border-radius:9px;padding:8px 13px;font:inherit;cursor:pointer}
     .mass-calendar-week,.mass-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center}
@@ -312,6 +327,8 @@
       <main class="cards-grid" id="cards-container"></main>
     </div>
     <section class="feature-screen" id="bible-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeBible()" id="bible-back">←</button><h2 id="bible-title"></h2></div><div class="feature-content" id="bible-content"></div></section>
+
+    <section class="feature-screen" id="saints-calendar-screen" aria-live="polite"><div class="screen-heading"><button class="back-btn" onclick="closeSaintsCalendar()" id="saints-calendar-back">←</button><h2 id="saints-calendar-title"></h2></div><div class="feature-content" id="saints-calendar-content"></div></section>
     <section class="feature-screen" id="mass-screen" aria-live="polite">
       <div class="screen-heading"><button class="back-btn" onclick="closeFeature()" id="mass-back">←</button><h2 id="mass-title"></h2></div>
       <div class="feature-tabs" id="mass-tabs"></div><div class="feature-content" id="mass-content"></div>
@@ -364,6 +381,7 @@
             "العهد القديم والجديد",
             "📖"
           ],
+          ["تقويم القدّيسين","القدّيسون الكاثوليك والموارنة","assets/icons/icon-saints-calendar.svg"],
         ],
         "nav": [
           "الرئيسية",
@@ -415,6 +433,7 @@
             "Ancien et Nouveau Testament",
             "📖"
           ],
+          ["Calendrier des Saints","Saints catholiques et maronites","assets/icons/icon-saints-calendar.svg"],
         ],
         "nav": [
           "Accueil",
@@ -466,6 +485,7 @@
             "Antico e Nuovo Testamento",
             "📖"
           ],
+          ["Calendario dei Santi","Santi cattolici e maroniti","assets/icons/icon-saints-calendar.svg"],
         ],
         "nav": [
           "Home",
@@ -602,13 +622,71 @@
     function chooseMassDate(key){selectedMassDate=key;const d=new Date(key+'T12:00:00');massCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassContent();}
     function changeMassMonth(delta){massCalendarMonth=new Date(massCalendarMonth.getFullYear(),massCalendarMonth.getMonth()+delta,1);renderMassContent();}
     function goMassToday(){const d=new Date();selectedMassDate=dateKey(d);massCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassContent();}
-    function openFeature(index){if(index!==0)return;document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();}
+    function openFeature(index){if(index===7){openSaintsCalendar();return;}if(index!==0)return;document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();}
     function closeFeature(){document.getElementById('mass-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     async function loadMassData(){const labels=massLabels[currentLang];document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';try{const response=await fetch('src/data/mass-schedule.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');massData=await response.json();renderMassContent();}catch(e){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.error+'</p>';}}
     function renderMassScreen(){const labels=massLabels[currentLang];document.getElementById('mass-title').textContent=labels.title;document.getElementById('mass-back').textContent=labels.back;document.getElementById('mass-tabs').innerHTML=labels.tabs.map((label,index)=>'<button class="feature-tab '+(index===massTab?'active':'')+'" onclick="selectMassTab('+index+')">'+label+'</button>').join('');renderMassContent();}
     function selectMassTab(index){massTab=index;renderMassScreen();}
     function renderMassContent(){const labels=massLabels[currentLang];if(!massData){document.getElementById('mass-content').innerHTML='<p class="empty-state">'+labels.loading+'</p>';return;}renderMassCalendar();}
     function escapeHtml(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+
+    const saintsCalendarLabels={
+      ar:{title:'تقويم القدّيسين',back:'رجوع',month:'الشهر',catholic:'الكنيسة الكاثوليكية — التقويم الروماني العام',maronite:'الكنيسة المارونية — السنكسار',choose:'اختر تاريخاً لعرض تذكارات القدّيسين',loading:'جارٍ تحميل تذكارات هذا اليوم…',none:'لا توجد تذكرة قدّيس مسجّلة لهذا التاريخ في المصدر المتاح.',error:'تعذّر تحميل هذا التقويم الآن. تحقّق من اتصال الإنترنت وحاول مجدداً.',days:['أح','إث','ثلا','أر','خم','جم','سب'],sourceCatholic:'المصدر: التقويم الروماني العام',sourceMaronite:'المصدر: الرهبانية اللبنانية المارونية'},
+      fr:{title:'Calendrier des Saints',back:'Retour',month:'Mois',catholic:'Église catholique — Calendrier romain général',maronite:'Église maronite — Synaxaire',choose:'Choisissez une date pour voir les saints commémorés',loading:'Chargement des commémorations…',none:'Aucune commémoration de saint n’est enregistrée pour cette date dans la source disponible.',error:'Impossible de charger le calendrier. Vérifiez votre connexion et réessayez.',days:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],sourceCatholic:'Source : Calendrier romain général',sourceMaronite:'Source : Ordre libanais maronite'},
+      it:{title:'Calendario dei Santi',back:'Indietro',month:'Mese',catholic:'Chiesa cattolica — Calendario romano generale',maronite:'Chiesa maronita — Sinassario',choose:'Seleziona una data per vedere i santi commemorati',loading:'Caricamento delle commemorazioni…',none:'Nessuna commemorazione di santi registrata per questa data nella fonte disponibile.',error:'Impossibile caricare il calendario. Controlla la connessione e riprova.',days:['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],sourceCatholic:'Fonte: Calendario romano generale',sourceMaronite:'Fonte: Ordine Libanese Maronita'}
+    };
+    let saintsCalDate=new Date();saintsCalDate.setHours(12,0,0,0);
+    let saintsRomanYearCache={},saintsDayCache={};
+    const pad2=n=>String(n).padStart(2,'0');
+    function saintsDateKey(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+    function openSaintsCalendar(){document.getElementById('home-view').classList.add('hidden');document.getElementById('saints-calendar-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderSaintsCalendar();}
+    function closeSaintsCalendar(){document.getElementById('saints-calendar-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
+    function moveSaintsMonth(delta){saintsCalDate=new Date(saintsCalDate.getFullYear(),saintsCalDate.getMonth()+delta,Math.min(saintsCalDate.getDate(),28),12);renderSaintsCalendar();}
+    function chooseSaintsDate(value){if(!value)return;const d=new Date(value+'T12:00:00');if(!Number.isNaN(d.getTime())){saintsCalDate=d;renderSaintsCalendar();}}
+    function renderSaintsCalendar(){
+      const l=saintsCalendarLabels[currentLang],host=document.getElementById('saints-calendar-content');
+      document.getElementById('saints-calendar-title').textContent=l.title;document.getElementById('saints-calendar-back').textContent=l.back;
+      const y=saintsCalDate.getFullYear(),m=saintsCalDate.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),selected=saintsCalDate.getDate();
+      const monthName=new Intl.DateTimeFormat(currentLang==='ar'?'ar':currentLang==='fr'?'fr':'it',{month:'long',year:'numeric'}).format(saintsCalDate);
+      let cells='';for(let i=0;i<first;i++)cells+='<span class="mass-calendar-empty"></span>';
+      for(let d=1;d<=days;d++)cells+='<button class="saints-cal-day '+(d===selected?'selected':'')+'" onclick="chooseSaintsDate(\''+y+'-'+pad2(m+1)+'-'+pad2(d)+'\')">'+d+'</button>';
+      host.innerHTML='<p class="bible-note">'+l.choose+'</p><div class="saints-cal-wrap"><div class="saints-cal-head"><button onclick="moveSaintsMonth(-1)" aria-label="Previous month">‹</button><strong>'+escapeHtml(monthName)+'</strong><button onclick="moveSaintsMonth(1)" aria-label="Next month">›</button></div><input class="saints-cal-date" type="date" value="'+saintsDateKey(saintsCalDate)+'" onchange="chooseSaintsDate(this.value)" aria-label="'+l.month+'"><div class="saints-cal-week">'+l.days.map(x=>'<span>'+x+'</span>').join('')+'</div><div class="saints-cal-grid">'+cells+'</div></div><div id="saints-day-results"><p class="saints-loading">'+l.loading+'</p></div>';
+      loadSaintsForDate(saintsCalDate);
+    }
+    async function loadSaintsForDate(date){
+      const key=saintsDateKey(date),l=saintsCalendarLabels[currentLang],box=document.getElementById('saints-day-results');if(!box)return;
+      box.innerHTML='<p class="saints-loading">'+l.loading+'</p>';
+      const [roman,maronite]=await Promise.allSettled([loadRomanSaints(date),loadMaroniteSaints(date)]);
+      if(!document.getElementById('saints-day-results'))return;
+      const romanHtml=roman.status==='fulfilled'?renderRomanSaints(roman.value,l):'<p>'+l.error+'</p>';
+      const maroniteHtml=maronite.status==='fulfilled'?renderMaroniteSaints(maronite.value,l):'<p>'+l.error+'</p>';
+      box.innerHTML='<div class="saints-source-card"><h3>'+l.catholic+'</h3>'+romanHtml+'<p class="source-tag">'+l.sourceCatholic+'</p></div><div class="saints-source-card"><h3>'+l.maronite+'</h3>'+maroniteHtml+'<p class="source-tag">'+l.sourceMaronite+'</p></div>';
+    }
+    async function loadRomanSaints(date){
+      const y=date.getFullYear(),key=String(y);if(!saintsRomanYearCache[key]){
+        const r=await fetch('https://litcal.johnromanodorazio.com/api/v5/calendar/'+y+'?locale='+({ar:'ar',fr:'fr',it:'it'}[currentLang]||'en'));
+        if(!r.ok)throw new Error('Roman calendar unavailable');saintsRomanYearCache[key]=await r.json();
+      }
+      const data=saintsRomanYearCache[key],events=data.litcal||data.calendar||data.events||[];
+      return events.filter(e=>Number(e.month)===date.getMonth()+1&&Number(e.day)===date.getDate()).map(e=>({name:e.name,rank:e.grade||e.rank||e.type||''}));
+    }
+    async function loadMaroniteSaints(date){
+      const key=saintsDateKey(date);if(saintsDayCache[key])return saintsDayCache[key];
+      const r=await fetch('https://olm.org.lb/en/liturgical-calendar/'+key);if(!r.ok)throw new Error('Maronite calendar unavailable');
+      const html=await r.text(),doc=new DOMParser().parseFromString(html,'text/html');
+      let textContent=doc.body?doc.body.innerText||doc.body.textContent:html.replace(/<[^>]*>/g,' ');
+      textContent=textContent.replace(/\r/g,'').replace(/[ \t]+/g,' ');
+      const match=textContent.match(/Synaxarion\s*([\s\S]*?)(?:Gospel|Liturgical Year|Previous day|$)/i);
+      let names=match?match[1].split('\n').map(x=>x.trim()).filter(Boolean):[];
+      names=names.filter(x=>!/^Synaxarion$/i.test(x)&&!/^\d+\s+[A-Z]/.test(x)).slice(0,20);
+      if(!names.length)throw new Error('Maronite Synaxarion not found');saintsDayCache[key]=names;return names;
+    }
+    function renderRomanSaints(items,l){
+      if(!items.length)return '<p>'+l.none+'</p>';
+      return items.map(e=>'<p><strong>'+escapeHtml(e.name||'')+'</strong>'+(e.rank?' — '+escapeHtml(String(e.rank)):'')+'</p>').join('');
+    }
+    function renderMaroniteSaints(items,l){if(!items.length)return '<p>'+l.none+'</p>';return items.map(n=>'<p>'+escapeHtml(n)+'</p>').join('');}
 
     const bibleLabels={
       ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — اليسوعية',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
