@@ -18,17 +18,17 @@ function decodeEntities(value) {
     .replace(/&nbsp;|&#160;/gi, ' ')
     .replace(/&amp;/gi, '&').replace(/&quot;/gi, '"')
     .replace(/&#39;|&apos;/gi, "'").replace(/&lt;/gi, '<').replace(/&gt;/gi, '>')
-    .replace(/&#(\\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
     .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)));
 }
 
 function htmlToLines(html) {
   return decodeEntities(html
-    .replace(/<script[\\s\\S]*?<\\/script>|<style[\\s\\S]*?<\\/style>/gi, ' ')
-    .replace(/<\\/(p|div|li|h[1-6]|section|article|br|tr)>/gi, '\\n')
+    .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<\/(p|div|li|h[1-6]|section|article|br|tr)>/gi, '\n')
     .replace(/<[^>]+>/g, ' '))
-    .replace(/[\\t\\f\\v ]+/g, ' ')
-    .split(/\\r?\\n/).map(x => x.trim()).filter(Boolean);
+    .replace(/[\t\f\v ]+/g, ' ')
+    .split(/\r?\n/).map(x => x.trim()).filter(Boolean);
 }
 
 function parseSynaxarion(html, locale) {
@@ -40,9 +40,9 @@ function parseSynaxarion(html, locale) {
   const names = [];
   for (let i = start + 1; i < lines.length; i++) {
     const line = lines[i];
-    if (stop.test(line) || /^\\d{1,2}\\s+[A-Z][a-z]{2}\\s+\\d{4}$/i.test(line)) break;
+    if (stop.test(line) || /^\d{1,2}\s+[A-Z][a-z]{2}\s+\d{4}$/i.test(line)) break;
     if (/^(Back to Today|Today|Synaxarion)$/i.test(line)) continue;
-    const name = line.replace(/^[-•*]\\s*/, '').trim();
+    const name = line.replace(/^[-•*]\s*/, '').trim();
     if (name.length > 1 && !names.includes(name)) names.push(name);
   }
   return names;
