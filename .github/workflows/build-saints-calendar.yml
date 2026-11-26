@@ -37,7 +37,9 @@ jobs:
         run: |
           YEAR="$INPUT_YEAR"
           if [ -z "$YEAR" ]; then YEAR="$(date -u +%Y)"; fi
+          NEXT_YEAR="$((YEAR + 1))"
           node scripts/build-saints-calendar.mjs "$YEAR"
+          node scripts/build-saints-calendar.mjs "$NEXT_YEAR"
       - name: Commit bundled offline calendar
         run: |
           git config user.name "github-actions[bot]"
