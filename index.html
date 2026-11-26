@@ -1614,7 +1614,7 @@ function authError(err){
  return maps[document.documentElement.lang]?.[err?.code]||maps.en[err?.code]||err?.message||maps.en["auth/invalid-credential"];
 }
 async function loadCmsEditor(){
- const t=lang(),key=document.getElementById("parish-cms-type").value,editor=document.getElementById("parish-cms-editor");currentCmsKey=key;
+ const t=lang(),key=document.getElementById("parish-cms-type").value,editor=document.getElementById("parish-cms-editor");currentCmsKey=key;editor.style.display="block";
  try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));let payload;if(snap.exists())payload=snap.data().payload;else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");payload=await fallback.json();}if(payload&&typeof payload==="object"&&!Array.isArray(payload)){delete payload._notes;if(key==="announcements"||key==="parishLife")delete payload.note;if(key==="prayers"){delete payload.reviewNote;delete payload.prayerSourceAudit;}}editor.value=JSON.stringify(payload,null,2);if(key==="massSchedule")renderMassScheduleAdmin();else if(key==="announcements")renderAnnouncementsAdmin();else if(key==="prayers")renderPrayerAdmin();else if(key==="parishLife")renderParishLifeAdmin();else{const panel=document.getElementById("mass-admin-panel");if(panel)panel.style.display="none";document.getElementById("parish-cms-editor").style.display="block";}status(lang().loaded);}
  catch(err){status(authError(err),true);}
 }
@@ -1741,8 +1741,8 @@ function renderAnnouncementsAdmin(){
   html+="<button class='feature-tab' type='button' data-ann-delete='"+i+"'>"+labels.remove+"</button></section>";
  });
  html+="<button class='feature-tab' type='button' id='announcement-admin-add'>"+labels.add+"</button>";
- panel.innerHTML=html;panel.style.display="block";
- panel.querySelectorAll("[data-ann-field]").forEach(input=>input.addEventListener("change",()=>{
+ panel.innerHTML=html;panel.style.display="block";editor.style.display="none";
+ panel.querySelectorAll("[data-ann-field]").forEach(input=>input.addEventListener("input",()=>{
   const p=JSON.parse(editor.value||"{}"),idx=Number(input.dataset.annRow),field=input.dataset.annField;
   p.announcements[idx][field]=input.value;editor.value=JSON.stringify(p,null,2);
  }));
@@ -1837,7 +1837,7 @@ async function saveCmsEditor(){
   }
   await currentUser.getIdToken(true);
   const payload=JSON.parse(document.getElementById("parish-cms-editor").value),key=document.getElementById("parish-cms-type").value;
-   if(payload&&typeof payload==="object"&&!Array.isArray(payload)){delete payload._notes;if(key==="prayers"){delete payload.reviewNote;delete payload.prayerSourceAudit;}}
+   if(payload&&typeof payload==="object"&&!Array.isArray(payload)){delete payload._notes;if(key==="announcements"||key==="parishLife")delete payload.note;if(key==="prayers"){delete payload.reviewNote;delete payload.prayerSourceAudit;}}
   currentCmsKey=key;
   await setDoc(doc(db,"siteContent",key),{payload,updatedAt:serverTimestamp(),updatedBy:currentUser.email});
   status(lang().saved);
@@ -1850,7 +1850,7 @@ async function saveCmsEditor(){
     it:"Firestore ha bloccato il salvataggio. Accedi con notredamedusecours5@gmail.com, verifica l’indirizzo e pubblica le regole che autorizzano questo account verificato a modificare siteContent."
    };
    status(messages[document.documentElement.lang]||messages.en,true);
-  }else status(err instanceof SyntaxError?lang().badJson:authError(err),true);
+  }else status(err instanceof SyntaxError?(document.documentElement.lang==="ar"?"تعذّر حفظ الإعلان لأن بيانات المحرر ليست JSON صالحة. أعد تحميل الإعلانات ثم عدّلها من الحقول الظاهرة فقط.":document.documentElement.lang==="fr"?"Impossible d’enregistrer : les données de l’éditeur ne sont pas un JSON valide. Rechargez les annonces et modifiez uniquement les champs affichés.":document.documentElement.lang==="it"?"Impossibile salvare: i dati dell’editor non sono JSON validi. Ricarica gli avvisi e modifica solo i campi visualizzati.":"Could not save: the editor data is not valid JSON. Reload Announcements and edit only the visible fields."):authError(err),true);
  }
 }
 async function uploadParishImage(event){
