@@ -1,0 +1,1 @@
+English text: Douay-Rheims American Edition (1899), public domain.\nSource: eBible.org, https://ebible.org/engDRA/ and https://ebible.org/Scriptures/engDRA_usfm.zip\nThe complete 73-book Catholic canon, including the Deuterocanonical books, is bundled in this app.\nUSFM files are converted into local JSON for the Notre-Dame-du-Secours reader.
