@@ -665,14 +665,21 @@
       box.innerHTML='<div class="saints-source-card"><h3>'+l.catholic+'</h3>'+romanHtml+'<p class="source-tag">'+l.sourceCatholic+'</p><p class="source-tag"><a href="https://www.vatican.va/content/romancuria/en/dicasteri/dicastero-culto-divino-e-disciplina-sacramenti/documenti.html" target="_blank" rel="noopener" style="color:#fff0b3">Official Vatican decrees</a></p></div><div class="saints-source-card"><h3>'+l.maronite+'</h3>'+maroniteHtml+'<p class="source-tag">'+l.sourceMaronite+'</p><p class="source-tag"><a href="https://olm.org.lb/'+(currentLang==='ar'?'ar':'en')+'/liturgical-calendar/'+key+'" target="_blank" rel="noopener" style="color:#fff0b3">Official Maronite Synaxarion</a></p></div>';
     }
     async function loadRomanSaints(date){
+      // Request a civil year so January-December are all present in one consistent dataset.
+      // LitCal supports en/fr/it (not Arabic); Arabic currently uses the English source names.
       const y=date.getFullYear(),locale=currentLang==='fr'?'fr':currentLang==='it'?'it':'en',key=y+'-'+locale;
       if(!saintsRomanYearCache[key]){
-        const r=await fetch('https://litcal.johnromanodorazio.com/api/v5/calendar/'+y+'?locale='+locale);
+        const url='https://litcal.johnromanodorazio.com/api/v5/calendar/'+y+'?locale='+locale+'&year_type=CIVIL';
+        const r=await fetch(url);
         if(!r.ok)throw new Error('Roman calendar unavailable');
-        saintsRomanYearCache[key]=await r.json();
+        const data=await r.json();
+        if(!data||!Array.isArray(data.litcal))throw new Error('Unexpected Roman calendar response');
+        saintsRomanYearCache[key]=data.litcal;
       }
-      const data=saintsRomanYearCache[key],events=data.litcal||data.calendar||data.events||[];
-      return events.filter(e=>Number(e.month)===date.getMonth()+1&&Number(e.day)===date.getDate()).map(e=>({name:e.name,rank:e.grade||e.rank||e.type||''}));
+      return saintsRomanYearCache[key]
+        .filter(e=>Number(e.month)===date.getMonth()+1&&Number(e.day)===date.getDate())
+        .map(e=>({name:e.name||e.event_key||'',rank:e.grade||e.rank||e.celebration_rank||''}))
+        .filter(e=>e.name);
     }
     async function loadMaroniteSaints(date){
       const key=saintsDateKey(date),locale=currentLang==='ar'?'ar':'en',cacheKey=locale+'-'+key;
@@ -686,11 +693,14 @@
       const start=lines.findIndex(x=>x.replace(/[：:]/g,'').trim()===heading);
       if(start<0)throw new Error('Maronite Synaxarion heading not found');
       const names=[];
-      for(let i=start+1;i<lines.length&&names.length<20;i++){
+      for(let i=start+1;i<lines.length&&names.length<30;i++){
         const line=lines[i];
         if(/^(Liturgical Year|Gospel|Previous day|Next day|Liturgy service|Letter|السنّة الطقسيّة|السنة الطقسية|الإنجيل|اليوم السابق|اليوم التالي|خدمة الليتورجيا|خدمة الليتورجيّا|الرسالة)/i.test(line))break;
-        if(/^\\d{1,2}\\s+[A-Z][a-z]{2}\\s+\\d{4}$/.test(line))break;
-        if(line!==heading&&line.length>1&&!/^(Back to Today|Today|Synaxarion)$/i.test(line))names.push(line.replace(/^[-•*]\\s*/,''));
+        if(/^\\d{1,2}\\s+[A-Z][a-z]{2}\\s+\\d{4}$/i.test(line))break;
+        if(line!==heading&&line.length>1&&!/^(Back to Today|Today|Synaxarion)$/i.test(line)){
+          const name=line.replace(/^[-•*]\\s*/,'').trim();
+          if(name&&!names.includes(name))names.push(name);
+        }
       }
       if(!names.length)throw new Error('Maronite Synaxarion entries not found');
       saintsDayCache[cacheKey]=names;return names;
