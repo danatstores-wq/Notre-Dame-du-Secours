@@ -622,7 +622,7 @@
     async function bibleDbGet(store,key){const db=await bibleDb();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readonly'),req=tx.objectStore(store).get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);tx.oncomplete=()=>db.close();});}
     async function bibleDbSet(store,key,value){const db=await bibleDb();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(value,key);tx.oncomplete=()=>{db.close();resolve(true);};tx.onerror=()=>{db.close();reject(tx.error||new Error('Offline save failed'));};});}
     async function bibleCacheGet(key){try{return await bibleDbGet(key.endsWith('-index')?'meta':'chapters',key);}catch(_){return null;}}
-    async function bibleCacheSet(key,value){try{await bibleDbSet(key==='it-index'?'meta':'chapters',key,value);}catch(_){/* continue online if offline storage is unavailable */}}
+    async function bibleCacheSet(key,value){try{await bibleDbSet(key.endsWith('-index')?'meta':'chapters',key,value);}catch(_){/* continue online if offline storage is unavailable */}}
     async function downloadItalianBible(){
       const button=document.getElementById('bible-download-all'),status=document.getElementById('bible-download-status');
       if(!button||!status||!bibleIndex)return;
