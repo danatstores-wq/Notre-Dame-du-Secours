@@ -6,7 +6,7 @@
     "it",
     "en"
   ],
-  "reviewNote": "The four Arabic prayers (Our Father, Hail Mary, Nicene Creed, and Salve Regina) now use the fully vowelled text approved by the user in this conversation. Arabic audio recordings are pending generation because the connected HeyGen account has insufficient remaining monthly speech allowance. Other Arabic prayer texts remain pending approval. Clergy review is required before publication.",
+  "reviewNote": "The four Arabic prayers (Our Father, Hail Mary, Nicene Creed, and Salve Regina) now use the fully vowelled text approved by the user in this conversation. Arabic audio recordings are pending generation because the connected HeyGen account has insufficient remaining monthly speech allowance. Other Arabic prayer texts remain pending approval. Clergy review is required before publication. New four-language devotions have been added with source attribution. Some chaplets and the Marian difficult-intentions novena are traditional/private devotional forms, not universal liturgical texts; translations should receive parish clergy review before being treated as approved parish wording.",
   "categories": [
     {
       "id": "common",
@@ -184,6 +184,241 @@
             "fr": null,
             "it": null,
             "en": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "traditional-devotions",
+      "names": {
+        "ar": "تسابيح وتساعيات وصلوات تقليدية",
+        "fr": "Chapelets, neuvaines et prières traditionnelles",
+        "it": "Coroncine, novene e preghiere tradizionali",
+        "en": "Chaplets, Novenas & Traditional Prayers"
+      },
+      "prayers": [
+        {
+          "id": "holy-wounds-chaplet",
+          "title": {
+            "ar": "مسبحة جراحات المسيح المقدسة",
+            "fr": "Chapelet des Saintes Plaies de Jésus",
+            "it": "Coroncina delle Sante Piaghe di Gesù",
+            "en": "Chaplet of the Holy Wounds"
+          },
+          "text": {
+            "ar": "تُصلّى هذه المسبحة على حبّات المسبحة الوردية.\n\nعلى الحبّة الكبيرة: أيها الآب الأزلي، أقدّم لك جراحات سيدنا يسوع المسيح، لكي تشفي جراحات نفوسنا.\n\nعلى الحبّات الصغيرة: يا يسوع، اغفر لنا وارحمنا، باستحقاقات جراحاتك المقدسة.\n\nتُكرّر الصلاة على مجموعات الحبّات، مع التأمل في آلام المسيح وجراحاته، وتُختتم بالصلاة: أيها الآب الأزلي، إني أقدّم لك جراحات يسوع المسيح، مخلّصنا، من أجل خلاصنا وخلاص العالم. آمين.\n\nهذه صيغة تقليدية تعبدية؛ يُرجى مراجعة الكاهن لاعتماد الصيغة المحلية.",
+            "fr": "Cette dévotion se prie sur un chapelet. Sur le gros grain : Père éternel, je vous offre les plaies de Notre Seigneur Jésus-Christ, pour guérir les plaies de nos âmes. Sur les petits grains : Jésus, pardon et miséricorde, par les mérites de vos saintes plaies. Répétez la prière sur les grains en méditant la Passion du Christ. Terminez par : Père éternel, je vous offre les saintes plaies de Jésus, notre Sauveur, pour notre salut et celui du monde. Amen.\n\nForme traditionnelle de dévotion ; faire vérifier la formulation locale par le clergé.",
+            "it": "Questa devozione si recita usando una corona del Rosario. Sul grano grande: Padre eterno, ti offro le piaghe di nostro Signore Gesù Cristo, perché siano guarite le ferite delle nostre anime. Sui grani piccoli: Gesù, perdono e misericordia, per i meriti delle tue sante piaghe. Ripetere la preghiera sui grani meditando la Passione di Cristo. Concludere: Padre eterno, ti offro le sante piaghe di Gesù, nostro Salvatore, per la nostra salvezza e quella del mondo. Amen.\n\nForma devozionale tradizionale; chiedere al clero la verifica della formulazione locale.",
+            "en": "Pray this devotion on a rosary. On each large bead: Eternal Father, I offer You the wounds of Our Lord Jesus Christ, to heal the wounds of our souls. On the small beads: Jesus, pardon and mercy, through the merits of Your holy wounds. Repeat while meditating on Christ’s Passion. Conclude: Eternal Father, I offer You the holy wounds of Jesus, our Savior, for our salvation and the salvation of the world. Amen.\n\nThis is a traditional devotion; ask parish clergy to review the local wording."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.youtube.com/watch?v=SeMDiN5wkZ0",
+          "sourceNote": {
+            "ar": "مرجع تعبدي تقليدي؛ ليس نصاً ليتورجياً عاماً.",
+            "fr": "Référence de dévotion traditionnelle ; pas un texte liturgique universel.",
+            "it": "Riferimento devozionale tradizionale; non è un testo liturgico universale.",
+            "en": "Traditional devotional reference; not a universal liturgical text."
+          }
+        },
+        {
+          "id": "act-of-contrition",
+          "title": {
+            "ar": "فعل الندامة",
+            "fr": "Acte de contrition",
+            "it": "Atto di dolore",
+            "en": "Act of Contrition"
+          },
+          "text": {
+            "ar": "إلهي، أنا نادم من كل قلبي على جميع خطاياي، لأنني بخطاياي استحققت عقوباتك العادلة، ولا سيما لأنني أسأت إليك، يا إلهي، الصالح المستحق كل حب. لذلك أريد بنعمتك أن لا أعود إلى الخطيئة، وأن أتجنب كل ما يوقعني فيها. آمين.",
+            "fr": "Mon Dieu, j’ai un très grand regret de vous avoir offensé, parce que vous êtes infiniment bon et que le péché vous déplaît. Je prends la ferme résolution, avec le secours de votre sainte grâce, de ne plus vous offenser et de faire pénitence. Amen.",
+            "it": "Mio Dio, mi pento e mi dolgo con tutto il cuore dei miei peccati, perché peccando ho meritato i tuoi castighi e soprattutto perché ho offeso te, infinitamente buono e degno di essere amato sopra ogni cosa. Propongo, con il tuo santo aiuto, di non offenderti mai più e di fuggire le occasioni prossime di peccato. Amen.",
+            "en": "O my God, I am heartily sorry for having offended You, and I detest all my sins because of Your just punishments, but most of all because they offend You, my God, who are all-good and deserving of all my love. I firmly resolve, with the help of Your grace, to sin no more and to avoid the near occasions of sin. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.usccb.org/prayers/act-contrition",
+          "sourceNote": {
+            "ar": "الصيغة العربية ترجمة رعوية؛ تُراجع مع النص المعتمد في الرعية.",
+            "fr": "Texte de prière catholique ; voir la ressource de l’USCCB.",
+            "it": "Preghiera cattolica; consultare la risorsa USCCB.",
+            "en": "USCCB Catholic prayer resource."
+          }
+        },
+        {
+          "id": "prayer-holy-spirit",
+          "title": {
+            "ar": "صلاة إلى الروح القدس",
+            "fr": "Prière au Saint-Esprit",
+            "it": "Preghiera allo Spirito Santo",
+            "en": "Prayer to the Holy Spirit"
+          },
+          "text": {
+            "ar": "هلمّ أيها الروح القدس، واملأ قلوب مؤمنيك، وأضرم فيها نار محبتك. أرسل روحك فيُخلقوا، وتُجدّد وجه الأرض.\n\nلنصلِّ: يا الله، يا من علّمت قلوب المؤمنين بنور الروح القدس، هب لنا أن نعرف بالروح نفسه ما هو صالح، وأن ننعم دائماً بتعزيته. بالمسيح ربنا. آمين.",
+            "fr": "Viens, Esprit Saint, remplis le cœur de tes fidèles et allume en eux le feu de ton amour. Envoie ton Esprit, et tout sera créé, et tu renouvelleras la face de la terre.\n\nPrions : Dieu qui as instruit le cœur de tes fidèles par la lumière du Saint-Esprit, donne-nous, par ce même Esprit, de goûter ce qui est juste et de jouir toujours de sa consolation. Par Jésus Christ, notre Seigneur. Amen.",
+            "it": "Vieni, Santo Spirito, riempi i cuori dei tuoi fedeli e accendi in essi il fuoco del tuo amore. Manda il tuo Spirito e sarà una nuova creazione, e rinnoverai la faccia della terra.\n\nPreghiamo: O Dio, che hai illuminato i cuori dei fedeli con la luce dello Spirito Santo, concedi a noi, guidati dallo stesso Spirito, di conoscere ciò che è bene e di godere sempre della sua consolazione. Per Cristo nostro Signore. Amen.",
+            "en": "Come, Holy Spirit, fill the hearts of your faithful and kindle in them the fire of your love. Send forth your Spirit and they shall be created, and You shall renew the face of the earth.\n\nLet us pray: O God, who have taught the hearts of the faithful by the light of the Holy Spirit, grant that in the same Spirit we may be truly wise and ever rejoice in His consolation. Through Christ our Lord. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.usccb.org/prayers/prayer-holy-spirit",
+          "sourceNote": {
+            "ar": "الصلاة منشورة لدى مجلس أساقفة الولايات المتحدة الكاثوليك.",
+            "fr": "Prière publiée par la Conférence des évêques catholiques des États-Unis.",
+            "it": "Preghiera pubblicata dalla Conferenza dei Vescovi Cattolici degli Stati Uniti.",
+            "en": "Prayer published by the United States Conference of Catholic Bishops."
+          }
+        },
+        {
+          "id": "holy-souls-chaplet",
+          "title": {
+            "ar": "مسبحة الأنفس المطهرية",
+            "fr": "Chapelet pour les âmes du purgatoire",
+            "it": "Coroncina per le anime del purgatorio",
+            "en": "Chaplet for the Holy Souls in Purgatory"
+          },
+          "text": {
+            "ar": "تُصلّى على المسبحة الوردية. ابدأ بإشارة الصليب، ثم قانون الإيمان، وأبانا، وثلاث مرات السلام عليك يا مريم.\n\nعلى كل حبّة من العشرات: أيها الآب الأزلي، أقدّم لك دم ابنك الإلهي الثمين، يسوع، متحداً بالقداديس التي تُقام اليوم في العالم كله، من أجل جميع الأنفس المقدسة في المطهر، ومن أجل الخطأة في كل مكان، وفي الكنيسة، وفي بيتي وعائلتي. آمين.\n\nيمكن تكرار الصلاة على عشر حبّات، ثم تُقال: المجد للآب والابن والروح القدس. وتُختتم: الراحة الأبدية أعطهم يا رب، والنور الدائم فليضئ لهم. ليستريحوا بسلام. آمين.\n\nهذه عبادة تقليدية للصلاة من أجل الموتى؛ لا تُنسب إليها وعود مضمونة بإطلاق عدد محدد من النفوس.",
+            "fr": "Sur un chapelet : commencez par le signe de la croix, le Credo, un Notre Père et trois Je vous salue Marie. Sur chaque grain de la dizaine : Père éternel, je vous offre le Très Précieux Sang de votre divin Fils Jésus, uni aux messes célébrées aujourd’hui dans le monde entier, pour toutes les saintes âmes du purgatoire, pour les pécheurs partout dans le monde, dans l’Église, dans ma maison et ma famille. Amen.\n\nRépétez sur dix grains, puis dites : Gloire au Père, au Fils et au Saint-Esprit. Terminez : Donne-leur, Seigneur, le repos éternel, et que brille sur eux la lumière sans déclin. Qu’ils reposent en paix. Amen.\n\nDévotion traditionnelle pour prier pour les défunts ; aucune promesse de délivrer un nombre déterminé d’âmes n’est garantie par l’Église.",
+            "it": "Con la corona del Rosario: iniziate con il segno della croce, il Credo, un Padre nostro e tre Ave Maria. Su ciascun grano della decina: Padre eterno, ti offro il Preziosissimo Sangue del tuo divin Figlio Gesù, unito alle Messe celebrate oggi in tutto il mondo, per tutte le sante anime del purgatorio, per i peccatori ovunque, nella Chiesa, nella mia casa e nella mia famiglia. Amen.\n\nRipetere sui dieci grani, poi dire: Gloria al Padre, al Figlio e allo Spirito Santo. Concludere: L’eterno riposo dona loro, o Signore, e splenda ad essi la luce perpetua. Riposino in pace. Amen.\n\nDevozione tradizionale per pregare per i defunti; la Chiesa non garantisce promesse relative alla liberazione di un numero preciso di anime.",
+            "en": "Using rosary beads, begin with the Sign of the Cross, the Apostles’ Creed, one Our Father, and three Hail Marys. On each bead of a decade pray: Eternal Father, I offer You the Most Precious Blood of Your Divine Son, Jesus, in union with the Masses said throughout the world today, for all the holy souls in purgatory, for sinners everywhere, in the Church, in my home and in my family. Amen.\n\nRepeat on ten beads, then pray: Glory be to the Father, and to the Son, and to the Holy Spirit. Conclude: Eternal rest grant unto them, O Lord, and let perpetual light shine upon them. May they rest in peace. Amen.\n\nA traditional devotion for the faithful departed. The Church does not guarantee claims that a fixed number of souls is released."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://msf-america.org/holy-family-prayers/prayers-devoted-to-the-holy-family/holy-souls-in-purgatory",
+          "sourceNote": {
+            "ar": "تعبّد تقليدي للصلاة من أجل الموتى، وليس طقساً ليتورجياً.",
+            "fr": "Dévotion traditionnelle pour les défunts, non liturgique.",
+            "it": "Devozione tradizionale per i defunti, non liturgica.",
+            "en": "Traditional devotion for the faithful departed; not a liturgical rite."
+          }
+        },
+        {
+          "id": "holy-face-chaplet-litany",
+          "title": {
+            "ar": "مسبحة وجه يسوع الأقدس والطلبة",
+            "fr": "Chapelet et litanies de la Sainte Face de Jésus",
+            "it": "Coroncina e litanie del Volto Santo di Gesù",
+            "en": "Holy Face Chaplet and Litany"
+          },
+          "text": {
+            "ar": "تُصلّى مسبحة الوجه الأقدس على حبّات المسبحة. على الحبّة الكبيرة: قم أيها الرب، ولتتبدّد أعداؤك، وليهرب مبغضوك من أمام وجهك. وعلى الحبّات الصغيرة: يا يسوع، ارحمنا. المجد للآب والابن والروح القدس.\n\nبعد تكرار المجموعات، تُقال الصلاة الختامية: أيها الآب الأزلي، انظر إلينا، وانظر إلى وجه مسيحك. آمين.\n\nطلبة قصيرة: يا وجه يسوع الأقدس، صورة محبة الله ورحمته، ارحمنا. يا وجه يسوع المتألم، قوِّ المتألمين. يا وجه يسوع الممجّد، اجعلنا نطلب وجهك إلى الأبد. آمين.\n\nهذه صيغة تعبدية تقليدية؛ تختلف صيغ الطلبة بين الجماعات.",
+            "fr": "Le chapelet de la Sainte Face se prie sur un chapelet. Sur le gros grain : Que Dieu se lève, et que ses ennemis soient dispersés ; que ses adversaires fuient devant sa face. Sur les petits grains : Jésus, ayez pitié de nous. Gloire au Père, au Fils et au Saint-Esprit.\n\nAprès les séries, concluez : Dieu éternel, regardez-nous et regardez la face de votre Christ. Amen.\n\nLitanie brève : Sainte Face de Jésus, reflet de l’amour et de la miséricorde de Dieu, prenez pitié de nous. Face souffrante de Jésus, fortifiez ceux qui souffrent. Face glorifiée de Jésus, conduisez-nous à contempler votre visage pour toujours. Amen.\n\nDévotion traditionnelle ; les formes des litanies varient selon les communautés.",
+            "it": "La coroncina del Volto Santo si recita con la corona del Rosario. Sul grano grande: Sorga Dio e siano dispersi i suoi nemici; fuggano davanti a lui quelli che lo odiano. Sui grani piccoli: Gesù, pietà di noi. Gloria al Padre, al Figlio e allo Spirito Santo.\n\nAl termine: Dio eterno, guarda a noi e al volto del tuo Cristo. Amen.\n\nBreve litania: Volto Santo di Gesù, riflesso dell’amore e della misericordia di Dio, abbi pietà di noi. Volto sofferente di Gesù, sostieni chi soffre. Volto glorioso di Gesù, guidaci a contemplarti per sempre. Amen.\n\nDevozione tradizionale; le forme delle litanie possono variare secondo le comunità.",
+            "en": "Pray the Holy Face Chaplet on rosary beads. On each large bead: Arise, O Lord, and let Your enemies be scattered; let those who hate You flee before Your face. On the small beads: Jesus, have mercy on us. Glory be to the Father, and to the Son, and to the Holy Spirit.\n\nAfter the groups, conclude: Eternal Father, look upon us and look upon the Face of Your Christ. Amen.\n\nShort litany: Holy Face of Jesus, reflection of God’s love and mercy, have mercy on us. Suffering Face of Jesus, strengthen all who suffer. Glorified Face of Jesus, lead us to behold You forever. Amen.\n\nTraditional devotion; forms of the litany vary among communities."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://denvercatholic.org/wp-content/uploads/2023/07/AoD_Holy-Face-Chaplet_Booklet_En.pdf",
+          "sourceNote": {
+            "ar": "مرجع أبرشي: أبرشية دنفر الكاثوليكية؛ الطلبة المختصرة صياغة رعوية.",
+            "fr": "Source diocésaine : archidiocèse de Denver ; litanie brève adaptée.",
+            "it": "Fonte diocesana: Arcidiocesi di Denver; breve litania adattata.",
+            "en": "Diocesan source: Archdiocese of Denver; short litany wording adapted."
+          }
+        },
+        {
+          "id": "guardian-angel-prayer",
+          "title": {
+            "ar": "صلاة إلى الملاك الحارس",
+            "fr": "Prière à l’Ange gardien",
+            "it": "Preghiera all’Angelo custode",
+            "en": "Prayer to Your Guardian Angel"
+          },
+          "text": {
+            "ar": "يا ملاك الله، يا حارسي العزيز، الذي ائتمنتك محبة الله عليّ، كن بجانبي اليوم وكل يوم، لتنيرني وتحرسني وتقودني وترشدني. آمين.",
+            "fr": "Ange de Dieu, qui êtes mon gardien, vous à qui la bonté divine m’a confié, éclairez-moi, gardez-moi, conduisez-moi et dirigez-moi. Amen.",
+            "it": "Angelo di Dio, che sei il mio custode, illumina, custodisci, reggi e governa me, che ti fui affidato dalla pietà celeste. Amen.",
+            "en": "Angel of God, my guardian dear, to whom God’s love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.usccb.org/prayers/prayer-your-guardian-angel",
+          "sourceNote": {
+            "ar": "صلاة الملاك الحارس من موارد مجلس أساقفة الولايات المتحدة الكاثوليك.",
+            "fr": "Prière de l’Ange gardien, ressource de l’USCCB.",
+            "it": "Preghiera all’Angelo custode, risorsa USCCB.",
+            "en": "Guardian Angel prayer from the USCCB."
+          }
+        },
+        {
+          "id": "saint-joseph-novena",
+          "title": {
+            "ar": "تساعية القديس يوسف",
+            "fr": "Neuvaine à saint Joseph",
+            "it": "Novena a San Giuseppe",
+            "en": "Novena to Saint Joseph"
+          },
+          "text": {
+            "ar": "تُصلّى هذه التساعية تسعة أيام متتالية. في كل يوم: ابدأ بإشارة الصليب، واقرأ تأمّل اليوم، ثم ارفع طلبتك الخاصة، واختم بالصلاة التالية:\n\nالسلام عليك يا حارس الفادي، يا خطيب العذراء مريم. إليك ائتمن الله ابنه الوحيد؛ وبك وضعت مريم ثقتها؛ ومعك صار المسيح إنساناً. أيها القديس يوسف المبارك، أظهر لنا أيضاً أنك أب، واهدنا في طريق الحياة. احصل لنا على النعمة والرحمة والشجاعة، واحمنا من كل شر. آمين.\n\nاليوم الأول: اطلب نعمة الثقة بعناية الله.\nاليوم الثاني: اطلب نعمة المحبة والأمانة في العائلة.\nاليوم الثالث: اطلب نعمة الطاعة لمشيئة الله.\nاليوم الرابع: اطلب نعمة الأمانة في العمل.\nاليوم الخامس: اطلب حماية الكنيسة والعائلات.\nاليوم السادس: اطلب عزاء المتألمين واللاجئين.\nاليوم السابع: اطلب نعمة الصبر في الشدائد.\nاليوم الثامن: اطلب مرافقة المحتضرين.\nاليوم التاسع: اطلب نعمة حياة مقدسة وموت صالح.\n\nتُختتم كل يوم بالصلاة: يا قديس يوسف، صلِّ لأجلنا. أبانا، السلام عليك يا مريم، المجد للآب.",
+            "fr": "Priez cette neuvaine pendant neuf jours consécutifs. Chaque jour, faites le signe de la croix, méditez l’intention du jour, présentez votre demande, puis priez :\n\nJe vous salue, gardien du Rédempteur, époux de la Vierge Marie. À vous Dieu a confié son Fils unique ; en vous Marie a mis sa confiance ; avec vous le Christ est devenu homme. Bienheureux Joseph, montrez-vous aussi un père pour nous et conduisez-nous sur le chemin de la vie. Obtenez-nous grâce, miséricorde et courage, et défendez-nous de tout mal. Amen.\n\nJour 1 : confiance en la Providence. Jour 2 : amour et fidélité dans les familles. Jour 3 : obéissance à la volonté de Dieu. Jour 4 : fidélité au travail. Jour 5 : protection de l’Église et des familles. Jour 6 : consolation des personnes éprouvées et déplacées. Jour 7 : patience dans les difficultés. Jour 8 : accompagnement des mourants. Jour 9 : sainteté de vie et bonne mort.\n\nTerminez chaque jour par : Saint Joseph, priez pour nous ; Notre Père, Je vous salue Marie, Gloire au Père.",
+            "it": "Pregate questa novena per nove giorni consecutivi. Ogni giorno fate il segno della croce, meditate l’intenzione del giorno, presentate la vostra richiesta e poi pregate:\n\nSalve, custode del Redentore, sposo della Vergine Maria. A te Dio affidò il suo Figlio unigenito; in te Maria ripose la sua fiducia; con te Cristo diventò uomo. O beato Giuseppe, mostrati padre anche per noi e guidaci nel cammino della vita. Ottienici grazia, misericordia e coraggio, e difendici da ogni male. Amen.\n\nGiorno 1: fiducia nella Provvidenza. Giorno 2: amore e fedeltà nelle famiglie. Giorno 3: obbedienza alla volontà di Dio. Giorno 4: fedeltà nel lavoro. Giorno 5: protezione della Chiesa e delle famiglie. Giorno 6: consolazione per chi soffre e per gli sfollati. Giorno 7: pazienza nelle difficoltà. Giorno 8: accompagnamento dei morenti. Giorno 9: santità di vita e buona morte.\n\nConcludere ogni giorno: San Giuseppe, prega per noi; Padre nostro, Ave Maria, Gloria al Padre.",
+            "en": "Pray this novena for nine consecutive days. Each day, make the Sign of the Cross, reflect on the day’s intention, present your petition, and pray:\n\nHail, Guardian of the Redeemer, Spouse of the Blessed Virgin Mary. To you God entrusted His only Son; in you Mary placed her trust; with you Christ became man. Blessed Joseph, show yourself a father to us too and guide us in the path of life. Obtain for us grace, mercy and courage, and defend us from every evil. Amen.\n\nDay 1: trust in Divine Providence. Day 2: love and faithfulness in families. Day 3: obedience to God’s will. Day 4: faithfulness in work. Day 5: protection of the Church and families. Day 6: consolation for those who suffer and are displaced. Day 7: patience in trials. Day 8: care for the dying. Day 9: holiness of life and a happy death.\n\nConclude each day: Saint Joseph, pray for us; Our Father, Hail Mary, Glory Be."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.usccb.org/prayer-and-worship/prayers-and-devotions/prayers/novena-for-the-solemnity-of-saint-joseph",
+          "sourceNote": {
+            "ar": "الصلاة الختامية مستندة إلى تساعية مجلس أساقفة الولايات المتحدة؛ التأملات اليومية أعيدت صياغتها رعويّاً.",
+            "fr": "Prière finale fondée sur la neuvaine de l’USCCB ; intentions quotidiennes adaptées.",
+            "it": "Preghiera conclusiva basata sulla novena USCCB; intenzioni giornaliere adattate.",
+            "en": "Concluding prayer based on the USCCB novena; daily intentions adapted for parish use."
+          }
+        },
+        {
+          "id": "mary-impossible-causes-novena",
+          "title": {
+            "ar": "تساعية السيدة العذراء للأمور المستعصية",
+            "fr": "Neuvaine à la Vierge Marie pour les causes difficiles",
+            "it": "Novena alla Vergine Maria per le cause difficili",
+            "en": "Novena to the Blessed Virgin Mary for Difficult and Impossible Causes"
+          },
+          "text": {
+            "ar": "تُصلّى هذه التساعية تسعة أيام متتالية، واضعاً أمام الله الأمر الصعب الذي تحمله في قلبك، طالباً شفاعة مريم العذراء وثقتك بمشيئة الله.\n\nفي بداية كل يوم: باسم الآب والابن والروح القدس. آمين. ثم قل: يا مريم، يا أم يسوع وأمنا، أتقدم إليك في هذه المحنة التي تبدو لي مستعصية. أطلب شفاعتك لدى ابنك يسوع، لا لكي أفرض مشيئتي، بل لكي يقودني إلى ما هو صالح، ويمنحني النور والقوة والسلام. آمين.\n\nتأملات الأيام:\nاليوم الأول: الثقة بالله عندما لا أرى طريقاً.\nاليوم الثاني: الصبر وسط الانتظار.\nاليوم الثالث: الشجاعة لمواجهة الخوف.\nاليوم الرابع: المصالحة والغفران.\nاليوم الخامس: شفاء القلوب والعائلات.\nاليوم السادس: الرجاء في المرض والضيق.\nاليوم السابع: طلب الحكمة لاتخاذ القرار الصحيح.\nاليوم الثامن: تسليم النتيجة لمشيئة الله.\nاليوم التاسع: الشكر والثبات في الإيمان.\n\nبعد التأمل، قل: السلام عليك يا مريم ثلاث مرات، ثم اختم: يا أم الرحمة، صلّي لأجلنا، ورافقينا إلى ابنك يسوع. آمين.\n\nهذه صيغة رعوية لتساعية خاصة بالطلبات الصعبة، وليست نصاً رسمياً ليتورجياً أو وعداً بتحقيق الطلب.",
+            "fr": "Priez cette neuvaine pendant neuf jours, en confiant à Dieu la situation difficile que vous portez et en demandant l’intercession de la Vierge Marie, dans l’abandon à la volonté de Dieu.\n\nChaque jour : Au nom du Père, et du Fils, et du Saint-Esprit. Amen. Puis : Marie, Mère de Jésus et notre Mère, je viens à toi au milieu de cette épreuve qui me semble impossible. Intercède pour moi auprès de ton Fils Jésus ; non pour imposer ma volonté, mais afin qu’il me conduise vers le bien et me donne lumière, force et paix. Amen.\n\nIntentions : Jour 1, confiance quand je ne vois pas de chemin ; Jour 2, patience dans l’attente ; Jour 3, courage face à la peur ; Jour 4, réconciliation et pardon ; Jour 5, guérison des cœurs et des familles ; Jour 6, espérance dans la maladie et l’épreuve ; Jour 7, sagesse pour discerner ; Jour 8, abandon du résultat à la volonté de Dieu ; Jour 9, action de grâce et persévérance dans la foi.\n\nAprès la méditation, récitez trois Je vous salue Marie. Terminez : Mère de miséricorde, priez pour nous et conduisez-nous à votre Fils Jésus. Amen.\n\nForme paroissiale de neuvaine pour les intentions difficiles ; ce n’est ni un texte liturgique officiel ni une garantie d’obtenir la demande.",
+            "it": "Pregate questa novena per nove giorni, affidando a Dio la situazione difficile che portate nel cuore e chiedendo l’intercessione della Vergine Maria, con fiducia nella volontà di Dio.\n\nOgni giorno: Nel nome del Padre e del Figlio e dello Spirito Santo. Amen. Poi: Maria, Madre di Gesù e Madre nostra, vengo a te in questa prova che mi sembra impossibile. Intercedi per me presso tuo Figlio Gesù; non perché si compia la mia volontà a ogni costo, ma perché egli mi guidi verso il bene e mi doni luce, forza e pace. Amen.\n\nIntenzioni: Giorno 1, fiducia quando non vedo una via; Giorno 2, pazienza nell’attesa; Giorno 3, coraggio davanti alla paura; Giorno 4, riconciliazione e perdono; Giorno 5, guarigione dei cuori e delle famiglie; Giorno 6, speranza nella malattia e nella prova; Giorno 7, sapienza per discernere; Giorno 8, affidare l’esito alla volontà di Dio; Giorno 9, rendimento di grazie e perseveranza nella fede.\n\nDopo la meditazione recitate tre Ave Maria. Concludete: Madre di misericordia, prega per noi e accompagnaci a tuo Figlio Gesù. Amen.\n\nForma pastorale di novena per intenzioni difficili; non è un testo liturgico ufficiale né una garanzia che la richiesta sarà esaudita.",
+            "en": "Pray this novena for nine days, entrusting to God the difficult situation you carry and asking for the intercession of the Blessed Virgin Mary, while remaining open to God’s will.\n\nEach day: In the name of the Father, and of the Son, and of the Holy Spirit. Amen. Then pray: Mary, Mother of Jesus and our Mother, I come to you in this trial that seems impossible to me. Intercede for me with your Son Jesus—not so that my will must prevail, but that He may lead me to what is good and grant me light, strength and peace. Amen.\n\nDaily intentions: Day 1, trust when I cannot see a way; Day 2, patience while waiting; Day 3, courage in the face of fear; Day 4, reconciliation and forgiveness; Day 5, healing for hearts and families; Day 6, hope in illness and hardship; Day 7, wisdom for discernment; Day 8, surrendering the outcome to God’s will; Day 9, thanksgiving and perseverance in faith.\n\nAfter the reflection, pray three Hail Marys. Conclude: Mother of Mercy, pray for us and lead us to your Son Jesus. Amen.\n\nThis is a parish-style novena for difficult intentions, not an official liturgical text or a guarantee that a petition will be granted."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceUrl": "https://www.vatican.va/content/catechism/en/part_four/section_one/chapter_two/article_2.html",
+          "sourceNote": {
+            "ar": "تساعية رعوية صيغت بالاستناد إلى تعليم الكنيسة عن الصلاة والشفاعة؛ ليست نصاً رسمياً منشوراً من الفاتيكان.",
+            "fr": "Neuvaine pastorale rédigée à partir de l’enseignement de l’Église sur la prière et l’intercession ; non publiée comme texte officiel du Vatican.",
+            "it": "Novena pastorale composta alla luce dell’insegnamento della Chiesa sulla preghiera e l’intercessione; non è un testo ufficiale vaticano.",
+            "en": "A parish-style novena informed by Catholic teaching on prayer and intercession; not an official Vatican-published text."
           }
         }
       ]
