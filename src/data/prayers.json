@@ -6,7 +6,7 @@
     "it",
     "en"
   ],
-  "reviewNote": "Library structure and requested Arabic titles are updated. The user approved proofreading-only corrections for the supplied Arabic texts; do not reconstruct missing approved wording. The repository currently contains draft texts/translations for several devotions. These are NOT yet the complete approved versions. Exact approved prayer texts must be recovered from the user's supplied messages before replacing drafts. Pending review: Chaplet for the Holy Souls in Purgatory and the requested Groups of Christ chaplet. Keep all chaplets under Rosaries and novenas under Novenas. The Marian novena title must remain exactly: تساعيّة العذراء مريم التي تحلُّ العقد. Four-language translations should match verified Catholic sources where available and remain clergy-review drafts until confirmed.",
+  "reviewNote": "Library category organization is corrected (Rosaries and Novenas) and the exact requested Mary Undoer of Knots Arabic title is preserved. The newly added Saint Joseph prayer uses the exact Arabic wording recovered from the conversation, with draft translations. Several chaplets/novenas currently contain draft text; the user-approved complete source texts were not retrievable in this context. Do not label these entries finalized until the original Arabic texts are restored and translations verified.",
   "categories": [
     {
       "id": "common",
@@ -503,8 +503,54 @@
             "it": "Preghiera all’Angelo custode, risorsa USCCB.",
             "en": "Guardian Angel prayer from the USCCB."
           }
+        },
+        {
+          "id": "prayer-st-joseph",
+          "title": {
+            "ar": "صلاة إلى القديس يوسف",
+            "fr": "Prière à saint Joseph",
+            "it": "Preghiera a San Giuseppe",
+            "en": "Prayer to Saint Joseph"
+          },
+          "text": {
+            "ar": "السلام عليك يا يوسف، خطيب مريم، يا من نلت نعمة، يسوع ومريم معك. مبارك أنت بين الرجال، ومبارك يسوع ابن مريم.\n\nيا مار يوسف، صلّ لأجلنا نحن الخطأة الآن وفي ساعة موتنا. آمين.",
+            "fr": "Je vous salue, Joseph, époux de Marie, vous qui avez reçu la grâce; Jésus et Marie sont avec vous. Vous êtes béni entre les hommes, et Jésus, le Fils de Marie, est béni.\n\nSaint Joseph, priez pour nous pécheurs, maintenant et à l’heure de notre mort. Amen.",
+            "it": "Ti saluto, Giuseppe, sposo di Maria, tu che hai ricevuto la grazia; Gesù e Maria sono con te. Tu sei benedetto fra gli uomini, e benedetto è Gesù, Figlio di Maria.\n\nSan Giuseppe, prega per noi peccatori, adesso e nell’ora della nostra morte. Amen.",
+            "en": "Hail Joseph, spouse of Mary, you who received grace; Jesus and Mary are with you. Blessed are you among men, and blessed is Jesus, the Son of Mary.\n\nSaint Joseph, pray for us sinners, now and at the hour of our death. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          }
         }
       ]
     }
-  ]
+  ],
+  "prayerSourceAudit": {
+    "approvedArabicExact": [
+      "act-of-contrition",
+      "prayer-holy-spirit",
+      "guardian-angel-prayer",
+      "prayer-st-joseph"
+    ],
+    "approvedUserProvidedButFullTextNotRecoverableFromAvailableContext": [
+      "holy-face-chaplet-litany",
+      "st-joseph-chaplet",
+      "st-michael-chaplet",
+      "saint-joseph-novena",
+      "mary-impossible-causes-novena"
+    ],
+    "pendingUserApproval": [
+      "holy-souls-chaplet"
+    ],
+    "requestedButNotIdentified": [
+      "chaplet-groups-of-christ"
+    ],
+    "missingApprovedFullText": [
+      "holy-face-novena"
+    ],
+    "caution": "Do not replace approved prayer wording with paraphrases. Some entries currently in the repository are draft texts, not the exact approved versions. Exact approved Arabic source text must be restored before publication; translations must be checked against that text."
+  }
 }
