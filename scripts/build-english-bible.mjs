@@ -26,6 +26,7 @@ const stripMarkers = value => String(value)
   .replace(/\\f[\s\S]*?\\f\*/g,' ')
   .replace(/\\x[\s\S]*?\\x\*/g,' ')
   .replace(/\\[a-zA-Z0-9+]+\*?/g,' ')
+  .replace(/\|[a-zA-Z0-9_-]+="[^"]*"/g,'')
   .replace(/[{}]/g,'')
   .replace(/\s+/g,' ').trim();
 
