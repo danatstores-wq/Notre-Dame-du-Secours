@@ -1,0 +1,33 @@
+name: Import complete French Bible
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/import-french-bible.mjs'
+      - '.github/workflows/import-french-bible.yml'
+permissions:
+  contents: write
+jobs:
+  import-french-bible:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Download and bundle all French Bible chapters
+        run: node scripts/import-french-bible.mjs
+      - name: Commit Bible files into this repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bibles/fr
+          if git diff --cached --quiet; then
+            echo "No French Bible file changes."
+          else
+            git commit -m "Bundle complete French Crampon Bible"
+            git push origin main
+          fi
