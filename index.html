@@ -595,7 +595,8 @@
     const massCalendarLabels={
       ar:{today:'اليوم',prev:'الشهر السابق',next:'الشهر التالي',selected:'المواعيد في هذا اليوم',week:['اثن','ثل','أرب','خمي','جمع','سبت','أحد'],noDay:'لا توجد مواعيد مؤكدة لهذا اليوم.',months:['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول']},
       fr:{today:"Aujourd’hui",prev:'Mois précédent',next:'Mois suivant',selected:'Horaires de cette journée',week:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],noDay:'Aucun horaire confirmé pour cette journée.',months:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']},
-      it:{today:'Oggi',prev:'Mese precedente',next:'Mese successivo',selected:'Orari di questo giorno',week:['Lun','Mar','Mer','Gio','Ven','Sab','Dom'],noDay:'Nessun orario confermato per questo giorno.',months:['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre']}
+      it:{today:'Oggi',prev:'Mese precedente',next:'Mese successivo',selected:'Orari di questo giorno',week:['Lun','Mar','Mer','Gio','Ven','Sab','Dom'],noDay:'Nessun orario confermato per questo giorno.',months:['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre']},
+      en:{today:"Today",prev:"Previous month",next:"Next month",selected:"Mass times for this day",week:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],noDay:"No confirmed Mass times for this day.",months:["January","February","March","April","May","June","July","August","September","October","November","December"]}
     };
     function dateKey(date){return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');}
     function itemDate(item){return item.date||item.startDate||item.datetime||'';}
@@ -1603,12 +1604,17 @@ function profileShell(){
  }
 }
 function authError(err){
- const codes={"auth/invalid-credential":"Email or password is incorrect.","auth/email-already-in-use":"This email already has an account.","auth/weak-password":"Choose a stronger password (at least 6 characters).","auth/invalid-email":"Enter a valid email address.","auth/too-many-requests":"Too many attempts. Please wait and try again.","auth/network-request-failed":"Network error. Check your connection.","permission-denied":"Firebase denied this operation. Check the published security rules."};
- return codes[err?.code]||err?.message||"Something went wrong.";
+ const maps={
+ ar:{"auth/invalid-credential":"البريد الإلكتروني أو كلمة المرور غير صحيحة.","auth/email-already-in-use":"هذا البريد لديه حساب بالفعل.","auth/weak-password":"اختر كلمة مرور أقوى (6 أحرف على الأقل).","auth/invalid-email":"أدخل بريدًا إلكترونيًا صحيحًا.","auth/too-many-requests":"محاولات كثيرة. انتظر قليلاً ثم حاول مجددًا.","auth/network-request-failed":"خطأ في الاتصال. تحقق من الإنترنت.","permission-denied":"رفض Firebase العملية. تحقق من قواعد الأمان المنشورة."},
+ fr:{"auth/invalid-credential":"E-mail ou mot de passe incorrect.","auth/email-already-in-use":"Cette adresse possède déjà un compte.","auth/weak-password":"Choisissez un mot de passe plus fort (6 caractères minimum).","auth/invalid-email":"Saisissez une adresse e-mail valide.","auth/too-many-requests":"Trop de tentatives. Attendez puis réessayez.","auth/network-request-failed":"Erreur réseau. Vérifiez votre connexion.","permission-denied":"Firebase a refusé l’opération. Vérifiez les règles de sécurité."},
+ it:{"auth/invalid-credential":"Email o password non corretti.","auth/email-already-in-use":"Questa email ha già un account.","auth/weak-password":"Scegli una password più forte (almeno 6 caratteri).","auth/invalid-email":"Inserisci un indirizzo email valido.","auth/too-many-requests":"Troppi tentativi. Attendi e riprova.","auth/network-request-failed":"Errore di rete. Controlla la connessione.","permission-denied":"Firebase ha rifiutato l’operazione. Verifica le regole di sicurezza."},
+ en:{"auth/invalid-credential":"Email or password is incorrect.","auth/email-already-in-use":"This email already has an account.","auth/weak-password":"Choose a stronger password (at least 6 characters).","auth/invalid-email":"Enter a valid email address.","auth/too-many-requests":"Too many attempts. Please wait and try again.","auth/network-request-failed":"Network error. Check your connection.","permission-denied":"Firebase denied this operation. Check the published security rules."}
+ };
+ return maps[document.documentElement.lang]?.[err?.code]||maps.en[err?.code]||err?.message||maps.en["auth/invalid-credential"];
 }
 async function loadCmsEditor(){
  const t=lang(),key=document.getElementById("parish-cms-type").value,editor=document.getElementById("parish-cms-editor");
- try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));if(snap.exists())editor.value=JSON.stringify(snap.data().payload,null,2);else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");editor.value=JSON.stringify(await fallback.json(),null,2);}status("Content loaded.");}
+ try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));if(snap.exists())editor.value=JSON.stringify(snap.data().payload,null,2);else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");editor.value=JSON.stringify(await fallback.json(),null,2);}status(lang().loaded);}
  catch(err){status(authError(err),true);}
 }
 async function saveCmsEditor(){
