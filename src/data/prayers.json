@@ -6,7 +6,6 @@
     "it",
     "en"
   ],
-  "reviewNote": "Library category organization is corrected (Rosaries and Novenas) and the exact requested Mary Undoer of Knots Arabic title is preserved. The newly added Saint Joseph prayer uses the exact Arabic wording recovered from the conversation, with draft translations. Several chaplets/novenas currently contain draft text; the user-approved complete source texts were not retrievable in this context. Do not label these entries finalized until the original Arabic texts are restored and translations verified.",
   "categories": [
     {
       "id": "common",
@@ -560,30 +559,5 @@
         }
       ]
     }
-  ],
-  "prayerSourceAudit": {
-    "approvedArabicExact": [
-      "act-of-contrition",
-      "prayer-holy-spirit",
-      "guardian-angel-prayer",
-      "prayer-st-joseph"
-    ],
-    "approvedUserProvidedButFullTextNotRecoverableFromAvailableContext": [
-      "holy-face-chaplet-litany",
-      "st-joseph-chaplet",
-      "st-michael-chaplet",
-      "saint-joseph-novena",
-      "mary-impossible-causes-novena"
-    ],
-    "pendingUserApproval": [
-      "holy-souls-chaplet"
-    ],
-    "requestedButNotIdentified": [
-      "chaplet-groups-of-christ"
-    ],
-    "missingApprovedFullText": [
-      "holy-face-novena"
-    ],
-    "caution": "Do not replace approved prayer wording with paraphrases. Some entries currently in the repository are draft texts, not the exact approved versions. Exact approved Arabic source text must be restored before publication; translations must be checked against that text."
-  }
+  ]
 }
