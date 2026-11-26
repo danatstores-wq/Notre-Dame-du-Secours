@@ -1,0 +1,4 @@
+Arabic Bible text: Smith–Van Dyck Arabic Bible (1865), public-domain translation.
+Source dataset: Midvash bible-data, versions/ar/svd: https://github.com/midvash/bible-data/tree/main/versions/ar/svd
+Source metadata identifies this translation as public domain and records 66 books, 1,189 chapters, and 31,104 verses.
+This edition contains 66 books (Protestant canon). It does NOT include the seven Catholic Deuterocanonical books, nor the Catholic additions to Esther and Daniel. It must not be described as a complete 73-book Catholic Bible.
