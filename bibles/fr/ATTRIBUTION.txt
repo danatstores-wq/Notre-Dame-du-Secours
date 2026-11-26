@@ -1,0 +1,4 @@
+French Bible: Augustin Crampon, revised 1923 edition (public domain).
+Digital chapter data source: clinto-abraham/bible.ciyo.in, FreCrampon dataset.
+Source commit: b76e44393b3593ce10334e04421ffa82ce9e9c98.
+Catholic canon: 73 books, 1,334 chapters.
