@@ -174,7 +174,7 @@
             "en": "Parish Prayer for Peace"
           },
           "text": {
-            "ar": "النص العربي بانتظار النص المعتمد.",
+            "ar": "أيها الرب يسوع المسيح، يا ملك السلام الحق،\nأنت مصدر الطمأنينة والرجاء في كل زمان ومكان. نرفع إليك قلوبنا في هذا اليوم، متضرعين أن تمنح سلامك العميق لعالمنا، ولأرضنا، ولعائلاتنا.\n\nفيك وحدك نجد الطمأنينة والرجاء. نسألك أن تملأ قلوبنا بسلامك الذي يفوق كل عقل، وأن تحرر عالمنا وأرضنا من النزاعات والخوف. آمين.",
             "fr": "Seigneur de la paix, fais grandir ta paix dans nos cœurs, nos familles et dans le monde. Apprends-nous à être des artisans de réconciliation et d’amour, à rejeter la violence et à choisir la miséricorde. Amen.",
             "it": "Signore della pace, dona la tua pace ai nostri cuori, alle nostre famiglie e al mondo. Insegnaci a essere strumenti di riconciliazione e di amore, a rifiutare la violenza e a scegliere la misericordia. Amen.",
             "en": "Lord of peace, let your peace grow in our hearts, our families, and throughout the world. Teach us to forgive, to listen, and to build bridges where there is division. Protect all those who suffer from violence and war, and make us instruments of your peace. Amen."
@@ -184,6 +184,9 @@
             "fr": null,
             "it": null,
             "en": null
+          },
+          "sourceNote": {
+            "ar": "النص العربي المحدّث وفق الصياغة التي أرسلها المستخدم، مع الحفاظ على عباراته."
           }
         }
       ]
