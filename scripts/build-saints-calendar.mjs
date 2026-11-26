@@ -34,8 +34,9 @@ function htmlToLines(html) {
 function parseSynaxarion(html, locale) {
   const lines = htmlToLines(html);
   const heading = locale === 'ar' ? 'السنكسار' : 'Synaxarion';
-  const start = lines.findIndex(line => line.replace(/[：:]/g, '').trim() === heading);
-  if (start < 0) throw new Error(`Missing ${heading} section`);
+  const normalize = value => value.normalize('NFKC').replace(/[\\u064B-\\u065F\\u0670\\u0640]/g, '').replace(/[：:]/g, '').trim();
+  const start = lines.findIndex(line => normalize(line).includes(normalize(heading)));
+  if (start < 0) throw new Error(`Missing ${heading} section; page text: ${JSON.stringify(lines.slice(0, 28))}`);
   const stop = /^(Liturgical Year|Gospel|Previous day|Next day|Liturgy service|Letter|السنّة الطقسيّة|السنة الطقسية|الإنجيل|اليوم السابق|اليوم التالي|خدمة الليتورجيا|خدمة الليتورجيّا|الرسالة|القديسون|القدّيسون)/i;
   const names = [];
   for (let i = start + 1; i < lines.length; i++) {
