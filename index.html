@@ -593,7 +593,7 @@
 
       document.getElementById('cards-container').innerHTML = t.cards.map((c, cardIndex) => `
         <div class="card" role="button" tabindex="0" onclick="${cardIndex===6?'window.openBible()':'openFeature('+cardIndex+')'}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${cardIndex===6?'window.openBible()':'openFeature('+cardIndex+')'}}">
-          ${c[2].startsWith("assets/")?`<img src="${c[2]}" alt="${c[0]}" />`:`<span class="card-symbol" aria-hidden="true">${c[2]}</span>`}
+          ${c[2].startsWith("assets/")?`<img class="dashboard-card-icon" src="${c[2]}" alt="${c[0]}" width="40" height="40" style="display:block;width:40px!important;height:40px!important;min-width:40px;min-height:40px;max-width:40px;max-height:40px;object-fit:contain;flex:0 0 40px" />`:`<span class="card-symbol" aria-hidden="true">${c[2]}</span>`}
           <div class="card-text">
             <h3>${c[0]}</h3>
             <p>${c[1]}</p>
