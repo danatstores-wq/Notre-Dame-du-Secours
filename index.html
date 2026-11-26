@@ -166,9 +166,9 @@
     .empty-state{text-align:center;color:#f3e5c0;line-height:1.8;padding:18px 4px}
     .schedule-entry{padding:12px 4px;border-bottom:1px solid rgba(229,182,87,.25)}
     .rosary-mysteries{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
-    .mystery-choice{background:rgba(11,29,58,.9);border:1px solid var(--gold);border-radius:14px;padding:13px 9px;color:#fff;text-align:center;font:inherit;cursor:pointer}
+    .mystery-choice{background:rgba(11,29,58,.9);border:1px solid var(--gold);border-radius:12px;padding:9px 7px;color:#fff;text-align:center;font:inherit;font-size:.88rem;line-height:1.3;cursor:pointer}
     .mystery-choice.active{background:rgba(229,182,87,.22);box-shadow:0 0 0 1px var(--gold) inset}
-    .mystery-choice small{display:block;color:#e8d5a9;margin-top:5px;font-size:.7rem}
+    .mystery-choice small{display:block;color:#e8d5a9;margin-top:3px;font-size:.64rem;line-height:1.25}
     .rosary-progress{height:7px;background:#263b5b;border-radius:9px;overflow:hidden;margin:12px 0}
     .rosary-progress span{display:block;height:100%;background:var(--gold);width:0}
     .rosary-controls{display:flex;gap:10px;justify-content:space-between;margin-top:16px}
@@ -184,8 +184,8 @@
     .rosary-guide-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
     .rosary-guide-actions button{flex:1;min-width:100px}
 
-    .rosary-diagram{margin:14px auto 18px;max-width:390px;padding:10px 8px;border:1px solid rgba(229,182,87,.35);border-radius:16px;background:rgba(7,20,43,.38)}
-    .rosary-diagram svg{display:block;width:100%;height:auto;max-height:285px}
+    .rosary-diagram{margin:8px auto 14px;width:100%;max-width:430px;padding:8px 6px;border:1px solid rgba(229,182,87,.42);border-radius:16px;background:rgba(7,20,43,.42);box-shadow:0 5px 18px rgba(0,0,0,.22)}
+    .rosary-diagram svg{display:block;width:100%;height:auto;max-height:none;overflow:visible}
     .rosary-diagram .decade-bead{fill:url(#pearlBead);stroke:#a77a3b;stroke-width:1;transition:fill .25s,filter .25s}
     .rosary-diagram .decade-bead.done{fill:url(#doneBead);filter:url(#rosaryGlowSoft)}
     .rosary-diagram .decade-bead.current{fill:url(#doneBead);stroke:#fff;stroke-width:2;filter:url(#rosaryGlow)}
@@ -1020,20 +1020,20 @@
           const completed=activeDecade>decade||(activeDecade===decade&&activeBead>=0);
           const current=activeDecade===decade&&activeBead<0;
           const cls='separator-bead'+(completed?' done':'')+(current?' current':'');
-          beads+=bead(cls,x,y,6.1,l.decadeNumber+' '+decade+' — '+l.ourFatherLabel);
+          beads+=bead(cls,x,y,7.1,l.decadeNumber+' '+decade+' — '+l.ourFatherLabel);
         }else{
           const decade=Math.floor(i/11)+1,beadNo=(i%11)-1;
           const completed=activeDecade>decade||(activeDecade===decade&&activeBead>beadNo);
           const current=activeDecade===decade&&activeBead===beadNo;
           const cls='decade-bead'+(completed?' done':'')+(current?' current':'');
-          beads+=bead(cls,x,y,4.2,l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(beadNo+1));
+          beads+=bead(cls,x,y,5.1,l.decadeNumber+' '+decade+' — '+l.beadNumber+' '+(beadNo+1));
         }
       }
       // Follow the strand upward from the crucifix: opening Hail Mary 1 is the lowest bead.
-      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,301-i*13,5.0,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
+      const openingHail=[0,1,2].map(i=>bead('opening-bead'+(openingStep>3+i?' done':'')+(openingStep===3+i?' current':''),190,301-i*13,6.0,l.beadNumber+' '+(i+1)+' — '+l.hailMaryLabel)).join('');
       const ourFatherClass='opening-large-bead'+(openingStep>2?' done':'')+(openingStep===2?' current':'');
       const gloryClass='opening-large-bead'+(openingStep>6?' done':'')+(openingStep===6?' current':'');
-      const openingLarge=bead(gloryClass,190,258,7.0,l.gloryBeLabel)+bead(ourFatherClass,190,319,7.0,l.ourFatherLabel);
+      const openingLarge=bead(gloryClass,190,258,8.2,l.gloryBeLabel)+bead(ourFatherClass,190,319,8.2,l.ourFatherLabel);
       return '<div class="rosary-diagram"><svg viewBox="0 0 380 390" role="img" aria-label="'+l.diagram+'"><title>'+l.diagram+'</title><desc>'+l.diagram+'</desc><defs>'+
         '<radialGradient id="pearlBead" cx="27%" cy="20%" r="86%"><stop offset="0" stop-color="#f5fbff"/><stop offset=".12" stop-color="#a9c8e8"/><stop offset=".32" stop-color="#426b9b"/><stop offset=".68" stop-color="#17365f"/><stop offset=".9" stop-color="#091a35"/><stop offset="1" stop-color="#030b19"/></radialGradient>'+
         '<radialGradient id="goldBead" cx="28%" cy="20%" r="82%"><stop offset="0" stop-color="#fffdf0"/><stop offset=".25" stop-color="#f8e6ae"/><stop offset=".7" stop-color="#c99b4c"/><stop offset="1" stop-color="#76501f"/></radialGradient>'+
