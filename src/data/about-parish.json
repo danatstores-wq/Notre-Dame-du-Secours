@@ -4,9 +4,15 @@
     "name": {
       "ar": "كنيسة سيدة المعونات",
       "fr": "Église Notre-Dame du Secours",
-      "it": "Chiesa Nostra Signora del Soccorso"
+      "it": "Chiesa Nostra Signora del Soccorso",
+      "en": "Our Lady of Help Church"
     },
-    "history": {"ar": null, "fr": null, "it": null},
+    "history": {
+      "ar": null,
+      "fr": null,
+      "it": null,
+      "en": null
+    },
     "address": null,
     "mapCoordinates": null,
     "phone": null,
