@@ -809,7 +809,7 @@
       box.innerHTML='<p class="empty-state">Chargement du chapitre…</p>';
       try{const key='fr-'+frenchBibleBook.slug+'-'+frenchBibleChapter;let data=await bibleCacheGet(key);
         if(!data){const response=await fetch(FR_BIBLE_BASE+'books/'+encodeURIComponent(frenchBibleBook.slug)+'.json');if(!response.ok)throw new Error('Livre indisponible');const localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters))throw new Error('Livre invalide');data=localBook.chapters[frenchBibleChapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Données invalides');await bibleCacheSet(key,data);}
-        box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(data.nativeName||frenchBibleBook.nativeName)+' — '+frenchBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
+        box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(frenchBibleBook.nativeName||data.nativeName)+' — '+frenchBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
       }catch(e){box.innerHTML='<p class="empty-state">Chapitre indisponible. Connectez-vous à Internet et réessayez.</p>';}
     }
     function openBible(){document.getElementById('home-view').classList.add('hidden');document.getElementById('bible-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderBibleScreen();}
