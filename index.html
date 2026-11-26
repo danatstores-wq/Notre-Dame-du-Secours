@@ -760,8 +760,6 @@
     let frenchBibleIndex=null,frenchBibleBook=null,frenchBibleChapter=1;
     async function loadFrenchBibleIndex(){
       if(frenchBibleIndex)return frenchBibleIndex;
-      const cached=await bibleCacheGet('fr-index');
-      if(cached){frenchBibleIndex=cached;return cached;}
       const response=await fetch(FR_BIBLE_BASE+'index.json');
       if(!response.ok)throw new Error('French Bible index unavailable');
       const index=await response.json();
@@ -839,9 +837,7 @@
       host.innerHTML='<p class="empty-state">جارٍ تحميل فهرس الكتاب المقدّس… / Chargement… / Caricamento…</p>';
       try{
         if(!bibleIndex){
-          const cachedIndex=await bibleCacheGet('it-index');
-          if(cachedIndex){bibleIndex=cachedIndex;}
-          else{const response=await fetch(IT_BIBLE_BASE+'index.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');await bibleCacheSet('it-index',bibleIndex);}
+          const response=await fetch(IT_BIBLE_BASE+'index.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');await bibleCacheSet('it-index',bibleIndex);
         }
         if(!bibleBook)bibleBook=bibleIndex[0];
         renderBibleReader();
