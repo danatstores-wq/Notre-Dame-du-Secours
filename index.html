@@ -1599,7 +1599,6 @@ function profileShell(){
    document.getElementById("parish-cms-type").addEventListener("change",e=>{currentCmsKey=e.target.value;});document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);document.getElementById("mass-admin-open").addEventListener("click",()=>{document.getElementById("parish-cms-type").value="massSchedule";loadCmsEditor();});
    document.getElementById("parish-cms-save").addEventListener("click",saveCmsEditor);
    document.getElementById("parish-image-upload").addEventListener("change",uploadParishImage);
-   loadCmsEditor();
   }else{
    const note=document.createElement("p");note.className="empty-state";note.textContent=t.noAdmin;box.appendChild(note);
   }
