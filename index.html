@@ -765,14 +765,16 @@
     function renderMaroniteSaints(items,l){if(!items.length)return '<p>'+l.none+'</p>';return items.map(n=>'<p>'+escapeHtml(n)+'</p>').join('');}
 
     const bibleLabels={
-      ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — اليسوعية',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
-      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — édition jésuite',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
-      it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — edizione gesuita',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
+      ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — فان دايك 1865 (66 سفراً)',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
+      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — Van Dyck 1865 (66 livres)',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
+      it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — Van Dyck 1865 (66 libri)',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
     bibleLabels.ar.english='الإنجليزية — دواي رايمز 1899';
     bibleLabels.fr.english='Anglais — Douay-Rheims 1899';
     bibleLabels.it.english='Inglese — Douay-Rheims 1899';
-    bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Jesuit edition',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',pending:'This text is being prepared for full integration in the app.',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
+    bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Van Dyck 1865 (66 books)',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',pending:'This text is being prepared for full integration in the app.',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
+    const AR_BIBLE_BASE='https://raw.githubusercontent.com/midvash/bible-data/main/versions/ar/svd/books/';
+    let arabicBibleIndex=null,arabicBibleBook=null,arabicBibleChapter=1;
     const EN_BIBLE_BASE='./bibles/en/';
     let englishBibleIndex=null,englishBibleBook=null,englishBibleChapter=1;
     let bibleIndex=null, bibleBook=null, bibleChapter=1, bibleCurrentLanguage=null;
@@ -873,6 +875,84 @@
       if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1334)throw new Error('Unexpected English Catholic Bible canon');
       englishBibleIndex=index;await bibleCacheSet('en-index',index);return index;
     }
+    async function loadArabicBibleIndex(){
+      if(arabicBibleIndex)return arabicBibleIndex;
+      const cached=await bibleCacheGet('ar-index');
+      if(cached){arabicBibleIndex=cached;return cached;}
+      const response=await fetch('./bibles/ar/index.json');
+      if(!response.ok)throw new Error('Arabic Bible index unavailable');
+      const index=await response.json();
+      if(!Array.isArray(index)||index.length!==66||index.reduce((n,b)=>n+b.chapterCount,0)!==1189)throw new Error('Unexpected Arabic SVD index');
+      arabicBibleIndex=index;await bibleCacheSet('ar-index',index);return index;
+    }
+    async function openArabicBible(){
+      const host=document.getElementById('bible-reader');if(!host)return;
+      host.dir='rtl';host.style.textAlign='right';
+      host.innerHTML='<p class="empty-state">جارٍ تحميل الكتاب المقدّس العربي — فان دايك 1865…</p>';
+      try{await loadArabicBibleIndex();if(!arabicBibleBook)arabicBibleBook=arabicBibleIndex[0];renderArabicBibleReader();}
+      catch(e){host.innerHTML='<p class="empty-state">تعذّر تحميل فهرس الكتاب المقدّس العربي. تحقّق من الاتصال وحاول مجدداً.</p>';}
+    }
+    function renderArabicBibleReader(){
+      const host=document.getElementById('bible-reader');if(!host||!arabicBibleIndex||!arabicBibleBook)return;
+      host.dir='rtl';host.style.textAlign='right';
+      const bookOptions=arabicBibleIndex.map(b=>'<option value="'+b.slug+'" '+(b.slug===arabicBibleBook.slug?'selected':'')+'>'+escapeHtml(b.name)+'</option>').join('');
+      const chapterOptions=Array.from({length:arabicBibleBook.chapterCount},(_,i)=>'<option value="'+(i+1)+'" '+(i+1===arabicBibleChapter?'selected':'')+'>'+(i+1)+'</option>').join('');
+      host.innerHTML='<button id="ar-bible-download-all" class="feature-tab" type="button" onclick="downloadArabicBible()">تنزيل الأسفار الـ66 للقراءة دون إنترنت</button><p id="ar-bible-download-status" class="bible-note" aria-live="polite">نسخة فان دايك 1865: 66 سفراً. الأسفار القانونية الثانية والإضافات الكاثوليكية إلى أستير ودانيال غير متوفرة في هذه النسخة بعد.</p><div class="bible-controls"><select id="ar-bible-book" aria-label="السفر" onchange="changeArabicBibleBook(this.value)">'+bookOptions+'</select><select id="ar-bible-chapter" aria-label="الإصحاح" onchange="changeArabicBibleChapter(this.value)">'+chapterOptions+'</select></div><div id="ar-bible-verses" class="bible-verses"><p class="empty-state">جارٍ تحميل الإصحاح…</p></div><p class="bible-note" style="margin-top:14px">النص: ترجمة فان دايك العربية (1865)، ضمن الملكية العامة. هذه نسخة من 66 سفراً وليست الكتاب المقدّس الكاثوليكي الكامل.</p>';
+      loadArabicBibleChapter();
+    }
+    function changeArabicBibleBook(slug){arabicBibleBook=arabicBibleIndex.find(b=>b.slug===slug)||arabicBibleIndex[0];arabicBibleChapter=1;renderArabicBibleReader();}
+    function changeArabicBibleChapter(value){arabicBibleChapter=Number(value)||1;loadArabicBibleChapter();}
+    async function getArabicBookData(){
+      const key='ar-book-'+arabicBibleBook.slug;
+      let book=await bibleCacheGet(key);
+      if(book)return book;
+      const response=await fetch(AR_BIBLE_BASE+encodeURIComponent(arabicBibleBook.sourceCode)+'.json');
+      if(!response.ok)throw new Error('Arabic book unavailable');
+      const source=await response.json();
+      if(!source||!Array.isArray(source.chapters)||source.chapters.length!==arabicBibleBook.chapterCount)throw new Error('Incomplete Arabic book');
+      book={name:arabicBibleBook.name,slug:arabicBibleBook.slug,chapterCount:source.chapters.length,chapters:source.chapters.map(ch=>({chapterNumber:ch.chapter,verses:ch.verses.map(v=>({verse:v.number,text:v.text}))}))};
+      await bibleCacheSet(key,book);return book;
+    }
+    async function loadArabicBibleChapter(){
+      const box=document.getElementById('ar-bible-verses');if(!box)return;
+      box.innerHTML='<p class="empty-state">جارٍ تحميل الإصحاح…</p>';
+      try{
+        const key='ar-'+arabicBibleBook.slug+'-'+arabicBibleChapter;
+        let data=await bibleCacheGet(key);
+        if(!data){const book=await getArabicBookData();data=book.chapters[arabicBibleChapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Arabic chapter unavailable');await bibleCacheSet(key,data);}
+        box.dir='rtl';box.style.textAlign='right';
+        box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(arabicBibleBook.name)+' — '+arabicBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
+      }catch(e){box.innerHTML='<p class="empty-state">تعذّر تحميل الإصحاح. تحقّق من اتصال الإنترنت وحاول مجدداً.</p>';}
+    }
+    async function downloadArabicBible(){
+      const button=document.getElementById('ar-bible-download-all'),status=document.getElementById('ar-bible-download-status');
+      if(!button||!status||!arabicBibleIndex)return;
+      button.disabled=true;let done=0,total=arabicBibleIndex.reduce((n,b)=>n+b.chapterCount,0);
+      status.textContent='جارٍ تجهيز الأسفار الـ66 للقراءة دون إنترنت…';
+      try{
+        await bibleDbSet('meta','ar-index',arabicBibleIndex);
+        for(const book of arabicBibleIndex){
+          const key='ar-book-'+book.slug;
+          let localBook=await bibleDbGet('chapters',key);
+          if(!localBook){
+            const response=await fetch(AR_BIBLE_BASE+encodeURIComponent(book.sourceCode)+'.json');
+            if(!response.ok)throw new Error('توقف التنزيل عند '+book.name);
+            const source=await response.json();
+            if(!source||!Array.isArray(source.chapters)||source.chapters.length!==book.chapterCount)throw new Error('سفر غير مكتمل: '+book.name);
+            localBook={name:book.name,slug:book.slug,chapterCount:source.chapters.length,chapters:source.chapters.map(ch=>({chapterNumber:ch.chapter,verses:ch.verses.map(v=>({verse:v.number,text:v.text}))}))};
+            await bibleDbSet('chapters',key,localBook);
+          }
+          for(let chapter=1;chapter<=book.chapterCount;chapter++){
+            const chapterKey='ar-'+book.slug+'-'+chapter;let data=await bibleDbGet('chapters',chapterKey);
+            if(!data){data=localBook.chapters[chapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('إصحاح غير صالح: '+book.name+' '+chapter);await bibleDbSet('chapters',chapterKey,data);}
+            done++;status.textContent='حفظ دون إنترنت: '+done+' / '+total+' إصحاحاً ('+Math.round(done/total*100)+'%)';
+          }
+        }
+        await bibleDbSet('meta','ar-complete',{books:66,chapters:total,completedAt:new Date().toISOString()});
+        status.textContent='اكتمل حفظ الأسفار الـ66 ('+total+' إصحاحاً) على هذا الجهاز.';
+        button.textContent='تم حفظ الكتاب المقدّس دون إنترنت';
+      }catch(e){status.textContent='توقف التنزيل: '+(e.message||'مشكلة في الاتصال')+'. اضغط للمتابعة؛ ستبقى الإصحاحات المحفوظة.';button.disabled=false;}
+    }
     async function openEnglishBible(){
       const host=document.getElementById('bible-reader');if(!host)return;
       host.innerHTML='<p class="empty-state">Loading the complete English Catholic Bible…</p>';
@@ -943,6 +1023,8 @@
       bibleCurrentLanguage=lang;
       const host=document.getElementById('bible-reader');
       if(!host)return;
+      host.dir=lang==='ar'?'rtl':'ltr';host.style.textAlign=lang==='ar'?'right':'left';
+      if(lang==='ar'){openArabicBible();return;}
       if(lang==='fr'){openFrenchBible();return;}
       if(lang==='en'){openEnglishBible();return;}
       if(lang!=='it'){
