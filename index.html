@@ -767,6 +767,9 @@
       fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — édition jésuite',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
       it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — edizione gesuita',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
+    bibleLabels.ar.english='الإنجليزية — دواي رايمز 1899';
+    bibleLabels.fr.english='Anglais — Douay-Rheims 1899';
+    bibleLabels.it.english='Inglese — Douay-Rheims 1899';
     bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Jesuit edition',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',pending:'This text is being prepared for full integration in the app.',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
     const EN_BIBLE_BASE='./bibles/en/';
     let englishBibleIndex=null,englishBibleBook=null,englishBibleChapter=1;
@@ -929,7 +932,8 @@
         '<div class="bible-language-grid">'+
         '<button class="bible-language" onclick="openBibleLanguage(\'ar\')">'+l.arabic+'</button>'+
         '<button class="bible-language" onclick="openBibleLanguage(\'fr\')">'+l.french+'</button>'+
-        '<button class="bible-language" onclick="openBibleLanguage(\'it\')">'+l.italian+'</button></div>'+
+        '<button class="bible-language" onclick="openBibleLanguage(\'it\')">'+l.italian+'</button>'+
+        '<button class="bible-language" onclick="openBibleLanguage(\'en\')">'+l.english+'</button></div>'+
         '<div id="bible-reader" class="bible-reader"><p class="bible-note">'+l.pending+'</p></div>';
       if(bibleCurrentLanguage) openBibleLanguage(bibleCurrentLanguage);
     }
