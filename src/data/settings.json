@@ -1,6 +1,11 @@
 {
   "version": 1,
-  "languages": ["ar", "fr", "it"],
+  "languages": [
+    "ar",
+    "fr",
+    "it",
+    "en"
+  ],
   "defaultLanguage": "ar",
   "textSize": "standard",
   "notificationPreferences": {
