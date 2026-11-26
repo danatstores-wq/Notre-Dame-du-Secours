@@ -536,7 +536,7 @@
       document.getElementById('motto-text').textContent = t.motto;
 
       document.getElementById('cards-container').innerHTML = t.cards.map((c, cardIndex) => `
-        <div class="card" role="button" tabindex="0" onclick="openFeature(${cardIndex})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFeature(${cardIndex})}">
+        <div class="card" role="button" tabindex="0" onclick="${cardIndex===6?'window.openBible()':'openFeature('+cardIndex+')'}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${cardIndex===6?'window.openBible()':'openFeature('+cardIndex+')'}}">
           ${c[2].startsWith("assets/")?`<img src="${c[2]}" alt="${c[0]}" />`:`<span class="card-symbol" aria-hidden="true">${c[2]}</span>`}
           <div class="card-text">
             <h3>${c[0]}</h3>
@@ -1003,7 +1003,7 @@
         button.textContent='Bible saved offline';
       }catch(e){status.textContent='Download paused: '+(e.message||'connection problem')+'. Tap to continue; saved chapters will be kept.';button.disabled=false;}
     }
-    function openBible(){document.getElementById('home-view').classList.add('hidden');document.getElementById('bible-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderBibleScreen();}
+    function openBible(){try{const home=document.getElementById('home-view'),screen=document.getElementById('bible-screen'),nav=document.getElementById('bottom-nav');if(!home||!screen)throw new Error('Bible screen elements are missing');home.classList.add('hidden');screen.classList.add('visible');if(nav)nav.style.display='none';renderBibleScreen();}catch(error){console.error('Could not open Bible screen:',error);alert('تعذّر فتح شاشة الكتاب المقدّس. يرجى تحديث الصفحة والمحاولة مجدداً.');}}window.openBible=openBible;
     function closeBible(){document.getElementById('bible-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     function renderBibleScreen(){
       const l=bibleLabels[currentLang];
