@@ -765,27 +765,17 @@
     function renderMaroniteSaints(items,l){if(!items.length)return '<p>'+l.none+'</p>';return items.map(n=>'<p>'+escapeHtml(n)+'</p>').join('');}
 
     const bibleLabels={
-      ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — الكتاب المقدّس الكاثوليكي (73 سفراً)',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
-      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — Bible catholique (73 livres)',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
-      it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — Bibbia cattolica (73 libri)',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
+      ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — فان دايك الكاثوليكية (73 سفراً)',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
+      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — Van Dyck catholique (73 livres)',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
+      it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — Van Dyck cattolica (73 libri)',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
     bibleLabels.ar.english='الإنجليزية — دواي رايمز 1899';
     bibleLabels.fr.english='Anglais — Douay-Rheims 1899';
     bibleLabels.it.english='Inglese — Douay-Rheims 1899';
-    bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Catholic Bible (73 books)',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',pending:'This text is being prepared for full integration in the app.',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
+    bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Van Dyck Catholic Bible (73 books)',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',pending:'This text is being prepared for full integration in the app.',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
     const AR_BIBLE_BASE='https://raw.githubusercontent.com/midvash/bible-data/main/versions/ar/svd/books/';
     let arabicBibleIndex=null,arabicBibleBook=null,arabicBibleChapter=1;
-    const AR_DEUTEROCANONICAL_BOOKS=[
-      {slug:'tobit',name:'سفر طوبيا',file:'tobit_arabic_catholic.json',chapterCount:14},
-      {slug:'judith',name:'سفر يهوديت',file:'judith_arabic_catholic.json',chapterCount:16},
-      {slug:'1-maccabees',name:'سفر المكابيين الأول',file:'1_maccabees_full_ar.json',chapterCount:16},
-      {slug:'2-maccabees',name:'سفر المكابيين الثاني',file:'2_maccabees_full_ar.json',chapterCount:15},
-      {slug:'wisdom',name:'سفر الحكمة',file:'wisdom_arabic_catholic.json',chapterCount:19},
-      {slug:'sirach',name:'سفر يشوع بن سيراخ',file:'sirach_arabic_catholic.json',chapterCount:51},
-      {slug:'baruch',name:'سفر باروخ',file:'baruch_arabic_catholic.json',chapterCount:6}
-    ];
-    let arabicDeuterocanonicalBook=AR_DEUTEROCANONICAL_BOOKS[0],arabicDeuterocanonicalChapter=1;
-    const EN_BIBLE_BASE='./bibles/en/';
+    // All 73 Arabic Catholic books are driven by one canonical index and one book selector.\n    const EN_BIBLE_BASE='./bibles/en/';
     let englishBibleIndex=null,englishBibleBook=null,englishBibleChapter=1;
     let bibleIndex=null, bibleBook=null, bibleChapter=1, bibleCurrentLanguage=null;
     const IT_BIBLE_BASE='./bibles/it/';
@@ -891,7 +881,7 @@
       if(cached&&Array.isArray(cached)&&cached.length===73&&cached.reduce((n,b)=>n+b.chapterCount,0)===1326){
         arabicBibleIndex=cached;return cached;
       }
-      const response=await fetch('./bibles/ar/index.json?catholic=73');
+      const response=await fetch('./bibles/ar/index.json?catholic=73&v=20261126-2',{cache:'no-store'});
       if(!response.ok)throw new Error('Arabic Catholic Bible index unavailable');
       const index=await response.json();
       if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1326)throw new Error('Arabic Catholic Bible index must contain 73 books and 1,326 chapters');
