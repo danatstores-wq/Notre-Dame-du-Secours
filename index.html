@@ -756,13 +756,13 @@
         button.textContent='Bible saved offline';
       }catch(error){status.textContent='Download paused: '+(error.message||'connection problem')+'. Tap to continue; saved chapters will be kept.';button.disabled=false;}
     }
-    const FR_BIBLE_BASE='https://raw.githubusercontent.com/clinto-abraham/bible.ciyo.in/b76e44393b3593ce10334e04421ffa82ce9e9c98/public/data/french/bible/';
+    const FR_BIBLE_BASE='./bibles/fr/';
     let frenchBibleIndex=null,frenchBibleBook=null,frenchBibleChapter=1;
     async function loadFrenchBibleIndex(){
       if(frenchBibleIndex)return frenchBibleIndex;
       const cached=await bibleCacheGet('fr-index');
       if(cached){frenchBibleIndex=cached;return cached;}
-      const response=await fetch(FR_BIBLE_BASE+'books.json');
+      const response=await fetch(FR_BIBLE_BASE+'index.json');
       if(!response.ok)throw new Error('French Bible index unavailable');
       const index=await response.json();
       if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1334)throw new Error('Unexpected French Catholic canon index');
@@ -782,9 +782,11 @@
       try{
         await bibleDbSet('meta','fr-index',frenchBibleIndex);
         for(const book of frenchBibleIndex){
+          const response=await fetch(FR_BIBLE_BASE+'books/'+encodeURIComponent(book.slug)+'.json');if(!response.ok)throw new Error('Arrêt au livre '+book.nativeName);
+          const localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters)||localBook.chapters.length!==book.chapterCount)throw new Error('Livre incomplet : '+book.nativeName);
           for(let chapter=1;chapter<=book.chapterCount;chapter++){
             const key='fr-'+book.slug+'-'+chapter;let data=await bibleDbGet('chapters',key);
-            if(!data){const response=await fetch(FR_BIBLE_BASE+book.slug+'/'+chapter+'.json');if(!response.ok)throw new Error('Arrêt à '+book.nativeName+' '+chapter);data=await response.json();if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Chapitre invalide : '+book.nativeName+' '+chapter);await bibleDbSet('chapters',key,data);}
+            if(!data){data=localBook.chapters[chapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Chapitre invalide : '+book.nativeName+' '+chapter);await bibleDbSet('chapters',key,data);}
             done++;status.textContent='Sauvegarde hors ligne : '+done+' / '+total+' chapitres ('+Math.round(done/total*100)+'%)';
           }
         }
@@ -806,7 +808,7 @@
       const box=document.getElementById('fr-bible-verses');if(!box)return;
       box.innerHTML='<p class="empty-state">Chargement du chapitre…</p>';
       try{const key='fr-'+frenchBibleBook.slug+'-'+frenchBibleChapter;let data=await bibleCacheGet(key);
-        if(!data){const response=await fetch(FR_BIBLE_BASE+frenchBibleBook.slug+'/'+frenchBibleChapter+'.json');if(!response.ok)throw new Error('Chapitre indisponible');data=await response.json();if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Données invalides');await bibleCacheSet(key,data);}
+        if(!data){const response=await fetch(FR_BIBLE_BASE+'books/'+encodeURIComponent(frenchBibleBook.slug)+'.json');if(!response.ok)throw new Error('Livre indisponible');const localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters))throw new Error('Livre invalide');data=localBook.chapters[frenchBibleChapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Données invalides');await bibleCacheSet(key,data);}
         box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(data.nativeName||frenchBibleBook.nativeName)+' — '+frenchBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
       }catch(e){box.innerHTML='<p class="empty-state">Chapitre indisponible. Connectez-vous à Internet et réessayez.</p>';}
     }
