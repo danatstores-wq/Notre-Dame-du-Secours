@@ -1,0 +1,28 @@
+name: Build English Catholic Bible
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/build-english-bible.mjs'
+      - '.github/workflows/build-english-bible.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Generate complete English Catholic Bible
+        run: node scripts/build-english-bible.mjs
+      - name: Commit bundled Bible data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bibles/en
+          if ! git diff --cached --quiet; then
+            git commit -m "Add complete English Douay-Rheims Catholic Bible"
+            git push
+          fi
