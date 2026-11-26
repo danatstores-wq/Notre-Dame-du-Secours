@@ -1615,7 +1615,7 @@ function authError(err){
 }
 async function loadCmsEditor(){
  const t=lang(),key=document.getElementById("parish-cms-type").value,editor=document.getElementById("parish-cms-editor");currentCmsKey=key;
- try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));let payload;if(snap.exists())payload=snap.data().payload;else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");payload=await fallback.json();}if(payload&&typeof payload==="object"&&!Array.isArray(payload)){delete payload._notes;if(key==="announcements"||key==="parishLife")delete payload.note;if(key==="prayers"){delete payload.reviewNote;delete payload.prayerSourceAudit;}}editor.value=JSON.stringify(payload,null,2);if(key==="massSchedule")renderMassScheduleAdmin();else if(key==="announcements")renderAnnouncementsAdmin();else if(key==="prayers")renderPrayerAdmin();else{const panel=document.getElementById("mass-admin-panel");if(panel)panel.style.display="none";document.getElementById("parish-cms-editor").style.display="block";}status(lang().loaded);}
+ try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));let payload;if(snap.exists())payload=snap.data().payload;else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");payload=await fallback.json();}if(payload&&typeof payload==="object"&&!Array.isArray(payload)){delete payload._notes;if(key==="announcements"||key==="parishLife")delete payload.note;if(key==="prayers"){delete payload.reviewNote;delete payload.prayerSourceAudit;}}editor.value=JSON.stringify(payload,null,2);if(key==="massSchedule")renderMassScheduleAdmin();else if(key==="announcements")renderAnnouncementsAdmin();else if(key==="prayers")renderPrayerAdmin();else if(key==="parishLife")renderParishLifeAdmin();else{const panel=document.getElementById("mass-admin-panel");if(panel)panel.style.display="none";document.getElementById("parish-cms-editor").style.display="block";}status(lang().loaded);}
  catch(err){status(authError(err),true);}
 }
 let adminPrayerCategoryId=null,adminPrayerId=null;
@@ -1668,6 +1668,57 @@ function renderPrayerAdmin(){
   const p=JSON.parse(editor.value||"{}"),c=p.categories.find(x=>x.id===adminPrayerCategoryId);c.prayers=c.prayers.filter(x=>x.id!==adminPrayerId);adminPrayerId=null;editor.value=JSON.stringify(p,null,2);renderPrayerAdmin();
  });
 }
+
+let adminParishLifeSection="groups",adminParishLifeId=null;
+function renderParishLifeAdmin(){
+ const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor"),lc=document.documentElement.lang||"en";
+ if(!panel||!editor)return;
+ let p;try{p=JSON.parse(editor.value||"{}");}catch(e){panel.innerHTML="<p>"+lang().badJson+"</p>";panel.style.display="block";return;}
+ const sections=["groups","activities","galleries"];
+ const labels={
+ ar:{heading:"إدارة حياة الرعية",hint:"أضف وعدّل المجموعات والنشاطات ومعارض الصور. املأ المعلومات باللغات الأربع، ثم اضغط حفظ التغييرات.",groups:"المجموعات",activities:"النشاطات",galleries:"معارض الصور",choose:"اختر عنصراً",add:"إضافة",remove:"حذف",title:"العنوان / الاسم",description:"الوصف",date:"التاريخ",image:"رابط الصورة",empty:"لا توجد عناصر في هذا القسم.",confirm:"هل تريد حذف هذا العنصر؟",langs:{ar:"العربية",fr:"الفرنسية",it:"الإيطالية",en:"الإنجليزية"}},
+ en:{heading:"Manage Parish Life",hint:"Add and edit groups, activities and photo galleries. Complete the information in all four languages, then select Save Changes.",groups:"Groups",activities:"Activities",galleries:"Photo galleries",choose:"Select an item",add:"Add item",remove:"Delete item",title:"Title / name",description:"Description",date:"Date",image:"Image URL",empty:"There are no items in this section.",confirm:"Delete this item?",langs:{ar:"Arabic",fr:"French",it:"Italian",en:"English"}},
+ fr:{heading:"Gérer la vie paroissiale",hint:"Ajoutez et modifiez les groupes, activités et galeries photos. Complétez les informations dans les quatre langues, puis enregistrez.",groups:"Groupes",activities:"Activités",galleries:"Galeries photos",choose:"Choisir un élément",add:"Ajouter",remove:"Supprimer",title:"Titre / nom",description:"Description",date:"Date",image:"URL de l’image",empty:"Aucun élément dans cette section.",confirm:"Supprimer cet élément ?",langs:{ar:"Arabe",fr:"Français",it:"Italien",en:"Anglais"}},
+ it:{heading:"Gestisci la vita parrocchiale",hint:"Aggiungi e modifica gruppi, attività e gallerie fotografiche. Completa le informazioni in tutte e quattro le lingue, poi salva.",groups:"Gruppi",activities:"Attività",galleries:"Gallerie fotografiche",choose:"Seleziona un elemento",add:"Aggiungi",remove:"Elimina",title:"Titolo / nome",description:"Descrizione",date:"Data",image:"URL immagine",empty:"Non ci sono elementi in questa sezione.",confirm:"Eliminare questo elemento?",langs:{ar:"Arabo",fr:"Francese",it:"Italiano",en:"Inglese"}}
+ }[lc]||{heading:"Manage Parish Life",hint:"Edit content in all four languages and save.",groups:"Groups",activities:"Activities",galleries:"Photo galleries",choose:"Select an item",add:"Add item",remove:"Delete item",title:"Title / name",description:"Description",date:"Date",image:"Image URL",empty:"No items.",confirm:"Delete this item?",langs:{ar:"Arabic",fr:"French",it:"Italian",en:"English"}};
+ const list=Array.isArray(p[adminParishLifeSection])?p[adminParishLifeSection]:[];
+ if(!list.some(x=>x.id===adminParishLifeId))adminParishLifeId=list[0]?.id||null;
+ const item=list.find(x=>x.id===adminParishLifeId);
+ let html="<h3 style='color:var(--gold-light)'>"+labels.heading+"</h3><p>"+labels.hint+"</p>";
+ html+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0">'+sections.map(s=>'<button type="button" class="feature-tab '+(s===adminParishLifeSection?'active':'')+'" data-life-section="'+s+'">'+labels[s]+'</button>').join("")+'</div>';
+ html+='<label style="display:block;margin:10px 0">'+labels.choose+'<select id="life-admin-choice" style="display:block;width:100%;padding:10px;margin-top:5px"><option value="">—</option>'+list.map(x=>'<option value="'+safe(x.id||"")+'" '+(x.id===adminParishLifeId?'selected':'')+'>'+safe(x.title?.[lc]||x.title?.en||x.name?.[lc]||x.name?.en||x.title||x.name||x.id||"")+'</option>').join("")+'</select></label>';
+ html+='<button type="button" class="feature-tab" id="life-admin-add">'+labels.add+'</button>';
+ if(item){
+  html+='<div style="margin-top:14px">';
+  ["ar","fr","it","en"].forEach(code=>{
+   html+='<label style="display:block;margin:10px 0">'+labels.title+' — '+labels.langs[code]+'<input data-life-field="title" data-life-lang="'+code+'" value="'+safe(item.title?.[code]||item.name?.[code]||((typeof item.title==="string"&&code===lc)?item.title:""))+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label>';
+   html+='<label style="display:block;margin:10px 0">'+labels.description+' — '+labels.langs[code]+'<textarea data-life-field="description" data-life-lang="'+code+'" rows="3" style="display:block;width:100%;padding:10px;margin-top:5px">'+safe(item.description?.[code]||((typeof item.description==="string"&&code===lc)?item.description:""))+'</textarea></label>';
+  });
+  html+='<label style="display:block;margin:10px 0">'+labels.date+'<input type="date" data-life-field="date" value="'+safe(item.date||item.startDate||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label>';
+  html+='<label style="display:block;margin:10px 0">'+labels.image+'<input data-life-field="image" value="'+safe(item.image||item.photo||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label>';
+  html+='<button type="button" class="feature-tab" id="life-admin-delete">'+labels.remove+'</button></div>';
+ }else html+='<p class="empty-state">'+labels.empty+'</p>';
+ panel.innerHTML=html;panel.style.display="block";editor.style.display="none";
+ panel.querySelectorAll("[data-life-section]").forEach(b=>b.addEventListener("click",()=>{adminParishLifeSection=b.dataset.lifeSection;adminParishLifeId=null;renderParishLifeAdmin();}));
+ panel.querySelector("#life-admin-choice").addEventListener("change",e=>{adminParishLifeId=e.target.value||null;renderParishLifeAdmin();});
+ panel.querySelector("#life-admin-add").addEventListener("click",()=>{
+  const data=JSON.parse(editor.value||"{}");if(!Array.isArray(data[adminParishLifeSection]))data[adminParishLifeSection]=[];
+  const id="parish-life-"+Date.now();data[adminParishLifeSection].push({id,title:{ar:"",fr:"",it:"",en:""},description:{ar:"",fr:"",it:"",en:""},date:"",image:""});
+  editor.value=JSON.stringify(data,null,2);adminParishLifeId=id;renderParishLifeAdmin();
+ });
+ panel.querySelectorAll("[data-life-field]").forEach(input=>input.addEventListener("input",()=>{
+  const data=JSON.parse(editor.value||"{}"),entry=(data[adminParishLifeSection]||[]).find(x=>x.id===adminParishLifeId);if(!entry)return;
+  const field=input.dataset.lifeField;
+  if(field==="title"||field==="description"){entry[field]=entry[field]&&typeof entry[field]==="object"?entry[field]:{};entry[field][input.dataset.lifeLang]=input.value;}
+  else {entry[field]=input.value;if(field==="image")entry.photo=input.value;}
+  editor.value=JSON.stringify(data,null,2);
+ }));
+ const del=panel.querySelector("#life-admin-delete");if(del)del.addEventListener("click",()=>{
+  if(!window.confirm(labels.confirm))return;
+  const data=JSON.parse(editor.value||"{}");data[adminParishLifeSection]=(data[adminParishLifeSection]||[]).filter(x=>x.id!==adminParishLifeId);adminParishLifeId=null;editor.value=JSON.stringify(data,null,2);renderParishLifeAdmin();
+ });
+}
+
 function renderAnnouncementsAdmin(){
  const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor"),t=lang();
  if(!panel||!editor)return;
