@@ -163,4 +163,4 @@ const payload = {
 };
 const output = path.join(outDir, year + '.json');
 await fs.writeFile(output, JSON.stringify(payload));
-console.log('Wrote ' + output + ' (' + Object.keys(maroniteEn).length + ' fixed Maronite dates; ' + Object.keys(arabicIndex).length + ' Arabic-index dates; Catholic EN/FR/IT)');
+console.log('Wrote ' + output + ' (' + Object.keys(maronite.en).length + ' valid Maronite dates; ' + Object.keys(arabicIndex).length + ' Arabic-index dates; Catholic EN/FR/IT)');
