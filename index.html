@@ -1582,7 +1582,7 @@ function profileShell(){
      ${Object.entries(getCmsLabels()).map(([key,label])=>`<option value="${key}" ${key===currentCmsKey?"selected":""}>${safe(label)}</option>`).join("")}
     </select>
     <button class="feature-tab" id="parish-cms-load" style="width:100%;margin-top:10px">${t.load}</button>
-    <textarea id="parish-cms-editor" spellcheck="false" rows="14" style="width:100%;margin-top:10px;padding:11px;border-radius:9px;border:1px solid var(--gold);background:#07152c;color:#fff;font:12px/1.5 monospace"></textarea><button class="feature-tab" type="button" id="mass-admin-open" style="width:100%;margin-top:10px">${t.scheduleEditor}</button><div id="mass-admin-panel" style="display:none;margin-top:12px"></div>
+    <textarea id="parish-cms-editor" spellcheck="false" rows="14" style="width:100%;margin-top:10px;padding:11px;border-radius:9px;border:1px solid var(--gold);background:#07152c;color:#fff;font:12px/1.5 monospace"></textarea><button class="feature-tab" type="button" id="mass-admin-open" style="display:none;width:100%;margin-top:10px">${t.scheduleEditor}</button><div id="mass-admin-panel" style="display:none;margin-top:12px"></div>
     <button class="feature-tab" id="parish-cms-save" style="width:100%;margin-top:10px">${t.save}</button>
     <label style="display:block;margin-top:14px">${t.upload}</label>
     <input id="parish-image-upload" type="file" accept="image/*" style="width:100%;margin-top:8px;color:white">
@@ -1596,7 +1596,7 @@ function profileShell(){
    try{await updateProfile(currentUser,{displayName:name});await currentUser.reload();currentUser=auth.currentUser;profileShell();status(t.profileUpdated);}catch(err){status(authError(err),true);}
   });
   if(admin){
-   document.getElementById("parish-cms-type").addEventListener("change",e=>{currentCmsKey=e.target.value;});document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);document.getElementById("mass-admin-open").addEventListener("click",()=>{document.getElementById("parish-cms-type").value="massSchedule";loadCmsEditor();});
+   const cmsType=document.getElementById("parish-cms-type"),massEditorButton=document.getElementById("mass-admin-open");const syncMassEditorButton=()=>{const show=cmsType.value==="massSchedule";massEditorButton.style.display=show?"block":"none";if(!show){const panel=document.getElementById("mass-admin-panel");panel.style.display="none";}};cmsType.addEventListener("change",e=>{currentCmsKey=e.target.value;syncMassEditorButton();});syncMassEditorButton();document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);massEditorButton.addEventListener("click",loadCmsEditor);
    document.getElementById("parish-cms-save").addEventListener("click",saveCmsEditor);
    document.getElementById("parish-image-upload").addEventListener("change",uploadParishImage);
   }else{
