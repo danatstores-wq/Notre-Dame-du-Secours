@@ -612,7 +612,7 @@
 
     const bibleLabels={
       ar:{title:'الكتاب المقدّس',back:'رجوع',choose:'اختر لغة الكتاب المقدّس',arabic:'العربية — اليسوعية',french:'الفرنسية — كرامبون 1923',italian:'الإيطالية — مارتيني',pending:'هذا النصّ قيد التجهيز للإدماج الكامل داخل التطبيق. لن نعرض رابطاً خارجياً أو نسخة غير مكتملة.'},
-      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — édition jésuite',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.'},
+      fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — édition jésuite',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Crampon 1923 (domaine public). Données de chapitres : FreCrampon.'},
       it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — edizione gesuita',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
     let bibleIndex=null, bibleBook=null, bibleChapter=1, bibleCurrentLanguage=null;
@@ -649,6 +649,60 @@
         button.textContent='Bible saved offline';
       }catch(error){status.textContent='Download paused: '+(error.message||'connection problem')+'. Tap to continue; saved chapters will be kept.';button.disabled=false;}
     }
+    const FR_BIBLE_BASE='https://raw.githubusercontent.com/clinto-abraham/bible.ciyo.in/b76e44393b3593ce10334e04421ffa82ce9c98/public/data/french/bible/';
+    let frenchBibleIndex=null,frenchBibleBook=null,frenchBibleChapter=1;
+    async function loadFrenchBibleIndex(){
+      if(frenchBibleIndex)return frenchBibleIndex;
+      const cached=await bibleCacheGet('fr-index');
+      if(cached){frenchBibleIndex=cached;return cached;}
+      const response=await fetch(FR_BIBLE_BASE+'books.json');
+      if(!response.ok)throw new Error('French Bible index unavailable');
+      const index=await response.json();
+      if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1334)throw new Error('Unexpected French Catholic canon index');
+      frenchBibleIndex=index;await bibleCacheSet('fr-index',index);return index;
+    }
+    async function openFrenchBible(){
+      const host=document.getElementById('bible-reader');if(!host)return;
+      host.innerHTML='<p class="empty-state">Chargement de la Bible française…</p>';
+      try{await loadFrenchBibleIndex();if(!frenchBibleBook)frenchBibleBook=frenchBibleIndex[0];renderFrenchBibleReader();}
+      catch(e){host.innerHTML='<p class="empty-state">Impossible de charger l’index. Vérifiez la connexion puis réessayez.</p>';}
+    }
+    async function downloadFrenchBible(){
+      const button=document.getElementById('fr-bible-download-all'),status=document.getElementById('fr-bible-download-status');
+      if(!button||!status||!frenchBibleIndex)return;
+      button.disabled=true;let done=0,total=frenchBibleIndex.reduce((n,b)=>n+b.chapterCount,0);
+      status.textContent='Préparation du téléchargement hors ligne…';
+      try{
+        await bibleDbSet('meta','fr-index',frenchBibleIndex);
+        for(const book of frenchBibleIndex){
+          for(let chapter=1;chapter<=book.chapterCount;chapter++){
+            const key='fr-'+book.slug+'-'+chapter;let data=await bibleDbGet('chapters',key);
+            if(!data){const response=await fetch(FR_BIBLE_BASE+book.slug+'/'+chapter+'.json');if(!response.ok)throw new Error('Arrêt à '+book.nativeName+' '+chapter);data=await response.json();if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Chapitre invalide : '+book.nativeName+' '+chapter);await bibleDbSet('chapters',key,data);}
+            done++;status.textContent='Sauvegarde hors ligne : '+done+' / '+total+' chapitres ('+Math.round(done/total*100)+'%)';
+          }
+        }
+        await bibleDbSet('meta','fr-complete',{books:73,chapters:total,completedAt:new Date().toISOString()});
+        status.textContent='Terminé : les 73 livres ('+total+' chapitres) sont enregistrés hors ligne.';
+        button.textContent='Bible enregistrée hors ligne';
+      }catch(e){status.textContent='Téléchargement interrompu : '+(e.message||'problème de connexion')+'. Appuyez pour reprendre; les chapitres déjà enregistrés sont conservés.';button.disabled=false;}
+    }
+    function renderFrenchBibleReader(){
+      const host=document.getElementById('bible-reader');if(!host||!frenchBibleIndex||!frenchBibleBook)return;
+      const bookOptions=frenchBibleIndex.map(b=>'<option value="'+b.slug+'" '+(b.slug===frenchBibleBook.slug?'selected':'')+'>'+escapeHtml(b.nativeName)+'</option>').join('');
+      const chapterOptions=Array.from({length:frenchBibleBook.chapterCount},(_,i)=>'<option value="'+(i+1)+'" '+(i+1===frenchBibleChapter?'selected':'')+'>'+(i+1)+'</option>').join('');
+      host.innerHTML='<button id="fr-bible-download-all" class="feature-tab" type="button" onclick="downloadFrenchBible()">Télécharger toute la Bible pour lecture hors ligne</button><p id="fr-bible-download-status" class="bible-note" aria-live="polite">La Bible catholique complète (73 livres, 1 334 chapitres) peut être sauvegardée sur cet appareil.</p><div class="bible-controls"><select id="fr-bible-book" aria-label="Livre" onchange="changeFrenchBibleBook(this.value)">'+bookOptions+'</select><select id="fr-bible-chapter" aria-label="Chapitre" onchange="changeFrenchBibleChapter(this.value)">'+chapterOptions+'</select></div><div id="fr-bible-verses" class="bible-verses"><p class="empty-state">Chargement du chapitre…</p></div><p class="bible-note" style="margin-top:14px">'+bibleLabels.fr.frenchAttribution+'</p>';
+      loadFrenchBibleChapter();
+    }
+    function changeFrenchBibleBook(slug){frenchBibleBook=frenchBibleIndex.find(b=>b.slug===slug)||frenchBibleIndex[0];frenchBibleChapter=1;renderFrenchBibleReader();}
+    function changeFrenchBibleChapter(v){frenchBibleChapter=Number(v)||1;loadFrenchBibleChapter();}
+    async function loadFrenchBibleChapter(){
+      const box=document.getElementById('fr-bible-verses');if(!box)return;
+      box.innerHTML='<p class="empty-state">Chargement du chapitre…</p>';
+      try{const key='fr-'+frenchBibleBook.slug+'-'+frenchBibleChapter;let data=await bibleCacheGet(key);
+        if(!data){const response=await fetch(FR_BIBLE_BASE+frenchBibleBook.slug+'/'+frenchBibleChapter+'.json');if(!response.ok)throw new Error('Chapitre indisponible');data=await response.json();if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Données invalides');await bibleCacheSet(key,data);}
+        box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(data.nativeName||frenchBibleBook.nativeName)+' — '+frenchBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
+      }catch(e){box.innerHTML='<p class="empty-state">Chapitre indisponible. Connectez-vous à Internet et réessayez.</p>';}
+    }
     function openBible(){document.getElementById('home-view').classList.add('hidden');document.getElementById('bible-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderBibleScreen();}
     function closeBible(){document.getElementById('bible-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     function renderBibleScreen(){
@@ -668,6 +722,7 @@
       bibleCurrentLanguage=lang;
       const host=document.getElementById('bible-reader');
       if(!host)return;
+      if(lang==='fr'){openFrenchBible();return;}
       if(lang!=='it'){
         host.innerHTML='<p class="empty-state">'+bibleLabels[currentLang].pending+'</p>';
         return;
