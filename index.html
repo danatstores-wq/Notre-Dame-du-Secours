@@ -1797,7 +1797,7 @@ function renderMassScheduleAdmin(){
   html+="<button class='feature-tab' type='button' data-special-delete='"+i+"'>"+t.removeMass+"</button></section>";
  });
  html+="<button class='feature-tab' type='button' id='mass-admin-special-add'>"+t.addSpecialMass+"</button>";
- panel.innerHTML=html;panel.style.display="block";
+ panel.innerHTML=html;panel.style.display="block";editor.style.display="none";
  panel.querySelectorAll("[data-admin-mass-date]").forEach(button=>button.addEventListener("click",()=>{adminMassSelectedDate=button.dataset.adminMassDate;adminMassCalendarMonth=new Date(adminMassSelectedDate+"T12:00:00");renderMassScheduleAdmin();}));
  panel.querySelector("#admin-mass-prev").addEventListener("click",()=>{adminMassCalendarMonth=new Date(adminMassCalendarMonth.getFullYear(),adminMassCalendarMonth.getMonth()-1,1);renderMassScheduleAdmin();});
  panel.querySelector("#admin-mass-next").addEventListener("click",()=>{adminMassCalendarMonth=new Date(adminMassCalendarMonth.getFullYear(),adminMassCalendarMonth.getMonth()+1,1);renderMassScheduleAdmin();});
