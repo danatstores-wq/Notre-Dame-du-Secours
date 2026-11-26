@@ -22,7 +22,7 @@ const BOOKS = [
   ['Jude','Jude'],['Revelation','Apocalypse']
 ];
 const slugify = value => value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const cleanText = value => String(value).replace(/\\*/g,'').replace(/\\s+/g,' ').trim();
+const cleanText = value => String(value).replace(/\*/g,'').replace(/\s+/g,' ').trim();
 
 await fs.mkdir(path.join(OUT,'books'),{recursive:true});
 const index=[];
@@ -32,12 +32,12 @@ for (const [name,sourceName] of BOOKS) {
   const response=await fetch(url);
   if(!response.ok) throw new Error('Could not fetch '+sourceName+': HTTP '+response.status);
   const raw=await response.json();
-  const chapterKeys=Object.keys(raw).filter(k=>/^\\d+$/.test(k)).sort((a,b)=>Number(a)-Number(b));
+  const chapterKeys=Object.keys(raw).filter(k=>/^\d+$/.test(k)).sort((a,b)=>Number(a)-Number(b));
   if(!chapterKeys.length) throw new Error('No chapters in '+sourceName);
   const slug=slugify(name);
   const chapters=chapterKeys.map(chapterKey=>{
     const sourceVerses=raw[chapterKey];
-    const verseKeys=Object.keys(sourceVerses).filter(k=>/^\\d+$/.test(k)).sort((a,b)=>Number(a)-Number(b));
+    const verseKeys=Object.keys(sourceVerses).filter(k=>/^\d+$/.test(k)).sort((a,b)=>Number(a)-Number(b));
     const verses=verseKeys.map(verseKey=>({verse:Number(verseKey),text:cleanText(sourceVerses[verseKey])}));
     if(!verses.length) throw new Error('Empty chapter '+name+' '+chapterKey);
     totalVerses+=verses.length;
