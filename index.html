@@ -232,7 +232,7 @@
     }
     .nav-item.active { color: var(--gold-light); font-weight: 700; }
     .nav-item img { width: 24px; height: 24px; }
-    .nav-profile-icon { width:24px; height:24px; display:grid; place-items:center; font-size:21px; line-height:1; }
+    .nav-profile-icon { width:24px; height:24px; object-fit:contain; display:block; }
   
     .saints-cal-wrap{border:1px solid rgba(229,182,87,.6);border-radius:16px;padding:12px;background:rgba(8,22,45,.86);margin:10px 0 16px}
     .saints-cal-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
@@ -262,7 +262,7 @@
     .mass-selected-title{font-size:1rem;color:var(--gold-light);margin:14px 0 10px}
       html[data-text-size="small"] .feature-content{font-size:.9rem}
     html[data-text-size="large"] .feature-content{font-size:1.15rem}
-      .church-history-list{padding-inline-start:22px;line-height:1.9}.church-history-list li{padding:5px 0}.church-action-link{display:flex;align-items:center;gap:10px;margin:10px 0;padding:13px;border:1px solid rgba(229,182,87,.65);border-radius:12px;background:rgba(229,182,87,.09);color:var(--gold-light);text-decoration:none;font-weight:700}.church-menu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.church-menu-card{min-width:0;min-height:118px;padding:14px 8px;border:1px solid rgba(229,182,87,.65);border-radius:14px;background:rgba(229,182,87,.09);color:var(--gold-light);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;font:inherit;font-weight:700;cursor:pointer}.church-menu-icon{font-size:2rem;line-height:1}.card-symbol{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;font-size:1.8rem}.language-menu-wrap{position:relative}
+      .church-history-list{padding-inline-start:22px;line-height:1.9}.church-history-list li{padding:5px 0}.church-action-link{display:flex;align-items:center;gap:10px;margin:10px 0;padding:13px;border:1px solid rgba(229,182,87,.65);border-radius:12px;background:rgba(229,182,87,.09);color:var(--gold-light);text-decoration:none;font-weight:700}.church-menu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.church-menu-card{min-width:0;min-height:118px;padding:14px 8px;border:1px solid rgba(229,182,87,.65);border-radius:14px;background:rgba(229,182,87,.09);color:var(--gold-light);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;font:inherit;font-weight:700;cursor:pointer}.church-menu-icon{width:42px;height:42px;object-fit:contain;display:block}.card-symbol{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;font-size:1.8rem}.language-menu-wrap{position:relative}
     .language-gear{display:flex;align-items:center;justify-content:center;min-width:42px;min-height:42px}
     .language-dropdown{position:absolute;top:calc(100% + 8px);right:0;z-index:1000;min-width:150px;padding:6px;border:1px solid var(--gold);border-radius:12px;background:var(--navy-nav);box-shadow:0 10px 28px rgba(0,0,0,.35);direction:ltr}
     .language-dropdown[hidden]{display:none}
@@ -381,7 +381,7 @@
           [
             "الكتاب المقدّس",
             "العهد القديم والجديد",
-            "📖"
+            "assets/icons/holy_bible.png"
           ],
           ["تقويم القدّيسين","القدّيسون الكاثوليك والموارنة","assets/icons/icon-saints-calendar.svg"],
         ],
@@ -434,7 +434,7 @@
           [
             "La Sainte Bible",
             "Ancien et Nouveau Testament",
-            "📖"
+            "assets/icons/holy_bible.png"
           ],
           ["Calendrier des Saints","Saints catholiques et maronites","assets/icons/icon-saints-calendar.svg"],
         ],
@@ -487,7 +487,7 @@
           [
             "La Sacra Bibbia",
             "Antico e Nuovo Testamento",
-            "📖"
+            "assets/icons/holy_bible.png"
           ],
           ["Calendario dei Santi","Santi cattolici e maroniti","assets/icons/icon-saints-calendar.svg"],
         ],
@@ -514,7 +514,7 @@
           ["Priest's Messages","and Parish News","assets/icons/icon-megaphone.png"],
           ["Parish Life","and Activities","assets/icons/icon-church.png"],
           ["Prayer Requests","Let us pray together","assets/icons/icon-praying-hands.png"],
-          ["The Holy Bible","Old and New Testaments","📖"],
+          ["The Holy Bible","Old and New Testaments","assets/icons/holy_bible.png"],
           ["Saints Calendar","Catholic and Maronite saints","assets/icons/icon-saints-calendar.svg"]
         ],
         "nav": ["Home","Notifications","Favorites","Our Church","Profile"]
@@ -547,7 +547,7 @@
 
       const navIcons = ['nav-home.png', 'nav-bell.png', 'nav-star.png', 'nav-info.png'];
       document.getElementById('bottom-nav').innerHTML = t.nav.map((label, index) => {
-        const icon = index < navIcons.length ? `<img src="assets/icons/${navIcons[index]}" alt="" />` : '<span class="nav-profile-icon" aria-hidden="true">👤</span>';
+        const icon = index < navIcons.length ? `<img src="assets/icons/${navIcons[index]}" alt="" />` : '<img class="nav-profile-icon" src="assets/icons/profile.png" alt="" />';
         return `<div class="nav-item ${index === 0 ? 'active' : ''}" role="button" tabindex="0" aria-label="${label}" onclick="handleNav(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleNav(${index})}">${icon}<span>${label}</span></div>`;
       }).join('');
     }
@@ -1504,7 +1504,7 @@
       const l=churchHistoryLabels[currentLang];
       document.getElementById('home-view').classList.add('hidden');document.getElementById('about-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';
       document.getElementById('about-title').textContent=l.title;document.getElementById('about-back').textContent=l.back;
-      document.getElementById('about-content').innerHTML='<div class="church-menu-grid"><button type="button" class="church-menu-card" onclick="openAbout()"><span class="church-menu-icon" aria-hidden="true">🏛️</span><span>'+l.title+'</span></button><button type="button" class="church-menu-card" onclick="openContact()"><span class="church-menu-icon" aria-hidden="true">☎️</span><span>'+l.contact+'</span></button><button type="button" class="church-menu-card" onclick="openChurchMap()"><span class="church-menu-icon" aria-hidden="true">📍</span><span>'+l.map+'</span></button></div>';
+      document.getElementById('about-content').innerHTML='<div class="church-menu-grid"><button type="button" class="church-menu-card" onclick="openAbout()"><span class="church-menu-icon" aria-hidden="true">🏛️</span><span>'+l.title+'</span></button><button type="button" class="church-menu-card" onclick="openContact()"><img class="church-menu-icon" src="assets/icons/call_us.png" alt="" /><span>'+l.contact+'</span></button><button type="button" class="church-menu-card" onclick="openChurchMap()"><img class="church-menu-icon" src="assets/icons/church_location.png" alt="" /><span>'+l.map+'</span></button></div>';
     }
     function openAbout(){
       document.getElementById('home-view').classList.add('hidden');document.getElementById('about-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';
