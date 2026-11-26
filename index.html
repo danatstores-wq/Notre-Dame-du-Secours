@@ -723,7 +723,7 @@
       it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — edizione gesuita',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
     let bibleIndex=null, bibleBook=null, bibleChapter=1, bibleCurrentLanguage=null;
-    const IT_BIBLE_BASE='https://parolaviva.art/api/v1/bibbia/';
+    const IT_BIBLE_BASE='./bibles/it/';
     const BIBLE_DB_NAME='notre-dame-bible',BIBLE_DB_VERSION=1;
     function bibleDb(){return new Promise((resolve,reject)=>{if(!('indexedDB'in window)){reject(new Error('Offline storage is not supported on this device'));return;}const req=indexedDB.open(BIBLE_DB_NAME,BIBLE_DB_VERSION);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('chapters'))db.createObjectStore('chapters');if(!db.objectStoreNames.contains('meta'))db.createObjectStore('meta');};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('Could not open offline storage'));});}
     async function bibleDbGet(store,key){const db=await bibleDb();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readonly'),req=tx.objectStore(store).get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);tx.oncomplete=()=>db.close();});}
@@ -742,11 +742,11 @@
             const key='it-'+book.s+'-'+chapter;
             let data=await bibleDbGet('chapters',key);
             if(!data){
-              const response=await fetch(IT_BIBLE_BASE+encodeURIComponent(book.s)+'/'+chapter+'.json');
-              if(!response.ok)throw new Error('Download stopped at '+book.n+' '+chapter);
-              data=await response.json();
-              if(!data||!Array.isArray(data.v)||!data.v.length)throw new Error('Invalid chapter: '+book.n+' '+chapter);
-              await bibleDbSet('chapters',key,data);
+              let localBook=await bibleDbGet('chapters','it-book-'+book.s);
+            if(!localBook){const response=await fetch(IT_BIBLE_BASE+'books/'+encodeURIComponent(book.s)+'.json');if(!response.ok)throw new Error('Download stopped at '+book.n);localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters))throw new Error('Invalid book: '+book.n);await bibleDbSet('chapters','it-book-'+book.s,localBook);}
+            const chapterVerses=localBook.chapters[chapter-1]||[];data={n:localBook.name||book.n,v:chapterVerses.map((t,i)=>({n:i+1,t}))};
+            if(!data.v.length)throw new Error('Invalid chapter: '+book.n+' '+chapter);
+            await bibleDbSet('chapters',key,data);
             }
             done++;status.textContent='Saving offline: '+done+' / '+total+' chapters ('+Math.round(done/total*100)+'%)';
           }
@@ -839,7 +839,7 @@
         if(!bibleIndex){
           const cachedIndex=await bibleCacheGet('it-index');
           if(cachedIndex){bibleIndex=cachedIndex;}
-          else{const response=await fetch(IT_BIBLE_BASE+'indice.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');await bibleCacheSet('it-index',bibleIndex);}
+          else{const response=await fetch(IT_BIBLE_BASE+'index.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');await bibleCacheSet('it-index',bibleIndex);}
         }
         if(!bibleBook)bibleBook=bibleIndex[0];
         renderBibleReader();
@@ -863,7 +863,7 @@
       try{
         const cacheKey='it-'+bibleBook.s+'-'+bibleChapter;
         let data=await bibleCacheGet(cacheKey);
-        if(!data){const response=await fetch(IT_BIBLE_BASE+encodeURIComponent(bibleBook.s)+'/'+bibleChapter+'.json');if(!response.ok)throw new Error('Chapter unavailable');data=await response.json();if(!data||!Array.isArray(data.v)||!data.v.length)throw new Error('Invalid chapter data');await bibleCacheSet(cacheKey,data);}
+        if(!data){let localBook=await bibleCacheGet('it-book-'+bibleBook.s);if(!localBook){const response=await fetch(IT_BIBLE_BASE+'books/'+encodeURIComponent(bibleBook.s)+'.json');if(!response.ok)throw new Error('Book unavailable');localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters))throw new Error('Invalid book data');await bibleCacheSet('it-book-'+bibleBook.s,localBook);}const chapterVerses=localBook.chapters[bibleChapter-1]||[];data={n:localBook.name||bibleBook.n,v:chapterVerses.map((t,i)=>({n:i+1,t}))};if(!data.v.length)throw new Error('Invalid chapter data');await bibleCacheSet(cacheKey,data);}
         box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(data.n||bibleBook.n)+' — '+bibleChapter+'</h3>'+data.v.map(v=>'<p class="bible-verse"><sup>'+v.n+'</sup> '+escapeHtml(v.t)+'</p>').join('');
       }catch(error){box.innerHTML='<p class="empty-state">Chapter unavailable. Connect to the internet and try again.</p>';}
     }
