@@ -9,7 +9,13 @@
       var isIOS = /iPhone|iPad|iPod/i.test(ua) ||
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       if (isIOS) document.documentElement.classList.add("ios-device");
-      if (/Android/i.test(ua)) document.documentElement.classList.add("android-device");
+      if (/Android/i.test(ua)) {
+        document.documentElement.classList.add("android-device");
+        /* Samsung browsers render this dashboard correctly at 75% zoom.
+           Apply that equivalent viewport scale automatically on Android only. */
+        var viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) viewport.setAttribute("content", "width=device-width, initial-scale=0.75, viewport-fit=cover");
+      }
     })();
   </script>
   <title>كنيسة سيدة المعونات | Église Notre-Dame du Secours</title>
