@@ -1823,7 +1823,7 @@ function renderMassScheduleAdmin(){
  });
  panel.querySelector("#mass-admin-add").addEventListener("click",()=>{
   let p=JSON.parse(editor.value||"{}");if(!Array.isArray(p.massSchedule))p.massSchedule=[];
-  p.massSchedule.push({id:"mass-"+Date.now(),dayOfWeek:0,time:"09:00",titleAr:"قداس",titleFr:"Messe",titleIt:"Messa",titleEn:"Mass",location:""});editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
+  p.massSchedule.push({id:"mass-"+Date.now(),dayOfWeek:new Date(adminMassSelectedDate+"T12:00:00").getDay(),time:"09:00",titleAr:"قداس",titleFr:"Messe",titleIt:"Messa",titleEn:"Mass",location:""});editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
  });
 }
 
