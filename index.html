@@ -307,6 +307,7 @@
             <button type="button" role="menuitem" onclick="selectLanguage('ar')">العربية</button>
             <button type="button" role="menuitem" onclick="selectLanguage('fr')">Français</button>
             <button type="button" role="menuitem" onclick="selectLanguage('it')">Italiano</button>
+            <button type="button" role="menuitem" onclick="selectLanguage('en')">English</button>
           </div>
         </div>
       </header>
@@ -494,9 +495,29 @@
           "La nostra chiesa"
         ]
       }
+    ,
+      "en": {
+        "dir": "ltr",
+        "title": "Our Lady of Help Church",
+        "subtitle": "- Our parish, a home of prayer and faith -",
+        "welcome": "Welcome to our parish",
+        "motto": "“Our Lady of Help, pray for us”",
+        "toggle": "العربية",
+        "cards": [
+          ["Mass Schedule","and Activities","assets/icons/icon-calendar.png"],
+          ["The Holy Rosary","Begin praying","assets/icons/icon-rosary.png"],
+          ["Prayer Library","Audio and Text","assets/icons/icon-bible.png"],
+          ["Priest's Messages","and Parish News","assets/icons/icon-megaphone.png"],
+          ["Parish Life","and Activities","assets/icons/icon-church.png"],
+          ["Prayer Requests","Let us pray together","assets/icons/icon-praying-hands.png"],
+          ["The Holy Bible","Old and New Testaments","📖"],
+          ["Saints Calendar","Catholic and Maronite saints","assets/icons/icon-saints-calendar.svg"]
+        ],
+        "nav": ["Home","Notifications","Favorites","Our Church"]
+      }
     }
 
-    const supportedLanguages = ['ar', 'fr', 'it'];
+    const supportedLanguages = ['ar', 'fr', 'it', 'en'];
     let currentLang = localStorage.getItem('parish-language');
     if (!supportedLanguages.includes(currentLang)) currentLang = 'ar';
 
@@ -746,6 +767,9 @@
       fr:{title:'La Sainte Bible',back:'Retour',choose:'Choisissez la langue',arabic:'Arabe — édition jésuite',french:'Français — Crampon 1923',italian:'Italien — Martini',pending:'Ce texte est en cours de préparation pour une intégration complète dans l’application. Aucun lien externe ni texte incomplet ne sera présenté.',frenchAttribution:'Texte : Bible Augustin Crampon, édition révisée de 1923 (domaine public). Source des données : Sacred Scriptures / FreCrampon.'},
       it:{title:'La Sacra Bibbia',back:'Indietro',choose:'Scegli la lingua',arabic:'Arabo — edizione gesuita',french:'Francese — Crampon 1923',italian:'Italiano — Martini',pending:'Questo testo è in preparazione per l’integrazione completa nell’app. Non mostreremo link esterni né un testo incompleto.', attribution:'Testo: Bibbia Martini (1769–1781), pubblico dominio. Dati: Parola Viva, CC BY 4.0.'}
     };
+    bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Jesuit edition',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',pending:'This text is being prepared for full integration in the app.',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
+    const EN_BIBLE_BASE='./bibles/en/';
+    let englishBibleIndex=null,englishBibleBook=null,englishBibleChapter=1;
     let bibleIndex=null, bibleBook=null, bibleChapter=1, bibleCurrentLanguage=null;
     const IT_BIBLE_BASE='./bibles/it/';
     const BIBLE_DB_NAME='notre-dame-bible',BIBLE_DB_VERSION=1;
@@ -834,6 +858,66 @@
         box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(frenchBibleBook.nativeName||data.nativeName)+' — '+frenchBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
       }catch(e){box.innerHTML='<p class="empty-state">Chapitre indisponible. Connectez-vous à Internet et réessayez.</p>';}
     }
+    async function loadEnglishBibleIndex(){
+      if(englishBibleIndex)return englishBibleIndex;
+      const cached=await bibleCacheGet('en-index');
+      if(cached){englishBibleIndex=cached;return cached;}
+      const response=await fetch(EN_BIBLE_BASE+'index.json');
+      if(!response.ok)throw new Error('English Bible index unavailable');
+      const index=await response.json();
+      if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1334)throw new Error('Unexpected English Catholic Bible canon');
+      englishBibleIndex=index;await bibleCacheSet('en-index',index);return index;
+    }
+    async function openEnglishBible(){
+      const host=document.getElementById('bible-reader');if(!host)return;
+      host.innerHTML='<p class="empty-state">Loading the complete English Catholic Bible…</p>';
+      try{await loadEnglishBibleIndex();if(!englishBibleBook)englishBibleBook=englishBibleIndex[0];renderEnglishBibleReader();}
+      catch(e){host.innerHTML='<p class="empty-state">The English Bible could not be loaded. Please check your connection and try again.</p>';}
+    }
+    function renderEnglishBibleReader(){
+      const host=document.getElementById('bible-reader');if(!host||!englishBibleIndex||!englishBibleBook)return;
+      const bookOptions=englishBibleIndex.map(b=>'<option value="'+b.slug+'" '+(b.slug===englishBibleBook.slug?'selected':'')+'>'+escapeHtml(b.name)+'</option>').join('');
+      const chapterOptions=Array.from({length:englishBibleBook.chapterCount},(_,i)=>'<option value="'+(i+1)+'" '+(i+1===englishBibleChapter?'selected':'')+'>'+(i+1)+'</option>').join('');
+      host.innerHTML='<button id="en-bible-download-all" class="feature-tab" type="button" onclick="downloadEnglishBible()">Download complete Bible for offline reading</button><p id="en-bible-download-status" class="bible-note" aria-live="polite">All 73 Catholic books can be saved on this device for offline reading.</p><div class="bible-controls"><select id="en-bible-book" aria-label="Book" onchange="changeEnglishBibleBook(this.value)">'+bookOptions+'</select><select id="en-bible-chapter" aria-label="Chapter" onchange="changeEnglishBibleChapter(this.value)">'+chapterOptions+'</select></div><div id="en-bible-verses" class="bible-verses"><p class="empty-state">Loading chapter…</p></div><p class="bible-note" style="margin-top:14px">'+bibleLabels.en.englishAttribution+'</p>';
+      loadEnglishBibleChapter();
+    }
+    function changeEnglishBibleBook(slug){englishBibleBook=englishBibleIndex.find(b=>b.slug===slug)||englishBibleIndex[0];englishBibleChapter=1;renderEnglishBibleReader();}
+    function changeEnglishBibleChapter(value){englishBibleChapter=Number(value)||1;loadEnglishBibleChapter();}
+    async function loadEnglishBibleChapter(){
+      const box=document.getElementById('en-bible-verses');if(!box)return;
+      box.innerHTML='<p class="empty-state">Loading chapter…</p>';
+      try{
+        const key='en-'+englishBibleBook.slug+'-'+englishBibleChapter;
+        let data=await bibleCacheGet(key);
+        if(!data){
+          let book=await bibleCacheGet('en-book-'+englishBibleBook.slug);
+          if(!book){const response=await fetch(EN_BIBLE_BASE+'books/'+encodeURIComponent(englishBibleBook.slug)+'.json');if(!response.ok)throw new Error('Book unavailable');book=await response.json();if(!book||!Array.isArray(book.chapters)||book.chapters.length!==englishBibleBook.chapterCount)throw new Error('Incomplete book');await bibleCacheSet('en-book-'+englishBibleBook.slug,book);}
+          data=book.chapters[englishBibleChapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Chapter unavailable');await bibleCacheSet(key,data);
+        }
+        box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(englishBibleBook.name)+' — '+englishBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
+      }catch(e){box.innerHTML='<p class="empty-state">Chapter unavailable. Connect to the internet and try again.</p>';}
+    }
+    async function downloadEnglishBible(){
+      const button=document.getElementById('en-bible-download-all'),status=document.getElementById('en-bible-download-status');
+      if(!button||!status||!englishBibleIndex)return;
+      button.disabled=true;let done=0,total=englishBibleIndex.reduce((n,b)=>n+b.chapterCount,0);
+      status.textContent='Preparing all 73 books for offline reading…';
+      try{
+        await bibleDbSet('meta','en-index',englishBibleIndex);
+        for(const book of englishBibleIndex){
+          let localBook=await bibleDbGet('chapters','en-book-'+book.slug);
+          if(!localBook){const response=await fetch(EN_BIBLE_BASE+'books/'+encodeURIComponent(book.slug)+'.json');if(!response.ok)throw new Error('Download stopped at '+book.name);localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters)||localBook.chapters.length!==book.chapterCount)throw new Error('Invalid book: '+book.name);await bibleDbSet('chapters','en-book-'+book.slug,localBook);}
+          for(let chapter=1;chapter<=book.chapterCount;chapter++){
+            const key='en-'+book.slug+'-'+chapter;let data=await bibleDbGet('chapters',key);
+            if(!data){data=localBook.chapters[chapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Invalid chapter: '+book.name+' '+chapter);await bibleDbSet('chapters',key,data);}
+            done++;status.textContent='Saving offline: '+done+' / '+total+' chapters ('+Math.round(done/total*100)+'%)';
+          }
+        }
+        await bibleDbSet('meta','en-complete',{books:73,chapters:total,completedAt:new Date().toISOString()});
+        status.textContent='Complete: all 73 books ('+total+' chapters) are saved on this device for offline reading.';
+        button.textContent='Bible saved offline';
+      }catch(e){status.textContent='Download paused: '+(e.message||'connection problem')+'. Tap to continue; saved chapters will be kept.';button.disabled=false;}
+    }
     function openBible(){document.getElementById('home-view').classList.add('hidden');document.getElementById('bible-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderBibleScreen();}
     function closeBible(){document.getElementById('bible-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
     function renderBibleScreen(){
@@ -854,6 +938,7 @@
       const host=document.getElementById('bible-reader');
       if(!host)return;
       if(lang==='fr'){openFrenchBible();return;}
+      if(lang==='en'){openEnglishBible();return;}
       if(lang!=='it'){
         host.innerHTML='<p class="empty-state">'+bibleLabels[currentLang].pending+'</p>';
         return;
@@ -1221,7 +1306,7 @@
     }
     function renderSettings(){
       const l=settingsLabels[currentLang],size=localStorage.getItem('parish-text-size')||'normal';document.getElementById('settings-title').textContent=l.title;document.getElementById('settings-back').textContent=l.back;
-      document.getElementById('settings-content').innerHTML='<article class="schedule-entry"><strong>'+l.language+'</strong><p style="margin-top:8px">'+({ar:'العربية',fr:'Français',it:'Italiano'}[currentLang])+'</p><select class="feature-tab" aria-label="'+l.language+'" onchange="selectLanguage(this.value)"><option value="ar" '+(currentLang==='ar'?'selected':'')+'>العربية</option><option value="fr" '+(currentLang==='fr'?'selected':'')+'>Français</option><option value="it" '+(currentLang==='it'?'selected':'')+'>Italiano</option></select></article><article class="schedule-entry"><strong>'+l.size+'</strong><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">'+[['small',l.small],['normal',l.normal],['large',l.large]].map(([v,t])=>'<button class="feature-tab '+(size===v?'active':'')+'" onclick="setTextSize(\''+v+'\')">'+t+'</button>').join('')+'</div></article><article class="schedule-entry"><strong>'+l.privacy+'</strong><p style="line-height:1.8;margin-top:8px">'+l.privacyPending+'</p></article>';
+      document.getElementById('settings-content').innerHTML='<article class="schedule-entry"><strong>'+l.language+'</strong><p style="margin-top:8px">'+({ar:'العربية',fr:'Français',it:'Italiano'}[currentLang])+'</p><select class="feature-tab" aria-label="'+l.language+'" onchange="selectLanguage(this.value)"><option value="ar" '+(currentLang==='ar'?'selected':'')+'>العربية</option><option value="fr" '+(currentLang==='fr'?'selected':'')+'>Français</option><option value="it" '+(currentLang==='it'?'selected':'')+'>Italiano</option><option value="en" '+(currentLang==='en'?'selected':'')+'>English</option></select></article><article class="schedule-entry"><strong>'+l.size+'</strong><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">'+[['small',l.small],['normal',l.normal],['large',l.large]].map(([v,t])=>'<button class="feature-tab '+(size===v?'active':'')+'" onclick="setTextSize(\''+v+'\')">'+t+'</button>').join('')+'</div></article><article class="schedule-entry"><strong>'+l.privacy+'</strong><p style="line-height:1.8;margin-top:8px">'+l.privacyPending+'</p></article>';
     }
     function setTextSize(size){localStorage.setItem('parish-text-size',size);document.documentElement.dataset.textSize=size;renderSettings();}
 
@@ -1230,6 +1315,18 @@
       fr:{title:'Intentions de prière',back:'Retour',intro:'Vous pouvez transmettre votre intention de prière en toute confidentialité et avec respect. Elle sera destinée uniquement au curé.',privacy:'Les intentions sont privées. Seul le curé autorisé peut les consulter.',account:'Pour envoyer une intention, vous devrez créer un compte avec une adresse e-mail et un mot de passe, puis vérifier votre adresse e-mail.',phone:'Aucun numéro de téléphone ni SMS n’est nécessaire.',pending:'Après l’envoi, votre intention sera placée dans une file privée pour examen par le curé.',setupTitle:'Inscription sécurisée pas encore activée',setup:'La création de compte, la connexion et l’envoi seront activés après la configuration de Firebase Authentication et des règles de sécurité côté serveur. Les envois sont désactivés pour protéger votre confidentialité.'},
       it:{title:'Intenzioni di preghiera',back:'Indietro',intro:'Puoi inviare la tua intenzione di preghiera con riservatezza e rispetto. Sarà destinata soltanto al parroco.',privacy:'Le intenzioni sono private. Solo il parroco autorizzato può leggerle.',account:'Per inviare un’intenzione, dovrai creare un account con e-mail e password e verificare il tuo indirizzo e-mail.',phone:'Non è necessario un numero di telefono né un SMS.',pending:'Dopo l’invio, l’intenzione sarà inserita in una coda privata per la revisione del parroco.',setupTitle:'Registrazione sicura non ancora attiva',setup:'La creazione dell’account, l’accesso e l’invio saranno attivati dopo la configurazione di Firebase Authentication e delle regole di sicurezza lato server. Gli invii sono disabilitati per proteggere la tua privacy.'}
     };
+    massLabels.en={title:'Mass Schedule and Activities',back:'Back',tabs:['Masses','Special Masses','Activities'],empty:'The parish has not published the schedule yet. Please check again later for confirmed information.',loading:'Loading schedule…',error:'The schedule cannot be loaded right now.'};
+    massCalendarLabels.en={today:'Today',prev:'Previous month',next:'Next month',selected:'Schedule for this day',week:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],noDay:'There are no confirmed events for this day.',months:['January','February','March','April','May','June','July','August','September','October','November','December']};
+    saintsCalendarLabels.en={title:'Saints Calendar',back:'Back',month:'Month',catholic:'Catholic Church — General Roman Calendar',maronite:'Maronite Church — Synaxarion',choose:'Choose a date to see the saints commemorated',loading:'Loading commemorations…',none:'No saint commemoration is recorded for this date in the available source.',error:'The calendar could not be loaded. Check your connection and try again.',days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],sourceCatholic:'General Roman Calendar data via LitCal; Arabic translations are not available for every name in the source.',sourceMaronite:'Source: Antiochian Maronite Synaxarion (Kaslik, 1996) and Arabic Maronite Synaxarion index.'};
+    rosaryLabels.en={title:'The Holy Rosary',back:'Back',choose:'Choose the Rosary mysteries',days:'Days',start:'Begin guided prayer',step:'Step',of:'of',previous:'Previous',next:'Next',again:'Return to mysteries',unavailable:'The complete prayer texts and audio recordings will be added after parish review and approval.',noAudio:'There are no approved audio recordings yet. You can continue manually.',dayNames:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],today:'Suggested mysteries for today',guideIntro:'Follow the Rosary steps in order. Prayer and meditation names are shown; complete texts will be added after parish approval.',mystery:'Meditation',decade:'Decade',optional:'Optional prayer',skip:'Skip',finish:'Well done! You have completed the Rosary steps.',restart:'Start again',backMysteries:'Choose other mysteries',opening:'Opening prayers',closing:'Closing prayer',beads:'Decade progress',beadNumber:'Bead',outOf:'of 10',decadeNumber:'Decade',decadeOutOf:'of 5',diagram:'Rosary diagram: cross, Our Father bead, three Hail Mary beads, Glory Be bead, then five decades',ourFatherLabel:'Our Father',gloryBeLabel:'Glory Be',hailMaryLabel:'Hail Mary'};
+    prayerLibraryLabels.en={title:'Prayer Library',back:'Back',audio:'Listen to this prayer using your device voice.',empty:'There are no prayers in this section yet.',return:'Back to categories',search:'Search prayers…',copy:'Copy prayer',share:'Share',copied:'Prayer copied.',copyError:'Could not copy the prayer on this device.',noResults:'No prayers match your search.',smaller:'Decrease text size',larger:'Increase text size',play:'▶ Play',pause:'Pause',resume:'Resume',stop:'Stop',speaking:'Reading the prayer…',paused:'Prayer playback is paused.',finished:'Prayer reading finished.',unsupported:'Text-to-speech is not supported by this browser.',voiceMissing:'No suitable voice for this language is available on this device.',textPending:'This prayer text has not yet been approved and will not be read aloud.'};
+    announcementLabels.en={title:"Priest's Messages and Parish News",back:'Back',loading:'Loading news…',empty:'There are no announcements at the moment. Parish news and messages from the priest will appear here.',error:'News cannot be loaded right now.'};
+    parishLifeLabels.en={title:'Parish Life and Activities',back:'Back',tabs:['Groups','Activities','Photos'],loading:'Loading parish information…',emptyGroups:'There is no information about parish groups yet.',emptyActivities:'There are no published activities at the moment.',emptyGalleries:'There are no published photos at the moment.',error:'Parish information cannot be loaded right now.'};
+    favoriteLabels.en={title:'Favorites',back:'Back',empty:'You have not saved any prayers to Favorites yet.',add:'Add to Favorites ☆',remove:'Remove from Favorites ★'};
+    simplePageLabels.en={notifications:'Notifications',about:'Our Church',back:'Back',important:'Important announcements',masses:'Mass schedule updates',activities:'Parish activities',reminders:'Personal reminders',saved:'Your preferences have been saved on this device.',notReady:'Push notifications are not enabled yet.',parish:'Our Lady of Help Church',pending:'The parish history, address, contact details, and photos will be added after parish approval.'};
+    churchHistoryLabels.en={title:'Our Church',back:'Back',name:'Our Lady of Help Church – Saqiet El Misk',location:'Saqiet El Misk, Bhersaf area, Metn District, Mount Lebanon',intro:'A historic Maronite church dedicated to the Virgin Mary under the title Our Lady of Help. It is a place of prayer and faith for the parish community.',history:'Historical milestones',points:['1812: The church was built on the site of the former Saint Anthony church.','1841: Consecrated by Bishop Elias Mhaseb.','1910: The old dome was replaced by the present dome with support from local residents and the diaspora.','First quarter of the 20th century: The church interior was decorated.','2012: Vault frescoes by I. Roukos were completed; the church also preserves many icons.'],contact:'Contact us',map:'Church location on Google Maps',note:'This history is based on published references. The parish may add its own documents and photographs.'};
+    settingsLabels.en={title:'Settings',back:'Back',language:'App language',size:'Text size',small:'Small',normal:'Normal',large:'Large',privacy:'Privacy notice',privacyPending:'The privacy notice will be published after parish approval. An account is required only to submit a prayer request.'};
+    prayerRequestLabels.en={title:'Prayer Requests',back:'Back',intro:'You may submit your prayer intention confidentially and respectfully. It will be sent only to the parish priest.',privacy:'Prayer requests are private and can be viewed only by the authorized parish priest.',account:'To submit a prayer request, create an account with your email address and password, then verify your email address.',phone:'No phone number or SMS is required.',pending:'After submission, your intention will be placed in a private queue for the priest to review.',setupTitle:'Secure registration is not enabled yet',setup:'Account creation, sign-in, and prayer submissions will be enabled after Firebase Authentication and server-side security rules are configured. Submissions remain disabled to protect your privacy.'};
     function renderPrayerRequests(){
       const l=prayerRequestLabels[currentLang];document.getElementById('prayer-requests-title').textContent=l.title;document.getElementById('prayer-requests-back').textContent=l.back;
       document.getElementById('prayer-requests-content').innerHTML='<p style="line-height:1.9;margin-bottom:14px">'+l.intro+'</p><div class="schedule-entry"><strong style="color:var(--gold-light)">'+l.privacy+'</strong></div><div class="schedule-entry" style="line-height:1.9">'+l.account+'</div><div class="schedule-entry">'+l.phone+'</div><div class="schedule-entry" style="line-height:1.9">'+l.pending+'</div><div style="margin-top:18px;padding:14px;border:1px solid var(--gold);border-radius:12px;background:rgba(7,20,43,.65)"><h3 style="color:var(--gold-light);margin-bottom:8px">'+l.setupTitle+'</h3><p style="line-height:1.9">'+l.setup+'</p></div>';
