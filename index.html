@@ -862,6 +862,51 @@
       const host=document.getElementById('bible-reader');if(!host||!frenchBibleIndex||!frenchBibleBook)return;
       const bookOptions=frenchBibleIndex.map(b=>'<option value="'+b.slug+'" '+(b.slug===frenchBibleBook.slug?'selected':'')+'>'+escapeHtml(b.nativeName)+'</option>').join('');
       const chapterOptions=Array.from({length:frenchBibleBook.chapterCount},(_,i)=>'<option value="'+(i+1)+'" '+(i+1===frenchBibleChapter?'selected':'')+'>'+(i+1)+'</option>').join('');
+      host.innerHTML='<button id="fr-bible-download-all" class="feature-tab" type="button" onclick="downloadFrenchBible()">Télécharger toute la Bible pour lecture hors ligne</button><p id="fr-bible-download-status" class="bible-note" aria-live="polite">La Bible catholique complète (73 livres, 1 334 chapitres) peut être sauvegardée sur cet appareil.</p><div class="bible-controls"><select id="fr-bible-book" aria-label="Livre" onchange="changeFrenchBibleBook(this.value)">'+bookOptions+'</select><select id="fr-bible-chapter" aria-label="Chapitre" onchange="changeFrenchBibleChapter(this.value)">'+chapterOptions+'</select></div><div id="fr-bible-verses" class="bible-verses"><p class="empty-state">Chargement du chapitre…</p></div><p class="bible-note" style="margin-top:14px">'+bibleLabels.fr.frenchAttribution+'</p>';
+      loadFrenchBibleChapter();
+    }
+    function changeFrenchBibleBook(slug){frenchBibleBook=frenchBibleIndex.find(b=>b.slug===slug)||frenchBibleIndex[0];frenchBibleChapter=1;renderFrenchBibleReader();}
+    function changeFrenchBibleChapter(v){frenchBibleChapter=Number(v)||1;loadFrenchBibleChapter();}
+    async function loadFrenchBibleChapter(){
+      const box=document.getElementById('fr-bible-verses');if(!box)return;
+      box.innerHTML='<p class="empty-state">Chargement du chapitre…</p>';
+      try{const key='fr-'+frenchBibleBook.slug+'-'+frenchBibleChapter;let data=await bibleCacheGet(key);
+        if(!data){const response=await fetch(FR_BIBLE_BASE+'books/'+encodeURIComponent(frenchBibleBook.slug)+'.json');if(!response.ok)throw new Error('Livre indisponible');const localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters))throw new Error('Livre invalide');data=localBook.chapters[frenchBibleChapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Données invalides');await bibleCacheSet(key,data);}
+        box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(frenchBibleBook.nativeName||data.nativeName)+' — '+frenchBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
+      }catch(e){box.innerHTML='<p class="empty-state">Chapitre indisponible. Connectez-vous à Internet et réessayez.</p>';}
+    }
+    async function loadEnglishBibleIndex(){
+      if(englishBibleIndex)return englishBibleIndex;
+      const cached=await bibleCacheGet('en-index');
+      if(cached){englishBibleIndex=cached;return cached;}
+      const response=await fetch(EN_BIBLE_BASE+'index.json');
+      if(!response.ok)throw new Error('English Bible index unavailable');
+      const index=await response.json();
+      if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1334)throw new Error('Unexpected English Catholic Bible canon');
+      englishBibleIndex=index;await bibleCacheSet('en-index',index);return index;
+    }
+    async function loadArabicBibleIndex(){
+      if(arabicBibleIndex)return arabicBibleIndex;
+      const cached=await bibleCacheGet('ar-index');
+      if(cached){arabicBibleIndex=cached;return cached;}
+      const response=await fetch('./bibles/ar/index.json');
+      if(!response.ok)throw new Error('Arabic Bible index unavailable');
+      const index=await response.json();
+      if(!Array.isArray(index)||index.length!==66||index.reduce((n,b)=>n+b.chapterCount,0)!==1189)throw new Error('Unexpected Arabic SVD index');
+      arabicBibleIndex=index;await bibleCacheSet('ar-index',index);return index;
+    }
+    async function openArabicBible(){
+      const host=document.getElementById('bible-reader');if(!host)return;
+      host.dir='rtl';host.style.textAlign='right';
+      host.innerHTML='<p class="empty-state">جارٍ تحميل الكتاب المقدّس العربي — فان دايك 1865…</p>';
+      try{await loadArabicBibleIndex();if(!arabicBibleBook)arabicBibleBook=arabicBibleIndex[0];renderArabicBibleReader();}
+      catch(e){host.innerHTML='<p class="empty-state">تعذّر تحميل فهرس الكتاب المقدّس العربي. تحقّق من الاتصال وحاول مجدداً.</p>';}
+    }
+    function renderArabicBibleReader(){
+      const host=document.getElementById('bible-reader');if(!host||!arabicBibleIndex||!arabicBibleBook)return;
+      host.dir='rtl';host.style.textAlign='right';
+      const bookOptions=arabicBibleIndex.map(b=>'<option value="'+b.slug+'" '+(b.slug===arabicBibleBook.slug?'selected':'')+'>'+escapeHtml(b.name)+'</option>').join('');
+      const chapterOptions=Array.from({length:arabicBibleBook.chapterCount},(_,i)=>'<option value="'+(i+1)+'" '+(i+1===arabicBibleChapter?'selected':'')+'>'+(i+1)+'</option>').join('');
 
       const deutBookOptions=AR_DEUTEROCANONICAL_BOOKS.map(b=>'<option value="'+b.slug+'" '+(b.slug===arabicDeuterocanonicalBook.slug?'selected':'')+'>'+escapeHtml(b.name)+'</option>').join('');
       const deutChapterOptions=Array.from({length:arabicDeuterocanonicalBook.chapterCount},(_,i)=>'<option value="'+(i+1)+'">'+(i+1)+'</option>').join('');
