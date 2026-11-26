@@ -156,7 +156,7 @@
     .bible-link{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0;padding:16px;border:1px solid var(--gold);border-radius:14px;background:linear-gradient(145deg,rgba(16,42,82,.94),rgba(7,20,43,.96));color:var(--gold-light);text-decoration:none;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.25)}
     .bible-link small{display:block;margin-top:4px;color:#e5d8bd;font-weight:400}
     .bible-note{line-height:1.7;color:#e5d8bd;margin:10px 2px 16px;font-size:.9rem}
-    .feature-screen.visible{display:block}.home-view.hidden{display:none}
+    .feature-screen.visible{display:block;flex:1 1 auto;min-height:0;max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}.home-view.hidden{display:none}
     .screen-heading{display:flex;align-items:center;gap:12px;margin-bottom:18px}
     .screen-heading h2{color:var(--gold-light);font-size:1.15rem}
     .back-btn,.feature-tab{border:1px solid var(--gold);background:rgba(11,29,58,.85);color:var(--gold-light);border-radius:12px;padding:9px 13px;font:inherit;cursor:pointer}
@@ -643,9 +643,9 @@
     function saintsDateKey(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
     function saintsPersistentGet(key){try{return JSON.parse(localStorage.getItem('saints-calendar:'+key)||'null');}catch(e){return null;}}
     function saintsPersistentSet(key,value){try{localStorage.setItem('saints-calendar:'+key,JSON.stringify(value));}catch(e){}}
-    function openSaintsCalendar(){document.getElementById('home-view').classList.add('hidden');document.getElementById('saints-calendar-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderSaintsCalendar();}
+    function openSaintsCalendar(){const home=document.getElementById('home-view'),screen=document.getElementById('saints-calendar-screen'),nav=document.getElementById('bottom-nav');home.classList.add('hidden');document.querySelectorAll('.feature-screen').forEach(x=>x.classList.remove('visible'));screen.classList.add('visible');nav.style.display='none';try{renderSaintsCalendar();}catch(error){const l=saintsCalendarLabels[currentLang]||saintsCalendarLabels.en;document.getElementById('saints-calendar-title').textContent=l.title;document.getElementById('saints-calendar-back').textContent=l.back;document.getElementById('saints-calendar-content').innerHTML='<p class="empty-state">'+l.error+'</p><button class="feature-tab" type="button" onclick="openSaintsCalendar()">'+(currentLang==='ar'?'إعادة المحاولة':currentLang==='fr'?'Réessayer':'Riprova')+'</button>';console.error('Saints calendar render failed',error);}}
     function closeSaintsCalendar(){document.getElementById('saints-calendar-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
-    function moveSaintsMonth(delta){saintsCalDate=new Date(saintsCalDate.getFullYear(),saintsCalDate.getMonth()+delta,Math.min(saintsCalDate.getDate(),28),12);renderSaintsCalendar();}
+    function moveSaintsMonth(delta){const year=saintsCalDate.getFullYear(),month=saintsCalDate.getMonth()+delta,targetLastDay=new Date(year,month+1,0).getDate(),day=Math.min(saintsCalDate.getDate(),targetLastDay);saintsCalDate=new Date(year,month,day,12);renderSaintsCalendar();}
     function chooseSaintsDate(value){if(!value)return;const d=new Date(value+'T12:00:00');if(!Number.isNaN(d.getTime())){saintsCalDate=d;renderSaintsCalendar();}}
     function renderSaintsCalendar(){
       const l=saintsCalendarLabels[currentLang],host=document.getElementById('saints-calendar-content');
