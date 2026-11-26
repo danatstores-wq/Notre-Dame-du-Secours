@@ -678,7 +678,7 @@
       }
       return saintsRomanYearCache[key]
         .filter(e=>Number(e.month)===date.getMonth()+1&&Number(e.day)===date.getDate())
-        .map(e=>({name:e.name||e.event_key||'',rank:e.grade||e.rank||e.celebration_rank||''}))
+        .map(e=>({name:e.name||e.event_key||'',rank:e.grade_display||e.grade_lcl||e.grade_abbr||''}))
         .filter(e=>e.name);
     }
     async function loadMaroniteSaints(date){
