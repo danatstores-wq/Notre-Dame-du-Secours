@@ -149,7 +149,18 @@
       transition: transform 0.15s ease;
     }
     .card:active { transform: scale(0.98); }
-    .card img { width: 40px; height: 40px; flex-shrink: 0; }
+    .card > img {
+      display: block;
+      width: 40px !important;
+      min-width: 40px;
+      max-width: 40px;
+      height: 40px !important;
+      min-height: 40px;
+      max-height: 40px;
+      flex: 0 0 40px;
+      object-fit: contain;
+      object-position: center;
+    }
     .card-text { flex: 1; }
     .card-text h3 { font-size: 0.85rem; color: #fff; line-height: 1.25; }
     .card-text p { font-size: 0.72rem; color: #d8c396; margin-top: 2px; }
@@ -325,6 +336,17 @@
       box-shadow: none;
     }
     html.android-device .cards-grid { transform: none; }
+    /* Keep dashboard artwork at its intended icon size on Samsung browsers. */
+    html.android-device .cards-grid .card > img {
+      width: 40px !important;
+      min-width: 40px !important;
+      max-width: 40px !important;
+      height: 40px !important;
+      min-height: 40px !important;
+      max-height: 40px !important;
+      flex: 0 0 40px !important;
+      object-fit: contain !important;
+    }
 </style>
 </head>
 <body>
