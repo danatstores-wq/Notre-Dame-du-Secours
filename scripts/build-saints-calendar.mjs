@@ -136,12 +136,25 @@ for (const item of Object.keys(maroniteEn)) {
   maronite.en[key] = maroniteEn[item];
   maronite.ar[key] = maroniteAr[item];
 }
+// The Maronite Synaxarion index places Saint Sharbel on the third Sunday of July.
+const julyFirst = new Date(Date.UTC(year, 6, 1));
+const firstSunday = 1 + ((7 - julyFirst.getUTCDay()) % 7);
+const sharbelDay = firstSunday + 14;
+const sharbelKey = year + '-07-' + String(sharbelDay).padStart(2, '0');
+maronite.en[sharbelKey] = [maronite.en[sharbelKey], 'Saint Sharbel Makhlouf (third Sunday of July)'].filter(Boolean).join('; ');
+const sharbelArabic = Array.isArray(maronite.ar[sharbelKey]) ? maronite.ar[sharbelKey] : (maronite.ar[sharbelKey] ? [maronite.ar[sharbelKey]] : []);
+if (!sharbelArabic.includes('شربل مخلوف الراهب اللبناني الماروني')) sharbelArabic.push('شربل مخلوف الراهب اللبناني الماروني');
+maronite.ar[sharbelKey] = sharbelArabic;
+const july23Key = year + '-07-23';
+if (maronite.en[july23Key] === 'Saint Sharbel.') {
+  maronite.en[july23Key] = 'Saint Apollinarius, Bishop of Ravenna, and Saint Foka, martyrs (Arabic Maronite Synaxarion index)';
+}
 
 const payload = {
   schemaVersion: 1, year, generatedAt: new Date().toISOString(),
   sources: {
     catholic: 'General Roman Calendar via LitCal API; official Vatican decrees are authoritative for universal-calendar changes.',
-    maronite: 'Maronite Heritage transcription of the Antiochian Maronite Rite Synaxarion, Kaslik, Lebanon (1996). Arabic entries are sourced from a Maronite Synaxarion alphabetical index; fallback translations are used only when no date entry is available.'
+    maronite: 'Maronite Heritage transcription of the Antiochian Maronite Rite Synaxarion, Kaslik, Lebanon (1996). Arabic entries are sourced from a Maronite Synaxarion alphabetical index; Saint Sharbel is placed on the third Sunday of July.'
   },
   catholic,
   maronite
