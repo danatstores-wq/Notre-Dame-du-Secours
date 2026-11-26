@@ -665,7 +665,7 @@
       box.innerHTML='<div class="saints-source-card"><h3>'+l.catholic+'</h3>'+romanHtml+'<p class="source-tag">'+l.sourceCatholic+'</p><p class="source-tag"><a href="https://www.vatican.va/content/romancuria/en/dicasteri/dicastero-culto-divino-e-disciplina-sacramenti/documenti.html" target="_blank" rel="noopener" style="color:#fff0b3">Official Vatican decrees</a></p></div><div class="saints-source-card"><h3>'+l.maronite+'</h3>'+maroniteHtml+'<p class="source-tag">'+l.sourceMaronite+'</p><p class="source-tag"><a href="https://olm.org.lb/'+(currentLang==='ar'?'ar':'en')+'/liturgical-calendar/'+key+'" target="_blank" rel="noopener" style="color:#fff0b3">Official Maronite Synaxarion</a></p></div>';
     }
     async function loadRomanSaints(date){
-      const y=date.getFullYear(),locale=currentLang==='ar'?'ar':currentLang==='fr'?'fr':'it',key=y+'-'+locale;
+      const y=date.getFullYear(),locale=currentLang==='fr'?'fr':currentLang==='it'?'it':'en',key=y+'-'+locale;
       if(!saintsRomanYearCache[key]){
         const r=await fetch('https://litcal.johnromanodorazio.com/api/v5/calendar/'+y+'?locale='+locale);
         if(!r.ok)throw new Error('Roman calendar unavailable');
