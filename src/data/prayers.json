@@ -169,15 +169,15 @@
           "id": "peace",
           "title": {
             "ar": "صلاة من أجل السلام",
-            "fr": "Prière paroissiale pour la paix",
-            "it": "Preghiera parrocchiale per la pace",
-            "en": "Parish Prayer for Peace"
+            "fr": "Prière pour la paix",
+            "it": "Preghiera per la pace",
+            "en": "Prayer for Peace"
           },
           "text": {
             "ar": "أيها الرب يسوع المسيح، يا ملك السلام الحق،\nأنت مصدر الطمأنينة والرجاء في كل زمان ومكان. نرفع إليك قلوبنا في هذا اليوم، متضرعين أن تمنح سلامك العميق لعالمنا، ولأرضنا، ولعائلاتنا.\n\nفيك وحدك نجد الطمأنينة والرجاء. نسألك أن تملأ قلوبنا بسلامك الذي يفوق كل عقل، وأن تحرر عالمنا وأرضنا من النزاعات والخوف. آمين.",
-            "fr": "Seigneur de la paix, fais grandir ta paix dans nos cœurs, nos familles et dans le monde. Apprends-nous à être des artisans de réconciliation et d’amour, à rejeter la violence et à choisir la miséricorde. Amen.",
-            "it": "Signore della pace, dona la tua pace ai nostri cuori, alle nostre famiglie e al mondo. Insegnaci a essere strumenti di riconciliazione e di amore, a rifiutare la violenza e a scegliere la misericordia. Amen.",
-            "en": "Lord of peace, let your peace grow in our hearts, our families, and throughout the world. Teach us to forgive, to listen, and to build bridges where there is division. Protect all those who suffer from violence and war, and make us instruments of your peace. Amen."
+            "fr": "Seigneur Jésus-Christ, véritable Roi de la paix,\nToi qui es la source de la sérénité et de l’espérance en tout temps et en tout lieu, nous élevons vers toi nos cœurs en ce jour, te suppliant d’accorder ta paix profonde à notre monde, à notre terre et à nos familles.\n\nEn toi seul nous trouvons la sérénité et l’espérance. Nous te demandons de remplir nos cœurs de ta paix qui dépasse toute intelligence, et de libérer notre monde et notre terre des conflits et de la peur. Amen.",
+            "it": "Signore Gesù Cristo, vero Re della pace,\nTu sei la fonte della serenità e della speranza in ogni tempo e in ogni luogo. In questo giorno eleviamo a te i nostri cuori, supplicandoti di donare la tua pace profonda al nostro mondo, alla nostra terra e alle nostre famiglie.\n\nSolo in te troviamo serenità e speranza. Ti chiediamo di colmare i nostri cuori della tua pace, che supera ogni intelligenza, e di liberare il nostro mondo e la nostra terra dai conflitti e dalla paura. Amen.",
+            "en": "Lord Jesus Christ, true King of peace,\nYou are the source of serenity and hope in every time and place. Today we lift our hearts to you, pleading with you to grant your deep peace to our world, our land, and our families.\n\nIn you alone we find serenity and hope. We ask you to fill our hearts with your peace, which surpasses all understanding, and to free our world and our land from conflict and fear. Amen."
           },
           "audio": {
             "ar": null,
@@ -186,7 +186,10 @@
             "en": null
           },
           "sourceNote": {
-            "ar": "النص العربي المحدّث وفق الصياغة التي أرسلها المستخدم، مع الحفاظ على عباراته."
+            "ar": "النص العربي المحدّث وفق الصياغة التي أرسلها المستخدم، مع الحفاظ على عباراته.",
+            "fr": "Traduction complète fidèle للنص العربي المحدّث.",
+            "it": "Traduzione completa fedele al testo arabo aggiornato.",
+            "en": "Complete translation faithful to the updated Arabic text."
           }
         }
       ]
