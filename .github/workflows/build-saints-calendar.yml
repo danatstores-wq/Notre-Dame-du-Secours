@@ -1,0 +1,51 @@
+name: Build offline Saints Calendar
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build-saints-calendar.mjs'
+      - '.github/workflows/build-saints-calendar.yml'
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Civil year to bundle (for example 2026)'
+        required: false
+        default: ''
+  schedule:
+    - cron: '25 2 2 1 *'
+
+permissions:
+  contents: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build complete yearly saints data
+        env:
+          INPUT_YEAR: ${{ github.event.inputs.year }}
+        run: |
+          YEAR="$INPUT_YEAR"
+          if [ -z "$YEAR" ]; then YEAR="$(date -u +%Y)"; fi
+          node scripts/build-saints-calendar.mjs "$YEAR"
+      - name: Commit bundled offline calendar
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "src/data/saints-calendar/"
+          if git diff --cached --quiet; then
+            echo "No calendar data changes."
+          else
+            git commit -m "Bundle offline Saints Calendar data"
+            git push
+          fi
