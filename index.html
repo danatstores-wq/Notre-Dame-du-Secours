@@ -710,7 +710,8 @@
       if(Array.isArray(saved)&&saved.length){saintsDayCache[cacheKey]=saved;return saved;}
       try{
         const bundle=await loadBundledSaintsYear(date.getFullYear());
-        const names=bundle.maronite[locale]?.[key]||[];
+        const bundledNames=bundle.maronite[locale]?.[key]||[];
+        const names=Array.isArray(bundledNames)?bundledNames:(bundledNames?[bundledNames]:[]);
         saintsDayCache[cacheKey]=names;saintsPersistentSet(cacheKey,names);return names;
       }catch(bundleError){
         const url='https://olm.org.lb/'+locale+'/liturgical-calendar/'+key;
