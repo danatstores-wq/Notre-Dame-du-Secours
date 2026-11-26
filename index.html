@@ -1279,7 +1279,8 @@
       const l=profileLabels[currentLang]||profileLabels.en;
       document.getElementById('profile-title').textContent=l.title;
       document.getElementById('profile-back').textContent=l.back;
-      document.getElementById('profile-content').innerHTML='<div style="text-align:center;padding:16px 6px 20px"><div style="width:76px;height:76px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:rgba(229,182,87,.16);border:1px solid var(--gold);font-size:2.2rem" aria-hidden="true">👤</div><h3 style="color:var(--gold-light);margin-bottom:5px">'+l.guest+'</h3><p style="color:#e8d5a9;font-size:.84rem">'+l.status+'</p></div><div class="schedule-entry" style="line-height:1.9">'+l.intro+'</div><div class="schedule-entry" style="line-height:1.9">'+l.details+'</div>';
+      if(window.parishAuth){window.parishAuth.renderProfile();return;}
+      document.getElementById('profile-content').innerHTML='<div class="empty-state">'+l.status+'</div>';
     }
     function closeProfile(){
       document.getElementById('profile-screen').classList.remove('visible');
@@ -1365,6 +1366,145 @@
     function closePrayerRequests(){document.getElementById('prayer-requests-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
 
       setTimeout(()=>{loadBundledSaintsYear(new Date().getFullYear()).catch(()=>{});},0);
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "__FIREBASE_API_KEY__",
+  authDomain: "notre-dame-du-secours.firebaseapp.com",
+  projectId: "notre-dame-du-secours",
+  storageBucket: "notre-dame-du-secours.firebasestorage.app",
+  messagingSenderId: "569659613623",
+  appId: "1:569659613623:web:ddf57fa32f0c05ea568832",
+  measurementId: "G-0R8R56HPWN"
+};
+const ADMIN_EMAIL = "notredamedusecours5@gmail.com";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+let currentUser = null;
+let currentCmsKey = "announcements";
+const profileText = {
+  ar:{login:"تسجيل الدخول",register:"إنشاء حساب",email:"البريد الإلكتروني",password:"كلمة المرور",name:"الاسم",forgot:"نسيت كلمة المرور؟",logout:"تسجيل الخروج",verify:"يرجى تأكيد بريدك الإلكتروني من رسالة التحقق ثم تسجيل الدخول مجدداً.",guest:"زائر",signed:"تم تسجيل الدخول",admin:"لوحة إدارة الكاهن",adminNote:"إدارة محتوى الرعية المنشور",content:"نوع المحتوى",load:"تحميل المحتوى",save:"حفظ التغييرات",upload:"رفع صورة",noAdmin:"هذا الحساب لا يملك صلاحية الإدارة.",saved:"تم الحفظ بنجاح.",badJson:"صيغة JSON غير صحيحة.",working:"جارٍ التنفيذ…",profile:"ملفي الشخصي",welcome:"مرحباً"},
+  fr:{login:"Connexion",register:"Créer un compte",email:"E-mail",password:"Mot de passe",name:"Nom",forgot:"Mot de passe oublié ?",logout:"Déconnexion",verify:"Veuillez vérifier votre adresse e-mail puis reconnectez-vous.",guest:"Visiteur",signed:"Connecté",admin:"Administration du curé",adminNote:"Gérer le contenu publié de la paroisse",content:"Type de contenu",load:"Charger le contenu",save:"Enregistrer",upload:"Téléverser une image",noAdmin:"Ce compte n’a pas les droits d’administration.",saved:"Enregistré.",badJson:"Format JSON invalide.",working:"Traitement…",profile:"Mon profil",welcome:"Bienvenue"},
+  it:{login:"Accedi",register:"Crea account",email:"E-mail",password:"Password",name:"Nome",forgot:"Password dimenticata?",logout:"Esci",verify:"Verifica il tuo indirizzo e-mail e accedi di nuovo.",guest:"Ospite",signed:"Accesso effettuato",admin:"Amministrazione del parroco",adminNote:"Gestisci i contenuti pubblicati della parrocchia",content:"Tipo di contenuto",load:"Carica contenuto",save:"Salva modifiche",upload:"Carica immagine",noAdmin:"Questo account non dispone dei permessi di amministrazione.",saved:"Salvato.",badJson:"Formato JSON non valido.",working:"Elaborazione…",profile:"Il mio profilo",welcome:"Benvenuto"},
+  en:{login:"Sign in",register:"Create account",email:"Email address",password:"Password",name:"Your name",forgot:"Forgot password?",logout:"Sign out",verify:"Please verify your email using the link we sent, then sign in again.",guest:"Guest",signed:"Signed in",admin:"Priest Administration",adminNote:"Manage published parish content",content:"Content type",load:"Load content",save:"Save changes",upload:"Upload image",noAdmin:"This account does not have administrator access.",saved:"Saved successfully.",badJson:"The JSON is not valid.",working:"Working…",profile:"My Profile",welcome:"Welcome"}
+};
+const cmsLabels = {
+  massSchedule:"Mass schedules and parish calendar",
+  announcements:"Announcements and priest messages",
+  parishLife:"Parish groups, activities and gallery",
+  prayers:"Prayer library"
+};
+const lang = () => profileText[document.documentElement.lang] || profileText.en;
+const isAdmin = user => !!user && user.emailVerified && (user.email||"").toLowerCase()===ADMIN_EMAIL;
+const safe = value => String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function status(message,isError=false){
+ const node=document.getElementById("profile-status");
+ if(node){node.textContent=message;node.style.color=isError?"#ffb8b8":"#fff0b3";}
+}
+function profileShell(){
+ const box=document.getElementById("profile-content");
+ if(!box)return;
+ const t=lang();
+ if(!currentUser){
+  box.innerHTML=`
+   <div class="profile-auth-card">
+    <div style="text-align:center;padding:10px 4px 18px"><div style="font-size:2.5rem">👤</div><h3 style="color:var(--gold-light)">${t.guest}</h3><p style="color:#e8d5a9;font-size:.85rem">Browse parish content without an account.</p></div>
+    <form id="parish-login-form" style="display:grid;gap:10px">
+     <h3 style="color:var(--gold-light)">${t.login}</h3>
+     <input id="parish-login-email" type="email" autocomplete="email" required placeholder="${t.email}" style="padding:12px;border-radius:9px;border:1px solid var(--gold);font:inherit">
+     <input id="parish-login-password" type="password" autocomplete="current-password" required minlength="6" placeholder="${t.password}" style="padding:12px;border-radius:9px;border:1px solid var(--gold);font:inherit">
+     <button class="feature-tab" type="submit">${t.login}</button>
+     <button class="feature-tab" type="button" id="parish-reset-button">${t.forgot}</button>
+    </form>
+    <div style="height:1px;background:rgba(229,182,87,.3);margin:18px 0"></div>
+    <form id="parish-register-form" style="display:grid;gap:10px">
+     <h3 style="color:var(--gold-light)">${t.register}</h3>
+     <input id="parish-register-name" required maxlength="80" placeholder="${t.name}" style="padding:12px;border-radius:9px;border:1px solid var(--gold);font:inherit">
+     <input id="parish-register-email" type="email" autocomplete="email" required placeholder="${t.email}" style="padding:12px;border-radius:9px;border:1px solid var(--gold);font:inherit">
+     <input id="parish-register-password" type="password" autocomplete="new-password" required minlength="6" placeholder="${t.password} (min. 6)" style="padding:12px;border-radius:9px;border:1px solid var(--gold);font:inherit">
+     <button class="feature-tab" type="submit">${t.register}</button>
+    </form>
+    <p id="profile-status" role="status" aria-live="polite" style="line-height:1.7;margin-top:14px;color:#fff0b3"></p>
+   </div>`;
+  document.getElementById("parish-login-form").addEventListener("submit",async e=>{
+   e.preventDefault();const email=document.getElementById("parish-login-email").value.trim(),password=document.getElementById("parish-login-password").value;
+   try{status(t.working);const cred=await signInWithEmailAndPassword(auth,email,password);await cred.user.reload();if(!cred.user.emailVerified){await signOut(auth);status(t.verify,true);return;}status(t.signed);}
+   catch(err){status(authError(err),true);}
+  });
+  document.getElementById("parish-register-form").addEventListener("submit",async e=>{
+   e.preventDefault();const name=document.getElementById("parish-register-name").value.trim(),email=document.getElementById("parish-register-email").value.trim(),password=document.getElementById("parish-register-password").value;
+   try{status(t.working);const cred=await createUserWithEmailAndPassword(auth,email,password);await updateProfile(cred.user,{displayName:name});await sendEmailVerification(cred.user);await signOut(auth);status(t.verify);}
+   catch(err){status(authError(err),true);}
+  });
+  document.getElementById("parish-reset-button").addEventListener("click",async()=>{
+   const email=document.getElementById("parish-login-email").value.trim();if(!email){status("Enter your email address first.",true);return;}
+   try{await sendPasswordResetEmail(auth,email);status("Password reset email sent.");}catch(err){status(authError(err),true);}
+  });
+ }else{
+  const admin=isAdmin(currentUser);
+  box.innerHTML=`
+   <div style="text-align:center;padding:10px 4px 16px"><img src="${safe(currentUser.photoURL||"")}" onerror="this.style.display='none'" alt="" style="width:76px;height:76px;border-radius:50%;object-fit:cover"><div style="font-size:2.2rem" aria-hidden="true">👤</div><h3 style="color:var(--gold-light)">${safe(currentUser.displayName||currentUser.email)}</h3><p style="color:#e8d5a9;font-size:.84rem">${safe(currentUser.email)}</p><p style="color:#e8d5a9;font-size:.8rem">${t.signed}</p></div>
+   <button class="feature-tab" id="parish-logout-button" style="width:100%">${t.logout}</button>
+   ${admin?`<section class="schedule-entry" style="margin-top:18px"><h3 style="color:var(--gold-light)">${t.admin}</h3><p style="color:#e8d5a9;font-size:.85rem;margin:6px 0 12px">${t.adminNote}</p>
+    <label for="parish-cms-type" style="display:block;margin-bottom:6px">${t.content}</label>
+    <select id="parish-cms-type" style="width:100%;padding:11px;border-radius:9px;background:#102a52;color:white;border:1px solid var(--gold);font:inherit">
+     ${Object.entries(cmsLabels).map(([key,label])=>`<option value="${key}">${safe(label)}</option>`).join("")}
+    </select>
+    <button class="feature-tab" id="parish-cms-load" style="width:100%;margin-top:10px">${t.load}</button>
+    <textarea id="parish-cms-editor" spellcheck="false" rows="14" style="width:100%;margin-top:10px;padding:11px;border-radius:9px;border:1px solid var(--gold);background:#07152c;color:#fff;font:12px/1.5 monospace"></textarea>
+    <button class="feature-tab" id="parish-cms-save" style="width:100%;margin-top:10px">${t.save}</button>
+    <label style="display:block;margin-top:14px">${t.upload}</label>
+    <input id="parish-image-upload" type="file" accept="image/*" style="width:100%;margin-top:8px;color:white">
+    <p style="font-size:.78rem;color:#e8d5a9;margin-top:6px">Image URL is copied into the editor. Add it to the relevant item's image field.</p>
+   </section>`:""}
+   <p id="profile-status" role="status" aria-live="polite" style="line-height:1.7;margin-top:14px;color:#fff0b3"></p>`;
+  document.getElementById("parish-logout-button").addEventListener("click",()=>signOut(auth).catch(err=>status(authError(err),true)));
+  if(admin){
+   document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);
+   document.getElementById("parish-cms-save").addEventListener("click",saveCmsEditor);
+   document.getElementById("parish-image-upload").addEventListener("change",uploadParishImage);
+   loadCmsEditor();
+  }else{
+   const note=document.createElement("p");note.className="empty-state";note.textContent=t.noAdmin;box.appendChild(note);
+  }
+ }
+}
+function authError(err){
+ const codes={"auth/invalid-credential":"Email or password is incorrect.","auth/email-already-in-use":"This email already has an account.","auth/weak-password":"Choose a stronger password (at least 6 characters).","auth/invalid-email":"Enter a valid email address.","auth/too-many-requests":"Too many attempts. Please wait and try again.","auth/network-request-failed":"Network error. Check your connection.","permission-denied":"Firebase denied this operation. Check the published security rules."};
+ return codes[err?.code]||err?.message||"Something went wrong.";
+}
+async function loadCmsEditor(){
+ const t=lang(),key=document.getElementById("parish-cms-type").value,editor=document.getElementById("parish-cms-editor");
+ try{status(t.working);const snap=await getDoc(doc(db,"siteContent",key));if(snap.exists())editor.value=JSON.stringify(snap.data().payload,null,2);else{const fallback=await fetch("src/data/"+({massSchedule:"mass-schedule.json",announcements:"announcements.json",parishLife:"parish-life.json",prayers:"prayers.json"}[key]));if(!fallback.ok)throw new Error("Could not load source content");editor.value=JSON.stringify(await fallback.json(),null,2);}status("Content loaded.");}
+ catch(err){status(authError(err),true);}
+}
+async function saveCmsEditor(){
+ if(!isAdmin(currentUser)){status(lang().noAdmin,true);return;}
+ try{const payload=JSON.parse(document.getElementById("parish-cms-editor").value),key=document.getElementById("parish-cms-type").value;await setDoc(doc(db,"siteContent",key),{payload,updatedAt:serverTimestamp(),updatedBy:currentUser.email});status(lang().saved);}
+ catch(err){status(err instanceof SyntaxError?lang().badJson:authError(err),true);}
+}
+async function uploadParishImage(event){
+ if(!isAdmin(currentUser)){status(lang().noAdmin,true);return;}
+ const file=event.target.files?.[0];if(!file)return;
+ if(!file.type.startsWith("image/")||file.size>8*1024*1024){status("Choose an image under 8 MB.",true);return;}
+ try{status(lang().working);const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_"),path="parish-media/"+Date.now()+"-"+safeName,storageRef=ref(storage,path);await uploadBytes(storageRef,file,{contentType:file.type});const url=await getDownloadURL(storageRef);const editor=document.getElementById("parish-cms-editor");editor.value=editor.value+"
+
+// Uploaded image URL (copy into an item's image field):
+"+JSON.stringify(url);status("Image uploaded. Copy its URL into the image field, then save the content.");}
+ catch(err){status(authError(err),true);}
+}
+onAuthStateChanged(auth,user=>{currentUser=user;profileShell();});
+window.parishAuth={renderProfile:profileShell};
+window.parishCms={
+ async load(key){try{const snap=await getDoc(doc(db,"siteContent",key));return snap.exists()?snap.data().payload:null;}catch(e){console.warn("Cloud content unavailable",e);return null;}}
+};
 </script>
 </body>
 </html>
