@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Notre-Dame-du-Secours",
+    "slug": "notre-dame-du-secours-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.notredamedusecours.parish"
+    },
+    "android": {
+      "package": "com.notredamedusecours.parish",
+      "softwareKeyboardLayoutMode": "pan",
+      "predictiveBackGestureEnabled": true
+    }
+  }
+}
