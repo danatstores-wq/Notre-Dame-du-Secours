@@ -192,10 +192,11 @@
     .empty-state{text-align:center;color:#f3e5c0;line-height:1.8;padding:18px 4px}
     .schedule-entry{padding:12px 4px;border-bottom:1px solid rgba(229,182,87,.25)}
     .rosary-mysteries{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
-    .rosary-mystery-list{display:grid;gap:14px;margin:14px 0;text-align:start}
-    .rosary-mystery-text{padding:0 4px}
-    .rosary-mystery-text h3{color:var(--gold-light);font-size:1rem;margin:0 0 5px}
-    .rosary-mystery-text ol{margin:0;padding-inline-start:24px;line-height:1.8}
+    .mystery-icon{display:block;font-size:1.5rem;line-height:1.2;margin:0 auto 5px}
+    .mystery-choice strong{display:block;color:var(--gold-light);font-size:.86rem}
+    .mystery-episodes{margin:6px 0;padding-inline-start:20px;text-align:start;font-size:.72rem;line-height:1.45}
+    .mystery-episodes li{margin:2px 0}
+    .mystery-choice small{display:block;color:#e8d5a9;margin-top:6px;font-size:.64rem;line-height:1.25}
     .mystery-choice{background:rgba(11,29,58,.9);border:1px solid var(--gold);border-radius:10px;padding:7px 5px;color:#fff;text-align:center;font:inherit;font-size:.82rem;line-height:1.25;cursor:pointer}
     .mystery-choice.active{background:rgba(229,182,87,.22);box-shadow:0 0 0 1px var(--gold) inset}
     .mystery-choice small{display:block;color:#e8d5a9;margin-top:3px;font-size:.64rem;line-height:1.25}
@@ -1288,13 +1289,16 @@
       if(!rosaryStarted){
         const suggested=getSuggestedMysteryIndex();
         if(!window.rosaryUserSelected)selectedMystery=suggested;
-        const mysteryText=rosaryData.mysteries.map(m=>{
+        const mysteryIcons=['✨','☀️','✝️','👑'];
+        const mysteryCards=rosaryData.mysteries.map((m,i)=>{
+          const active=i===selectedMystery?'active':'';
           const name=escapeHtml(m.name[currentLang]||m.name.ar);
+          const days=escapeHtml(m.days.map(day=>l.dayNames[rosaryWeekdays.indexOf(day)]).join(', '));
           const episodes=m.episodes.map(episode=>'<li>'+escapeHtml(episode[currentLang]||episode.ar)+'</li>').join('');
-          return '<section class="rosary-mystery-text"><h3>'+name+'</h3><ol>'+episodes+'</ol></section>';
+          return '<button class="mystery-choice '+active+'" onclick="selectRosaryMystery('+i+')"><span class="mystery-icon" aria-hidden="true">'+mysteryIcons[i]+'</span><strong>'+name+'</strong><ol class="mystery-episodes">'+episodes+'</ol><small>'+l.days+': '+days+'</small></button>';
         }).join('');
         const suggestedName=escapeHtml(rosaryData.mysteries[suggested].name[currentLang]||rosaryData.mysteries[suggested].name.ar);
-        box.innerHTML=renderRosaryDiagram()+'<p class="empty-state">'+l.choose+'</p><div class="rosary-recommendation"><strong>'+l.today+': </strong>'+suggestedName+'</div><div class="rosary-mystery-list">'+mysteryText+'</div><button class="feature-tab" style="width:100%" onclick="startRosary()">'+l.start+'</button>';
+        box.innerHTML=renderRosaryDiagram()+'<p class="empty-state">'+l.choose+'</p><div class="rosary-recommendation"><strong>'+l.today+': </strong>'+suggestedName+'</div><div class="rosary-mysteries">'+mysteryCards+'</div><button class="feature-tab" style="width:100%" onclick="startRosary()">'+l.start+'</button>';
         return;
       }
       rosaryGuideSteps=buildRosaryGuide();
