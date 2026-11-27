@@ -44,12 +44,13 @@ async function uploadAuth(env) {
   const signature = Array.from(new Uint8Array(signatureBytes)).map(b => b.toString(16).padStart(2, "0")).join("");
   return { token, expire, signature, publicKey: env.IMAGEKIT_PUBLIC_KEY };
 }
-async function listSiteContent() {
+async function listSiteContent(env) {
   const docs = [];
   let pageToken = "";
   do {
     const url = new URL("https://firestore.googleapis.com/v1/projects/" + FIREBASE_PROJECT + "/databases/(default)/documents/siteContent");
     url.searchParams.set("pageSize", "100");
+    url.searchParams.set("key", env.FIREBASE_WEB_API_KEY);
     if (pageToken) url.searchParams.set("pageToken", pageToken);
     const response = await fetch(url);
     if (!response.ok) throw new Error("Could not verify published photo references in Firestore (" + response.status + ").");
@@ -82,8 +83,8 @@ function containsReference(value, fileId, imageUrl) {
   if (typeof value === "object") return Object.values(value).some(v => containsReference(v, fileId, imageUrl));
   return false;
 }
-async function isReferenced(fileId, imageUrl) {
-  const docs = await listSiteContent();
+async function isReferenced(fileId, imageUrl, env) {
+  const docs = await listSiteContent(env);
   return docs.some(doc => containsReference(firestoreToPlain(doc.fields || {}), fileId, imageUrl));
 }
 async function deleteImageKitFile(fileId, env) {
@@ -112,7 +113,7 @@ async function handleRequest(request, env) {
     const fileId = String(body.fileId || "").trim();
     const imageUrl = String(body.url || "").trim();
     if (!/^[A-Za-z0-9_-]{8,100}$/.test(fileId)) return json({ error: "Invalid ImageKit file ID." }, 400, origin);
-    if (await isReferenced(fileId, imageUrl)) return json({ deleted: false, kept: true, reason: "This photo is still referenced by published parish content." }, 200, origin);
+    if (await isReferenced(fileId, imageUrl, env)) return json({ deleted: false, kept: true, reason: "This photo is still referenced by published parish content." }, 200, origin);
     return json(await deleteImageKitFile(fileId, env), 200, origin);
   }
   return json({ error: "Not found" }, 404, origin);
@@ -133,7 +134,7 @@ async function cleanupExpiredFiles(env) {
       const tags = Array.isArray(file.tags) ? file.tags : [];
       const rule = tags.find(tag => /^parish_delete_after_\d{8}$/.test(tag));
       if (!rule || rule.slice(-8) > now || !file.fileId) continue;
-      if (await isReferenced(file.fileId, file.url || "")) { kept++; continue; }
+      if (await isReferenced(file.fileId, file.url || "", env)) { kept++; continue; }
       await deleteImageKitFile(file.fileId, env);
       deleted++;
     }
