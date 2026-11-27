@@ -1,0 +1,6 @@
+name = "notre-dame-du-secours-api"
+main = "cloudflare-worker.js"
+compatibility_date = "2026-11-27"
+
+[triggers]
+crons = ["0 3 * * *"]
