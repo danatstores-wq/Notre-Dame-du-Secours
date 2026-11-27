@@ -205,6 +205,9 @@
     .mystery-choice small{display:block;color:#e8d5a9;margin-top:3px;font-size:.64rem;line-height:1.25}
     .rosary-progress{height:7px;background:#263b5b;border-radius:9px;overflow:hidden;margin:12px 0}
     .rosary-progress span{display:block;height:100%;background:var(--gold);width:0}
+    .rosary-audio-progress{height:6px;background:#263b5b;border-radius:9px;overflow:hidden;margin:6px 0 3px}
+    .rosary-audio-progress span{display:block;height:100%;width:0;background:#58c7d9;transition:width .12s linear}
+    .rosary-audio-time{display:flex;justify-content:space-between;gap:8px;color:#cbd7e8;font-size:.75rem;margin-bottom:8px}
     .rosary-controls{display:flex;gap:10px;justify-content:space-between;margin-top:16px}
     .rosary-controls button{flex:1}.rosary-step{text-align:center;padding:18px 6px;line-height:1.8}.rosary-step h3{color:var(--gold-light);margin-bottom:8px}
     .rosary-guide{text-align:center;line-height:1.8}
@@ -1038,13 +1041,15 @@
       }catch(e){box.innerHTML='<p class="empty-state">Chapitre indisponible. Connectez-vous à Internet et réessayez.</p>';}
     }
     async function loadEnglishBibleIndex(){
-      if(englishBibleIndex)return englishBibleIndex;
+      const validIndex=index=>Array.isArray(index)&&index.length===73&&index.reduce((n,b)=>n+(Number(b.chapterCount)||0),0)===1334&&index.every(b=>b.slug&&b.name&&Number(b.chapterCount)>0);
+      if(validIndex(englishBibleIndex))return englishBibleIndex;
       const cached=await bibleCacheGet('en-index');
-      if(cached){englishBibleIndex=cached;return cached;}
+      if(validIndex(cached)){englishBibleIndex=cached;return cached;}
+      // A stale or incomplete IndexedDB index must not hide the bundled Bible.
       const response=await fetchBibleAsset(EN_BIBLE_BASE+'index.json');
-      if(!response.ok)throw new Error('English Bible index unavailable');
+      if(!response.ok)throw new Error('Bundled English Bible index unavailable ('+response.status+')');
       const index=await response.json();
-      if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1334)throw new Error('Unexpected English Catholic Bible canon');
+      if(!validIndex(index))throw new Error('Bundled English Bible index failed validation: expected 73 books and 1,334 chapters');
       englishBibleIndex=index;await bibleCacheSet('en-index',index);return index;
     }
     async function loadArabicBibleIndex(){
@@ -1385,7 +1390,7 @@
       const autoL=rosaryAutoLabels[currentLang]||rosaryAutoLabels.en;
       const audioFiles={signOfCross:'sign-of-the-cross.wav',creed:'apostles-creed.wav',ourFather:'our-father.wav',hailMary:'hail-mary.wav',gloryBe:'glory-be.wav',fatimaPrayer:currentLang==='ar'?'fatima-prayer.wav':'fatima-pray.wav'};
       const audioFile=step.audioKey?audioFiles[step.audioKey]:null;
-      const audioMarkup=audioFile?'<div class="prayer-audio-controls"><audio id="rosary-step-audio-controls" controls preload="none" style="width:100%"><source src="assets/audio/'+currentLang+'/rosary/'+audioFile+'" type="audio/wav"></audio></div>':'';
+      const audioMarkup=audioFile?'<div class="prayer-audio-controls"><audio id="rosary-step-audio-controls" controls preload="none" style="width:100%"><source src="assets/audio/'+currentLang+'/rosary/'+audioFile+'" type="audio/wav"></audio></div><div class="rosary-audio-progress" aria-label="Current prayer audio progress"><span id="rosary-audio-progress-fill" style="width:0%"></span></div><div class="rosary-audio-time"><span id="rosary-audio-current-time">0:00</span><span id="rosary-audio-duration">0:00</span></div>':'';
       const decade=step.decade?' · '+l.decadeNumber+' '+step.decade+' '+l.decadeOutOf:'';
       const completedHail=step.decade?rosaryGuideSteps.slice(0,rosaryGuideIndex).filter(s=>s.kind==='hail'&&s.decade===step.decade).length:0;
       const diagramBead=step.decade?(step.kind==='hail'?step.hailIndex:completedHail-1):-1;
@@ -1394,6 +1399,12 @@
       const action=step.kind==='optional'?l.skip:l.next;
       const autoControls='<div class="rosary-guide-actions"><button class="feature-tab" onclick="startRosaryAutoMode()">'+autoL.full+'</button>'+(rosaryAutoMode?'<button class="feature-tab" onclick="stopRosaryAutoMode()">'+autoL.stop+'</button>':'')+'</div>';
       box.innerHTML=renderRosaryDiagram(step.decade||(step.kind==='closing'?6:0),diagramBead,openingBead,step.decade?7:rosaryGuideIndex)+'<div class="rosary-guide"><p class="rosary-guide-meta">'+l.step+' '+(rosaryGuideIndex+1)+' '+l.of+' '+rosaryGuideSteps.length+'</p><div class="rosary-progress" id="rosary-step-progress"><span id="rosary-step-progress-fill" style="width:'+progress+'%"></span></div><div class="rosary-guide-step"><p class="rosary-guide-meta">'+escapeHtml(step.section||'')+decade+'</p><h3>'+escapeHtml(step.title)+'</h3>'+detail+optional+audioMarkup+beadMarkup+'</div><p class="rosary-guide-meta">'+l.guideIntro+'</p><p id="rosary-auto-status" class="rosary-guide-meta" aria-live="polite">'+(rosaryAutoMode?autoL.playing:'')+'</p>'+autoControls+'<div class="rosary-guide-actions"><button class="feature-tab" '+previous+' onclick="moveRosaryGuide(-1)">'+l.previous+'</button><button class="feature-tab" onclick="moveRosaryGuide(1)">'+action+'</button></div></div>';
+      const manualStepAudio=document.getElementById('rosary-step-audio-controls');
+      if(manualStepAudio){
+        const updateManualAudioProgress=()=>updateRosaryAudioProgress(manualStepAudio);
+        ['timeupdate','durationchange','loadedmetadata','ended','pause','play'].forEach(event=>manualStepAudio.addEventListener(event,updateManualAudioProgress));
+        updateManualAudioProgress();
+      }
       if(rosaryAutoMode)playRosaryStepAudio();
     }
     function selectRosaryMystery(index){selectedMystery=index;window.rosaryUserSelected=true;renderRosary();}
@@ -1415,6 +1426,17 @@
       }
       steps.push({kind:'prayer',section:rosaryLabels[currentLang].closing,title:label('closing')});
       return steps;
+    }
+    function formatRosaryAudioTime(seconds){if(!Number.isFinite(seconds)||seconds<0)return '0:00';const mins=Math.floor(seconds/60),secs=Math.floor(seconds%60);return mins+':'+String(secs).padStart(2,'0');}
+    function updateRosaryAudioProgress(audio){
+      const fill=document.getElementById('rosary-audio-progress-fill');
+      const current=document.getElementById('rosary-audio-current-time');
+      const duration=document.getElementById('rosary-audio-duration');
+      if(!fill)return;
+      const total=Number(audio?.duration),now=Number(audio?.currentTime)||0;
+      fill.style.width=total>0?Math.max(0,Math.min(100,now/total*100))+'%':'0%';
+      if(current)current.textContent=formatRosaryAudioTime(now);
+      if(duration)duration.textContent=formatRosaryAudioTime(total);
     }
     function stopRosaryAudio(){rosaryAudioToken++;if(rosaryAutoTimer){clearTimeout(rosaryAutoTimer);rosaryAutoTimer=null;}if(rosaryAudio){rosaryAudio.pause();try{rosaryAudio.currentTime=0;}catch(e){}}}
     function stopRosaryAutoMode(){rosaryAutoMode=false;stopRosaryAudio();renderRosary();}
@@ -1460,9 +1482,12 @@
       const audio=rosaryAudio;
       audio.ontimeupdate=()=>{
         if(token!==rosaryAudioToken||!rosaryAutoMode)return;
-        const fill=document.getElementById('rosary-step-progress-fill');
-        if(fill&&audio.duration>0)fill.style.width=Math.max(0,Math.min(100,audio.currentTime/audio.duration*100))+'%';
+        updateRosaryAudioProgress(audio);
       };
+      audio.onloadedmetadata=()=>{if(token===rosaryAudioToken&&rosaryAutoMode)updateRosaryAudioProgress(audio);};
+      audio.onplaying=()=>{if(token===rosaryAudioToken&&rosaryAutoMode)updateRosaryAudioProgress(audio);};
+      // Rosary step progress is independent from this current-audio progress bar.
+      updateRosaryAudioProgress(audio);
       audio.onended=()=>{
         if(token!==rosaryAudioToken||!rosaryAutoMode)return;
         rosaryGuideIndex=Math.min(rosaryGuideSteps.length,rosaryGuideIndex+1);
