@@ -58,6 +58,8 @@ export default function App() {
           style={styles.webView}
           originWhitelist={['*']}
           javaScriptEnabled
+          mediaPlaybackRequiresUserAction={false}
+          allowsInlineMediaPlayback
           domStorageEnabled
           sharedCookiesEnabled
           thirdPartyCookiesEnabled
