@@ -1291,7 +1291,7 @@
         steps.push({kind:'prayer',section:rosaryLabels[currentLang].decade+' '+decade,title:label('our-father'),audioKey:'ourFather'});
         for(let bead=1;bead<=10;bead++)steps.push({kind:'hail',section:rosaryLabels[currentLang].decade+' '+decade,title:label('hail-mary'),hailIndex:bead-1,decade,audioKey:'hailMary'});
         steps.push({kind:'prayer',section:rosaryLabels[currentLang].decade+' '+decade,title:label('glory-be'),audioKey:'gloryBe'});
-        steps.push({kind:'optional',section:rosaryLabels[currentLang].decade+' '+decade,title:label('fatima-prayer')});
+        const fatimaStepData=sequence.flatMap(x=>x.steps||[]).find(x=>x.id==='fatima-prayer');\n        steps.push({kind:'optional',section:rosaryLabels[currentLang].decade+' '+decade,title:label('fatima-prayer'),detail:fatimaStepData?.text?.[currentLang]||fatimaStepData?.text?.ar||''});
       }
       steps.push({kind:'prayer',section:rosaryLabels[currentLang].closing,title:label('closing')});
       return steps;
