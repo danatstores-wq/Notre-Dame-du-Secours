@@ -257,30 +257,8 @@
       visibility: visible;
       opacity: 1;
     }
-    .parish-glyph {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 40px;
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--gold);
-      border-radius: 12px;
-      color: var(--gold-light);
-      background: rgba(7,21,44,.78);
-      font-family: system-ui, sans-serif;
-      font-size: 27px;
-      line-height: 1;
-    }
-    .nav-glyph {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      color: var(--gold-light);
-      font: 700 22px/1 system-ui, sans-serif;
-    }
+    .dashboard-card-icon { width:40px; height:40px; object-fit:contain; flex:0 0 40px; display:block; }
+    .bottom-nav img { width:24px; height:24px; object-fit:contain; display:block; }
     .home-view { padding-bottom: 72px; }
     .nav-item {
       display: flex;
@@ -634,7 +612,7 @@
 
       document.getElementById('cards-container').innerHTML = t.cards.map((c, cardIndex) => `
         <div class="card" role="button" tabindex="0" onclick="${cardIndex===6?'window.openBible()':'openFeature('+cardIndex+')'}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${cardIndex===6?'window.openBible()':'openFeature('+cardIndex+')'}}">
-          ${c[2].startsWith("assets/")?`<span class="dashboard-card-icon parish-glyph" role="img" aria-label="${c[0]}">${({"icon-calendar.png":"▦","icon-rosary.png":"◉","icon-bible.png":"▤","holy_bible.png":"▤","icon-megaphone.png":"◖","icon-church.png":"⌂","icon-praying-hands.png":"🙏","icon-saints-calendar.svg":"✧","icon-settings.png":"⚙"}[c[2].split("/").pop()]||"✝")}</span>`:`<span class="card-symbol" aria-hidden="true">${c[2]}</span>`}
+          ${c[2].startsWith("assets/")?`<img class="dashboard-card-icon" src="${c[2]}" alt="${c[0]}" width="40" height="40" style="display:block;width:40px!important;height:40px!important;min-width:40px;min-height:40px;max-width:40px;max-height:40px;object-fit:contain;flex:0 0 40px" />`:`<span class="card-symbol" aria-hidden="true">${c[2]}</span>`}
           <div class="card-text">
             <h3>${c[0]}</h3>
             <p>${c[1]}</p>
@@ -642,9 +620,9 @@
         </div>
       `).join('');
 
-      const navGlyphs = ['⌂', '♧', '★', 'i', '●'];
+      const navIcons = ['nav-home.png', 'nav-bell.png', 'nav-star.png', 'nav-info.png'];
       document.getElementById('bottom-nav').innerHTML = t.nav.map((label, index) => {
-        const icon = `<span class="nav-glyph" aria-hidden="true">${navGlyphs[index] || '✝'}</span>`;
+        const icon = index < navIcons.length ? `<img src="assets/icons/${navIcons[index]}" alt="" />` : '<img class="nav-profile-icon" src="assets/icons/profile.png" alt="" />';
         return `<div class="nav-item ${index === 0 ? 'active' : ''}" role="button" tabindex="0" aria-label="${label}" onclick="handleNav(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleNav(${index})}">${icon}<span>${label}</span></div>`;
       }).join('');
     }
