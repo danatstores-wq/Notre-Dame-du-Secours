@@ -1043,16 +1043,20 @@
     }
     async function fetchEnglishBibleAsset(relativePath){
       const localPath=EN_BIBLE_BASE+relativePath;
-      let localError=null;
-      try{const local=await fetchBibleAsset(localPath);if(local&&local.ok)return local;localError=new Error('Local English Bible file unavailable: '+relativePath);}
-      catch(error){localError=error;}
-      try{
-        const remote=await fetch(EN_BIBLE_REMOTE_BASE+relativePath,{cache:'no-store'});
-        if(remote.ok)return remote;
-        throw new Error('Online English Bible asset returned HTTP '+remote.status);
-      }catch(remoteError){
-        throw new Error('English Bible asset could not be read. '+(localError&&localError.message?localError.message+'; ':'')+(remoteError&&remoteError.message?remoteError.message:'Online fallback failed'));
+      let errors=[];
+      // In Android's file-based WebView, prefer the HTTPS copy to avoid file-URL XHR quirks; keep the bundled copy as offline fallback.
+      if(location.protocol==='file:'){
+        try{const remote=await fetch(EN_BIBLE_REMOTE_BASE+relativePath,{cache:'no-store'});if(remote.ok)return remote;errors.push('Online source HTTP '+remote.status);}
+        catch(error){errors.push('Online source: '+(error&&error.message?error.message:'failed'));}
+        try{const local=await fetchBibleAsset(localPath);if(local&&local.ok)return local;errors.push('Bundled file unavailable: '+relativePath);}
+        catch(error){errors.push('Bundled file: '+(error&&error.message?error.message:'failed'));}
+      }else{
+        try{const local=await fetchBibleAsset(localPath);if(local&&local.ok)return local;errors.push('Site file unavailable: '+relativePath);}
+        catch(error){errors.push('Site file: '+(error&&error.message?error.message:'failed'));}
+        try{const remote=await fetch(EN_BIBLE_REMOTE_BASE+relativePath,{cache:'no-store'});if(remote.ok)return remote;errors.push('Online source HTTP '+remote.status);}
+        catch(error){errors.push('Online source: '+(error&&error.message?error.message:'failed'));}
       }
+      throw new Error('English Bible data unavailable — '+errors.join('; '));
     }
     async function loadEnglishBibleIndex(){
       const validIndex=index=>Array.isArray(index)&&index.length===73&&index.reduce((n,b)=>n+(Number(b.chapterCount)||0),0)===1334&&index.every(b=>b.slug&&b.name&&Number(b.chapterCount)>0);
