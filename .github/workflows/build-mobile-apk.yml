@@ -8,6 +8,9 @@ on:
     paths:
       - "mobile-app/**"
       - ".github/workflows/build-mobile-apk.yml"
+      - "index.html"
+      - "assets/**"
+      - "bibles/**"
 
 permissions:
   contents: read
@@ -16,7 +19,7 @@ jobs:
   android-apk:
     name: Build standalone Android APK
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: mobile-app
@@ -50,6 +53,32 @@ jobs:
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install
 
+      - name: Copy the complete parish website and offline assets into the APK
+        run: |
+          mkdir -p android/app/src/main/assets/site
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='mobile-app/' \
+            --exclude='node_modules/' \
+            --exclude='android/' \
+            --exclude='ios/' \
+            ../ ./android/app/src/main/assets/site/
+
+      - name: Bundle the remaining Arabic Bible books for offline reading
+        run: |
+          mkdir -p android/app/src/main/assets/site/bibles/ar/books
+          jq -r '.[] | select(.sourceType == "svd") | .sourceCode' ../bibles/ar/index.json | while IFS= read -r code; do
+            test -n "$code"
+            curl --fail --location --silent --show-error --retry 3 \
+              "https://raw.githubusercontent.com/midvash/bible-data/main/versions/ar/svd/books/${code}.json" \
+              --output "android/app/src/main/assets/site/bibles/ar/books/${code}.json"
+            test -s "android/app/src/main/assets/site/bibles/ar/books/${code}.json"
+          done
+          echo "Bundled Bible and audio payload:"
+          du -sh android/app/src/main/assets/site/bibles android/app/src/main/assets/site/assets/audio
+          test "$(find android/app/src/main/assets/site/bibles/ar/books -type f -name '*.json' | wc -l)" -eq 66
+
       - name: Build standalone testing APK
         working-directory: mobile-app/android
         run: ./gradlew assembleRelease --no-daemon
@@ -57,7 +86,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: notre-dame-du-secours-android-apk
+          name: notre-dame-du-secours-android-apk-full-bundle
           path: mobile-app/android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 14
