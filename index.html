@@ -11,10 +11,9 @@
       if (isIOS) document.documentElement.classList.add("ios-device");
       if (/Android/i.test(ua)) {
         document.documentElement.classList.add("android-device");
-        /* Samsung browsers render this dashboard correctly at 75% zoom.
-           Apply that equivalent viewport scale automatically on Android only. */
+        /* Keep Android at its native device scale; do not shrink the layout viewport. */
         var viewport = document.querySelector('meta[name="viewport"]');
-        if (viewport) viewport.setAttribute("content", "width=device-width, initial-scale=0.75, viewport-fit=cover");
+        if (viewport) viewport.setAttribute("content", "width=device-width, initial-scale=1, viewport-fit=cover");
       }
     })();
   </script>
@@ -352,12 +351,25 @@
       position: fixed;
       inset: 0;
       width: 100%;
-      max-width: 430px;
+      max-width: none;
       height: 100vh;
       height: 100dvh;
       min-height: 0;
-      margin: 0 auto;
+      margin: 0;
       box-shadow: none;
+    }
+    html.android-device .bottom-nav {
+      left: 0;
+      right: 0;
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      width: 100%;
+      max-width: none;
+      transform: none;
+      padding: 8px 4px 8px;
+    }
+    html.android-device .home-view { padding-bottom: 104px; }
+    html.android-device .feature-screen.visible {
+      padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
     }
     html.android-device .cards-grid { transform: none; }
     /* Keep dashboard artwork at its intended icon size on Samsung browsers. */
