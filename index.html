@@ -1626,7 +1626,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signOut, updateProfile, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
 
 const firebaseConfig = {
   apiKey: "__FIREBASE_API_KEY__",
@@ -1641,7 +1641,7 @@ const ADMIN_EMAIL = "notredamedusecours5@gmail.com";
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
+
 let currentUser = null;
 let currentCmsKey = "announcements";
 const profileText = {
@@ -1719,9 +1719,7 @@ function profileShell(){
     <button class="feature-tab" id="parish-cms-load" style="width:100%;margin-top:10px">${t.load}</button>
     <textarea id="parish-cms-editor" spellcheck="false" rows="14" style="width:100%;margin-top:10px;padding:11px;border-radius:9px;border:1px solid var(--gold);background:#07152c;color:#fff;font:12px/1.5 monospace"></textarea><button class="feature-tab" type="button" id="mass-admin-open" style="display:none;width:100%;margin-top:10px">${t.scheduleEditor}</button><div id="mass-admin-panel" style="display:none;margin-top:12px"></div>
     <button class="feature-tab" id="parish-cms-save" style="width:100%;margin-top:10px">${t.save}</button>
-    <label style="display:block;margin-top:14px">${t.upload}</label>
-    <input id="parish-image-upload" type="file" accept="image/*" style="width:100%;margin-top:8px;color:white">
-    <p style="font-size:.78rem;color:#e8d5a9;margin-top:6px">${t.imageHint}</p>
+
    </section>`:""}
    <p id="profile-status" role="status" aria-live="polite" style="line-height:1.7;margin-top:14px;color:#fff0b3"></p>`;
   document.getElementById("parish-logout-button").addEventListener("click",()=>signOut(auth).catch(err=>status(authError(err),true)));
@@ -1733,7 +1731,6 @@ function profileShell(){
   if(admin){
    const cmsType=document.getElementById("parish-cms-type"),massEditorButton=document.getElementById("mass-admin-open");const syncMassEditorButton=()=>{const show=cmsType.value==="massSchedule";massEditorButton.style.display=show?"block":"none";if(!show){const panel=document.getElementById("mass-admin-panel");panel.style.display="none";}};cmsType.addEventListener("change",e=>{currentCmsKey=e.target.value;syncMassEditorButton();});syncMassEditorButton();document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);massEditorButton.addEventListener("click",loadCmsEditor);
    document.getElementById("parish-cms-save").addEventListener("click",saveCmsEditor);
-   document.getElementById("parish-image-upload").addEventListener("change",uploadParishImage);
   }else{
    const note=document.createElement("p");note.className="empty-state";note.textContent=t.noAdmin;box.appendChild(note);
   }
@@ -1830,7 +1827,7 @@ function renderParishLifeAdmin(){
    html+='<label style="display:block;margin:10px 0">'+labels.description+' — '+labels.langs[code]+'<textarea data-life-field="description" data-life-lang="'+code+'" rows="3" style="display:block;width:100%;padding:10px;margin-top:5px">'+safe(item.description?.[code]||((typeof item.description==="string"&&code===lc)?item.description:""))+'</textarea></label>';
   });
   html+='<label style="display:block;margin:10px 0">'+labels.date+'<input type="date" data-life-field="date" value="'+safe(item.date||item.startDate||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label>';
-  html+='<label style="display:block;margin:10px 0">'+labels.image+'<input data-life-field="image" value="'+safe(item.image||item.photo||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label>';
+  html+='<label style="display:block;margin:10px 0">'+labels.image+'<input data-life-field="image" value="'+safe(item.image||item.photo||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label><label style="display:block;margin:10px 0">Choose image file<input id="life-image-file" type="file" accept="image/*" style="display:block;width:100%;padding:8px;margin-top:5px"></label>';
   html+='<button type="button" class="feature-tab" id="life-admin-delete">'+labels.remove+'</button></div>';
  }else html+='<p class="empty-state">'+labels.empty+'</p>';
  panel.innerHTML=html;panel.style.display="block";editor.style.display="none";
@@ -1840,6 +1837,19 @@ function renderParishLifeAdmin(){
   const data=JSON.parse(editor.value||"{}");if(!Array.isArray(data[adminParishLifeSection]))data[adminParishLifeSection]=[];
   const id="parish-life-"+Date.now();data[adminParishLifeSection].push({id,title:{ar:"",fr:"",it:"",en:""},description:{ar:"",fr:"",it:"",en:""},date:"",image:""});
   editor.value=JSON.stringify(data,null,2);adminParishLifeId=id;renderParishLifeAdmin();
+ });
+ const imagePicker=panel.querySelector("#life-image-file");
+ if(imagePicker)imagePicker.addEventListener("change",async e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  try{
+   status(lang().working);
+   const imageUrl=await uploadImageToImageKit(file);
+   const data=JSON.parse(editor.value||"{}"),entry=(data[adminParishLifeSection]||[]).find(x=>x.id===adminParishLifeId);
+   if(!entry)throw new Error("Select a parish item before uploading its image.");
+   entry.image=imageUrl;entry.photo=imageUrl;editor.value=JSON.stringify(data,null,2);
+   renderParishLifeAdmin();
+   status("Image uploaded and attached to this item. Select Save Changes to publish it.");
+  }catch(err){status(err.message||authError(err),true);e.target.value="";}
  });
  panel.querySelectorAll("[data-life-field]").forEach(input=>input.addEventListener("input",()=>{
   const data=JSON.parse(editor.value||"{}"),entry=(data[adminParishLifeSection]||[]).find(x=>x.id===adminParishLifeId);if(!entry)return;
@@ -1988,13 +1998,25 @@ async function saveCmsEditor(){
   }else status(err instanceof SyntaxError?(document.documentElement.lang==="ar"?"تعذّر حفظ الإعلان لأن بيانات المحرر ليست JSON صالحة. أعد تحميل الإعلانات ثم عدّلها من الحقول الظاهرة فقط.":document.documentElement.lang==="fr"?"Impossible d’enregistrer : les données de l’éditeur ne sont pas un JSON valide. Rechargez les annonces et modifiez uniquement les champs affichés.":document.documentElement.lang==="it"?"Impossibile salvare: i dati dell’editor non sono JSON validi. Ricarica gli avvisi e modifica solo i campi visualizzati.":"Could not save: the editor data is not valid JSON. Reload Announcements and edit only the visible fields."):authError(err),true);
  }
 }
-async function uploadParishImage(event){
- const t=lang();
- if(!isAdmin(currentUser)){status(t.noAdmin,true);return;}
- const file=event.target.files?.[0];if(!file)return;
- if(!file.type.startsWith("image/")||file.size>8*1024*1024){status(t.imageChoose,true);return;}
- try{status(lang().working);const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_"),path="parish-media/"+Date.now()+"-"+safeName,storageRef=ref(storage,path);await uploadBytes(storageRef,file,{contentType:file.type});const url=await getDownloadURL(storageRef);try{await navigator.clipboard.writeText(url);status(t.imageUploaded);}catch(e){status(t.imageCopyBlocked+" URL: "+url);}}
- catch(err){status(authError(err),true);}
+const IMAGEKIT_UPLOAD_AUTH_URL="https://falling-mountain-620d.notredamedusecours5.workers.dev/upload-auth";
+async function uploadImageToImageKit(file){
+ if(!isAdmin(currentUser))throw new Error("Only the verified priest account can upload images.");
+ if(!file||!file.type.startsWith("image/")||file.size>8*1024*1024)throw new Error(lang().imageChoose);
+ const idToken=await currentUser.getIdToken(true);
+ const authResponse=await fetch(IMAGEKIT_UPLOAD_AUTH_URL,{method:"POST",headers:{Authorization:"Bearer "+idToken}});
+ const authData=await authResponse.json().catch(()=>({}));
+ if(!authResponse.ok)throw new Error(authData.error||authData.message||"Image upload authorization failed ("+authResponse.status+").");
+ if(!authData.token||!authData.expire||!authData.signature||!authData.publicKey)throw new Error("The upload authorization response is incomplete.");
+ const form=new FormData(),safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+ form.append("file",file);form.append("fileName",Date.now()+"-"+safeName);
+ form.append("folder","/parish-media");form.append("useUniqueFileName","true");
+ form.append("token",authData.token);form.append("expire",String(authData.expire));
+ form.append("signature",authData.signature);form.append("publicKey",authData.publicKey);
+ const uploadResponse=await fetch("https://upload.imagekit.io/api/v1/files/upload",{method:"POST",body:form});
+ const uploadData=await uploadResponse.json().catch(()=>({}));
+ if(!uploadResponse.ok)throw new Error(uploadData.message||uploadData.help||"ImageKit upload failed ("+uploadResponse.status+").");
+ if(!uploadData.url)throw new Error("ImageKit did not return an image URL.");
+ return uploadData.url;
 }
 onAuthStateChanged(auth,user=>{currentUser=user;profileShell();});
 window.parishAuth={renderProfile:profileShell};
