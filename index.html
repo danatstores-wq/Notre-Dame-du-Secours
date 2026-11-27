@@ -241,12 +241,47 @@
     .prayer-audio-controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.prayer-audio-controls .feature-tab{flex:1;min-width:88px}.prayer-audio-status{min-height:1.5em;color:#f3e5c0;font-size:.82rem;margin:6px 2px 12px}
     .prayer-category{margin-bottom:14px}.prayer-category-heading{display:flex;align-items:center;gap:10px;margin-bottom:9px}.prayer-category-heading h3{color:var(--gold-light);margin:0}.prayer-category-icon{width:36px;height:36px;object-fit:contain;flex:0 0 36px}.prayer-choice{display:block;width:100%;text-align:start;background:rgba(11,29,58,.9);border:1px solid rgba(229,182,87,.55);border-radius:12px;color:#fff;padding:12px;margin:7px 0;font:inherit;cursor:pointer}.prayer-text{white-space:pre-wrap;line-height:2;text-align:start;padding:14px 4px;color:#fff}.prayer-audio-note{color:#e8d5a9;font-size:.82rem;margin-top:12px}
     .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: min(100%, 430px);
+      min-height: 68px;
+      z-index: 10000;
       background: var(--navy-nav);
       border-top: 1.5px solid var(--gold);
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       padding: 8px 4px calc(12px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+      visibility: visible;
+      opacity: 1;
     }
+    .parish-glyph {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      color: var(--gold-light);
+      background: rgba(7,21,44,.78);
+      font-family: system-ui, sans-serif;
+      font-size: 27px;
+      line-height: 1;
+    }
+    .nav-glyph {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      color: var(--gold-light);
+      font: 700 22px/1 system-ui, sans-serif;
+    }
+    .home-view { padding-bottom: 72px; }
     .nav-item {
       display: flex;
       flex-direction: column;
@@ -599,7 +634,7 @@
 
       document.getElementById('cards-container').innerHTML = t.cards.map((c, cardIndex) => `
         <div class="card" role="button" tabindex="0" onclick="${cardIndex===6?'window.openBible()':'openFeature('+cardIndex+')'}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${cardIndex===6?'window.openBible()':'openFeature('+cardIndex+')'}}">
-          ${c[2].startsWith("assets/")?`<img class="dashboard-card-icon" src="${c[2]}" alt="${c[0]}" width="40" height="40" style="display:block;width:40px!important;height:40px!important;min-width:40px;min-height:40px;max-width:40px;max-height:40px;object-fit:contain;flex:0 0 40px" />`:`<span class="card-symbol" aria-hidden="true">${c[2]}</span>`}
+          ${c[2].startsWith("assets/")?`<span class="dashboard-card-icon parish-glyph" role="img" aria-label="${c[0]}">${({"icon-calendar.png":"▦","icon-rosary.png":"◉","icon-bible.png":"▤","holy_bible.png":"▤","icon-megaphone.png":"◖","icon-church.png":"⌂","icon-praying-hands.png":"🙏","icon-saints-calendar.svg":"✧","icon-settings.png":"⚙"}[c[2].split("/").pop()]||"✝")}</span>`:`<span class="card-symbol" aria-hidden="true">${c[2]}</span>`}
           <div class="card-text">
             <h3>${c[0]}</h3>
             <p>${c[1]}</p>
@@ -607,9 +642,9 @@
         </div>
       `).join('');
 
-      const navIcons = ['nav-home.png', 'nav-bell.png', 'nav-star.png', 'nav-info.png'];
+      const navGlyphs = ['⌂', '♧', '★', 'i', '●'];
       document.getElementById('bottom-nav').innerHTML = t.nav.map((label, index) => {
-        const icon = index < navIcons.length ? `<img src="assets/icons/${navIcons[index]}" alt="" />` : '<img class="nav-profile-icon" src="assets/icons/profile.png" alt="" />';
+        const icon = `<span class="nav-glyph" aria-hidden="true">${navGlyphs[index] || '✝'}</span>`;
         return `<div class="nav-item ${index === 0 ? 'active' : ''}" role="button" tabindex="0" aria-label="${label}" onclick="handleNav(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleNav(${index})}">${icon}<span>${label}</span></div>`;
       }).join('');
     }
@@ -645,8 +680,7 @@
     });
     document.addEventListener('keydown',function(event){if(event.key==='Escape')closeLanguageMenu();});
 
-    // Keep every parish icon visible if the browser/CDN fails to fetch a PNG/SVG.
-    // The original image remains untouched whenever its request succeeds.
+    // Replace failed parish artwork with a text glyph (no external image or data-URI dependency).
     document.addEventListener('error', function(event) {
       const img = event.target;
       if (!img || img.tagName !== 'IMG' || img.dataset.parishFallback === '1') return;
@@ -660,13 +694,17 @@
         'nav-info.png':'i', 'profile.png':'●', 'our_church.png':'⌂',
         'call_us.png':'☎', 'church_location.png':'⌖'
       };
-      const glyph = glyphs[file] || '✝';
+      const fallback = document.createElement('span');
+      fallback.className = 'parish-glyph parish-image-fallback';
+      fallback.setAttribute('role', 'img');
+      fallback.setAttribute('aria-label', img.alt || 'Parish icon');
+      fallback.textContent = glyphs[file] || '✝';
       const size = Math.max(24, Math.min(96, parseInt(img.getAttribute('width') || img.clientWidth || '40', 10) || 40));
-      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'" viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#0b1d3a" stroke="#e5b657" stroke-width="2.5"/><text x="32" y="43" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#fff0b3">'+glyph+'</text></svg>';
+      fallback.style.width = size + 'px';
+      fallback.style.height = size + 'px';
+      fallback.style.flex = '0 0 ' + size + 'px';
       img.dataset.parishFallback = '1';
-      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-      img.style.objectFit = 'contain';
-      img.style.display = 'block';
+      img.replaceWith(fallback);
     }, true);
 
     render();
