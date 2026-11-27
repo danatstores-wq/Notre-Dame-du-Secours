@@ -1470,10 +1470,10 @@
         const title=item['title'+currentLang.toUpperCase()]||item.title?.[currentLang]||item.name?.[currentLang]||item.title||item.name||'';
         const description=item['description'+currentLang.toUpperCase()]||item.description?.[currentLang]||item.description||'';
         const date=item.date||item.startDate||'';
-        const image=item.image||item.photo||'';
+        const images=Array.isArray(item.images)&&item.images.length?item.images.map(x=>typeof x==="string"?{url:x}:x):((item.image||item.photo)?[{url:item.image||item.photo}]:[]);
         const downloadLabel={ar:'تنزيل الصورة',en:'Download photo',fr:'Télécharger la photo',it:'Scarica la foto'}[currentLang]||'Download photo';
-        const downloadUrl=image?(image+(image.includes('?')?'&':'?')+'ik-attachment=true'):'';
-        return '<article class="schedule-entry">'+(image?'<img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:190px;object-fit:cover;border-radius:10px;margin-bottom:10px"><a class="feature-tab" href="'+escapeHtml(downloadUrl)+'" download target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;margin:0 0 12px;text-decoration:none">'+downloadLabel+' ↓</a>':'')+'<h3 style="color:var(--gold-light)">'+escapeHtml(title)+'</h3>'+(description?'<p style="margin-top:8px;line-height:1.8">'+escapeHtml(description)+'</p>':'')+(date?'<small>'+escapeHtml(date)+'</small>':'')+'</article>';
+        const imageHtml=images.map(im=>{const image=im.url||'';const downloadUrl=image?(image+(image.includes('?')?'&':'?')+'ik-attachment=true'):'';return image?'<div style="margin:8px 0"><img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:230px;object-fit:cover;border-radius:10px"><a class="feature-tab" href="'+escapeHtml(downloadUrl)+'" download target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;margin:6px 0 10px;text-decoration:none">'+downloadLabel+' ↓</a></div>':'';}).join('');
+        return '<article class="schedule-entry">'+imageHtml+'<h3 style="color:var(--gold-light)">'+escapeHtml(title)+'</h3>'+(description?'<p style="margin-top:8px;line-height:1.8">'+escapeHtml(description)+'</p>':'')+(date?'<small>'+escapeHtml(date)+'</small>':'')+'</article>';
       }).join('');
     }
     function selectParishLifeTab(index){parishLifeTab=index;renderParishLife();}
@@ -1829,7 +1829,7 @@ function renderParishLifeAdmin(){
    html+='<label style="display:block;margin:10px 0">'+labels.description+' — '+labels.langs[code]+'<textarea data-life-field="description" data-life-lang="'+code+'" rows="3" style="display:block;width:100%;padding:10px;margin-top:5px">'+safe(item.description?.[code]||((typeof item.description==="string"&&code===lc)?item.description:""))+'</textarea></label>';
   });
   html+='<label style="display:block;margin:10px 0">'+labels.date+'<input type="date" data-life-field="date" value="'+safe(item.date||item.startDate||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label>';
-  html+='<label style="display:block;margin:10px 0">'+labels.image+'<input data-life-field="image" value="'+safe(item.image||item.photo||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label><label style="display:block;margin:10px 0">Choose image file<input id="life-image-file" type="file" accept="image/*" style="display:block;width:100%;padding:8px;margin-top:5px"></label>';
+  html+='<label style="display:block;margin:10px 0">'+labels.image+'<input data-life-field="image" value="'+safe(item.image||item.photo||"")+'" style="display:block;width:100%;padding:10px;margin-top:5px"></label><label style="display:block;margin:10px 0">Choose photos (select multiple)<input id="life-image-file" type="file" accept="image/*" multiple style="display:block;width:100%;padding:8px;margin-top:5px"></label><div style="display:grid;gap:7px;margin:8px 0">'+(Array.isArray(item.images)?item.images:((item.image||item.photo)?[{url:item.image||item.photo,fileId:item.fileId||"",name:"Existing photo"}]:[])).map((im,n)=>'<div style="display:flex;align-items:center;gap:8px"><img src="'+safe(im.url||im)+'" style="width:54px;height:54px;object-fit:cover;border-radius:8px"><span style="flex:1;overflow-wrap:anywhere">'+safe(im.name||("Photo "+(n+1)))+'</span><button type="button" class="feature-tab" data-life-image-delete="'+n+'">Remove</button></div>').join("")+'</div>';
   html+='<button type="button" class="feature-tab" id="life-admin-delete">'+labels.remove+'</button></div>';
  }else html+='<p class="empty-state">'+labels.empty+'</p>';
  panel.innerHTML=html;panel.style.display="block";editor.style.display="none";
@@ -1842,17 +1842,31 @@ function renderParishLifeAdmin(){
  });
  const imagePicker=panel.querySelector("#life-image-file");
  if(imagePicker)imagePicker.addEventListener("change",async e=>{
-  const file=e.target.files?.[0];if(!file)return;
+  const files=Array.from(e.target.files||[]);if(!files.length)return;
   try{
-   status(lang().working);
-   const imageUrl=await uploadImageToImageKit(file);
+   if(files.length>30)throw new Error("Select no more than 30 photos at once.");
    const data=JSON.parse(editor.value||"{}"),entry=(data[adminParishLifeSection]||[]).find(x=>x.id===adminParishLifeId);
-   if(!entry)throw new Error("Select a parish item before uploading its image.");
-   entry.image=imageUrl;entry.photo=imageUrl;editor.value=JSON.stringify(data,null,2);
-   renderParishLifeAdmin();
-   status("Image uploaded and attached to this item. Select Save Changes to publish it.");
+   if(!entry)throw new Error("Select a parish item before uploading its photos.");
+   if(!Array.isArray(entry.images))entry.images=(entry.image||entry.photo)?[{url:entry.image||entry.photo,fileId:entry.fileId||"",name:"Existing photo"}]:[];
+   for(let n=0;n<files.length;n++){
+    status("Uploading "+(n+1)+" of "+files.length+" photos...");
+    const upload=await uploadImageToImageKit(files[n],adminParishLifeSection,entry.date||entry.startDate||"");
+    entry.images.push(upload);
+   }
+   entry.image=entry.images[0]?.url||"";entry.photo=entry.image;
+   editor.value=JSON.stringify(data,null,2);renderParishLifeAdmin();
+   status("All photos uploaded and attached. Select Save Changes to publish them.");
   }catch(err){status(err.message||authError(err),true);e.target.value="";}
  });
+ panel.querySelectorAll("[data-life-image-delete]").forEach(button=>button.addEventListener("click",()=>{
+  const data=JSON.parse(editor.value||"{}"),entry=(data[adminParishLifeSection]||[]).find(x=>x.id===adminParishLifeId);
+  if(!entry||!Array.isArray(entry.images))return;
+  const removed=entry.images.splice(Number(button.dataset.lifeImageDelete),1)[0];
+  if(removed?.fileId)pendingImageKitDeletes.push({fileId:removed.fileId,url:removed.url||""});
+  entry.image=entry.images[0]?.url||"";entry.photo=entry.image;
+  editor.value=JSON.stringify(data,null,2);renderParishLifeAdmin();
+ }));
+
  panel.querySelectorAll("[data-life-field]").forEach(input=>input.addEventListener("input",()=>{
   const data=JSON.parse(editor.value||"{}"),entry=(data[adminParishLifeSection]||[]).find(x=>x.id===adminParishLifeId);if(!entry)return;
   const field=input.dataset.lifeField;
@@ -1862,7 +1876,10 @@ function renderParishLifeAdmin(){
  }));
  const del=panel.querySelector("#life-admin-delete");if(del)del.addEventListener("click",()=>{
   if(!window.confirm(labels.confirm))return;
-  const data=JSON.parse(editor.value||"{}");data[adminParishLifeSection]=(data[adminParishLifeSection]||[]).filter(x=>x.id!==adminParishLifeId);adminParishLifeId=null;editor.value=JSON.stringify(data,null,2);renderParishLifeAdmin();
+  const data=JSON.parse(editor.value||"{}"),removed=(data[adminParishLifeSection]||[]).find(x=>x.id===adminParishLifeId);
+  (removed?.images||[]).forEach(im=>{if(im?.fileId)pendingImageKitDeletes.push({fileId:im.fileId,url:im.url||""});});
+  if(removed?.fileId)pendingImageKitDeletes.push({fileId:removed.fileId,url:removed.image||removed.photo||""});
+  data[adminParishLifeSection]=(data[adminParishLifeSection]||[]).filter(x=>x.id!==adminParishLifeId);adminParishLifeId=null;editor.value=JSON.stringify(data,null,2);renderParishLifeAdmin();
  });
 }
 
@@ -1988,6 +2005,7 @@ async function saveCmsEditor(){
   currentCmsKey=key;
   await setDoc(doc(db,"siteContent",key),{payload,updatedAt:serverTimestamp(),updatedBy:currentUser.email});
   status(lang().saved);
+  if(key==="parishLife"&&pendingImageKitDeletes.length){try{await deleteUnreferencedImageKitFiles();status(lang().saved+" Removed photos that were no longer referenced.");}catch(deleteErr){status("Content saved, but ImageKit kept one or more photos because deletion could not be safely confirmed: "+(deleteErr.message||deleteErr),true);}}
  }catch(err){
   if(err?.code==="permission-denied"){
    const messages={
@@ -2001,9 +2019,11 @@ async function saveCmsEditor(){
  }
 }
 const IMAGEKIT_UPLOAD_AUTH_URL="https://falling-mountain-620d.notredamedusecours5.workers.dev/upload-auth";
-async function uploadImageToImageKit(file){
+const IMAGEKIT_DELETE_URL="https://falling-mountain-620d.notredamedusecours5.workers.dev/delete-file";
+let pendingImageKitDeletes=[];
+async function uploadImageToImageKit(file,section,dateValue){
  if(!isAdmin(currentUser))throw new Error("Only the verified priest account can upload images.");
- if(!file||!file.type.startsWith("image/")||file.size>8*1024*1024)throw new Error(lang().imageChoose);
+ if(!file||!file.type.startsWith("image/")||file.size>8*1024*1024)throw new Error("Each photo must be an image no larger than 8 MB.");
  const idToken=await currentUser.getIdToken(true);
  const authResponse=await fetch(IMAGEKIT_UPLOAD_AUTH_URL,{method:"POST",headers:{Authorization:"Bearer "+idToken}});
  const authData=await authResponse.json().catch(()=>({}));
@@ -2012,13 +2032,29 @@ async function uploadImageToImageKit(file){
  const form=new FormData(),safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
  form.append("file",file);form.append("fileName",Date.now()+"-"+safeName);
  form.append("folder","/parish-media");form.append("useUniqueFileName","true");
+ const tags=[];
+ if(section==="activities"&&/^\d{4}-\d{2}-\d{2}$/.test(dateValue||"")){
+  const d=new Date(dateValue+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+30);
+  tags.push("parish_delete_after_"+d.toISOString().slice(0,10).replace(/-/g,""));
+ }
+ form.append("tags",JSON.stringify(tags));
  form.append("token",authData.token);form.append("expire",String(authData.expire));
  form.append("signature",authData.signature);form.append("publicKey",authData.publicKey);
  const uploadResponse=await fetch("https://upload.imagekit.io/api/v1/files/upload",{method:"POST",body:form});
  const uploadData=await uploadResponse.json().catch(()=>({}));
  if(!uploadResponse.ok)throw new Error(uploadData.message||uploadData.help||"ImageKit upload failed ("+uploadResponse.status+").");
- if(!uploadData.url)throw new Error("ImageKit did not return an image URL.");
- return uploadData.url;
+ if(!uploadData.url||!uploadData.fileId)throw new Error("ImageKit did not return the photo URL and file ID.");
+ return {url:uploadData.url,fileId:uploadData.fileId,name:uploadData.name||file.name};
+}
+async function deleteUnreferencedImageKitFiles(){
+ if(!pendingImageKitDeletes.length||!isAdmin(currentUser))return;
+ const idToken=await currentUser.getIdToken(true),queue=pendingImageKitDeletes.slice();
+ for(const file of queue){
+  const response=await fetch(IMAGEKIT_DELETE_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+idToken},body:JSON.stringify(file)});
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(result.error||"ImageKit deletion check failed ("+response.status+").");
+  pendingImageKitDeletes=pendingImageKitDeletes.filter(x=>x.fileId!==file.fileId);
+ }
 }
 onAuthStateChanged(auth,user=>{currentUser=user;profileShell();});
 window.parishAuth={renderProfile:profileShell};
