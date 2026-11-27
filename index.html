@@ -1433,8 +1433,18 @@
          element after every prayer can cause Android/iOS to block the next
          track as an unsolicited autoplay. */
       if(!audioFile){
-        if(status)status.textContent=autoL.playing;
-        advanceRosaryAutoStep(token,7000);
+        /* Only meditation/closing display steps may advance without a track.
+           A prayer with a missing recording must never be silently skipped. */
+        if(step&&step.kind==='mystery'){
+          if(status)status.textContent=autoL.playing;
+          advanceRosaryAutoStep(token,7000);
+        }else if(step&&step.kind==='closing){
+          if(status)status.textContent=autoL.playing;
+          advanceRosaryAutoStep(token,7000);
+        }else{
+          rosaryAutoMode=false;
+          if(status)status.textContent=autoL.missing;
+        }
         return;
       }
       if(!rosaryAudio){
@@ -1449,16 +1459,18 @@
       };
       audio.onerror=()=>{
         if(token!==rosaryAudioToken||!rosaryAutoMode)return;
-        if(status)status.textContent=autoL.playing;
-        advanceRosaryAutoStep(token,1500);
+        rosaryAutoMode=false;
+        audio.pause();
+        if(status)status.textContent=autoL.audioError;
       };
       audio.src='assets/audio/'+currentLang+'/rosary/'+audioFile;
       audio.load();
       const playPromise=audio.play();
       if(playPromise&&typeof playPromise.catch==='function')playPromise.catch(()=>{
         if(token!==rosaryAudioToken||!rosaryAutoMode)return;
-        if(status)status.textContent=autoL.playing;
-        advanceRosaryAutoStep(token,1500);
+        rosaryAutoMode=false;
+        audio.pause();
+        if(status)status.textContent=autoL.audioError;
       });
     }
     function startRosary(){stopRosaryAudio();rosaryAutoMode=false;rosaryStarted=true;rosaryGuideSteps=buildRosaryGuide();rosaryGuideIndex=0;renderRosary();}
