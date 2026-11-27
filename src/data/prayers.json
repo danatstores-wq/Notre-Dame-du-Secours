@@ -346,6 +346,33 @@
             "it": "Testo confrontato con la coroncina italiana pubblicata; traduzione adattata al testo arabo fornito.",
             "en": "English translation prepared from the Arabic approved text and cross-checked with published chaplet forms."
           }
+        },
+        {
+          "id": "fatima-prayer",
+          "title": {
+            "ar": "صلاة فاطيما (يا يسوعي)",
+            "fr": "Prière de Fatima (Ô mon Jésus)",
+            "it": "Preghiera di Fatima (O Gesù mio)",
+            "en": "Fatima Prayer (O My Jesus)"
+          },
+          "text": {
+            "ar": "يا يسوع، اغفر لنا خطايانا، نجّنا من نار جهنّم، خذ إلى السماء جميع النفوس، ولا سيّما تلك التي هي بأكثر حاجة إلى رحمتك. آمين.",
+            "fr": "Ô mon Jésus, pardonnez-nous nos péchés, préservez-nous du feu de l’enfer, conduisez au ciel toutes les âmes, surtout celles qui ont le plus besoin de votre miséricorde. Amen.",
+            "it": "O Gesù mio, perdona i nostri peccati, preservaci dal fuoco dell’inferno, porta in cielo tutte le anime, specialmente le più bisognose della tua misericordia. Amen.",
+            "en": "O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to Heaven, especially those in most need of Thy mercy. Amen."
+          },
+          "audio": {
+            "ar": null,
+            "fr": null,
+            "it": null,
+            "en": null
+          },
+          "sourceNote": {
+            "ar": "صلاة فاطيما التقليدية، أُضيفت إلى مكتبة الصلوات.",
+            "fr": "Prière traditionnelle de Fatima.",
+            "it": "Preghiera tradizionale di Fatima.",
+            "en": "Traditional Fatima prayer."
+          }
         }
       ]
     },
