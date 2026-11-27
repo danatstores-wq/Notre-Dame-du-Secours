@@ -1471,7 +1471,9 @@
         const description=item['description'+currentLang.toUpperCase()]||item.description?.[currentLang]||item.description||'';
         const date=item.date||item.startDate||'';
         const image=item.image||item.photo||'';
-        return '<article class="schedule-entry">'+(image?'<img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:190px;object-fit:cover;border-radius:10px;margin-bottom:10px">':'')+'<h3 style="color:var(--gold-light)">'+escapeHtml(title)+'</h3>'+(description?'<p style="margin-top:8px;line-height:1.8">'+escapeHtml(description)+'</p>':'')+(date?'<small>'+escapeHtml(date)+'</small>':'')+'</article>';
+        const downloadLabel={ar:'تنزيل الصورة',en:'Download photo',fr:'Télécharger la photo',it:'Scarica la foto'}[currentLang]||'Download photo';
+        const downloadUrl=image?(image+(image.includes('?')?'&':'?')+'ik-attachment=true'):'';
+        return '<article class="schedule-entry">'+(image?'<img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:190px;object-fit:cover;border-radius:10px;margin-bottom:10px"><a class="feature-tab" href="'+escapeHtml(downloadUrl)+'" download target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;margin:0 0 12px;text-decoration:none">'+downloadLabel+' ↓</a>':'')+'<h3 style="color:var(--gold-light)">'+escapeHtml(title)+'</h3>'+(description?'<p style="margin-top:8px;line-height:1.8">'+escapeHtml(description)+'</p>':'')+(date?'<small>'+escapeHtml(date)+'</small>':'')+'</article>';
       }).join('');
     }
     function selectParishLifeTab(index){parishLifeTab=index;renderParishLife();}
