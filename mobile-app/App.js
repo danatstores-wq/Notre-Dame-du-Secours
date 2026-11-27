@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-const WEBSITE_URL = 'https://danatstores-wq.github.io/';
+const WEBSITE_URL = 'https://danatstores-wq.github.io/Notre-Dame-du-Secours/';
 const BACKGROUND = '#101a31';
 const GOLD = '#c8a96a';
 
