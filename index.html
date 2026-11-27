@@ -365,11 +365,13 @@
     html.android-device .bottom-nav {
       left: 0;
       right: 0;
-      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      /* The native Android window already reserves the system navigation area.
+         Anchor the parish menu to the bottom of the WebView's usable viewport. */
+      bottom: 0 !important;
       width: 100%;
       max-width: none;
       transform: none;
-      padding: 8px 4px 8px;
+      padding: 8px 4px max(8px, env(safe-area-inset-bottom, 0px));
     }
     html.android-device .home-view { padding-bottom: 104px; }
     html.android-device .feature-screen.visible {
@@ -1336,7 +1338,7 @@
       const detail=step.detail?'<p>'+escapeHtml(step.detail)+'</p>':'';
       const optional=step.kind==='optional'?'<p class="rosary-guide-meta">'+l.optional+'</p>':'';
       const autoL=rosaryAutoLabels[currentLang]||rosaryAutoLabels.en;
-      const audioFiles={signOfCross:'sign-of-the-cross.wav',creed:'apostles-creed.wav',ourFather:'our-father.wav',hailMary:'hail-mary.wav',gloryBe:'glory-be.wav',fatimaPrayer:'fatima-prayer.wav'};
+      const audioFiles={signOfCross:'sign-of-the-cross.wav',creed:'apostles-creed.wav',ourFather:'our-father.wav',hailMary:'hail-mary.wav',gloryBe:'glory-be.wav',fatimaPrayer:currentLang==='ar'?'fatima-prayer.wav':'fatima-pray.wav'};
       const audioFile=step.audioKey?audioFiles[step.audioKey]:null;
       const audioMarkup=audioFile?'<div class="prayer-audio-controls"><audio id="rosary-step-audio" controls preload="none" style="width:100%"><source src="assets/audio/'+currentLang+'/rosary/'+audioFile+'" type="audio/wav"></audio></div>':'';
       const decade=step.decade?' · '+l.decadeNumber+' '+step.decade+' '+l.decadeOutOf:'';
@@ -1369,19 +1371,37 @@
       steps.push({kind:'prayer',section:rosaryLabels[currentLang].closing,title:label('closing')});
       return steps;
     }
-    function stopRosaryAudio(){rosaryAudioToken++;if(rosaryAutoTimer){clearTimeout(rosaryAutoTimer);rosaryAutoTimer=null;}if(rosaryAudio){rosaryAudio.pause();rosaryAudio.currentTime=0;rosaryAudio=null;}}
+    function stopRosaryAudio(){rosaryAudioToken++;if(rosaryAutoTimer){clearTimeout(rosaryAutoTimer);rosaryAutoTimer=null;}if(rosaryAudio){rosaryAudio.pause();try{rosaryAudio.currentTime=0;}catch(e){}rosaryAudio=null;}}
     function stopRosaryAutoMode(){rosaryAutoMode=false;stopRosaryAudio();renderRosary();}
-    function startRosaryAutoMode(){rosaryAutoMode=true;stopRosaryAudio();renderRosary();}
+    function startRosaryAutoMode(){stopRosaryAudio();rosaryAutoMode=true;renderRosary();}
+    function advanceRosaryAutoStep(token,delay){
+      if(rosaryAutoTimer)clearTimeout(rosaryAutoTimer);
+      rosaryAutoTimer=setTimeout(()=>{
+        if(token!==rosaryAudioToken||!rosaryAutoMode)return;
+        rosaryAutoTimer=null;
+        rosaryGuideIndex=Math.min(rosaryGuideSteps.length,rosaryGuideIndex+1);
+        renderRosary();
+      },delay);
+    }
     function playRosaryStepAudio(){
       const token=++rosaryAudioToken,autoL=rosaryAutoLabels[currentLang]||rosaryAutoLabels.en;
       const audio=document.getElementById('rosary-step-audio'),status=document.getElementById('rosary-auto-status');
       if(!rosaryAutoMode)return;
-      if(!audio){if(status)status.textContent=autoL.playing;rosaryAutoTimer=setTimeout(()=>{if(token!==rosaryAudioToken||!rosaryAutoMode)return;rosaryGuideIndex=Math.min(rosaryGuideSteps.length,rosaryGuideIndex+1);renderRosary();},7000);return;}
+      /* Mystery introductions and the closing prayer have no recording: keep
+         the full-rosary sequence moving instead of waiting for a user tap. */
+      if(!audio){if(status)status.textContent=autoL.playing;advanceRosaryAutoStep(token,2500);return;}
       rosaryAudio=audio;
       audio.onended=()=>{if(token!==rosaryAudioToken||!rosaryAutoMode)return;rosaryGuideIndex=Math.min(rosaryGuideSteps.length,rosaryGuideIndex+1);renderRosary();};
-      audio.onerror=()=>{if(token!==rosaryAudioToken)return;rosaryAutoMode=false;stopRosaryAudio();const msg=document.getElementById('rosary-auto-status');if(msg)msg.textContent=autoL.missing;};
+      audio.onerror=()=>{if(token!==rosaryAudioToken||!rosaryAutoMode)return;if(status)status.textContent=autoL.playing;advanceRosaryAutoStep(token,1200);};
+      try{audio.currentTime=0;}catch(e){}
       const p=audio.play();
-      if(p&&typeof p.catch==='function')p.catch(()=>{if(token!==rosaryAudioToken)return;rosaryAutoMode=false;const msg=document.getElementById('rosary-auto-status');if(msg)msg.textContent=autoL.audioError;});
+      if(p&&typeof p.catch==='function')p.catch(()=>{
+        if(token!==rosaryAudioToken||!rosaryAutoMode)return;
+        /* A missing/blocked individual recording must not cancel the entire
+           rosary. Move to the next prayer and continue the sequence. */
+        if(status)status.textContent=autoL.playing;
+        advanceRosaryAutoStep(token,1200);
+      });
     }
     function startRosary(){stopRosaryAudio();rosaryAutoMode=false;rosaryStarted=true;rosaryGuideSteps=buildRosaryGuide();rosaryGuideIndex=0;renderRosary();}
     function moveRosaryGuide(direction){stopRosaryAudio();rosaryGuideIndex=Math.max(0,Math.min(rosaryGuideSteps.length,rosaryGuideIndex+direction));renderRosary();}
