@@ -13,7 +13,12 @@
     "android": {
       "package": "com.notredamedusecours.parish",
       "softwareKeyboardLayoutMode": "pan",
-      "predictiveBackGestureEnabled": true
-    }
+      "predictiveBackGestureEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "../assets/icons/logo-marian-emblem.png",
+        "backgroundColor": "#101A31"
+      }
+    },
+    "icon": "../assets/icons/logo-marian-emblem.png"
   }
 }
