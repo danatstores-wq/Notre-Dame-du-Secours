@@ -894,7 +894,8 @@
     bibleLabels.fr.english='Anglais — Douay-Rheims 1899';
     bibleLabels.it.english='Inglese — Douay-Rheims 1899';
     bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Van Dyck Catholic Bible (73 books)',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
-    const AR_BIBLE_BASE='https://raw.githubusercontent.com/midvash/bible-data/main/versions/ar/svd/books/';
+    const AR_BIBLE_BASE='./bibles/ar/books/';
+    const AR_BIBLE_REMOTE_BASE='https://raw.githubusercontent.com/midvash/bible-data/main/versions/ar/svd/books/';
     let arabicBibleIndex=null,arabicBibleBook=null,arabicBibleChapter=1;
     // All 73 Arabic Catholic books are driven by one canonical index and one book selector.\n    const EN_BIBLE_BASE='./bibles/en/';
     let englishBibleIndex=null,englishBibleBook=null,englishBibleChapter=1;
@@ -1046,7 +1047,8 @@
         if(!response.ok)throw new Error('تعذّر تحميل '+bookMeta.name);
         source=await response.json();
       }else{
-        const response=await fetch(AR_BIBLE_BASE+encodeURIComponent(bookMeta.sourceCode)+'.json');
+        let response=await fetch(AR_BIBLE_BASE+encodeURIComponent(bookMeta.sourceCode)+'.json');
+        if(!response.ok)response=await fetch(AR_BIBLE_REMOTE_BASE+encodeURIComponent(bookMeta.sourceCode)+'.json');
         if(!response.ok)throw new Error('Arabic book unavailable: '+bookMeta.name);
         source=await response.json();
       }
