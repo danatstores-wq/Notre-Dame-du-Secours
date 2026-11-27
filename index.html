@@ -645,6 +645,30 @@
     });
     document.addEventListener('keydown',function(event){if(event.key==='Escape')closeLanguageMenu();});
 
+    // Keep every parish icon visible if the browser/CDN fails to fetch a PNG/SVG.
+    // The original image remains untouched whenever its request succeeds.
+    document.addEventListener('error', function(event) {
+      const img = event.target;
+      if (!img || img.tagName !== 'IMG' || img.dataset.parishFallback === '1') return;
+      const file = (img.getAttribute('src') || '').split('/').pop().toLowerCase();
+      const glyphs = {
+        'logo-marian-emblem.png':'✝', 'icon-settings.png':'⚙', 'icon-cross-divider.png':'✝',
+        'icon-calendar.png':'▦', 'icon-rosary.png':'◉', 'icon-bible.png':'▤',
+        'holy_bible.png':'▤', 'icon-megaphone.png':'◖', 'icon-church.png':'⌂',
+        'icon-praying-hands.png':'🙏', 'icon-saints-calendar.svg':'✧',
+        'nav-home.png':'⌂', 'nav-bell.png':'♧', 'nav-star.png':'★',
+        'nav-info.png':'i', 'profile.png':'●', 'our_church.png':'⌂',
+        'call_us.png':'☎', 'church_location.png':'⌖'
+      };
+      const glyph = glyphs[file] || '✝';
+      const size = Math.max(24, Math.min(96, parseInt(img.getAttribute('width') || img.clientWidth || '40', 10) || 40));
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'" viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#0b1d3a" stroke="#e5b657" stroke-width="2.5"/><text x="32" y="43" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#fff0b3">'+glyph+'</text></svg>';
+      img.dataset.parishFallback = '1';
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+      img.style.objectFit = 'contain';
+      img.style.display = 'block';
+    }, true);
+
     render();
     document.documentElement.dataset.textSize=localStorage.getItem('parish-text-size')||'normal';
     const massLabels={
