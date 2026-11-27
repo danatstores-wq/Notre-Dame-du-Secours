@@ -1205,7 +1205,7 @@
       it:{title:'Santo Rosario',back:'Indietro',choose:'Scegli i misteri del Rosario',days:'Giorni',start:'Inizia la preghiera guidata',step:'Passaggio',of:'di',previous:'Precedente',next:'Successivo',again:'Torna ai misteri',unavailable:'Il testo completo delle preghiere e le registrazioni saranno aggiunti dopo la verifica e l’approvazione della parrocchia.',noAudio:'Non ci sono ancora registrazioni approvate. Puoi continuare in modalità manuale.',dayNames:['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],today:'Misteri suggeriti per oggi',guideIntro:'Segui in ordine i passaggi del Rosario. Sono mostrati i nomi delle preghiere e delle meditazioni; i testi completi saranno aggiunti dopo l’approvazione della parrocchia.',mystery:'Meditazione',decade:'Decina',optional:'Preghiera facoltativa',skip:'Salta',finish:'Complimenti! Hai completato i passaggi del Rosario.',restart:'Ricomincia',backMysteries:'Scegli altri misteri',opening:'Preghiere iniziali',closing:'Preghiera finale',beads:'Progresso della decina',beadNumber:'Grano',outOf:'su 10',decadeNumber:'Decina',decadeOutOf:'su 5',diagram:'Schema del rosario: croce, grano del Padre Nostro, tre grani dell’Ave Maria, grano del Gloria al Padre e poi cinque decine',ourFatherLabel:'Padre Nostro',gloryBeLabel:'Gloria al Padre',hailMaryLabel:'Ave Maria'}
     };
     let rosaryData=null,selectedMystery=0,rosaryEpisode=0,rosaryStarted=false,rosaryGuideSteps=[],rosaryGuideIndex=0;
-    let rosaryAutoMode=false,rosaryAudio=null,rosaryAudioToken=0;
+    let rosaryAutoMode=false,rosaryAudio=null,rosaryAudioToken=0,rosaryAutoTimer=null;
     const rosaryWeekdays=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
     function openFeature(index){
       if(index===0){document.getElementById('home-view').classList.add('hidden');document.getElementById('mass-screen').classList.add('visible');document.getElementById('bottom-nav').style.display='none';renderMassScreen();loadMassData();return;}
@@ -1308,7 +1308,7 @@
       const detail=step.detail?'<p>'+escapeHtml(step.detail)+'</p>':'';
       const optional=step.kind==='optional'?'<p class="rosary-guide-meta">'+l.optional+'</p>':'';
       const autoL=rosaryAutoLabels[currentLang]||rosaryAutoLabels.en;
-      const audioFiles={signOfCross:'sign-of-the-cross.wav',creed:'apostles-creed.wav',ourFather:'our-father.wav',hailMary:'hail-mary.wav',gloryBe:'glory-be.wav'};
+      const audioFiles={signOfCross:'sign-of-the-cross.wav',creed:'apostles-creed.wav',ourFather:'our-father.wav',hailMary:'hail-mary.wav',gloryBe:'glory-be.wav',fatimaPrayer:'fatima-prayer.wav'};
       const audioFile=step.audioKey?audioFiles[step.audioKey]:null;
       const audioMarkup=audioFile?'<div class="prayer-audio-controls"><audio id="rosary-step-audio" controls preload="none" style="width:100%"><source src="assets/audio/'+currentLang+'/rosary/'+audioFile+'" type="audio/wav"></audio></div>':'';
       const decade=step.decade?' · '+l.decadeNumber+' '+step.decade+' '+l.decadeOutOf:'';
@@ -1336,19 +1336,19 @@
         for(let bead=1;bead<=10;bead++)steps.push({kind:'hail',section:rosaryLabels[currentLang].decade+' '+decade,title:label('hail-mary'),hailIndex:bead-1,decade,audioKey:'hailMary'});
         steps.push({kind:'prayer',section:rosaryLabels[currentLang].decade+' '+decade,title:label('glory-be'),audioKey:'gloryBe'});
         const fatimaStepData=sequence.flatMap(x=>x.steps||[]).find(x=>x.id==='fatima-prayer');
-        steps.push({kind:'optional',section:rosaryLabels[currentLang].decade+' '+decade,title:label('fatima-prayer'),detail:fatimaStepData?.text?.[currentLang]||fatimaStepData?.text?.ar||''});
+        steps.push({kind:'optional',section:rosaryLabels[currentLang].decade+' '+decade,title:label('fatima-prayer'),detail:fatimaStepData?.text?.[currentLang]||fatimaStepData?.text?.ar||'',audioKey:'fatimaPrayer'});
       }
       steps.push({kind:'prayer',section:rosaryLabels[currentLang].closing,title:label('closing')});
       return steps;
     }
-    function stopRosaryAudio(){rosaryAudioToken++;if(rosaryAudio){rosaryAudio.pause();rosaryAudio.currentTime=0;rosaryAudio=null;}}
+    function stopRosaryAudio(){rosaryAudioToken++;if(rosaryAutoTimer){clearTimeout(rosaryAutoTimer);rosaryAutoTimer=null;}if(rosaryAudio){rosaryAudio.pause();rosaryAudio.currentTime=0;rosaryAudio=null;}}
     function stopRosaryAutoMode(){rosaryAutoMode=false;stopRosaryAudio();renderRosary();}
     function startRosaryAutoMode(){rosaryAutoMode=true;stopRosaryAudio();renderRosary();}
     function playRosaryStepAudio(){
       const token=++rosaryAudioToken,autoL=rosaryAutoLabels[currentLang]||rosaryAutoLabels.en;
       const audio=document.getElementById('rosary-step-audio'),status=document.getElementById('rosary-auto-status');
       if(!rosaryAutoMode)return;
-      if(!audio){rosaryAutoMode=false;if(status)status.textContent=autoL.missing;return;}
+      if(!audio){if(status)status.textContent=autoL.playing;rosaryAutoTimer=setTimeout(()=>{if(token!==rosaryAudioToken||!rosaryAutoMode)return;rosaryGuideIndex=Math.min(rosaryGuideSteps.length,rosaryGuideIndex+1);renderRosary();},7000);return;}
       rosaryAudio=audio;
       audio.onended=()=>{if(token!==rosaryAudioToken||!rosaryAutoMode)return;rosaryGuideIndex=Math.min(rosaryGuideSteps.length,rosaryGuideIndex+1);renderRosary();};
       audio.onerror=()=>{if(token!==rosaryAudioToken)return;rosaryAutoMode=false;stopRosaryAudio();const msg=document.getElementById('rosary-auto-status');if(msg)msg.textContent=autoL.missing;};
