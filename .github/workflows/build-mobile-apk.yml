@@ -1,0 +1,63 @@
+name: Build Notre-Dame-du-Secours Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "mobile-app/**"
+      - ".github/workflows/build-mobile-apk.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  android-apk:
+    name: Build standalone Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: mobile-app
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.3.0"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools build-tools;37.0.0'
+          accept-android-sdk-licenses: true
+
+      - name: Install Android 17 platform required by Expo SDK 58
+        run: yes | sdkmanager --channel=1 "platforms;android-37.0"
+
+      - name: Install JavaScript dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Generate native Android project
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Build standalone testing APK
+        working-directory: mobile-app/android
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: notre-dame-du-secours-android-apk
+          path: mobile-app/android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 14
