@@ -906,6 +906,30 @@
     bibleLabels.fr.english='Anglais — Douay-Rheims 1899';
     bibleLabels.it.english='Inglese — Douay-Rheims 1899';
     bibleLabels.en={title:'The Holy Bible',back:'Back',choose:'Choose a Bible language',arabic:'Arabic — Van Dyck Catholic Bible (73 books)',french:'French — Crampon 1923',italian:'Italian — Martini',english:'English — Douay-Rheims 1899',englishAttribution:'Text: Douay-Rheims American Edition (1899), public domain. The complete 73-book Catholic canon is included.'};
+    // Android loads this site from file:///android_asset. Fetch can reject
+    // local file URLs in some WebView versions, so read bundled JSON with XHR
+    // first on file origins, while keeping normal fetch for the hosted website.
+    function fetchBibleAsset(path,options){
+      if(location.protocol==='file:'){
+        return new Promise((resolve,reject)=>{
+          try{
+            const request=new XMLHttpRequest();
+            request.open('GET',new URL(path,document.baseURI).href,true);
+            request.onload=()=>{
+              if((request.status>=200&&request.status<300)||request.status===0){
+                try{
+                  const data=JSON.parse(request.responseText);
+                  resolve({ok:true,status:request.status,json:async()=>data});
+                }catch(error){reject(new Error('Invalid bundled Bible JSON: '+path));}
+              }else reject(new Error('Bible asset unavailable ('+request.status+'): '+path));
+            };
+            request.onerror=()=>reject(new Error('Could not read bundled Bible asset: '+path));
+            request.send();
+          }catch(error){reject(error);}
+        });
+      }
+      return fetch(path,options);
+    }
     const AR_BIBLE_BASE='./bibles/ar/books/';
     const AR_BIBLE_REMOTE_BASE='https://raw.githubusercontent.com/midvash/bible-data/main/versions/ar/svd/books/';
     let arabicBibleIndex=null,arabicBibleBook=null,arabicBibleChapter=1;
@@ -949,7 +973,7 @@
     let frenchBibleIndex=null,frenchBibleBook=null,frenchBibleChapter=1;
     async function loadFrenchBibleIndex(){
       if(frenchBibleIndex)return frenchBibleIndex;
-      const response=await fetch(FR_BIBLE_BASE+'index.json');
+      const response=await fetchBibleAsset(FR_BIBLE_BASE+'index.json');
       if(!response.ok)throw new Error('French Bible index unavailable');
       const index=await response.json();
       if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1334)throw new Error('Unexpected French Catholic canon index');
@@ -969,7 +993,7 @@
       try{
         await bibleDbSet('meta','fr-index',frenchBibleIndex);
         for(const book of frenchBibleIndex){
-          const response=await fetch(FR_BIBLE_BASE+'books/'+encodeURIComponent(book.slug)+'.json');if(!response.ok)throw new Error('Arrêt au livre '+book.nativeName);
+          const response=await fetchBibleAsset(FR_BIBLE_BASE+'books/'+encodeURIComponent(book.slug)+'.json');if(!response.ok)throw new Error('Arrêt au livre '+book.nativeName);
           const localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters)||localBook.chapters.length!==book.chapterCount)throw new Error('Livre incomplet : '+book.nativeName);
           for(let chapter=1;chapter<=book.chapterCount;chapter++){
             const key='fr-'+book.slug+'-'+chapter;let data=await bibleDbGet('chapters',key);
@@ -1003,7 +1027,7 @@
       if(englishBibleIndex)return englishBibleIndex;
       const cached=await bibleCacheGet('en-index');
       if(cached){englishBibleIndex=cached;return cached;}
-      const response=await fetch(EN_BIBLE_BASE+'index.json');
+      const response=await fetchBibleAsset(EN_BIBLE_BASE+'index.json');
       if(!response.ok)throw new Error('English Bible index unavailable');
       const index=await response.json();
       if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1334)throw new Error('Unexpected English Catholic Bible canon');
@@ -1015,7 +1039,7 @@
       if(cached&&Array.isArray(cached)&&cached.length===73&&cached.reduce((n,b)=>n+b.chapterCount,0)===1326){
         arabicBibleIndex=cached;return cached;
       }
-      const response=await fetch('./bibles/ar/index.json?catholic=73&v=20261126-2',{cache:'no-store'});
+      const response=await fetchBibleAsset('./bibles/ar/index.json?catholic=73&v=20261126-2',{cache:'no-store'});
       if(!response.ok)throw new Error('Arabic Catholic Bible index unavailable');
       const index=await response.json();
       if(!Array.isArray(index)||index.length!==73||index.reduce((n,b)=>n+b.chapterCount,0)!==1326)throw new Error('Arabic Catholic Bible index must contain 73 books and 1,326 chapters');
@@ -1055,11 +1079,11 @@
       if(book&&Array.isArray(book.chapters)&&book.chapters.length===bookMeta.chapterCount)return book;
       let source;
       if(bookMeta.sourceType==='catholic'){
-        const response=await fetch('./bibles/ar/'+encodeURIComponent(bookMeta.file));
+        const response=await fetchBibleAsset('./bibles/ar/'+encodeURIComponent(bookMeta.file));
         if(!response.ok)throw new Error('تعذّر تحميل '+bookMeta.name);
         source=await response.json();
       }else{
-        let response=await fetch(AR_BIBLE_BASE+encodeURIComponent(bookMeta.sourceCode)+'.json');
+        let response=await fetchBibleAsset(AR_BIBLE_BASE+encodeURIComponent(bookMeta.sourceCode)+'.json');
         if(!response.ok)response=await fetch(AR_BIBLE_REMOTE_BASE+encodeURIComponent(bookMeta.sourceCode)+'.json');
         if(!response.ok)throw new Error('Arabic book unavailable: '+bookMeta.name);
         source=await response.json();
@@ -1143,7 +1167,7 @@
         let data=await bibleCacheGet(key);
         if(!data){
           let book=await bibleCacheGet('en-book-'+englishBibleBook.slug);
-          if(!book){const response=await fetch(EN_BIBLE_BASE+'books/'+encodeURIComponent(englishBibleBook.slug)+'.json');if(!response.ok)throw new Error('Book unavailable');book=await response.json();if(!book||!Array.isArray(book.chapters)||book.chapters.length!==englishBibleBook.chapterCount)throw new Error('Incomplete book');await bibleCacheSet('en-book-'+englishBibleBook.slug,book);}
+          if(!book){const response=await fetchBibleAsset(EN_BIBLE_BASE+'books/'+encodeURIComponent(englishBibleBook.slug)+'.json');if(!response.ok)throw new Error('Book unavailable');book=await response.json();if(!book||!Array.isArray(book.chapters)||book.chapters.length!==englishBibleBook.chapterCount)throw new Error('Incomplete book');await bibleCacheSet('en-book-'+englishBibleBook.slug,book);}
           data=book.chapters[englishBibleChapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Chapter unavailable');await bibleCacheSet(key,data);
         }
         box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(englishBibleBook.name)+' — '+englishBibleChapter+'</h3>'+data.verses.map(v=>'<p class="bible-verse"><sup>'+v.verse+'</sup> '+escapeHtml(v.text)+'</p>').join('');
@@ -1158,7 +1182,7 @@
         await bibleDbSet('meta','en-index',englishBibleIndex);
         for(const book of englishBibleIndex){
           let localBook=await bibleDbGet('chapters','en-book-'+book.slug);
-          if(!localBook){const response=await fetch(EN_BIBLE_BASE+'books/'+encodeURIComponent(book.slug)+'.json');if(!response.ok)throw new Error('Download stopped at '+book.name);localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters)||localBook.chapters.length!==book.chapterCount)throw new Error('Invalid book: '+book.name);await bibleDbSet('chapters','en-book-'+book.slug,localBook);}
+          if(!localBook){const response=await fetchBibleAsset(EN_BIBLE_BASE+'books/'+encodeURIComponent(book.slug)+'.json');if(!response.ok)throw new Error('Download stopped at '+book.name);localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters)||localBook.chapters.length!==book.chapterCount)throw new Error('Invalid book: '+book.name);await bibleDbSet('chapters','en-book-'+book.slug,localBook);}
           for(let chapter=1;chapter<=book.chapterCount;chapter++){
             const key='en-'+book.slug+'-'+chapter;let data=await bibleDbGet('chapters',key);
             if(!data){data=localBook.chapters[chapter-1];if(!data||!Array.isArray(data.verses)||!data.verses.length)throw new Error('Invalid chapter: '+book.name+' '+chapter);await bibleDbSet('chapters',key,data);}
@@ -1201,7 +1225,7 @@
       host.innerHTML='<p class="empty-state">جارٍ تحميل فهرس الكتاب المقدّس… / Chargement… / Caricamento…</p>';
       try{
         if(!bibleIndex){
-          const response=await fetch(IT_BIBLE_BASE+'index.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');await bibleCacheSet('it-index',bibleIndex);
+          const response=await fetchBibleAsset(IT_BIBLE_BASE+'index.json');if(!response.ok)throw new Error('Index unavailable');bibleIndex=await response.json();if(!Array.isArray(bibleIndex)||bibleIndex.length!==73)throw new Error('Unexpected Catholic Bible index');await bibleCacheSet('it-index',bibleIndex);
         }
         if(!bibleBook)bibleBook=bibleIndex[0];
         renderBibleReader();
@@ -1225,7 +1249,7 @@
       try{
         const cacheKey='it-'+bibleBook.s+'-'+bibleChapter;
         let data=await bibleCacheGet(cacheKey);
-        if(!data){let localBook=await bibleCacheGet('it-book-'+bibleBook.s);if(!localBook){const response=await fetch(IT_BIBLE_BASE+'books/'+encodeURIComponent(bibleBook.s)+'.json');if(!response.ok)throw new Error('Book unavailable');localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters))throw new Error('Invalid book data');await bibleCacheSet('it-book-'+bibleBook.s,localBook);}const chapterVerses=localBook.chapters[bibleChapter-1]||[];data={n:localBook.name||bibleBook.n,v:chapterVerses.map((t,i)=>({n:i+1,t}))};if(!data.v.length)throw new Error('Invalid chapter data');await bibleCacheSet(cacheKey,data);}
+        if(!data){let localBook=await bibleCacheGet('it-book-'+bibleBook.s);if(!localBook){const response=await fetchBibleAsset(IT_BIBLE_BASE+'books/'+encodeURIComponent(bibleBook.s)+'.json');if(!response.ok)throw new Error('Book unavailable');localBook=await response.json();if(!localBook||!Array.isArray(localBook.chapters))throw new Error('Invalid book data');await bibleCacheSet('it-book-'+bibleBook.s,localBook);}const chapterVerses=localBook.chapters[bibleChapter-1]||[];data={n:localBook.name||bibleBook.n,v:chapterVerses.map((t,i)=>({n:i+1,t}))};if(!data.v.length)throw new Error('Invalid chapter data');await bibleCacheSet(cacheKey,data);}
         box.innerHTML='<h3 class="bible-chapter-title">'+escapeHtml(data.n||bibleBook.n)+' — '+bibleChapter+'</h3>'+data.v.map(v=>'<p class="bible-verse"><sup>'+v.n+'</sup> '+escapeHtml(v.t)+'</p>').join('');
       }catch(error){box.innerHTML='<p class="empty-state">Chapter unavailable. Connect to the internet and try again.</p>';}
     }
