@@ -1479,6 +1479,31 @@
       try{const cloud=await window.parishCms?.load('parishLife');if(cloud!==null&&cloud!==undefined){parishLifeData=cloud;}else{const response=await fetch('src/data/parish-life.json',{cache:'no-store'});if(!response.ok)throw new Error('request failed');parishLifeData=await response.json();}renderParishLife();}
       catch(e){box.innerHTML='<p class="empty-state">'+parishLifeLabels[currentLang].error+'</p>';}
     }
+    document.addEventListener('click',async function(event){
+      const button=event.target.closest('.parish-photo-save');
+      if(!button)return;
+      const imageUrl=button.getAttribute('data-image');
+      if(!imageUrl)return;
+      const originalText=button.textContent;
+      button.disabled=true;
+      try{
+        const response=await fetch(imageUrl,{mode:'cors'});
+        if(!response.ok)throw new Error('Image download failed');
+        const blob=await response.blob();
+        const file=new File([blob],'parish-photo.'+((blob.type.split('/')[1]||'jpg').replace('jpeg','jpg')),{type:blob.type||'image/jpeg'});
+        if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],title:'Notre-Dame-du-Secours'});
+        }else{
+          window.open(imageUrl,'_blank','noopener');
+        }
+      }catch(error){
+        if(error&&error.name==='AbortError')return;
+        window.open(imageUrl,'_blank','noopener');
+      }finally{
+        button.disabled=false;
+        button.textContent=originalText;
+      }
+    });
     function renderParishLife(){
       const l=parishLifeLabels[currentLang];document.getElementById('parish-life-title').textContent=l.title;document.getElementById('parish-life-back').textContent=l.back;
       document.getElementById('parish-life-tabs').innerHTML=l.tabs.map((label,i)=>'<button class="feature-tab '+(i===parishLifeTab?'active':'')+'" onclick="selectParishLifeTab('+i+')">'+label+'</button>').join('');
@@ -1490,8 +1515,8 @@
         const description=item['description'+currentLang.toUpperCase()]||item.description?.[currentLang]||item.description||'';
         const date=item.date||item.startDate||'';
         const images=Array.isArray(item.images)&&item.images.length?item.images.map(x=>typeof x==="string"?{url:x}:x):((item.image||item.photo)?[{url:item.image||item.photo}]:[]);
-        const downloadLabel={ar:'تنزيل الصورة',en:'Download photo',fr:'Télécharger la photo',it:'Scarica la foto'}[currentLang]||'Download photo';
-        const imageHtml=images.map(im=>{const image=im.url||'';const downloadUrl=image?(image+(image.includes('?')?'&':'?')+'ik-attachment=true'):'';return image?'<div style="margin:8px 0"><img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:230px;object-fit:cover;border-radius:10px"><a class="feature-tab" href="'+escapeHtml(downloadUrl)+'" download target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;margin:6px 0 10px;text-decoration:none">'+downloadLabel+' ↓</a></div>':'';}).join('');
+        const downloadLabel={ar:'حفظ في الصور',en:'Save to Photos',fr:'Enregistrer dans Photos',it:'Salva in Foto'}[currentLang]||'Save to Photos';
+        const imageHtml=images.map(im=>{const image=im.url||'';return image?'<div style="margin:8px 0"><img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:230px;object-fit:cover;border-radius:10px"><button type="button" class="feature-tab parish-photo-save" data-image="'+escapeHtml(image)+'" style="display:inline-flex;align-items:center;justify-content:center;margin:6px 0 10px">'+downloadLabel+' ↓</button></div>':'';}).join('');
         return '<article class="schedule-entry">'+imageHtml+'<h3 style="color:var(--gold-light)">'+escapeHtml(title)+'</h3>'+(description?'<p style="margin-top:8px;line-height:1.8">'+escapeHtml(description)+'</p>':'')+(date?'<small>'+escapeHtml(date)+'</small>':'')+'</article>';
       }).join('');
     }
