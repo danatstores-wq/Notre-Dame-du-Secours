@@ -43,10 +43,10 @@ export default function App() {
   const sharePhoto = async (url) => {
     try {
       const parsed = new URL(url);
-      if (parsed.protocol !== 'https:' || !/(^|\\.)imagekit\\.io$/.test(parsed.hostname)) {
+      if (parsed.protocol !== 'https:' || !/(^|\.)imagekit\.io$/.test(parsed.hostname)) {
         throw new Error('Invalid photo URL');
       }
-      const ext = (parsed.pathname.match(/\\.(jpg|jpeg|png|webp|gif)$/i)?.[1] || 'jpg').toLowerCase();
+      const ext = (parsed.pathname.match(/\.(jpg|jpeg|png|webp|gif)$/i)?.[1] || 'jpg').toLowerCase();
       const fileUri = `${FileSystem.cacheDirectory}parish-photo-${Date.now()}.${ext}`;
       const download = await FileSystem.downloadAsync(url, fileUri);
       if (!download?.uri || !(await Sharing.isAvailableAsync())) {
