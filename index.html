@@ -257,6 +257,7 @@
     .bottom-nav {
       position: fixed;
       left: 50%;
+      right: auto;
       bottom: 0;
       transform: translateX(-50%);
       width: min(100%, 430px);
@@ -345,11 +346,31 @@
       box-shadow: none;
     }
     html.ios-device .top-bar { padding-top: calc(18px + env(safe-area-inset-top, 0px)); }
-    /* Raise the existing dashboard cards on iPhone to leave room for two future cards. */
-    html.ios-device .welcome-banner,
-    html.ios-device .divider { transform: translateY(-88px); }
-    html.ios-device .cards-grid { padding-bottom: 40px; transform: translateY(-88px); }
-    html.ios-device .bottom-nav { padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+    /* iPhone browser: make the bottom menu span the full screen width,
+       including both side edges, while respecting the home-indicator safe area. */
+    html.ios-device .bottom-nav {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: none;
+      min-height: calc(68px + env(safe-area-inset-bottom, 0px));
+      transform: none;
+      padding: 8px 4px calc(12px + env(safe-area-inset-bottom, 0px));
+    }
+    /* Keep all ten dashboard cards lower on iPhone, ending immediately above
+       the full-width bottom menu instead of floating high above it. */
+    html.ios-device .cards-grid {
+      transform: none;
+      padding-bottom: 0;
+    }
+    html.ios-device .home-view {
+      padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+    }
+    html.ios-device .bottom-nav .nav-item {
+      min-width: 0;
+      justify-content: center;
+    }
     /* Samsung/Android: lock the app to the actual visible viewport so the
        dashboard flex layout is measured against the screen, not the browser
        body's minimum-height area. Avoid moving the cards independently. */
