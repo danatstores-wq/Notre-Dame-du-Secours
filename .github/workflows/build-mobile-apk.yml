@@ -41,6 +41,9 @@ jobs:
       - name: Install JavaScript dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Install Expo-compatible native sharing modules
+        run: npx expo install expo-file-system expo-sharing
+
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install
 
