@@ -1962,9 +1962,16 @@ function closeNewFeature(){stopCandlePrayer();document.getElementById("candle-sc
     churchHistoryLabels.en={title:'Our Church',back:'Back',name:'Our Lady of Help Church – Saqiet El Misk',location:'Saqiet El Misk, Bhersaf area, Metn District, Mount Lebanon',intro:'A historic Maronite church dedicated to the Virgin Mary under the title Our Lady of Help. It is a place of prayer and faith for the parish community.',history:'Historical milestones',points:['1812: The church was built on the site of the former Saint Anthony church.','1841: Consecrated by Bishop Elias Mhaseb.','1910: The old dome was replaced by the present dome with support from local residents and the diaspora.','First quarter of the 20th century: The church interior was decorated.','2012: Vault frescoes by I. Roukos were completed; the church also preserves many icons.'],contact:'Contact us',map:'Church location on Google Maps',note:'This history is based on published references. The parish may add its own documents and photographs.'};
     settingsLabels.en={title:'Settings',back:'Back',language:'App language',size:'Text size',small:'Small',normal:'Normal',large:'Large',privacy:'Privacy notice',privacyPending:'The privacy notice will be published after parish approval. An account is required only to submit a prayer request.'};
     prayerRequestLabels.en={title:'Prayer Requests',back:'Back',intro:'You may submit your prayer intention confidentially and respectfully. It will be sent only to the parish priest.',privacy:'Prayer requests are private and can be viewed only by the authorized parish priest.',account:'To submit a prayer request, create an account with your email address and password, then verify your email address.',phone:'No phone number or SMS is required.',pending:'After submission, your intention will be placed in a private queue for the priest to review.',setupTitle:'Secure registration is not enabled yet',setup:'Account creation, sign-in, and prayer submissions will be enabled after Firebase Authentication and server-side security rules are configured. Submissions remain disabled to protect your privacy.'};
+    Object.assign(prayerRequestLabels,{
+      ar:{title:'طلبات الصلاة',back:'رجوع',intro:'اكتب نيتك للصلاة بسرية واحترام. لن يطّلع عليها إلا كاهن الرعية المخوّل.',privacy:'طلبات الصلاة خاصة ولا يمكن للمستخدمين الآخرين الاطلاع عليها.',email:'البريد الإلكتروني',message:'اكتب طلب الصلاة هنا',submit:'إرسال طلب الصلاة',login:'يرجى تسجيل الدخول وتأكيد بريدك الإلكتروني لإرسال طلب صلاة.',blocked:'تم إيقاف إمكانية إرسال طلبات الصلاة لهذا الحساب. يرجى التواصل مع الرعية.',success:'تم إرسال طلب الصلاة بنجاح. باركك الرب.',error:'تعذّر إرسال الطلب. تحقق من اتصال الإنترنت وحاول مجدداً.',required:'يرجى كتابة طلب الصلاة قبل الإرسال.'},
+      fr:{title:'Intentions de prière',back:'Retour',intro:'Écrivez votre intention en toute confidentialité. Seul le curé autorisé pourra la consulter.',privacy:'Les intentions sont privées et ne sont pas visibles par les autres utilisateurs.',email:'Adresse e-mail',message:'Écrivez votre intention de prière ici',submit:'Envoyer l’intention',login:'Veuillez vous connecter et vérifier votre adresse e-mail pour envoyer une intention.',blocked:'Ce compte ne peut plus envoyer d’intentions de prière. Veuillez contacter la paroisse.',success:'Votre intention a été envoyée. Que Dieu vous bénisse.',error:'Impossible d’envoyer votre intention. Vérifiez votre connexion et réessayez.',required:'Veuillez écrire votre intention avant de l’envoyer.'},
+      it:{title:'Intenzioni di preghiera',back:'Indietro',intro:'Scrivi la tua intenzione in modo riservato. Solo il parroco autorizzato potrà leggerla.',privacy:'Le intenzioni sono private e non sono visibili agli altri utenti.',email:'Indirizzo email',message:'Scrivi qui la tua intenzione di preghiera',submit:'Invia intenzione',login:'Accedi e verifica il tuo indirizzo email per inviare un’intenzione.',blocked:'Questo account non può più inviare intenzioni di preghiera. Contatta la parrocchia.',success:'La tua intenzione è stata inviata. Dio ti benedica.',error:'Impossibile inviare la richiesta. Controlla la connessione e riprova.',required:'Scrivi la tua intenzione prima di inviarla.'},
+      en:{title:'Prayer Requests',back:'Back',intro:'Write your prayer intention confidentially. Only the authorized parish priest can read it.',privacy:'Prayer requests are private and cannot be viewed by other users.',email:'Email address',message:'Write your prayer request here',submit:'Submit Prayer Request',login:'Please sign in and verify your email address to submit a prayer request.',blocked:'This account is blocked from submitting prayer requests. Please contact the parish.',success:'Your prayer request was submitted successfully. God bless you.',error:'Could not submit your request. Check your internet connection and try again.',required:'Please write your prayer request before submitting.'}
+    });
     function renderPrayerRequests(){
-      const l=prayerRequestLabels[currentLang];document.getElementById('prayer-requests-title').textContent=l.title;document.getElementById('prayer-requests-back').textContent=l.back;
-      document.getElementById('prayer-requests-content').innerHTML='<p style="line-height:1.9;margin-bottom:14px">'+l.intro+'</p><div class="schedule-entry"><strong style="color:var(--gold-light)">'+l.privacy+'</strong></div><div class="schedule-entry" style="line-height:1.9">'+l.account+'</div><div class="schedule-entry">'+l.phone+'</div><div class="schedule-entry" style="line-height:1.9">'+l.pending+'</div><div style="margin-top:18px;padding:14px;border:1px solid var(--gold);border-radius:12px;background:rgba(7,20,43,.65)"><h3 style="color:var(--gold-light);margin-bottom:8px">'+l.setupTitle+'</h3><p style="line-height:1.9">'+l.setup+'</p></div>';
+      const l=prayerRequestLabels[currentLang]||prayerRequestLabels.en;document.getElementById('prayer-requests-title').textContent=l.title;document.getElementById('prayer-requests-back').textContent=l.back;
+      document.getElementById('prayer-requests-content').innerHTML='<p style="line-height:1.9;margin-bottom:14px">'+l.intro+'</p><div class="schedule-entry"><strong style="color:var(--gold-light)">'+l.privacy+'</strong></div><div id="prayer-request-form-area" style="margin-top:16px"><p class="empty-state">…</p></div>';
+      if(window.parishPrayerRequests)window.parishPrayerRequests.render();
     }
     function closePrayerRequests(){document.getElementById('prayer-requests-screen').classList.remove('visible');document.getElementById('home-view').classList.remove('hidden');document.getElementById('bottom-nav').style.display='grid';}
 
@@ -1973,7 +1980,7 @@ function closeNewFeature(){stopCandlePrayer();document.getElementById("candle-sc
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signOut, updateProfile, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, addDoc, getDocs, query, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -2076,6 +2083,10 @@ function profileShell(){
     <button class="feature-tab" id="parish-cms-load" style="width:100%;margin-top:10px">${t.load}</button>
     <textarea id="parish-cms-editor" spellcheck="false" rows="14" style="width:100%;margin-top:10px;padding:11px;border-radius:9px;border:1px solid var(--gold);background:#07152c;color:#fff;font:12px/1.5 monospace"></textarea><button class="feature-tab" type="button" id="mass-admin-open" style="display:none;width:100%;margin-top:10px">${t.scheduleEditor}</button><div id="mass-admin-panel" style="display:none;margin-top:12px"></div>
     <button class="feature-tab" id="parish-cms-save" style="width:100%;margin-top:10px">${t.save}</button>
+    <div style="height:1px;background:rgba(229,182,87,.3);margin:18px 0"></div>
+    <h4 style="color:var(--gold-light);margin-bottom:8px">Prayer Requests</h4>
+    <button class="feature-tab" type="button" id="prayer-admin-load" style="width:100%">Load Prayer Requests</button>
+    <div id="prayer-admin-list" style="margin-top:12px"></div>
 
    </section>`:""}
    <p id="profile-status" role="status" aria-live="polite" style="line-height:1.7;margin-top:14px;color:#fff0b3"></p>`;
@@ -2088,6 +2099,7 @@ function profileShell(){
   if(admin){
    const cmsType=document.getElementById("parish-cms-type"),massEditorButton=document.getElementById("mass-admin-open");const syncMassEditorButton=()=>{const show=cmsType.value==="massSchedule";massEditorButton.style.display=show?"block":"none";if(!show){const panel=document.getElementById("mass-admin-panel");panel.style.display="none";}};cmsType.addEventListener("change",e=>{currentCmsKey=e.target.value;syncMassEditorButton();});syncMassEditorButton();document.getElementById("parish-cms-load").addEventListener("click",loadCmsEditor);massEditorButton.addEventListener("click",loadCmsEditor);
    document.getElementById("parish-cms-save").addEventListener("click",saveCmsEditor);
+   document.getElementById("prayer-admin-load").addEventListener("click",loadPrayerAdmin);
   }else{
    const note=document.createElement("p");note.className="empty-state";note.textContent=t.noAdmin;box.appendChild(note);
   }
@@ -2411,7 +2423,55 @@ async function deleteUnreferencedImageKitFiles(){
   pendingImageKitDeletes=pendingImageKitDeletes.filter(x=>x.fileId!==file.fileId);
  }
 }
-onAuthStateChanged(auth,user=>{currentUser=user;profileShell();});
+
+async function loadPrayerAdmin(){
+ const target=document.getElementById("prayer-admin-list");if(!target)return;
+ target.innerHTML='<p style="color:#e8d5a9">Loading prayer requests…</p>';
+ try{
+  if(!isAdmin(currentUser))throw new Error("Administrator access required.");
+  const snap=await getDocs(query(collection(db,"prayerRequests"),orderBy("createdAt","desc")));
+  if(snap.empty){target.innerHTML='<p class="empty-state">There are no prayer requests yet.</p>';return;}
+  target.innerHTML=snap.docs.map(item=>{const d=item.data(),uid=safe(d.userId||""),email=safe(d.email||""),name=safe(d.name||d.email||""),message=safe(d.message||""),date=d.createdAt?.toDate?d.createdAt.toDate().toLocaleString():"";
+   return '<article class="schedule-entry" style="border:1px solid rgba(229,182,87,.4);border-radius:12px;padding:12px;margin:10px 0"><strong style="color:var(--gold-light)">'+name+'</strong><p style="font-size:.82rem;color:#e8d5a9;overflow-wrap:anywhere">'+email+'</p><p style="font-size:.75rem;color:#c9b98f">'+date+'</p><p style="white-space:pre-wrap;line-height:1.8;margin:10px 0">'+message+'</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="feature-tab" type="button" data-prayer-block="'+uid+'">Block account</button><button class="feature-tab" type="button" data-prayer-unblock="'+uid+'">Unblock account</button><button class="feature-tab" type="button" data-prayer-delete="'+item.id+'">Delete request</button></div></article>';
+  }).join("");
+  target.querySelectorAll("[data-prayer-block]").forEach(b=>b.addEventListener("click",()=>setPrayerBlock(b.dataset.prayerBlock,true)));
+  target.querySelectorAll("[data-prayer-unblock]").forEach(b=>b.addEventListener("click",()=>setPrayerBlock(b.dataset.prayerUnblock,false)));
+  target.querySelectorAll("[data-prayer-delete]").forEach(b=>b.addEventListener("click",()=>deletePrayerRequest(b.dataset.prayerDelete)));
+ }catch(err){target.innerHTML='<p style="color:#ffb8b8;line-height:1.7">'+safe(err.message||"Could not load prayer requests.")+'</p>';}
+}
+async function setPrayerBlock(uid,blocked){
+ if(!uid||!isAdmin(currentUser))return;
+ if(!confirm(blocked?"Block this account from submitting future prayer requests?":"Allow this account to submit prayer requests again?"))return;
+ try{await setDoc(doc(db,"users",uid),{prayerBlocked:blocked,prayerBlockedAt:blocked?serverTimestamp():null,prayerBlockedBy:currentUser.uid},{merge:true});await loadPrayerAdmin();}
+ catch(err){const target=document.getElementById("prayer-admin-list");if(target)target.insertAdjacentHTML("afterbegin",'<p style="color:#ffb8b8">'+safe(err.message)+'</p>');}
+}
+async function deletePrayerRequest(requestId){
+ if(!requestId||!isAdmin(currentUser)||!confirm("Permanently delete this prayer request?"))return;
+ try{await deleteDoc(doc(db,"prayerRequests",requestId));await loadPrayerAdmin();}
+ catch(err){const target=document.getElementById("prayer-admin-list");if(target)target.insertAdjacentHTML("afterbegin",'<p style="color:#ffb8b8">'+safe(err.message)+'</p>');}
+}
+async function renderPrayerRequestForm(){
+ const area=document.getElementById("prayer-request-form-area");if(!area)return;
+ const l=prayerRequestLabels[document.documentElement.lang]||prayerRequestLabels.en;
+ if(!currentUser||!currentUser.emailVerified){area.innerHTML='<p class="empty-state">'+l.login+'</p><button class="feature-tab" type="button" onclick="openProfile()">My Profile / Sign in</button>';return;}
+ try{
+  const blocked=await getDoc(doc(db,"users",currentUser.uid));
+  if(blocked.exists()&&blocked.data().prayerBlocked===true){area.innerHTML='<p class="empty-state">'+l.blocked+'</p>';return;}
+  area.innerHTML='<form id="prayer-request-submit-form" style="display:grid;gap:10px"><label style="color:var(--gold-light)">'+l.email+'</label><input value="'+safe(currentUser.email)+'" readonly aria-readonly="true" style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--gold);background:#102a52;color:#fff;font:inherit"><label for="prayer-request-message" style="color:var(--gold-light)">'+l.message+'</label><textarea id="prayer-request-message" required maxlength="5000" rows="7" style="width:100%;resize:vertical;padding:12px;border-radius:10px;border:1px solid var(--gold);background:#07152c;color:#fff;font:inherit;line-height:1.7" placeholder="'+l.message+'"></textarea><button class="feature-tab" type="submit">'+l.submit+'</button><p id="prayer-request-status" role="status" aria-live="polite" style="line-height:1.7"></p></form>';
+  document.getElementById("prayer-request-submit-form").addEventListener("submit",async e=>{
+   e.preventDefault();const message=document.getElementById("prayer-request-message").value.trim(),statusNode=document.getElementById("prayer-request-status"),button=e.currentTarget.querySelector("button[type=submit]");
+   if(!message){statusNode.textContent=l.required;return;}button.disabled=true;statusNode.textContent="…";
+   try{await currentUser.reload();if(!currentUser.emailVerified)throw new Error(l.login);
+    const latest=await getDoc(doc(db,"users",currentUser.uid));if(latest.exists()&&latest.data().prayerBlocked===true)throw new Error(l.blocked);
+    await addDoc(collection(db,"prayerRequests"),{userId:currentUser.uid,email:currentUser.email,name:currentUser.displayName||"",message,createdAt:serverTimestamp(),status:"new"});
+    statusNode.textContent=l.success;document.getElementById("prayer-request-message").value="";
+   }catch(err){statusNode.textContent=err.message||l.error;}finally{button.disabled=false;}
+  });
+ }catch(err){area.innerHTML='<p class="empty-state">'+l.error+'</p>';}
+}
+window.parishPrayerRequests={render:renderPrayerRequestForm};
+
+onAuthStateChanged(auth,user=>{currentUser=user;profileShell();if(document.getElementById("prayer-requests-screen")?.classList.contains("visible"))renderPrayerRequestForm();});
 window.parishAuth={renderProfile:profileShell};
 window.parishCms={
  async load(key){try{const snap=await getDoc(doc(db,"siteContent",key));return snap.exists()?snap.data().payload:null;}catch(e){console.warn("Cloud content unavailable",e);return null;}}
