@@ -827,9 +827,11 @@ function renderNewFeatures(){
 }
 let candlePlaybackToken=0;
 let candleCurrentAudio=null;
+let candleCurrentReject=null;
 function stopCandlePrayer(){
  candlePlaybackToken++;
  if(candleCurrentAudio){candleCurrentAudio.pause();candleCurrentAudio.currentTime=0;candleCurrentAudio=null;}
+ if(candleCurrentReject){const reject=candleCurrentReject;candleCurrentReject=null;reject(new Error("stopped"));}
  const start=document.getElementById("candle-start"),stop=document.getElementById("candle-stop");
  if(start){start.hidden=false;start.disabled=false;}
  if(stop)stop.hidden=true;
@@ -841,7 +843,9 @@ function playCandlePrayer(url,token){
  return new Promise((resolve,reject)=>{
   if(token!==candlePlaybackToken)return reject(new Error("stopped"));
   const audio=new Audio(url);candleCurrentAudio=audio;audio.preload="auto";
-  const cleanup=()=>{audio.removeEventListener("ended",ended);audio.removeEventListener("error",failed);};
+  const cleanup=()=>{audio.removeEventListener("ended",ended);audio.removeEventListener("error",failed);if(candleCurrentReject===cancel)candleCurrentReject=null;};
+  const cancel=()=>{cleanup();reject(new Error("stopped"));};
+  candleCurrentReject=cancel;
   const ended=()=>{cleanup();if(candleCurrentAudio===audio)candleCurrentAudio=null;resolve();};
   const failed=()=>{cleanup();if(candleCurrentAudio===audio)candleCurrentAudio=null;reject(new Error("audio"))};
   audio.addEventListener("ended",ended,{once:true});audio.addEventListener("error",failed,{once:true});
@@ -853,6 +857,11 @@ async function lightVirtualCandle(){
  const start=document.getElementById("candle-start");
  if(!start||start.disabled)return;
  stopCandlePrayer();
+ document.querySelectorAll(".candle-intention").forEach(el=>el.classList.remove("active","done"));
+ document.getElementById("candle-progress-fill").style.width="0%";
+ document.querySelector(".candle-progress").setAttribute("aria-valuenow","0");
+ document.getElementById("candle-lit-message").hidden=true;
+ document.getElementById("candle-wax").style.height="112px";
  const token=candlePlaybackToken;
  start.disabled=true;start.hidden=true;
  document.getElementById("candle-stop").hidden=false;
