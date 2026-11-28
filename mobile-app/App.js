@@ -4,6 +4,8 @@ import {
   StatusBar, StyleSheet, Text, View,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
+import * as FileSystem from 'expo-file-system/legacy';
+import * as Sharing from 'expo-sharing';
 
 const WEBSITE_URL = 'https://danatstores-wq.github.io/Notre-Dame-du-Secours/';
 const ANDROID_BUNDLED_SITE = 'file:///android_asset/site/index.html';
@@ -38,6 +40,24 @@ export default function App() {
     return true;
   }, []);
 
+  const sharePhoto = async (url) => {
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol !== 'https:' || !/(^|\\.)imagekit\\.io$/.test(parsed.hostname)) {
+        throw new Error('Invalid photo URL');
+      }
+      const ext = (parsed.pathname.match(/\\.(jpg|jpeg|png|webp|gif)$/i)?.[1] || 'jpg').toLowerCase();
+      const fileUri = `${FileSystem.cacheDirectory}parish-photo-${Date.now()}.${ext}`;
+      const download = await FileSystem.downloadAsync(url, fileUri);
+      if (!download?.uri || !(await Sharing.isAvailableAsync())) {
+        throw new Error('Sharing is not available on this device');
+      }
+      await Sharing.shareAsync(download.uri, { mimeType: `image/${ext === 'jpg' ? 'jpeg' : ext}`, dialogTitle: 'Share parish photo' });
+    } catch (error) {
+      console.warn('Photo sharing failed:', error?.message || error);
+    }
+  };
+
   const retry = () => {
     setHasError(false);
     setIsLoading(true);
@@ -71,6 +91,12 @@ export default function App() {
           mixedContentMode="always"
           cacheEnabled
           onShouldStartLoadWithRequest={handleNavigation}
+          onMessage={(event) => {
+            try {
+              const message = JSON.parse(event.nativeEvent.data || '{}');
+              if (message.type === 'SHARE_PARISH_PHOTO' && typeof message.url === 'string') sharePhoto(message.url);
+            } catch (error) { console.warn('Invalid WebView share message'); }
+          }}
           onNavigationStateChange={(state) => setCanGoBack(state.canGoBack)}
           onLoadStart={() => { setHasError(false); setIsLoading(true); }}
           onLoadEnd={() => setIsLoading(false)}
