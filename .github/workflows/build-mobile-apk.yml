@@ -1,17 +1,7 @@
 name: Build Notre-Dame-du-Secours Android APK
-
+ 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "mobile-app/**"
-      - ".github/workflows/build-mobile-apk.yml"
-      - "index.html"
-      - "assets/**"
-      - "bibles/**"
-      - "src/data/**"
 
 permissions:
   contents: read
