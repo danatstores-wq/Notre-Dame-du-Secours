@@ -799,6 +799,7 @@
       const key=dateKey(date),sets=massData||{},all=[];
       if(massTab===0){
         (sets.massSchedule||[]).filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
+        (sets.specialMasses||[]).filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
       }else{
         (sets.activities||[]).filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
       }
@@ -2326,11 +2327,17 @@ function renderMassScheduleAdmin(){
  let payload;try{payload=JSON.parse(editor.value||"{}");}catch(e){panel.innerHTML="<p>"+lang().badJson+"</p>";panel.style.display="block";return;}
  if(!Array.isArray(payload.massSchedule))payload.massSchedule=[];
  if(!Array.isArray(payload.activities))payload.activities=[];
+ // Bring previously published one-off Masses into the unified date-based list.
+ if(Array.isArray(payload.specialMasses)&&payload.specialMasses.length){
+  payload.specialMasses.forEach((item,index)=>payload.massSchedule.push({...item,id:item.id||("legacy-special-"+Date.now()+"-"+index),date:item.date||item.startDate||item.datetime||adminMassSelectedDate}));
+  delete payload.specialMasses;
+  editor.value=JSON.stringify(payload,null,2);
+ }
  const words={
   ar:{heading:"إدارة مواعيد القداديس",hint:"اختر يوماً من التقويم وأضف موعد القداس. يُطبّق الموعد على هذا التاريخ فقط، ويمكنك نسخه إلى كل الأيام المماثلة في هذا الشهر.",add:"إضافة قداس لهذا اليوم",day:"اليوم المحدد",time:"الوقت",titleAr:"العنوان بالعربية",titleFr:"العنوان بالفرنسية",titleIt:"العنوان بالإيطالية",titleEn:"العنوان بالإنجليزية",location:"المكان",remove:"حذف",copy:"تطبيق هذا القداس على كل الأيام المماثلة في هذا الشهر",done:"تم نسخ الموعد إلى الأيام المماثلة في هذا الشهر.",none:"لا يوجد قداس مضاف لهذا اليوم."},
   en:{heading:"Manage Mass Times",hint:"Choose a date and add a Mass. It applies to this date only. You can copy it to every matching weekday in this month.",add:"Add Mass for this date",day:"Selected date",time:"Time",titleAr:"Arabic title",titleFr:"French title",titleIt:"Italian title",titleEn:"English title",location:"Location",remove:"Remove",copy:"Apply this Mass to all matching weekdays in this month",done:"The Mass was copied to the matching weekdays in this month.",none:"No Mass has been added for this date."},
-  fr:{heading:"Gérer les horaires des Messes",hint:"Choisissez une date et ajoutez une Messe. Elle s’applique uniquement à cette date. Vous pouvez la copier à tous les mêmes jours de la semaine de ce mois.",add:"Ajouter une Messe à cette date",day:"Date sélectionnée",time:"Heure",titleAr:"Titre arabe",titleFr:"Titre français",titleIt:"Titre italien",titleEn:"Titre italien",location:"Lieu",remove:"Supprimer",copy:"Appliquer cette Messe à tous les mêmes jours de ce mois",done:"La Messe a été copiée aux mêmes jours de ce mois.",none:"Aucune Messe n’a été ajoutée à cette date."},
-  it:{heading:"Gestisci gli orari delle Messe",hint:"Scegli una data e aggiungi una Messa. Si applica solo a questa data. Puoi copiarla a tutti gli stessi giorni della settimana di questo mese.",add:"Aggiungi una Messa per questa data",day:"Data selezionata",time:"Ora",titleAr:"Titolo arabo",titleFr:"Titolo francese",titleIt:"Titolo italiano",titleEn:"Titolo italiano",location:"Luogo",remove:"Elimina",copy:"Applica questa Messa a tutti gli stessi giorni di questo mese",done:"La Messa è stata copiata agli stessi giorni di questo mese.",none:"Nessuna Messa aggiunta per questa data."}
+  fr:{heading:"Gérer les horaires des Messes",hint:"Choisissez une date et ajoutez une Messe. Elle s’applique uniquement à cette date. Vous pouvez la copier à tous les mêmes jours de la semaine de ce mois.",add:"Ajouter une Messe à cette date",day:"Date sélectionnée",time:"Heure",titleAr:"Titre arabe",titleFr:"Titre français",titleIt:"Titre italien",titleEn:"Titre anglais",location:"Lieu",remove:"Supprimer",copy:"Appliquer cette Messe à tous les mêmes jours de ce mois",done:"La Messe a été copiée aux mêmes jours de ce mois.",none:"Aucune Messe n’a été ajoutée à cette date."},
+  it:{heading:"Gestisci gli orari delle Messe",hint:"Scegli una data e aggiungi una Messa. Si applica solo a questa data. Puoi copiarla a tutti gli stessi giorni della settimana di questo mese.",add:"Aggiungi una Messa per questa data",day:"Data selezionata",time:"Ora",titleAr:"Titolo arabo",titleFr:"Titolo francese",titleIt:"Titolo italiano",titleEn:"Titolo inglese",location:"Luogo",remove:"Elimina",copy:"Applica questa Messa a tutti gli stessi giorni di questo mese",done:"La Messa è stata copiata agli stessi giorni di questo mese.",none:"Nessuna Messa aggiunta per questa data."}
  }[language]||null;
  const w=words||{heading:"Manage Mass Times",hint:"Choose a date and add a Mass. It applies to this date only. You can copy it to every matching weekday in this month.",add:"Add Mass for this date",day:"Selected date",time:"Time",titleAr:"Arabic title",titleFr:"French title",titleIt:"Italian title",titleEn:"English title",location:"Location",remove:"Remove",copy:"Apply this Mass to all matching weekdays in this month",done:"Copied.",none:"No Mass for this date."};
  // Convert any old all-year weekday templates into dated entries for the month currently selected.
