@@ -768,9 +768,9 @@
     render();
     document.documentElement.dataset.textSize=localStorage.getItem('parish-text-size')||'normal';
     const massLabels={
-      ar:{title:'مواعيد القداديس والنشاطات',back:'رجوع',tabs:['القداديس','القداديس الخاصة','النشاطات'],empty:'لم تُضف الرعية المواعيد بعد. يرجى العودة لاحقاً للاطلاع على المعلومات المؤكدة.',loading:'جارٍ تحميل المواعيد…',error:'تعذّر تحميل المواعيد حالياً. يرجى المحاولة لاحقاً.'},
-      fr:{title:'Horaires des Messes et Activités',back:'Retour',tabs:['Messes','Messes spéciales','Activités'],empty:'La paroisse n’a pas encore publié les horaires. Revenez plus tard pour consulter les informations confirmées.',loading:'Chargement des horaires…',error:'Impossible de charger les horaires pour le moment.'},
-      it:{title:'Orari delle Messe e Attività',back:'Indietro',tabs:['Messe','Messe speciali','Attività'],empty:'La parrocchia non ha ancora pubblicato gli orari. Torna più tardi per consultare le informazioni confermate.',loading:'Caricamento degli orari…',error:'Impossibile caricare gli orari al momento.'}
+      ar:{title:'مواعيد القداديس والنشاطات',back:'رجوع',tabs:['القداديس','النشاطات'],empty:'لم تُضف الرعية المواعيد بعد. يرجى العودة لاحقاً للاطلاع على المعلومات المؤكدة.',loading:'جارٍ تحميل المواعيد…',error:'تعذّر تحميل المواعيد حالياً. يرجى المحاولة لاحقاً.'},
+      fr:{title:'Horaires des Messes et Activités',back:'Retour',tabs:['Messes','Activités'],empty:'La paroisse n’a pas encore publié les horaires. Revenez plus tard pour consulter les informations confirmées.',loading:'Chargement des horaires…',error:'Impossible de charger les horaires pour le moment.'},
+      it:{title:'Orari delle Messe e Attività',back:'Indietro',tabs:['Messe','Attività'],empty:'La parrocchia non ha ancora pubblicato gli orari. Torna più tardi per consultare le informazioni confermate.',loading:'Caricamento degli orari…',error:'Impossibile caricare gli orari al momento.'}
     };
     let massTab=0,massData=null;
     let massCalendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
@@ -798,11 +798,9 @@
     function entriesForDate(date){
       const key=dateKey(date),sets=massData||{},all=[];
       if(massTab===0){
-        (sets.massSchedule||[]).filter(x=>itemWeekdayMatches(x,date)).forEach(x=>all.push(x));
-        (sets.specialMasses||[]).filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
+        (sets.massSchedule||[]).filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
       }else{
-        const source=massTab===1?(sets.specialMasses||[]):(sets.activities||[]);
-        source.filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
+        (sets.activities||[]).filter(x=>itemDate(x).slice(0,10)===key).forEach(x=>all.push(x));
       }
       return all;
     }
@@ -1965,7 +1963,7 @@ function closeNewFeature(){stopCandlePrayer();document.getElementById("candle-sc
       fr:{title:'Intentions de prière',back:'Retour',intro:'Vous pouvez transmettre votre intention de prière en toute confidentialité et avec respect. Elle sera destinée uniquement au curé.',privacy:'Les intentions sont privées. Seul le curé autorisé peut les consulter.',account:'Pour envoyer une intention, vous devrez créer un compte avec une adresse e-mail et un mot de passe, puis vérifier votre adresse e-mail.',phone:'Aucun numéro de téléphone ni SMS n’est nécessaire.',pending:'Après l’envoi, votre intention sera placée dans une file privée pour examen par le curé.',setupTitle:'Inscription sécurisée pas encore activée',setup:'La création de compte, la connexion et l’envoi seront activés après la configuration de Firebase Authentication et des règles de sécurité côté serveur. Les envois sont désactivés pour protéger votre confidentialité.'},
       it:{title:'Intenzioni di preghiera',back:'Indietro',intro:'Puoi inviare la tua intenzione di preghiera con riservatezza e rispetto. Sarà destinata soltanto al parroco.',privacy:'Le intenzioni sono private. Solo il parroco autorizzato può leggerle.',account:'Per inviare un’intenzione, dovrai creare un account con e-mail e password e verificare il tuo indirizzo e-mail.',phone:'Non è necessario un numero di telefono né un SMS.',pending:'Dopo l’invio, l’intenzione sarà inserita in una coda privata per la revisione del parroco.',setupTitle:'Registrazione sicura non ancora attiva',setup:'La creazione dell’account, l’accesso e l’invio saranno attivati dopo la configurazione di Firebase Authentication e delle regole di sicurezza lato server. Gli invii sono disabilitati per proteggere la tua privacy.'}
     };
-    massLabels.en={title:'Mass Schedule and Activities',back:'Back',tabs:['Masses','Special Masses','Activities'],empty:'The parish has not published the schedule yet. Please check again later for confirmed information.',loading:'Loading schedule…',error:'The schedule cannot be loaded right now.'};
+    massLabels.en={title:'Mass Schedule and Activities',back:'Back',tabs:['Masses','Activities'],empty:'The parish has not published the schedule yet. Please check again later for confirmed information.',loading:'Loading schedule…',error:'The schedule cannot be loaded right now.'};
     massCalendarLabels.en={today:'Today',prev:'Previous month',next:'Next month',selected:'Schedule for this day',week:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],noDay:'There are no confirmed events for this day.',months:['January','February','March','April','May','June','July','August','September','October','November','December']};
     saintsCalendarLabels.en={title:'Saints Calendar',back:'Back',month:'Month',catholic:'Catholic Church — General Roman Calendar',maronite:'Maronite Church — Synaxarion',choose:'Choose a date to see the saints commemorated',loading:'Loading commemorations…',none:'No saint commemoration is recorded for this date in the available source.',error:'The calendar could not be loaded. Check your connection and try again.',days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],sourceCatholic:'General Roman Calendar data via LitCal; Arabic translations are not available for every name in the source.',sourceMaronite:'Source: Antiochian Maronite Synaxarion (Kaslik, 1996) and Arabic Maronite Synaxarion index.'};
     rosaryLabels.en={title:'The Holy Rosary',back:'Back',choose:'Choose the Rosary mysteries',days:'Days',start:'Begin guided prayer',step:'Step',of:'of',previous:'Previous',next:'Next',again:'Return to mysteries',unavailable:'The complete prayer texts and audio recordings will be added after parish review and approval.',noAudio:'There are no approved audio recordings yet. You can continue manually.',dayNames:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],today:'Suggested mysteries for today',guideIntro:'Follow the Rosary steps in order. Prayer and meditation names are shown; complete texts will be added after parish approval.',mystery:'Meditation',decade:'Decade',optional:'Optional prayer',skip:'Skip',finish:'Well done! You have completed the Rosary steps.',restart:'Start again',backMysteries:'Choose other mysteries',opening:'Opening prayers',closing:'Closing prayer',beads:'Decade progress',beadNumber:'Bead',outOf:'of 10',decadeNumber:'Decade',decadeOutOf:'of 5',diagram:'Rosary diagram: cross, Our Father bead, three Hail Mary beads, Glory Be bead, then five decades',ourFatherLabel:'Our Father',gloryBeLabel:'Glory Be',hailMaryLabel:'Hail Mary'};
@@ -2323,62 +2321,74 @@ function renderAdminMassCalendar(){
  return '<div class="mass-calendar"><div class="mass-calendar-head"><button type="button" id="admin-mass-prev" aria-label="'+labels.prev+'">‹</button><strong>'+labels.months[month]+' '+year+'</strong><button type="button" id="admin-mass-next" aria-label="'+labels.next+'">›</button></div><div class="mass-calendar-week">'+labels.week.map(x=>'<span>'+x+'</span>').join("")+'</div><div class="mass-calendar-grid">'+cells+'</div><p class="mass-selected-title">'+labels.selected+': <strong>'+adminMassSelectedDate+'</strong></p><button type="button" class="mass-calendar-today" id="admin-mass-today">'+labels.today+'</button></div>';
 }
 function renderMassScheduleAdmin(){
- const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor"),t=lang();
+ const panel=document.getElementById("mass-admin-panel"),editor=document.getElementById("parish-cms-editor"),language=document.documentElement.lang||"en";
  if(!panel||!editor)return;
- let payload;try{payload=JSON.parse(editor.value||"{}");}catch(e){panel.innerHTML="<p>"+t.badJson+"</p>";panel.style.display="block";return;}
+ let payload;try{payload=JSON.parse(editor.value||"{}");}catch(e){panel.innerHTML="<p>"+lang().badJson+"</p>";panel.style.display="block";return;}
  if(!Array.isArray(payload.massSchedule))payload.massSchedule=[];
- const dayLabels={ar:["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],fr:["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"],it:["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}[document.documentElement.lang]||["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
- let html="<h3 style='color:var(--gold-light)'>"+t.scheduleEditor+"</h3><p>"+t.saveHint+"</p>"+renderAdminMassCalendar();
- payload.massSchedule.forEach((item,i)=>{
+ if(!Array.isArray(payload.activities))payload.activities=[];
+ const words={
+  ar:{heading:"إدارة مواعيد القداديس",hint:"اختر يوماً من التقويم وأضف موعد القداس. يُطبّق الموعد على هذا التاريخ فقط، ويمكنك نسخه إلى كل الأيام المماثلة في هذا الشهر.",add:"إضافة قداس لهذا اليوم",day:"اليوم المحدد",time:"الوقت",titleAr:"العنوان بالعربية",titleFr:"العنوان بالفرنسية",titleIt:"العنوان بالإيطالية",titleEn:"العنوان بالإنجليزية",location:"المكان",remove:"حذف",copy:"تطبيق هذا القداس على كل الأيام المماثلة في هذا الشهر",done:"تم نسخ الموعد إلى الأيام المماثلة في هذا الشهر.",none:"لا يوجد قداس مضاف لهذا اليوم."},
+  en:{heading:"Manage Mass Times",hint:"Choose a date and add a Mass. It applies to this date only. You can copy it to every matching weekday in this month.",add:"Add Mass for this date",day:"Selected date",time:"Time",titleAr:"Arabic title",titleFr:"French title",titleIt:"Italian title",titleEn:"English title",location:"Location",remove:"Remove",copy:"Apply this Mass to all matching weekdays in this month",done:"The Mass was copied to the matching weekdays in this month.",none:"No Mass has been added for this date."},
+  fr:{heading:"Gérer les horaires des Messes",hint:"Choisissez une date et ajoutez une Messe. Elle s’applique uniquement à cette date. Vous pouvez la copier à tous les mêmes jours de la semaine de ce mois.",add:"Ajouter une Messe à cette date",day:"Date sélectionnée",time:"Heure",titleAr:"Titre arabe",titleFr:"Titre français",titleIt:"Titre italien",titleEn:"Titre italien",location:"Lieu",remove:"Supprimer",copy:"Appliquer cette Messe à tous les mêmes jours de ce mois",done:"La Messe a été copiée aux mêmes jours de ce mois.",none:"Aucune Messe n’a été ajoutée à cette date."},
+  it:{heading:"Gestisci gli orari delle Messe",hint:"Scegli una data e aggiungi una Messa. Si applica solo a questa data. Puoi copiarla a tutti gli stessi giorni della settimana di questo mese.",add:"Aggiungi una Messa per questa data",day:"Data selezionata",time:"Ora",titleAr:"Titolo arabo",titleFr:"Titolo francese",titleIt:"Titolo italiano",titleEn:"Titolo italiano",location:"Luogo",remove:"Elimina",copy:"Applica questa Messa a tutti gli stessi giorni di questo mese",done:"La Messa è stata copiata agli stessi giorni di questo mese.",none:"Nessuna Messa aggiunta per questa data."}
+ }[language]||null;
+ const w=words||{heading:"Manage Mass Times",hint:"Choose a date and add a Mass. It applies to this date only. You can copy it to every matching weekday in this month.",add:"Add Mass for this date",day:"Selected date",time:"Time",titleAr:"Arabic title",titleFr:"French title",titleIt:"Italian title",titleEn:"English title",location:"Location",remove:"Remove",copy:"Apply this Mass to all matching weekdays in this month",done:"Copied.",none:"No Mass for this date."};
+ // Convert any old all-year weekday templates into dated entries for the month currently selected.
+ const legacy=payload.massSchedule.filter(x=>x.date==null&&x.dayOfWeek!=null);
+ if(legacy.length){
+  const y=adminMassCalendarMonth.getFullYear(),m=adminMassCalendarMonth.getMonth(),days=new Date(y,m+1,0).getDate();
+  payload.massSchedule=payload.massSchedule.filter(x=>!(x.date==null&&x.dayOfWeek!=null));
+  legacy.forEach((item,index)=>{for(let day=1;day<=days;day++){const date=new Date(y,m,day);if(date.getDay()===Number(item.dayOfWeek))payload.massSchedule.push({...item,id:"migrated-"+Date.now()+"-"+index+"-"+day,date:y+"-"+String(m+1).padStart(2,"0")+"-"+String(day).padStart(2,"0")});}});
+  editor.value=JSON.stringify(payload,null,2);
+ }
+ const selected=payload.massSchedule.map((item,index)=>({...item,_index:index})).filter(item=>String(item.date||"").slice(0,10)===adminMassSelectedDate);
+ let html="<h3 style='color:var(--gold-light)'>"+w.heading+"</h3><p>"+w.hint+"</p>"+renderAdminMassCalendar();
+ html+="<p><strong>"+w.day+": "+adminMassSelectedDate+"</strong></p>";
+ if(!selected.length)html+="<p class='empty-state'>"+w.none+"</p>";
+ selected.forEach(item=>{
+  const i=item._index;
   html+="<section class='schedule-entry' style='display:grid;gap:8px;margin:10px 0;padding:12px'>";
-  html+="<label>"+t.day+"<select data-row='"+i+"' data-field='dayOfWeek' style='width:100%;padding:9px'>"+dayLabels.map((d,n)=>"<option value='"+n+"' "+(Number(item.dayOfWeek)===n?"selected":"")+">"+d+"</option>").join("")+"</select></label>";
-  html+="<label>"+t.timeLabel+"<input type='time' data-row='"+i+"' data-field='time' value='"+safe(item.time||"")+"' style='width:100%;padding:9px'></label>";
-  ["titleAr","titleFr","titleIt","titleEn"].forEach(f=>{html+="<label>"+t[f]+"<input data-row='"+i+"' data-field='"+f+"' value='"+safe(item[f]||"")+"' style='width:100%;padding:9px'></label>";});
-  html+="<label>"+t.location+"<input data-row='"+i+"' data-field='location' value='"+safe(item.location||"")+"' style='width:100%;padding:9px'></label>";
-  html+="<button class='feature-tab' type='button' data-delete='"+i+"'>"+t.removeMass+"</button></section>";
+  html+="<label>"+w.time+"<input type='time' data-date-row='"+i+"' data-date-field='time' value='"+safe(item.time||"")+"' style='width:100%;padding:9px'></label>";
+  ["titleAr","titleFr","titleIt","titleEn"].forEach(f=>{html+="<label>"+w[f]+"<input data-date-row='"+i+"' data-date-field='"+f+"' value='"+safe(item[f]||"")+"' style='width:100%;padding:9px'></label>";});
+  html+="<label>"+w.location+"<input data-date-row='"+i+"' data-date-field='location' value='"+safe(item.location||"")+"' style='width:100%;padding:9px'></label>";
+  html+="<button class='feature-tab' type='button' data-copy-month='"+i+"'>"+w.copy+"</button>";
+  html+="<button class='feature-tab' type='button' data-date-delete='"+i+"'>"+w.remove+"</button></section>";
  });
- html+="<button class='feature-tab' type='button' id='mass-admin-add'>"+t.addMass+"</button>";
- if(!Array.isArray(payload.specialMasses))payload.specialMasses=[];
- html+="<h3 style='color:var(--gold-light);margin-top:20px'>"+t.specialMass+"</h3>";
- payload.specialMasses.forEach((item,i)=>{
-  html+="<section class='schedule-entry' style='display:grid;gap:8px;margin:10px 0;padding:12px'>";
-  html+="<label>"+t.dateLabel+"<input type='date' data-special-row='"+i+"' data-special-field='date' value='"+safe(item.date||item.startDate||"")+"' style='width:100%;padding:9px'></label>";
-  html+="<label>"+t.timeLabel+"<input type='time' data-special-row='"+i+"' data-special-field='time' value='"+safe(item.time||"")+"' style='width:100%;padding:9px'></label>";
-  ["titleAr","titleFr","titleIt","titleEn"].forEach(f=>{html+="<label>"+t[f]+"<input data-special-row='"+i+"' data-special-field='"+f+"' value='"+safe(item[f]||"")+"' style='width:100%;padding:9px'></label>";});
-  html+="<label>"+t.location+"<input data-special-row='"+i+"' data-special-field='location' value='"+safe(item.location||"")+"' style='width:100%;padding:9px'></label>";
-  html+="<button class='feature-tab' type='button' data-special-delete='"+i+"'>"+t.removeMass+"</button></section>";
- });
- html+="<button class='feature-tab' type='button' id='mass-admin-special-add'>"+t.addSpecialMass+"</button>";
+ html+="<button class='feature-tab' type='button' id='mass-admin-add-date'>"+w.add+"</button>";
  panel.innerHTML=html;panel.style.display="block";editor.style.display="none";
  panel.querySelectorAll("[data-admin-mass-date]").forEach(button=>button.addEventListener("click",()=>{adminMassSelectedDate=button.dataset.adminMassDate;adminMassCalendarMonth=new Date(adminMassSelectedDate+"T12:00:00");renderMassScheduleAdmin();}));
  panel.querySelector("#admin-mass-prev").addEventListener("click",()=>{adminMassCalendarMonth=new Date(adminMassCalendarMonth.getFullYear(),adminMassCalendarMonth.getMonth()-1,1);renderMassScheduleAdmin();});
  panel.querySelector("#admin-mass-next").addEventListener("click",()=>{adminMassCalendarMonth=new Date(adminMassCalendarMonth.getFullYear(),adminMassCalendarMonth.getMonth()+1,1);renderMassScheduleAdmin();});
  panel.querySelector("#admin-mass-today").addEventListener("click",()=>{const d=new Date();adminMassSelectedDate=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");adminMassCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);renderMassScheduleAdmin();});
  panel.querySelectorAll("input[type=date],input[type=time]").forEach(input=>input.addEventListener("click",()=>{try{if(typeof input.showPicker==="function")input.showPicker();else input.focus();}catch(e){input.focus();}}));
- panel.querySelectorAll("[data-field]").forEach(input=>input.addEventListener("change",()=>{
-  let p=JSON.parse(editor.value||"{}");const index=Number(input.dataset.row),field=input.dataset.field;
-  p.massSchedule[index][field]=field==="dayOfWeek"?Number(input.value):input.value;editor.value=JSON.stringify(p,null,2);
+ panel.querySelectorAll("[data-date-field]").forEach(input=>input.addEventListener("change",()=>{
+  const p=JSON.parse(editor.value||"{}"),index=Number(input.dataset.dateRow),field=input.dataset.dateField;
+  if(p.massSchedule[index])p.massSchedule[index][field]=input.value;
+  editor.value=JSON.stringify(p,null,2);
  }));
- panel.querySelectorAll("[data-delete]").forEach(button=>button.addEventListener("click",()=>{
-  let p=JSON.parse(editor.value||"{}");p.massSchedule.splice(Number(button.dataset.delete),1);editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
+ panel.querySelectorAll("[data-date-delete]").forEach(button=>button.addEventListener("click",()=>{
+  const p=JSON.parse(editor.value||"{}");p.massSchedule.splice(Number(button.dataset.dateDelete),1);editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
  }));
- panel.querySelectorAll("[data-special-field]").forEach(input=>input.addEventListener("change",()=>{
-  let p=JSON.parse(editor.value||"{}"),idx=Number(input.dataset.specialRow),field=input.dataset.specialField;
-  if(!Array.isArray(p.specialMasses))p.specialMasses=[];p.specialMasses[idx][field]=input.value;editor.value=JSON.stringify(p,null,2);
+ panel.querySelectorAll("[data-copy-month]").forEach(button=>button.addEventListener("click",()=>{
+  const p=JSON.parse(editor.value||"{}"),index=Number(button.dataset.copyMonth),source=p.massSchedule[index];
+  if(!source)return;
+  const selectedDate=new Date(adminMassSelectedDate+"T12:00:00"),weekday=selectedDate.getDay(),year=selectedDate.getFullYear(),month=selectedDate.getMonth(),days=new Date(year,month+1,0).getDate();
+  const seriesId=source.seriesId||("mass-series-"+Date.now());source.seriesId=seriesId;
+  for(let day=1;day<=days;day++){
+   const date=new Date(year,month,day);if(date.getDay()!==weekday)continue;
+   const key=year+"-"+String(month+1).padStart(2,"0")+"-"+String(day).padStart(2,"0");
+   const existing=p.massSchedule.findIndex((x,i)=>i!==index&&x.seriesId===seriesId&&String(x.date||"").slice(0,10)===key);
+   const copy={...source,id:existing>=0?p.massSchedule[existing].id:"mass-"+Date.now()+"-"+day,date:key};
+   if(existing>=0)p.massSchedule[existing]=copy;else if(key!==adminMassSelectedDate)p.massSchedule.push(copy);
+  }
+  editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();status(w.done);
  }));
- panel.querySelectorAll("[data-special-delete]").forEach(button=>button.addEventListener("click",()=>{
-  let p=JSON.parse(editor.value||"{}");p.specialMasses.splice(Number(button.dataset.specialDelete),1);editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
- }));
- panel.querySelector("#mass-admin-special-add").addEventListener("click",()=>{
-  let p=JSON.parse(editor.value||"{}");if(!Array.isArray(p.specialMasses))p.specialMasses=[];
-  p.specialMasses.push({id:"special-"+Date.now(),date:adminMassSelectedDate,time:"09:00",titleAr:"قداس",titleFr:"Messe",titleIt:"Messa",titleEn:"Mass",location:""});editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
- });
- panel.querySelector("#mass-admin-add").addEventListener("click",()=>{
-  let p=JSON.parse(editor.value||"{}");if(!Array.isArray(p.massSchedule))p.massSchedule=[];
-  p.massSchedule.push({id:"mass-"+Date.now(),dayOfWeek:new Date(adminMassSelectedDate+"T12:00:00").getDay(),time:"09:00",titleAr:"قداس",titleFr:"Messe",titleIt:"Messa",titleEn:"Mass",location:""});editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
+ panel.querySelector("#mass-admin-add-date").addEventListener("click",()=>{
+  const p=JSON.parse(editor.value||"{}");if(!Array.isArray(p.massSchedule))p.massSchedule=[];
+  p.massSchedule.push({id:"mass-"+Date.now(),date:adminMassSelectedDate,time:"09:00",titleAr:"قداس",titleFr:"Messe",titleIt:"Messa",titleEn:"Mass",location:""});
+  editor.value=JSON.stringify(p,null,2);renderMassScheduleAdmin();
  });
 }
-
 async function saveCmsEditor(){
  if(!currentUser){status(lang().noAdmin,true);return;}
  try{
