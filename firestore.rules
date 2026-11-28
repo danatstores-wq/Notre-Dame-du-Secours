@@ -7,25 +7,37 @@ service cloud.firestore {
         && request.auth.token.email_verified == true;
     }
 
-    // Public visitors may read published parish content. Only the verified
-    // parish priest account may create, edit, or delete it.
     match /siteContent/{contentId} {
       allow read: if true;
       allow create, update, delete: if isPriest();
     }
 
-    // Reserved for a future private prayer-request review workflow.
-    // No public submissions are enabled by these rules.
+    // Prayer requests: verified parishioners may submit their own request.
+    // Only the verified priest can review or delete requests.
     match /prayerRequests/{requestId} {
-      allow read, create, update, delete: if isPriest();
+      allow create: if request.auth != null
+        && request.auth.token.email_verified == true
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 5000
+        && (
+          !exists(/databases/$(database)/documents/users/$(request.auth.uid))
+          || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.prayerBlocked != true
+        );
+      allow read: if isPriest()
+        || (request.auth != null && resource.data.userId == request.auth.uid);
+      allow update, delete: if isPriest();
     }
 
-    // Users may access only their own private profile document.
+    // Users can read their own moderation status. Only the priest can change it.
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow get: if isPriest() || (request.auth != null && request.auth.uid == userId);
+      allow list: if isPriest();
+      allow create, update, delete: if isPriest();
     }
 
-    // Everything else is denied unless explicitly allowed above.
     match /{document=**} {
       allow read, write: if false;
     }
