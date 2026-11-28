@@ -56,6 +56,29 @@ jobs:
             --exclude='ios/' \
             ../ ./android/app/src/main/assets/site/
 
+      - name: Inject Firebase web API key into the bundled Android site
+        env:
+          FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY || vars.VITE_FIREBASE_API_KEY }}
+        run: |
+          if [ -z "$FIREBASE_API_KEY" ]; then
+            echo "Missing VITE_FIREBASE_API_KEY in GitHub Actions secrets or variables."
+            exit 1
+          fi
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          path = Path("android/app/src/main/assets/site/index.html")
+          html = path.read_text(encoding="utf-8")
+          placeholder = "__FIREBASE_API_KEY__"
+          if placeholder not in html:
+              raise SystemExit("Firebase API key placeholder was not found in the bundled site.")
+          key = os.environ["FIREBASE_API_KEY"]
+          if key == placeholder:
+              raise SystemExit("Firebase API key is still the placeholder.")
+          path.write_text(html.replace(placeholder, key), encoding="utf-8")
+          print("Firebase API key injected into the APK site bundle.")
+          PY
+
       - name: Bundle the remaining Arabic Bible books for offline reading
         run: |
           mkdir -p android/app/src/main/assets/site/bibles/ar/books
