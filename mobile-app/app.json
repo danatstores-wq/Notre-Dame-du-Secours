@@ -15,10 +15,10 @@
       "softwareKeyboardLayoutMode": "pan",
       "predictiveBackGestureEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "../assets/icons/logo-marian-emblem.png",
+        "foregroundImage": "../assets/Icon.png",
         "backgroundColor": "#101A31"
       }
     },
-    "icon": "../assets/icons/logo-marian-emblem.png"
+    "icon": "../assets/Icon.png"
   }
 }
