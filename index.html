@@ -1809,6 +1809,10 @@ function closeNewFeature(){stopCandlePrayer();document.getElementById("candle-sc
       const originalText=button.textContent;
       button.disabled=true;
       try{
+        if(window.ReactNativeWebView&&window.ReactNativeWebView.postMessage){
+          window.ReactNativeWebView.postMessage(JSON.stringify({type:'SHARE_PARISH_PHOTO',url:imageUrl}));
+          return;
+        }
         const response=await fetch(imageUrl,{mode:'cors'});
         if(!response.ok)throw new Error('Image download failed');
         const blob=await response.blob();
@@ -1837,8 +1841,8 @@ function closeNewFeature(){stopCandlePrayer();document.getElementById("candle-sc
         const description=item['description'+currentLang.toUpperCase()]||item.description?.[currentLang]||item.description||'';
         const date=item.date||item.startDate||'';
         const images=Array.isArray(item.images)&&item.images.length?item.images.map(x=>typeof x==="string"?{url:x}:x):((item.image||item.photo)?[{url:item.image||item.photo}]:[]);
-        const downloadLabel={ar:'حفظ في الصور',en:'Save to Photos',fr:'Enregistrer dans Photos',it:'Salva in Foto'}[currentLang]||'Save to Photos';
-        const imageHtml=images.map(im=>{const image=im.url||'';return image?'<div style="margin:8px 0"><img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:230px;object-fit:cover;border-radius:10px"><button type="button" class="feature-tab parish-photo-save" data-image="'+escapeHtml(image)+'" style="display:inline-flex;align-items:center;justify-content:center;margin:6px 0 10px">'+downloadLabel+' ↓</button></div>':'';}).join('');
+        const downloadLabel={ar:'مشاركة الصورة',en:'Share photo',fr:'Partager la photo',it:'Condividi foto'}[currentLang]||'Share photo';
+        const imageHtml=images.map(im=>{const image=im.url||'';return image?'<div style="margin:8px 0"><img src="'+escapeHtml(image)+'" alt="" style="width:100%;max-height:230px;object-fit:cover;border-radius:10px"><button type="button" class="feature-tab parish-photo-save" data-image="'+escapeHtml(image)+'" aria-label="'+downloadLabel+'" style="display:inline-flex;align-items:center;justify-content:center;margin:6px 0 10px">'+downloadLabel+' ↗</button></div>':'';}).join('');
         return '<article class="schedule-entry">'+imageHtml+'<h3 style="color:var(--gold-light)">'+escapeHtml(title)+'</h3>'+(description?'<p style="margin-top:8px;line-height:1.8">'+escapeHtml(description)+'</p>':'')+(date?'<small>'+escapeHtml(date)+'</small>':'')+'</article>';
       }).join('');
     }
