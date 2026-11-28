@@ -2053,7 +2053,7 @@ function profileShell(){
   });
   document.getElementById("parish-login-form").addEventListener("submit",async e=>{
    e.preventDefault();const email=document.getElementById("parish-login-email").value.trim(),password=document.getElementById("parish-login-password").value;
-   try{status(t.working);const remember=document.getElementById("parish-remember-me").checked;await setPersistence(auth,remember?browserLocalPersistence:browserSessionPersistence);const cred=await signInWithEmailAndPassword(auth,email,password);await cred.user.reload();if(!cred.user.emailVerified){await signOut(auth);status(t.verify,true);return;}status(t.signed);}
+   try{status(t.working);const remember=document.getElementById("parish-remember-me").checked;await setPersistence(auth,remember?browserLocalPersistence:browserSessionPersistence);const cred=await signInWithEmailAndPassword(auth,email,password);await cred.user.reload();if(!cred.user.emailVerified){await signOut(auth);status(t.verify,true);return;}const moderation=await getDoc(doc(db,"users",cred.user.uid));if(moderation.exists()&&moderation.data().prayerBlocked===true){await signOut(auth);const blockedText={ar:"تم حظر هذا الحساب من قبل إدارة الرعية. يرجى التواصل مع الكاهن.",fr:"Ce compte a été bloqué par la paroisse. Veuillez contacter le curé.",it:"Questo account è stato bloccato dalla parrocchia. Contatta il parroco.",en:"This account has been blocked by the parish. Please contact the priest."};status(blockedText[document.documentElement.lang]||blockedText.en,true);return;}status(t.signed);}
    catch(err){status(authError(err),true);}
   });
   document.getElementById("parish-register-form").addEventListener("submit",async e=>{
